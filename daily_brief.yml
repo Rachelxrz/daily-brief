@@ -1,0 +1,44 @@
+name: 📰 每日智识简报 Daily News Push
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 每天 UTC 00:00 = 北京时间 08:00
+  workflow_dispatch:       # 允许手动触发测试
+
+jobs:
+  daily-brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: 📁 Create logs dir
+        run: mkdir -p logs
+
+      - name: 🚀 Run & Push
+        env:
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
+          WECOM_WEBHOOK_URL:  ${{ secrets.WECOM_WEBHOOK_URL }}
+          WXPUSHER_APP_TOKEN: ${{ secrets.WXPUSHER_APP_TOKEN }}
+          WXPUSHER_UIDS:      ${{ secrets.WXPUSHER_UIDS }}
+        run: python main.py
+
+      - name: 📋 Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
