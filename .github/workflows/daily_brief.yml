@@ -1,0 +1,69 @@
+name: 📰 每日智识简报 Daily News Push
+
+on:
+  # 每天 00:00 UTC = 08:00 北京时间 自动触发
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # 允许手动触发（用于测试）
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (不推送，只查看抓取结果)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  daily-brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      # 2. 设置 Python
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. 安装依赖
+      - name: 📦 Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # 4. 创建日志目录
+      - name: 📁 Create logs directory
+        run: mkdir -p logs
+
+      # 5. 执行抓取和推送
+      - name: 🚀 Run daily brief
+        env:
+          # 从 GitHub Secrets 读取配置（在仓库 Settings → Secrets 中设置）
+          WECOM_WEBHOOK_URL:    ${{ secrets.WECOM_WEBHOOK_URL }}
+          WXPUSHER_APP_TOKEN:   ${{ secrets.WXPUSHER_APP_TOKEN }}
+          WXPUSHER_UIDS:        ${{ secrets.WXPUSHER_UIDS }}
+          SERVERCHAN_SENDKEY:   ${{ secrets.SERVERCHAN_SENDKEY }}
+          PUSH_HOUR:            "8"
+          PUSH_MINUTE:          "0"
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo "🔍 Dry run mode..."
+            python main.py --dry-run
+          else
+            echo "🚀 Running full push..."
+            python main.py
+          fi
+
+      # 6. 上传日志（可选，方便调试）
+      - name: 📋 Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-brief-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
