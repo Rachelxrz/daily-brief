@@ -100,6 +100,8 @@ def translate_and_summarize(items: list, category_cn: str) -> list:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         log.warning("未设置 ANTHROPIC_API_KEY，保留英文原文")
+    else:
+        log.info("API Key 已读取，前10位: %s" % api_key[:10])
         for item in items:
             item["title"]   = item["title_en"]
             item["summary"] = item["summary_en"][:200]
