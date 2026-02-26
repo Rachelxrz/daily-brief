@@ -44,6 +44,7 @@ jobs:
       - name: 🚀 Run daily brief
         env:
           # 从 GitHub Secrets 读取配置（在仓库 Settings → Secrets 中设置）
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
           WECOM_WEBHOOK_URL:    ${{ secrets.WECOM_WEBHOOK_URL }}
           WXPUSHER_APP_TOKEN:   ${{ secrets.WXPUSHER_APP_TOKEN }}
           WXPUSHER_UIDS:        ${{ secrets.WXPUSHER_UIDS }}
