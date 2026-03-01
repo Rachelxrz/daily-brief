@@ -117,7 +117,7 @@ def call_claude(api_key, prompt):
 
     data = resp.json()
     text = data["content"][0]["text"].strip()
-    log.info("  >>> API 返回成功，内容前50字: %s" % text[:50])
+    log.info("  >>> API 返回成功，内容前80字: %s" % text[:80])
     return text
 
 
@@ -148,14 +148,14 @@ def translate_and_summarize(items, category_cn):
             )
 
         prompt = (
-            "你是专业中文编辑，请处理以下%d条英文新闻（分类：%s）。\n\n"
-            "对每条新闻：\n"
-            "1. 写简洁有力的中文标题（不超过25字）\n"
-            "2. 写3到5句流畅的中文摘要，包含事件核心、重要数据、影响意义\n"
-            "3. 专有名词（公司名、人名）可保留英文，其余全部中文\n\n"
-            "%s\n\n"
-            "只输出JSON数组，不要其他任何文字：\n"
-            '[{"title": "标题1", "summary": "第一句。第二句。第三句。"}, ...]'
+            "你是专业中文编辑，请翻译以下%d条英文新闻（分类：%s）。\n\n"
+            "对每条新闻输出：\n"
+            "第一行：中文标题（不超过25字）\n"
+            "第二行起：3到5句中文摘要，每句一行\n"
+            "每条新闻之间用 ===END=== 分隔\n"
+            "专有名词（公司名、人名）可保留英文，其余全部中文\n"
+            "不要输出任何其他内容，不要编号，不要JSON\n\n"
+            "%s"
         ) % (len(batch), category_cn, news_text)
 
         # 最多重试3次
@@ -171,20 +171,26 @@ def translate_and_summarize(items, category_cn):
                 if not raw_text:
                     raise Exception("API返回空内容")
 
-                match = re.search(r'\[.*\]', raw_text, re.DOTALL)
-                if not match:
-                    log.error("  返回内容中找不到JSON: %s" % raw_text[:200])
-                    raise Exception("无法解析JSON")
+                # 用 ===END=== 分隔符解析，彻底避免JSON特殊字符问题
+                blocks = raw_text.strip().split("===END===")
+                blocks = [b.strip() for b in blocks if b.strip()]
+                log.info("  解析到 %d 个段落" % len(blocks))
 
-                translations = json.loads(match.group(0))
-                log.info("  解析到 %d 条翻译结果" % len(translations))
+                if len(blocks) == 0:
+                    raise Exception("解析结果为空")
 
-                for i, trans in enumerate(translations):
+                for i, block in enumerate(blocks):
                     idx = batch_start + i
-                    if idx < len(result_items):
-                        result_items[idx]["title"]   = trans.get("title", result_items[idx]["title_en"])
-                        result_items[idx]["summary"] = trans.get("summary", "")
-                        log.info("  [%d] %s" % (idx + 1, result_items[idx]["title"]))
+                    if idx >= len(result_items):
+                        break
+                    lines = [l.strip() for l in block.strip().splitlines() if l.strip()]
+                    if not lines:
+                        continue
+                    title   = lines[0]
+                    summary = " ".join(lines[1:]) if len(lines) > 1 else ""
+                    result_items[idx]["title"]   = title
+                    result_items[idx]["summary"] = summary
+                    log.info("  [%d] %s" % (idx + 1, title))
 
                 success = True
                 break  # 成功则退出重试循环
