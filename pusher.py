@@ -64,6 +64,12 @@ def format_wechat_message(news_data):
                     lines.append("  %s" % sent)
                 lines.append("")
 
+            # 显示 AI 洞察
+            insight = item.get("insight", "")
+            if insight:
+                lines.append("  %s" % insight)
+                lines.append("")
+
             if url:
                 lines.append("🔗 %s" % url)
             lines.append("")
