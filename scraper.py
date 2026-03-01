@@ -147,16 +147,35 @@ def translate_and_summarize(items, category_cn):
                 i, item['title_en'], item['summary_en'] or '(无)', item['source']
             )
 
+        # 根据分类选择不同的点评角度
+        if category_cn == "金融财经":
+            insight_instruction = (
+                "最后一行：以 【投资洞察】 开头，写1-2句你对这条新闻的投资建议或风险提示，"
+                "例如：对哪类资产有何影响、是买入信号还是观望、普通投资者应注意什么"
+            )
+        elif category_cn == "科技自媒体":
+            insight_instruction = (
+                "最后一行：以 【趋势判断】 开头，写1-2句你对这条科技新闻的看法，"
+                "例如：这个趋势会持续多久、对普通人生活有何影响、值不值得关注"
+            )
+        else:  # 健康心理美学
+            insight_instruction = (
+                "最后一行：以 【健康建议】 开头，写1-2句你对这条新闻的实用建议，"
+                "例如：普通人如何应用这个研究结论、日常生活中可以怎么做"
+            )
+
         prompt = (
-            "你是专业中文编辑，请翻译以下%d条英文新闻（分类：%s）。\n\n"
+            "你是一位有20年经验的资深分析师，同时精通投资、健康和科技领域。"
+            "请处理以下%d条英文新闻（分类：%s）。\n\n"
             "对每条新闻输出：\n"
             "第一行：中文标题（不超过25字）\n"
-            "第二行起：3到5句中文摘要，每句一行\n"
+            "第二行到第五行：3到5句中文摘要，每句一行，包含事件核心和关键数据\n"
+            "%s\n"
             "每条新闻之间用 ===END=== 分隔\n"
             "专有名词（公司名、人名）可保留英文，其余全部中文\n"
             "不要输出任何其他内容，不要编号，不要JSON\n\n"
             "%s"
-        ) % (len(batch), category_cn, news_text)
+        ) % (len(batch), category_cn, insight_instruction, news_text)
 
         # 最多重试3次
         success = False
@@ -186,11 +205,27 @@ def translate_and_summarize(items, category_cn):
                     lines = [l.strip() for l in block.strip().splitlines() if l.strip()]
                     if not lines:
                         continue
-                    title   = lines[0]
-                    summary = " ".join(lines[1:]) if len(lines) > 1 else ""
+
+                    title = lines[0]
+
+                    # 分离摘要和洞察
+                    insight_keywords = ["【投资洞察】", "【健康建议】", "【趋势判断】"]
+                    summary_lines = []
+                    insight_line  = ""
+                    for line in lines[1:]:
+                        is_insight = any(line.startswith(kw) for kw in insight_keywords)
+                        if is_insight:
+                            insight_line = line
+                        else:
+                            summary_lines.append(line)
+
+                    summary = " ".join(summary_lines)
                     result_items[idx]["title"]   = title
                     result_items[idx]["summary"] = summary
+                    result_items[idx]["insight"] = insight_line
                     log.info("  [%d] %s" % (idx + 1, title))
+                    if insight_line:
+                        log.info("       %s" % insight_line[:60])
 
                 success = True
                 break  # 成功则退出重试循环
