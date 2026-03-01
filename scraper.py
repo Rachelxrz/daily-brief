@@ -158,37 +158,51 @@ def translate_and_summarize(items, category_cn):
             '[{"title": "标题1", "summary": "第一句。第二句。第三句。"}, ...]'
         ) % (len(batch), category_cn, news_text)
 
-        try:
-            raw_text = call_claude(api_key, prompt)
-            if not raw_text:
-                raise Exception("API返回空内容")
+        # 最多重试3次
+        success = False
+        for attempt in range(3):
+            try:
+                if attempt > 0:
+                    wait_sec = attempt * 8
+                    log.info("  第%d次重试，等待%d秒..." % (attempt + 1, wait_sec))
+                    time.sleep(wait_sec)
 
-            # 提取 JSON 部分
-            match = re.search(r'\[.*\]', raw_text, re.DOTALL)
-            if not match:
-                log.error("  返回内容中找不到JSON: %s" % raw_text[:200])
-                raise Exception("无法解析JSON")
+                raw_text = call_claude(api_key, prompt)
+                if not raw_text:
+                    raise Exception("API返回空内容")
 
-            translations = json.loads(match.group(0))
-            log.info("  解析到 %d 条翻译结果" % len(translations))
+                match = re.search(r'\[.*\]', raw_text, re.DOTALL)
+                if not match:
+                    log.error("  返回内容中找不到JSON: %s" % raw_text[:200])
+                    raise Exception("无法解析JSON")
 
-            for i, trans in enumerate(translations):
-                idx = batch_start + i
-                if idx < len(result_items):
-                    result_items[idx]["title"]   = trans.get("title", result_items[idx]["title_en"])
-                    result_items[idx]["summary"] = trans.get("summary", "")
-                    log.info("  [%d] %s" % (idx + 1, result_items[idx]["title"]))
+                translations = json.loads(match.group(0))
+                log.info("  解析到 %d 条翻译结果" % len(translations))
 
-        except Exception as e:
-            log.error("  翻译失败 第%d批: %s" % (batch_start // BATCH + 1, str(e)))
-            # 降级：保留英文
+                for i, trans in enumerate(translations):
+                    idx = batch_start + i
+                    if idx < len(result_items):
+                        result_items[idx]["title"]   = trans.get("title", result_items[idx]["title_en"])
+                        result_items[idx]["summary"] = trans.get("summary", "")
+                        log.info("  [%d] %s" % (idx + 1, result_items[idx]["title"]))
+
+                success = True
+                break  # 成功则退出重试循环
+
+            except Exception as e:
+                log.error("  翻译失败 第%d批 第%d次尝试: %s" % (batch_start // BATCH + 1, attempt + 1, str(e)))
+
+        if not success:
+            log.error("  第%d批全部重试失败，保留英文" % (batch_start // BATCH + 1))
             for i, item in enumerate(batch):
                 idx = batch_start + i
                 if idx < len(result_items):
                     result_items[idx]["title"]   = item["title_en"]
                     result_items[idx]["summary"] = item["summary_en"][:200]
 
-        time.sleep(1)
+        # 批次间等待，避免API限速（每批之间等5秒）
+        log.info("  等待5秒后处理下一批...")
+        time.sleep(5)
 
     return result_items
 
