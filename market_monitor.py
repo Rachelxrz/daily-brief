@@ -411,6 +411,8 @@ def run_market_monitor(dry_run: bool = False) -> dict:
     log.info(f"   预览: {cn_report[:200]}...\n")
 
     # Step 2: 英文报告（基于中文翻译，不再搜索）
+    log.info("\n⏳ 等待 60 秒，避免 API 速率限制...")
+    time.sleep(60)
     log.info("\n🤖 Step 2/3: 生成英文报告（翻译）...")
     en_report = generate_en_report(date_en, cn_report)
     log.info(f"   预览: {en_report[:200]}...\n")
