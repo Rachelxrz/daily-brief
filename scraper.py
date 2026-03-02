@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 """
-每日智识简报 - 新闻抓取引擎（中文版）
-调用 Claude API 翻译标题 + 生成3-5句中文摘要
+每日智识简报 - 新闻抓取引擎
+Daily Intelligence Brief - News Scraper Engine
+
+抓取来源:
+  金融财经: Bloomberg, Reuters, FT, CNBC, WSJ, Yahoo Finance
+  自媒体精选: Hacker News, Product Hunt, TechCrunch, The Verge, 36kr
+  健康心理美学: ScienceDaily, PsyPost, Psychology Today, Nature, Aeon
 """
 
 import feedparser
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
-import json, re, time, logging, os
+import json
+import re
+import time
+import logging
+import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -20,266 +29,143 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
+# ─── RSS Feed 配置 ─────────────────────────────────────────
 FEEDS = {
     "finance": [
-        {"name": "Reuters",         "url": "https://feeds.reuters.com/reuters/businessNews"},
-        {"name": "CNBC",            "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html"},
-        {"name": "Yahoo Finance",   "url": "https://finance.yahoo.com/news/rssindex"},
-        {"name": "FT",              "url": "https://www.ft.com/rss/home/uk"},
-        {"name": "Bloomberg",       "url": "https://feeds.bloomberg.com/markets/news.rss"},
-        {"name": "WSJ",             "url": "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"},
-        {"name": "Investing.com",   "url": "https://www.investing.com/rss/news_25.rss"},
-        {"name": "Seeking Alpha",   "url": "https://seekingalpha.com/market_currents.xml"},
+        # ── 通讯社 / 综合财经 ──────────────────────────────
+        {"name": "Reuters Business",    "url": "https://feeds.reuters.com/reuters/businessNews"},
+        {"name": "Reuters Markets",     "url": "https://feeds.reuters.com/reuters/financialNews"},
+        {"name": "CNBC Finance",        "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html"},
+        {"name": "CNBC World Economy",  "url": "https://www.cnbc.com/id/20910258/device/rss/rss.html"},
+        {"name": "Yahoo Finance",       "url": "https://finance.yahoo.com/news/rssindex"},
+        # ── 高端财经媒体 ──────────────────────────────────
+        {"name": "FT Markets",          "url": "https://www.ft.com/rss/home/uk"},
+        {"name": "Bloomberg Markets",   "url": "https://feeds.bloomberg.com/markets/news.rss"},
+        {"name": "WSJ MarketWatch",     "url": "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"},
+        {"name": "WSJ Top Stories",     "url": "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml"},
+        {"name": "Barron's",            "url": "https://www.barrons.com/xml/rss/3_7510.xml"},
+        {"name": "The Economist",       "url": "https://www.economist.com/finance-and-economics/rss.xml"},
+        # ── 投资分析 ──────────────────────────────────────
+        {"name": "Investing.com",       "url": "https://www.investing.com/rss/news_25.rss"},
+        {"name": "Seeking Alpha",       "url": "https://seekingalpha.com/market_currents.xml"},
+        {"name": "Motley Fool",         "url": "https://www.fool.com/feeds/index.aspx?id=fool-headlines"},
     ],
     "social": [
-        {"name": "Hacker News",     "url": "https://hnrss.org/frontpage"},
-        {"name": "TechCrunch",      "url": "https://techcrunch.com/feed/"},
-        {"name": "The Verge",       "url": "https://www.theverge.com/rss/index.xml"},
-        {"name": "Wired",           "url": "https://www.wired.com/feed/rss"},
-        {"name": "MIT Tech Review", "url": "https://www.technologyreview.com/feed/"},
-        {"name": "Ars Technica",    "url": "https://feeds.arstechnica.com/arstechnica/index"},
-        {"name": "36kr",            "url": "https://36kr.com/feed"},
-        {"name": "InfoQ",           "url": "https://www.infoq.com/feed/"},
+        {"name": "Hacker News",         "url": "https://hnrss.org/frontpage"},
+        {"name": "TechCrunch",          "url": "https://techcrunch.com/feed/"},
+        {"name": "The Verge",           "url": "https://www.theverge.com/rss/index.xml"},
+        {"name": "Wired",               "url": "https://www.wired.com/feed/rss"},
+        {"name": "MIT Tech Review",     "url": "https://www.technologyreview.com/feed/"},
+        {"name": "Ars Technica",        "url": "https://feeds.arstechnica.com/arstechnica/index"},
+        {"name": "36kr",                "url": "https://36kr.com/feed"},
+        {"name": "InfoQ",               "url": "https://www.infoq.com/feed/"},
     ],
     "wellness": [
-        {"name": "ScienceDaily",    "url": "https://www.sciencedaily.com/rss/mind_brain.xml"},
-        {"name": "PsyPost",         "url": "https://www.psypost.org/feed"},
-        {"name": "Psychology Today","url": "https://www.psychologytoday.com/us/front/feed"},
-        {"name": "Aeon",            "url": "https://aeon.co/feed.rss"},
-        {"name": "Greater Good",    "url": "https://greatergood.berkeley.edu/feeds/news"},
-        {"name": "Harvard Health",  "url": "https://www.health.harvard.edu/blog/feed"},
-        {"name": "Big Think",       "url": "https://bigthink.com/feed/"},
-        {"name": "Psych Central",   "url": "https://psychcentral.com/feed/"},
+        {"name": "ScienceDaily Mind",   "url": "https://www.sciencedaily.com/rss/mind_brain.xml"},
+        {"name": "PsyPost",             "url": "https://www.psypost.org/feed"},
+        {"name": "Psychology Today",    "url": "https://www.psychologytoday.com/us/front/feed"},
+        {"name": "Aeon Magazine",       "url": "https://aeon.co/feed.rss"},
+        {"name": "Greater Good",        "url": "https://greatergood.berkeley.edu/feeds/news"},
+        {"name": "Harvard Health",      "url": "https://www.health.harvard.edu/blog/feed"},
+        {"name": "Psych Central",       "url": "https://psychcentral.com/feed/"},
+        {"name": "Big Think",           "url": "https://bigthink.com/feed/"},
     ]
 }
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; DailyBriefBot/1.0)"}
-
-CATEGORY_CN = {
-    "finance":  "金融财经",
-    "social":   "科技自媒体",
-    "wellness": "健康·心理·美学",
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; DailyBriefBot/1.0; +https://github.com/yourusername/daily-brief)"
 }
 
-
-def clean_html(raw):
+def clean_html(raw: str) -> str:
+    """Strip HTML tags and clean whitespace."""
     if not raw:
         return ""
     text = BeautifulSoup(raw, "html.parser").get_text(separator=" ")
     text = re.sub(r'\s+', ' ', text).strip()
-    return text[:600]
+    return text[:280] + "…" if len(text) > 280 else text
 
+def is_today(entry) -> bool:
+    """Check if feed entry was published today (Asia/Shanghai timezone)."""
+    tz_cst = timezone(timedelta(hours=8))
+    today = datetime.now(tz_cst).date()
+    
+    for attr in ('published_parsed', 'updated_parsed'):
+        t = getattr(entry, attr, None)
+        if t:
+            try:
+                dt = datetime(*t[:6], tzinfo=timezone.utc).astimezone(tz_cst)
+                return dt.date() == today
+            except Exception:
+                pass
+    return True  # fallback: include if no date
 
-def fetch_feed(source, max_items=4):
+def fetch_feed(source: dict, max_items: int = 5) -> list:
+    """Fetch and parse a single RSS feed."""
     items = []
     try:
-        log.info("  抓取: %s" % source['name'])
+        log.info(f"Fetching: {source['name']}")
         feed = feedparser.parse(source['url'], request_headers=HEADERS)
-        for entry in feed.entries[:max_items * 3]:
-            title   = clean_html(getattr(entry, 'title', ''))
-            summary = clean_html(getattr(entry, 'summary', '') or getattr(entry, 'description', '') or '')
+        
+        for entry in feed.entries[:max_items * 3]:  # fetch extra, filter below
+            summary = clean_html(
+                getattr(entry, 'summary', '') or
+                getattr(entry, 'description', '') or ''
+            )
+            title = clean_html(getattr(entry, 'title', ''))
             if not title:
                 continue
+
             items.append({
-                "title_en":   title,
-                "summary_en": summary,
-                "url":        getattr(entry, 'link', ''),
-                "source":     source['name'],
+                "title":   title,
+                "summary": summary,
+                "url":     getattr(entry, 'link', ''),
+                "source":  source['name'],
+                "time":    getattr(entry, 'published', ''),
             })
             if len(items) >= max_items:
                 break
+                
     except Exception as e:
-        log.warning("  抓取失败 %s: %s" % (source['name'], str(e)))
+        log.warning(f"Failed to fetch {source['name']}: {e}")
+    
     return items
 
-
-def call_claude(api_key, prompt):
-    """直接调用 Claude API，返回文本内容"""
-    url = "https://api.anthropic.com/v1/messages"
-    headers = {
-        "x-api-key": api_key,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json",
-    }
-    body = {
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 2000,
-        "messages": [{"role": "user", "content": prompt}]
-    }
-
-    log.info("  >>> 发送 API 请求到 Claude...")
-    resp = requests.post(url, headers=headers, json=body, timeout=60)
-    log.info("  >>> HTTP 状态码: %d" % resp.status_code)
-
-    if resp.status_code != 200:
-        log.error("  >>> API 返回错误: %s" % resp.text[:300])
-        return None
-
-    data = resp.json()
-    text = data["content"][0]["text"].strip()
-    log.info("  >>> API 返回成功，内容前80字: %s" % text[:80])
-    return text
-
-
-def translate_and_summarize(items, category_cn):
-    """批量翻译+生成中文摘要，每批5条"""
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
-
-    if not api_key:
-        log.warning("  未设置 ANTHROPIC_API_KEY，保留英文原文")
-        for item in items:
-            item["title"]   = item["title_en"]
-            item["summary"] = item["summary_en"][:200]
-        return items
-
-    log.info("  API Key 已读取，前12位: %s" % api_key[:12])
-
-    BATCH = 5
-    result_items = list(items)
-
-    for batch_start in range(0, len(items), BATCH):
-        batch = items[batch_start: batch_start + BATCH]
-        log.info("  处理第 %d 批，共 %d 条..." % (batch_start // BATCH + 1, len(batch)))
-
-        news_text = ""
-        for i, item in enumerate(batch, 1):
-            news_text += "\n新闻%d:\n标题: %s\n内容: %s\n来源: %s\n---" % (
-                i, item['title_en'], item['summary_en'] or '(无)', item['source']
-            )
-
-        # 根据分类选择不同的点评角度
-        if category_cn == "金融财经":
-            insight_instruction = (
-                "最后一行：以 【投资洞察】 开头，写1-2句你对这条新闻的投资建议或风险提示，"
-                "例如：对哪类资产有何影响、是买入信号还是观望、普通投资者应注意什么"
-            )
-        elif category_cn == "科技自媒体":
-            insight_instruction = (
-                "最后一行：以 【趋势判断】 开头，写1-2句你对这条科技新闻的看法，"
-                "例如：这个趋势会持续多久、对普通人生活有何影响、值不值得关注"
-            )
-        else:  # 健康心理美学
-            insight_instruction = (
-                "最后一行：以 【健康建议】 开头，写1-2句你对这条新闻的实用建议，"
-                "例如：普通人如何应用这个研究结论、日常生活中可以怎么做"
-            )
-
-        prompt = (
-            "你是一位有20年经验的资深分析师，同时精通投资、健康和科技领域。"
-            "请处理以下%d条英文新闻（分类：%s）。\n\n"
-            "对每条新闻输出：\n"
-            "第一行：中文标题（不超过25字）\n"
-            "第二行到第五行：3到5句中文摘要，每句一行，包含事件核心和关键数据\n"
-            "%s\n"
-            "每条新闻之间用 ===END=== 分隔\n"
-            "专有名词（公司名、人名）可保留英文，其余全部中文\n"
-            "不要输出任何其他内容，不要编号，不要JSON\n\n"
-            "%s"
-        ) % (len(batch), category_cn, insight_instruction, news_text)
-
-        # 最多重试3次
-        success = False
-        for attempt in range(3):
-            try:
-                if attempt > 0:
-                    wait_sec = attempt * 8
-                    log.info("  第%d次重试，等待%d秒..." % (attempt + 1, wait_sec))
-                    time.sleep(wait_sec)
-
-                raw_text = call_claude(api_key, prompt)
-                if not raw_text:
-                    raise Exception("API返回空内容")
-
-                # 用 ===END=== 分隔符解析，彻底避免JSON特殊字符问题
-                blocks = raw_text.strip().split("===END===")
-                blocks = [b.strip() for b in blocks if b.strip()]
-                log.info("  解析到 %d 个段落" % len(blocks))
-
-                if len(blocks) == 0:
-                    raise Exception("解析结果为空")
-
-                for i, block in enumerate(blocks):
-                    idx = batch_start + i
-                    if idx >= len(result_items):
-                        break
-                    lines = [l.strip() for l in block.strip().splitlines() if l.strip()]
-                    if not lines:
-                        continue
-
-                    title = lines[0]
-
-                    # 分离摘要和洞察
-                    insight_keywords = ["【投资洞察】", "【健康建议】", "【趋势判断】"]
-                    summary_lines = []
-                    insight_line  = ""
-                    for line in lines[1:]:
-                        is_insight = any(line.startswith(kw) for kw in insight_keywords)
-                        if is_insight:
-                            insight_line = line
-                        else:
-                            summary_lines.append(line)
-
-                    summary = " ".join(summary_lines)
-                    result_items[idx]["title"]   = title
-                    result_items[idx]["summary"] = summary
-                    result_items[idx]["insight"] = insight_line
-                    log.info("  [%d] %s" % (idx + 1, title))
-                    if insight_line:
-                        log.info("       %s" % insight_line[:60])
-
-                success = True
-                break  # 成功则退出重试循环
-
-            except Exception as e:
-                log.error("  翻译失败 第%d批 第%d次尝试: %s" % (batch_start // BATCH + 1, attempt + 1, str(e)))
-
-        if not success:
-            log.error("  第%d批全部重试失败，保留英文" % (batch_start // BATCH + 1))
-            for i, item in enumerate(batch):
-                idx = batch_start + i
-                if idx < len(result_items):
-                    result_items[idx]["title"]   = item["title_en"]
-                    result_items[idx]["summary"] = item["summary_en"][:200]
-
-        # 批次间等待，避免API限速（每批之间等5秒）
-        log.info("  等待5秒后处理下一批...")
-        time.sleep(5)
-
-    return result_items
-
-
-def scrape_all(items_per_category=10):
+def scrape_all(items_per_category: int = 10) -> dict:
+    """Scrape all categories and return top N per category."""
     result = {}
+    
     for category, sources in FEEDS.items():
-        cat_cn = CATEGORY_CN.get(category, category)
-        log.info("\n%s\n分类: %s\n%s" % ("=" * 45, cat_cn, "=" * 45))
-
+        log.info(f"\n{'='*40}")
+        log.info(f"Category: {category.upper()}")
+        log.info(f"{'='*40}")
+        
         all_items = []
         for source in sources:
-            all_items.extend(fetch_feed(source, max_items=4))
-            time.sleep(0.4)
-
-        seen, unique = set(), []
+            items = fetch_feed(source, max_items=4)
+            all_items.extend(items)
+            time.sleep(0.5)  # polite crawling
+        
+        # deduplicate by title similarity
+        seen_titles = set()
+        unique_items = []
         for item in all_items:
-            key = item['title_en'][:50].lower()
-            if key not in seen:
-                seen.add(key)
-                unique.append(item)
-
-        top_items = unique[:items_per_category]
-        log.info("  去重后 %d 条，取前 %d 条，开始翻译..." % (len(unique), len(top_items)))
-
-        translated = translate_and_summarize(top_items, cat_cn)
-        result[category] = translated
-        log.info("  %s 完成" % cat_cn)
-
+            key = item['title'][:50].lower()
+            if key not in seen_titles:
+                seen_titles.add(key)
+                unique_items.append(item)
+        
+        result[category] = unique_items[:items_per_category]
+        log.info(f"  ✓ {len(result[category])} items collected for [{category}]")
+    
     return result
-
 
 if __name__ == "__main__":
     os.makedirs("logs", exist_ok=True)
     data = scrape_all()
-    out_path = "logs/news_%s.json" % datetime.now().strftime('%Y%m%d')
+    
+    out_path = f"logs/news_{datetime.now().strftime('%Y%m%d')}.json"
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    log.info("已保存: %s" % out_path)
+    
+    log.info(f"\n✅ Scraped data saved to {out_path}")
+    print(json.dumps(data, ensure_ascii=False, indent=2))
