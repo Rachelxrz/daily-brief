@@ -1,70 +1,122 @@
-name: 📰 每日智识简报 Daily News Push
+name: 📰 每日智识简报 + 📌 市场结构监控
 
 on:
-  # 每天 00:00 UTC = 08:00 北京时间 自动触发
+  # ─── 自动定时触发 ────────────────────────────────────────
   schedule:
+    # 每天 00:00 UTC = 08:00 北京时间：每日新闻简报
     - cron: '0 0 * * *'
-  
-  # 允许手动触发（用于测试）
+    # 每天 01:30 UTC = 09:30 北京时间：市场开盘后结构监控（仅工作日）
+    - cron: '30 1 * * 1-5'
+
+  # ─── 手动触发（用于测试）────────────────────────────────
   workflow_dispatch:
     inputs:
+      job_type:
+        description: '选择要执行的任务'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - news_only
+          - market_only
       dry_run:
-        description: 'Dry run (不推送，只查看抓取结果)'
+        description: 'Dry run（不推送，仅查看输出）'
         required: false
         default: 'false'
         type: boolean
 
+# ─── 公共 Secrets ─────────────────────────────────────────
+env:
+  WECOM_WEBHOOK_URL:   ${{ secrets.WECOM_WEBHOOK_URL }}
+  WXPUSHER_APP_TOKEN:  ${{ secrets.WXPUSHER_APP_TOKEN }}
+  WXPUSHER_UIDS:       ${{ secrets.WXPUSHER_UIDS }}
+  SERVERCHAN_SENDKEY:  ${{ secrets.SERVERCHAN_SENDKEY }}
+  ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+
 jobs:
-  daily-brief:
+  # ════════════════════════════════════════════════════════
+  #  JOB 1: 每日新闻简报（每天 08:00 北京时间）
+  # ════════════════════════════════════════════════════════
+  daily-news-brief:
+    name: 📰 每日新闻简报
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '0 0 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'news_only'))
+
     steps:
-      # 1. 检出代码
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      # 2. 设置 Python
       - name: 🐍 Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      # 3. 安装依赖
       - name: 📦 Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      # 4. 创建日志目录
       - name: 📁 Create logs directory
         run: mkdir -p logs
 
-      # 5. 执行抓取和推送
-      - name: 🚀 Run daily brief
-        env:
-          # 从 GitHub Secrets 读取配置（在仓库 Settings → Secrets 中设置）
-          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
-          WECOM_WEBHOOK_URL:    ${{ secrets.WECOM_WEBHOOK_URL }}
-          WXPUSHER_APP_TOKEN:   ${{ secrets.WXPUSHER_APP_TOKEN }}
-          WXPUSHER_UIDS:        ${{ secrets.WXPUSHER_UIDS }}
-          SERVERCHAN_SENDKEY:   ${{ secrets.SERVERCHAN_SENDKEY }}
-          PUSH_HOUR:            "8"
-          PUSH_MINUTE:          "0"
+      - name: 🚀 Run daily news brief
         run: |
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            echo "🔍 Dry run mode..."
             python main.py --dry-run
           else
-            echo "🚀 Running full push..."
             python main.py
           fi
 
-      # 6. 上传日志（可选，方便调试）
       - name: 📋 Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: daily-brief-logs-${{ github.run_number }}
+          name: news-brief-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
+
+  # ════════════════════════════════════════════════════════
+  #  JOB 2: 市场结构监控（工作日 09:30 北京时间）
+  # ════════════════════════════════════════════════════════
+  market-structure-monitor:
+    name: 📌 市场结构监控
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '30 1 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'market_only'))
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: 📁 Create logs directory
+        run: mkdir -p logs
+
+      - name: 📌 Run market structure monitor
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python market_monitor.py --dry-run
+          else
+            python market_monitor.py
+          fi
+
+      - name: 📋 Upload market monitor logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-monitor-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7
