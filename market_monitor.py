@@ -245,15 +245,14 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
         "messages": messages,
     }
     if use_search:
-        payload["tools"] = [{"type": "web_search_20250305", "name": "web_search"}]
+        payload["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}]
 
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
     }
-    if use_search:
-        headers["anthropic-beta"] = "web-search-2025-03-05"
+    # Note: web-search beta header no longer required for claude-sonnet-4
 
     for attempt in range(1, max_retries + 1):
         try:
@@ -272,6 +271,11 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
             log.warning(f"   ⚠️ 第 {attempt} 次：返回内容为空")
         except requests.exceptions.Timeout:
             log.warning(f"   ⚠️ 第 {attempt} 次：请求超时")
+        except requests.exceptions.HTTPError as e:
+            body = ""
+            try: body = e.response.text[:500]
+            except: pass
+            log.error(f"   ❌ 第 {attempt} 次 HTTP错误: {e} | 响应: {body}")
         except Exception as e:
             log.error(f"   ❌ 第 {attempt} 次：{e}")
 
