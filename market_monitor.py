@@ -15,7 +15,8 @@ import logging
 import requests
 import time
 from datetime import datetime, timezone, timedelta
-from config import Config
+from config      import Config
+from save_to_web import save_monitor
 
 log = logging.getLogger(__name__)
 
@@ -429,6 +430,13 @@ def run_market_monitor(dry_run: bool = False) -> dict:
     log.info("\n📲 Step 3/3: 推送到微信...")
     push_one_report(cn_report, f"📌 市场结构监控（中文）· {date_cn}", "中文")
     push_one_report(en_report, f"📌 Market Monitor (EN) · {date_en}", "英文")
+
+    # 保存到网页
+    try:
+        save_monitor(monitor_cn=cn_report, monitor_en=en_report)
+        log.info("🌐 监控数据已保存到网页")
+    except Exception as e:
+        log.warning(f"⚠️  网页数据保存失败: {e}")
 
     log.info("\n" + "=" * 60)
     log.info("✅ 市场监控完成 — 中英双语已推送")
