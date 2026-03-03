@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日智识 · Daily Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0b0d;
+    --surface:   #111318;
+    --border:    #1e2028;
+    --gold:      #c9a84c;
+    --gold-dim:  #8a6e2f;
+    --text:      #e8e2d9;
+    --muted:     #6b6860;
+    --green:     #4caf82;
+    --red:       #e05c5c;
+    --amber:     #e09a3c;
+    --blue:      #5c9ce0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Grain overlay ─────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,11,13,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex; align-items: baseline; gap: 0.75rem;
+  }
+  .logo-cn {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.05em;
+  }
+  .logo-en {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; font-weight: 300;
+    color: var(--muted); letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .header-meta {
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.1em; text-align: right;
+  }
+  .header-meta .live-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--green); border-radius: 50%;
+    margin-right: 0.4rem;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── Layout ──────────────────────────────────── */
+  .container {
+    max-width: 1400px; margin: 0 auto;
+    padding: 2rem;
+    position: relative; z-index: 1;
+  }
+
+  /* ── Tab nav ─────────────────────────────────── */
+  .tab-nav {
+    display: flex; gap: 0; margin-bottom: 2rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; width: fit-content;
+  }
+  .tab-btn {
+    background: transparent; border: none; cursor: pointer;
+    padding: 0.6rem 1.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    transition: all 0.2s; border-right: 1px solid var(--border);
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active {
+    background: var(--gold); color: #0a0b0d; font-weight: 500;
+  }
+  .tab-btn:hover:not(.active) { color: var(--text); background: var(--surface); }
+
+  /* ── Date selector ──────────────────────────── */
+  .date-bar {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .date-label {
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .date-pills {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .date-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); border-radius: 3px;
+    padding: 0.3rem 0.8rem; font-size: 0.68rem;
+    font-family: 'DM Mono', monospace; cursor: pointer;
+    transition: all 0.15s; letter-spacing: 0.05em;
+  }
+  .date-pill.active {
+    border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08);
+  }
+  .date-pill:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+
+  /* ── Content panels ─────────────────────────── */
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Report card ─────────────────────────────── */
+  .report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) { .report-grid { grid-template-columns: 1fr; } }
+
+  .report-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden;
+  }
+  .report-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .report-card-title {
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .report-card-lang {
+    font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em;
+  }
+  .report-card-body {
+    padding: 1.25rem;
+    max-height: 70vh; overflow-y: auto;
+  }
+  .report-card-body::-webkit-scrollbar { width: 4px; }
+  .report-card-body::-webkit-scrollbar-track { background: transparent; }
+  .report-card-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── Markdown rendering ─────────────────────── */
+  .md h1 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: 0.5rem; font-weight: 400; }
+  .md h2 { font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .md h3 { font-family: 'Noto Serif SC', serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; font-weight: 300; }
+  .md p { font-size: 0.82rem; line-height: 1.7; color: #c8c2b8; margin-bottom: 0.6rem; }
+  .md ul, .md ol { padding-left: 1.2rem; margin-bottom: 0.6rem; }
+  .md li { font-size: 0.82rem; line-height: 1.7; color: #c8c2b8; margin-bottom: 0.2rem; }
+  .md strong { color: var(--text); font-weight: 500; }
+  .md em { color: var(--gold-dim); font-style: italic; }
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+  .md code { background: rgba(255,255,255,0.06); padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.78rem; color: var(--blue); font-family: 'DM Mono', monospace; }
+  .md blockquote { border-left: 2px solid var(--gold-dim); padding-left: 0.8rem; margin: 0.5rem 0; color: var(--muted); font-style: italic; font-size: 0.8rem; }
+
+  /* Tables */
+  .md table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.75rem; }
+  .md th { background: rgba(201,168,76,0.08); color: var(--gold); font-weight: 500; padding: 0.5rem 0.75rem; text-align: left; border: 1px solid var(--border); letter-spacing: 0.05em; }
+  .md td { padding: 0.45rem 0.75rem; border: 1px solid var(--border); color: #c8c2b8; vertical-align: top; }
+  .md tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* Rating badges */
+  .badge-green  { color: var(--green);  font-weight: 500; }
+  .badge-yellow { color: var(--amber);  font-weight: 500; }
+  .badge-orange { color: #e07a3c;       font-weight: 500; }
+  .badge-red    { color: var(--red);    font-weight: 500; }
+
+  /* ── Market monitor single-col ───────────────── */
+  .monitor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) { .monitor-grid { grid-template-columns: 1fr; } }
+
+  /* ── Empty state ─────────────────────────────── */
+  .empty {
+    text-align: center; padding: 5rem 2rem;
+    color: var(--muted); font-size: 0.8rem; letter-spacing: 0.1em;
+  }
+  .empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.4; }
+
+  /* ── Footer ──────────────────────────────────── */
+  footer {
+    text-align: center; padding: 3rem 2rem;
+    color: var(--muted); font-size: 0.62rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-top: 1px solid var(--border); margin-top: 3rem;
+  }
+  footer a { color: var(--gold-dim); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-cn">每日智识</span>
+    <span class="logo-en">Daily Intelligence</span>
+  </div>
+  <div class="header-meta">
+    <span class="live-dot"></span>
+    <span id="last-updated">加载中...</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Tab nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('news')">📰 每日简报</button>
+    <button class="tab-btn" onclick="switchTab('monitor')">📌 结构监控</button>
+  </div>
+
+  <!-- Date bar -->
+  <div class="date-bar">
+    <span class="date-label">日期</span>
+    <div class="date-pills" id="date-pills"></div>
+  </div>
+
+  <!-- News panel -->
+  <div id="panel-news" class="panel active">
+    <div id="news-content" class="report-grid">
+      <div class="empty"><div class="empty-icon">📰</div>加载中...</div>
+    </div>
+  </div>
+
+  <!-- Monitor panel -->
+  <div id="panel-monitor" class="panel">
+    <div id="monitor-content" class="monitor-grid">
+      <div class="empty"><div class="empty-icon">📌</div>加载中...</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  🤖 AI 自动生成 · 每日 08:00 & 09:30 北京时间更新 ·
+  <a href="https://github.com" target="_blank">GitHub Actions</a> 驱动
+</footer>
+
+<script>
+// ── Simple Markdown renderer ──────────────────────────────
+function renderMd(text) {
+  if (!text) return '<div class="empty"><div class="empty-icon">📭</div>暂无数据</div>';
+  let html = text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    // headings
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // bold/italic
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // hr
+    .replace(/^---+$/gm, '<hr>')
+    // blockquote
+    .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
+    // tables
+    .replace(/^\|(.+)\|$/gm, (line) => {
+      const cells = line.split('|').filter((_,i,a)=>i>0&&i<a.length-1);
+      return '<tr>' + cells.map(c => c.trim().match(/^[-:]+$/) ? '' : `<td>${c.trim()}</td>`).join('') + '</tr>';
+    })
+    // unordered lists
+    .replace(/^[\*\-] (.+)$/gm, '<li>$1</li>')
+    // ordered lists
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // rating badges
+    .replace(/🟢/g, '<span class="badge-green">🟢</span>')
+    .replace(/🟡/g, '<span class="badge-yellow">🟡</span>')
+    .replace(/🟠/g, '<span class="badge-orange">🟠</span>')
+    .replace(/🔴/g, '<span class="badge-red">🔴</span>');
+
+  // Wrap consecutive <tr> in table
+  html = html.replace(/(<tr>.*?<\/tr>\n?)+/gs, m => {
+    const rows = m.trim().split('\n').filter(r=>r.includes('<td>'));
+    if (!rows.length) return m;
+    const [header, ...body] = rows;
+    const thRow = header.replace(/<td>/g,'<th>').replace(/<\/td>/g,'</th>');
+    return `<table><thead>${thRow}</thead><tbody>${body.join('')}</tbody></table>`;
+  });
+  // Wrap consecutive <li> in ul
+  html = html.replace(/(<li>.*?<\/li>\n?)+/gs, m => `<ul>${m}</ul>`);
+  // Paragraphs: wrap remaining lines
+  html = html.split('\n').map(line => {
+    line = line.trim();
+    if (!line) return '';
+    if (line.match(/^<(h[1-6]|ul|ol|li|table|thead|tbody|tr|th|td|blockquote|hr)/)) return line;
+    return `<p>${line}</p>`;
+  }).join('\n');
+
+  return `<div class="md">${html}</div>`;
+}
+
+// ── State ─────────────────────────────────────────────────
+let allData = {};
+let currentTab = 'news';
+let currentDate = null;
+
+// ── Load data.json ─────────────────────────────────────────
+async function loadData() {
+  try {
+    const resp = await fetch('data.json?t=' + Date.now());
+    if (!resp.ok) throw new Error('data.json not found');
+    allData = await resp.json();
+    init();
+  } catch(e) {
+    // Show demo data if no data.json yet
+    allData = getDemoData();
+    init();
+  }
+}
+
+function init() {
+  const dates = Object.keys(allData).sort().reverse();
+  if (!dates.length) { showEmpty(); return; }
+
+  currentDate = dates[0];
+
+  // Last updated
+  document.getElementById('last-updated').textContent =
+    '最后更新: ' + (allData[currentDate]?.updated || currentDate);
+
+  // Date pills
+  const pills = document.getElementById('date-pills');
+  pills.innerHTML = dates.map(d =>
+    `<button class="date-pill ${d===currentDate?'active':''}" onclick="selectDate('${d}')">${d}</button>`
+  ).join('');
+
+  render();
+}
+
+function selectDate(date) {
+  currentDate = date;
+  document.querySelectorAll('.date-pill').forEach(p => {
+    p.classList.toggle('active', p.textContent === date);
+  });
+  render();
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['news','monitor'][i] === tab);
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  render();
+}
+
+function render() {
+  const day = allData[currentDate] || {};
+
+  if (currentTab === 'news') renderNews(day);
+  else renderMonitor(day);
+}
+
+function renderNews(day) {
+  const el = document.getElementById('news-content');
+  const news = day.news;
+  if (!news) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无简报数据</div>';
+    return;
+  }
+  el.innerHTML = `
+    <div class="report-card">
+      <div class="report-card-header">
+        <span class="report-card-title">📰 每日智识简报</span>
+        <span class="report-card-lang">中文</span>
+      </div>
+      <div class="report-card-body">${renderMd(news.cn || news)}</div>
+    </div>
+    ${news.en ? `
+    <div class="report-card">
+      <div class="report-card-header">
+        <span class="report-card-title">📰 Daily Intelligence Brief</span>
+        <span class="report-card-lang">English</span>
+      </div>
+      <div class="report-card-body">${renderMd(news.en)}</div>
+    </div>` : ''}
+  `;
+}
+
+function renderMonitor(day) {
+  const el = document.getElementById('monitor-content');
+  const mon = day.monitor;
+  if (!mon) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    return;
+  }
+  el.innerHTML = `
+    <div class="report-card">
+      <div class="report-card-header">
+        <span class="report-card-title">📌 结构监控</span>
+        <span class="report-card-lang">中文</span>
+      </div>
+      <div class="report-card-body">${renderMd(mon.cn)}</div>
+    </div>
+    <div class="report-card">
+      <div class="report-card-header">
+        <span class="report-card-title">📌 Market Structure Monitor</span>
+        <span class="report-card-lang">English</span>
+      </div>
+      <div class="report-card-body">${renderMd(mon.en)}</div>
+    </div>
+  `;
+}
+
+function showEmpty() {
+  document.getElementById('news-content').innerHTML =
+    '<div class="empty"><div class="empty-icon">🌱</div>暂无数据，等待首次运行...</div>';
+}
+
+// ── Demo data (shown before first real run) ───────────────
+function getDemoData() {
+  const today = new Date().toISOString().slice(0,10);
+  return {
+    [today]: {
+      updated: new Date().toLocaleString('zh-CN'),
+      news: { cn: "# 📰 每日智识简报\n\n> 数据将在 GitHub Actions 首次运行后自动填充\n\n---\n\n## 📈 金融财经\n\n示例新闻将出现在这里...\n\n## 📱 自媒体精选\n\n示例新闻将出现在这里..." },
+      monitor: {
+        cn: "# 📌 结构监控 标准版\n\n> 数据将在 GitHub Actions 首次运行后自动填充\n\n---\n\n## 1) 🌪️ 波动性结构\n- VIX 当前水平：--\n- 风险区判定：--",
+        en: "# 📌 Market Structure Monitor\n\n> Data will be populated after the first GitHub Actions run\n\n---\n\n## 1) 🌪️ Volatility Structure\n- VIX Current Level: --"
+      }
+    }
+  };
+}
+
+loadData();
+</script>
+</body>
+</html>
