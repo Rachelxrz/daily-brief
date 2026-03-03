@@ -1,32 +1,23 @@
 name: 📰 每日智识简报 + 📌 市场结构监控
 
 on:
-  # ─── 自动定时触发 ────────────────────────────────────────
   schedule:
-    # 每天 00:00 UTC = 08:00 北京时间：每日新闻简报
-    - cron: '0 0 * * *'
-    # 每天 01:30 UTC = 09:30 北京时间：市场开盘后结构监控（仅工作日）
-    - cron: '30 1 * * 1-5'
-
-  # ─── 手动触发（用于测试）────────────────────────────────
+    - cron: '0 0 * * *'        # 08:00 北京时间 — 新闻简报
+    - cron: '30 1 * * 1-5'     # 09:30 北京时间 — 市场监控（工作日）
   workflow_dispatch:
     inputs:
       job_type:
-        description: '选择要执行的任务'
+        description: '选择任务'
         required: true
         default: 'both'
         type: choice
-        options:
-          - both
-          - news_only
-          - market_only
+        options: [both, news_only, market_only]
       dry_run:
-        description: 'Dry run（不推送，仅查看输出）'
+        description: 'Dry run（不推送）'
         required: false
         default: 'false'
         type: boolean
 
-# ─── 公共 Secrets ─────────────────────────────────────────
 env:
   WECOM_WEBHOOK_URL:   ${{ secrets.WECOM_WEBHOOK_URL }}
   WXPUSHER_APP_TOKEN:  ${{ secrets.WXPUSHER_APP_TOKEN }}
@@ -35,13 +26,14 @@ env:
   ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
 
 jobs:
-  # ════════════════════════════════════════════════════════
-  #  JOB 1: 每日新闻简报（每天 08:00 北京时间）
-  # ════════════════════════════════════════════════════════
+
+  # ═══════════════════════════════════════════════
+  #  JOB 1: 每日新闻简报（08:00 北京时间）
+  # ═══════════════════════════════════════════════
   daily-news-brief:
     name: 📰 每日新闻简报
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     if: |
       (github.event_name == 'schedule' && github.event.schedule == '0 0 * * *') ||
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'news_only'))
@@ -49,6 +41,8 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐍 Setup Python 3.11
         uses: actions/setup-python@v5
@@ -59,8 +53,8 @@ jobs:
       - name: 📦 Install dependencies
         run: pip install -r requirements.txt
 
-      - name: 📁 Create logs directory
-        run: mkdir -p logs
+      - name: 📁 Create directories
+        run: mkdir -p logs docs
 
       - name: 🚀 Run daily news brief
         run: |
@@ -70,17 +64,26 @@ jobs:
             python main.py
           fi
 
+      - name: 🌐 Commit & push web data
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json docs/index.html || true
+          git diff --staged --quiet || git commit -m "📰 Daily news brief $(date +'%Y-%m-%d')"
+          git push
+
       - name: 📋 Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: news-brief-logs-${{ github.run_number }}
+          name: news-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7
 
-  # ════════════════════════════════════════════════════════
-  #  JOB 2: 市场结构监控（工作日 09:30 北京时间）
-  # ════════════════════════════════════════════════════════
+  # ═══════════════════════════════════════════════
+  #  JOB 2: 市场结构监控（09:30 北京时间，工作日）
+  # ═══════════════════════════════════════════════
   market-structure-monitor:
     name: 📌 市场结构监控
     runs-on: ubuntu-latest
@@ -92,6 +95,8 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐍 Setup Python 3.11
         uses: actions/setup-python@v5
@@ -102,8 +107,8 @@ jobs:
       - name: 📦 Install dependencies
         run: pip install -r requirements.txt
 
-      - name: 📁 Create logs directory
-        run: mkdir -p logs
+      - name: 📁 Create directories
+        run: mkdir -p logs docs
 
       - name: 📌 Run market structure monitor
         run: |
@@ -113,10 +118,19 @@ jobs:
             python market_monitor.py
           fi
 
-      - name: 📋 Upload market monitor logs
+      - name: 🌐 Commit & push web data
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json docs/index.html || true
+          git diff --staged --quiet || git commit -m "📌 Market monitor $(date +'%Y-%m-%d')"
+          git push
+
+      - name: 📋 Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: market-monitor-logs-${{ github.run_number }}
+          name: market-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7
