@@ -19,9 +19,10 @@ import schedule
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-from scraper import scrape_all
-from pusher  import push_all
-from config  import Config
+from scraper     import scrape_all
+from pusher      import push_all
+from config      import Config
+from save_to_web import save_news
 
 # ─── 日志设置 ──────────────────────────────────────────────
 os.makedirs(Config.LOG_DIR, exist_ok=True)
@@ -111,6 +112,21 @@ def run_daily_job(dry_run: bool = False):
     # Step 3: 推送微信
     log.info("\n📲 Step 3/3: 推送微信...")
     results = push_all(news_data)
+
+    # 保存到网页
+    try:
+        news_text = "
+
+".join(
+            f"## {cat}
+" + "
+".join(f"- [{i['source']}] {i['title']}" for i in items)
+            for cat, items in news_data.items()
+        )
+        save_news(news_cn=news_text)
+        log.info("🌐 新闻数据已保存到网页")
+    except Exception as e:
+        log.warning(f"⚠️  网页数据保存失败: {e}")
     
     # 汇报结果
     end      = datetime.now(tz_cst)
