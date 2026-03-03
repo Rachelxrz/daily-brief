@@ -69,10 +69,12 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/data.json
           git fetch origin main
           git reset --hard origin/main
-          git add docs/data.json docs/index.html || true
-          git diff --staged --quiet || git commit -m "📰 Daily news brief $(date +'%Y-%m-%d')"
+          cp /tmp/data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "📌 Market monitor $(date +'%Y-%m-%d')"
           git push
 
       - name: 📋 Upload logs
@@ -123,11 +125,13 @@ jobs:
       - name: 🌐 Commit & push web data
         if: github.event.inputs.dry_run != 'true'
         run: |
-         git config user.name  "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/data.json
           git fetch origin main
           git reset --hard origin/main
-          git add docs/data.json docs/index.html || true
+          cp /tmp/data.json docs/data.json
+          git add docs/data.json
           git diff --staged --quiet || git commit -m "📌 Market monitor $(date +'%Y-%m-%d')"
           git push
 
