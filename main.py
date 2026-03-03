@@ -115,18 +115,17 @@ def run_daily_job(dry_run: bool = False):
 
     # 保存到网页
     try:
-        news_text = "
-
-".join(
-            f"## {cat}
-" + "
-".join(f"- [{i['source']}] {i['title']}" for i in items)
-            for cat, items in news_data.items()
-        )
+        parts = []
+        for cat, items in news_data.items():
+            cat_lines = ["## " + cat]
+            for item in items:
+                cat_lines.append("- [" + item["source"] + "] " + item["title"])
+            parts.append("\n".join(cat_lines))
+        news_text = "\n\n".join(parts)
         save_news(news_cn=news_text)
         log.info("🌐 新闻数据已保存到网页")
     except Exception as e:
-        log.warning(f"⚠️  网页数据保存失败: {e}")
+        log.warning("⚠️  网页数据保存失败: " + str(e))
     
     # 汇报结果
     end      = datetime.now(tz_cst)
