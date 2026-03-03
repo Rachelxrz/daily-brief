@@ -157,9 +157,10 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
     if today not in data:
         data[today] = {}
     data[today]["updated"] = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
+    existing_news = data[today].get("news", {})
     data[today]["news"] = {
-        "cn": news_cn or "",
-        "en": news_en or "",
+        "cn": news_cn if news_cn else existing_news.get("cn", ""),
+        "en": news_en if news_en else existing_news.get("en", ""),
     }
     save_data(data)
     log.info(f"📰 新闻简报已保存: {today}")
