@@ -389,25 +389,31 @@ function render() {
 function renderNews(day) {
   const el = document.getElementById('news-content');
   const news = day.news;
-  if (!news) {
+  if (!news || (!news.cn && !news.en)) {
     el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无简报数据</div>';
     return;
   }
+  const cnContent = news.cn && news.cn.trim() ? news.cn : null;
+  const enContent = news.en && news.en.trim() ? news.en : null;
+  // If only one version available, show full width
+  const gridClass = (cnContent && enContent) ? 'report-grid' : '';
+  el.className = gridClass;
   el.innerHTML = `
+    ${cnContent ? `
     <div class="report-card">
       <div class="report-card-header">
         <span class="report-card-title">📰 每日智识简报</span>
         <span class="report-card-lang">中文</span>
       </div>
-      <div class="report-card-body">${renderMd(news.cn || news)}</div>
-    </div>
-    ${news.en ? `
+      <div class="report-card-body">${renderMd(cnContent)}</div>
+    </div>` : ''}
+    ${enContent ? `
     <div class="report-card">
       <div class="report-card-header">
         <span class="report-card-title">📰 Daily Intelligence Brief</span>
         <span class="report-card-lang">English</span>
       </div>
-      <div class="report-card-body">${renderMd(news.en)}</div>
+      <div class="report-card-body">${renderMd(enContent)}</div>
     </div>` : ''}
   `;
 }
