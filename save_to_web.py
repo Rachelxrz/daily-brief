@@ -110,16 +110,25 @@ def generate_news_with_insights(news_data: dict) -> tuple[str, str]:
 1. 翻译标题为中文
 2. 写一句话洞察（从投资价值、个人健康、或趋势判断角度，20字以内，直接、有洞见）
 
-严格按以下 JSON 格式输出，不要任何其他内容：
+重要规则：
+- 严格输出合法 JSON，不要任何 markdown 代码块
+- 所有字符串值中不能出现双引号，如有请用单引号替代
+- insight 不超过25个汉字
+
+输出格式：
 {{
   "date": "{date_cn}",
   "categories": {{
     "finance": [
       {{"title_en": "原英文标题", "title_cn": "中文翻译", "insight": "一句话洞察"}},
-      ...
+      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
     ],
-    "social": [...],
-    "wellness": [...]
+    "social": [
+      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
+    ],
+    "wellness": [
+      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
+    ]
   }}
 }}
 
@@ -137,13 +146,25 @@ def generate_news_with_insights(news_data: dict) -> tuple[str, str]:
     try:
         # 清理可能的 markdown 代码块
         clean = result.strip()
-        if clean.startswith("```"):
-            clean = "\n".join(clean.split("\n")[1:])
-        if clean.endswith("```"):
-            clean = "\n".join(clean.split("\n")[:-1])
-        parsed = json.loads(clean.strip())
+        if "```" in clean:
+            parts = clean.split("```")
+            for p in parts:
+                p2 = p.strip()
+                if p2.startswith("json"):
+                    p2 = p2[4:].strip()
+                if p2.startswith("{"):
+                    clean = p2
+                    break
+        # 找到第一个 { 和最后一个 }
+        start_idx = clean.find("{")
+        end_idx   = clean.rfind("}")
+        if start_idx != -1 and end_idx != -1:
+            clean = clean[start_idx:end_idx+1]
+        parsed = json.loads(clean)
     except Exception as e:
         log.warning(f"⚠️ JSON 解析失败: {e}，使用纯英文版")
+        # Log first 200 chars of result for debugging
+        log.warning(f"   返回内容预览: {result[:200] if result else 'empty'}")
         return "", _format_plain_en(news_data, date_en)
 
     # 生成中文版 Markdown
