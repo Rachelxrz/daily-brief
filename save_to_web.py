@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 网页数据写入器 - 把每日报告保存到 docs/data.json
-Web Data Writer - Saves daily reports to docs/data.json for GitHub Pages
+包含 AI 洞察生成
 """
 
 import json
@@ -22,14 +22,13 @@ ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
 
 CATEGORY_CN = {
-    "finance": "📈 金融财经",
-    "social":  "📱 自媒体精选",
+    "finance":  "📈 金融财经",
+    "social":   "📱 自媒体精选",
     "wellness": "🧠 健康·心理·美学",
 }
-
 CATEGORY_EN = {
-    "finance": "📈 Finance & Markets",
-    "social":  "📱 Tech & Media",
+    "finance":  "📈 Finance & Markets",
+    "social":   "📱 Tech & Media",
     "wellness": "🧠 Health & Wellness",
 }
 
@@ -56,43 +55,13 @@ def save_data(data: dict):
     log.info(f"✅ 已写入 {DATA_FILE}，共 {len(data)} 天数据")
 
 
-def translate_news_to_cn(news_data: dict) -> str:
-    """
-    调用 Claude API 将新闻标题批量翻译成中文，生成中文版简报。
-    """
+def _call_claude(prompt: str, max_tokens: int = 2000) -> str:
     api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
-        log.warning("未设置 ANTHROPIC_API_KEY，跳过翻译")
         return ""
-
-    # 构建要翻译的新闻列表
-    tz_cst = timezone(timedelta(hours=8))
-    date_str = datetime.now(tz_cst).strftime("%Y年%m月%d日")
-
-    lines_to_translate = []
-    for cat, items in news_data.items():
-        cat_label = CATEGORY_CN.get(cat, cat)
-        lines_to_translate.append(f"\n## {cat_label}\n")
-        for item in items:
-            lines_to_translate.append(f"- [{item['source']}] {item['title']}")
-
-    news_en_text = "\n".join(lines_to_translate)
-
-    prompt = f"""请将以下英文新闻标题翻译成中文，保持原有的格式和结构不变。
-只翻译标题文字，保留来源标签（方括号内的内容）不翻译，保留 ## 和 - 格式符号。
-
-今天日期：{date_str}
-
-需要翻译的内容：
-{news_en_text}
-
-直接输出翻译结果，不需要任何解释或前言。格式示例：
-## 📈 金融财经
-- [Reuters Business] 美联储暗示今年可能降息两次"""
-
     payload = {
         "model": ANTHROPIC_MODEL,
-        "max_tokens": 2000,
+        "max_tokens": max_tokens,
         "messages": [{"role": "user", "content": prompt}]
     }
     headers = {
@@ -100,67 +69,146 @@ def translate_news_to_cn(news_data: dict) -> str:
         "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
     }
-
     for attempt in range(1, 4):
         try:
-            log.info(f"   🔤 翻译新闻标题 第{attempt}次...")
             resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=60)
             resp.raise_for_status()
             data = resp.json()
-            text = "".join(
-                b.get("text", "") for b in data.get("content", [])
-                if b.get("type") == "text"
-            )
+            text = "".join(b.get("text","") for b in data.get("content",[]) if b.get("type")=="text")
             if text.strip():
-                log.info("   ✅ 翻译完成")
-                # Add header
-                return f"# 📰 每日智识简报（中文）\n### {date_str}\n\n" + text.strip()
+                return text.strip()
         except Exception as e:
-            log.warning(f"   ⚠️ 翻译第{attempt}次失败: {e}")
+            log.warning(f"   ⚠️ Claude 调用第{attempt}次失败: {e}")
         if attempt < 3:
             time.sleep(30)
-
     return ""
 
 
-def format_news_en(news_data: dict) -> str:
-    """格式化英文版新闻简报。"""
-    tz_cst = timezone(timedelta(hours=8))
-    date_str = datetime.now(tz_cst).strftime("%B %d, %Y")
+def generate_news_with_insights(news_data: dict) -> tuple[str, str]:
+    """
+    调用 Claude 一次性生成：
+    - 每条新闻的中文翻译 + 一句话 AI 洞察
+    返回 (cn_report, en_report)
+    """
+    tz_cst   = timezone(timedelta(hours=8))
+    date_cn  = datetime.now(tz_cst).strftime("%Y年%m月%d日")
+    date_en  = datetime.now(tz_cst).strftime("%B %d, %Y")
 
-    lines = [f"# 📰 Daily Intelligence Brief", f"### {date_str}\n"]
+    # 构建新闻列表
+    news_lines = []
     for cat, items in news_data.items():
-        cat_label = CATEGORY_EN.get(cat, cat)
-        lines.append(f"\n## {cat_label}\n")
+        cat_en = CATEGORY_EN.get(cat, cat)
+        news_lines.append(f"\n[{cat_en}]")
+        for i, item in enumerate(items, 1):
+            news_lines.append(f"{i}. [{item['source']}] {item['title']}")
+
+    news_text = "\n".join(news_lines)
+
+    prompt = f"""你是一位专业的投资顾问和健康顾问。以下是今日精选新闻（{date_en}）。
+
+请为每一条新闻：
+1. 翻译标题为中文
+2. 写一句话洞察（从投资价值、个人健康、或趋势判断角度，20字以内，直接、有洞见）
+
+严格按以下 JSON 格式输出，不要任何其他内容：
+{{
+  "date": "{date_cn}",
+  "categories": {{
+    "finance": [
+      {{"title_en": "原英文标题", "title_cn": "中文翻译", "insight": "一句话洞察"}},
+      ...
+    ],
+    "social": [...],
+    "wellness": [...]
+  }}
+}}
+
+新闻列表：
+{news_text}"""
+
+    log.info("🤖 调用 Claude 生成新闻洞察...")
+    result = _call_claude(prompt, max_tokens=3000)
+
+    if not result:
+        log.warning("⚠️ 洞察生成失败，使用纯英文版")
+        return "", _format_plain_en(news_data, date_en)
+
+    # 解析 JSON
+    try:
+        # 清理可能的 markdown 代码块
+        clean = result.strip()
+        if clean.startswith("```"):
+            clean = "\n".join(clean.split("\n")[1:])
+        if clean.endswith("```"):
+            clean = "\n".join(clean.split("\n")[:-1])
+        parsed = json.loads(clean.strip())
+    except Exception as e:
+        log.warning(f"⚠️ JSON 解析失败: {e}，使用纯英文版")
+        return "", _format_plain_en(news_data, date_en)
+
+    # 生成中文版 Markdown
+    cn_lines = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
+    en_lines = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
+
+    cats = parsed.get("categories", {})
+    for cat_key in ["finance", "social", "wellness"]:
+        items_parsed = cats.get(cat_key, [])
+        orig_items   = news_data.get(cat_key, [])
+        if not items_parsed:
+            continue
+
+        cn_lines.append(f"\n## {CATEGORY_CN.get(cat_key, cat_key)}\n")
+        en_lines.append(f"\n## {CATEGORY_EN.get(cat_key, cat_key)}\n")
+
+        for i, p in enumerate(items_parsed):
+            title_cn = p.get("title_cn", "")
+            title_en = p.get("title_en", "")
+            insight  = p.get("insight", "")
+            # 获取原始 url
+            url = orig_items[i]["url"] if i < len(orig_items) else ""
+            source = orig_items[i]["source"] if i < len(orig_items) else ""
+
+            if title_cn:
+                cn_lines.append(f"- **{title_cn}**")
+                if insight:
+                    cn_lines.append(f"  > 💡 {insight}")
+            if title_en:
+                en_line = f"- **[{title_en}]({url})**" if url else f"- **{title_en}**"
+                en_lines.append(en_line)
+                if insight:
+                    en_lines.append(f"  > 💡 {insight}")
+
+    cn_report = "\n".join(cn_lines)
+    en_report = "\n".join(en_lines)
+    return cn_report, en_report
+
+
+def _format_plain_en(news_data: dict, date_en: str) -> str:
+    """无 AI 洞察时的纯英文备用版本。"""
+    lines = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
+    for cat, items in news_data.items():
+        lines.append(f"\n## {CATEGORY_EN.get(cat, cat)}\n")
         for item in items:
             lines.append(f"- [{item['source']}] {item['title']}")
     return "\n".join(lines)
 
 
 def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
-    """
-    保存每日新闻简报。
-    支持两种调用方式：
-      1. save_news(news_data=dict)  → 自动生成英文版并调用API翻译中文版
-      2. save_news(news_cn=str, news_en=str)  → 直接传入文本
-    """
+    """保存每日新闻简报。"""
     tz_cst = timezone(timedelta(hours=8))
     today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
 
     if news_data is not None:
-        # 生成英文版
-        news_en = format_news_en(news_data)
-        # 调用 Claude 翻译中文版
-        news_cn = translate_news_to_cn(news_data)
+        news_cn, news_en = generate_news_with_insights(news_data)
 
     data = load_data()
     if today not in data:
         data[today] = {}
     data[today]["updated"] = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
-    existing_news = data[today].get("news", {})
+    existing = data[today].get("news", {})
     data[today]["news"] = {
-        "cn": news_cn if news_cn else existing_news.get("cn", ""),
-        "en": news_en if news_en else existing_news.get("en", ""),
+        "cn": news_cn if news_cn else existing.get("cn", ""),
+        "en": news_en if news_en else existing.get("en", ""),
     }
     save_data(data)
     log.info(f"📰 新闻简报已保存: {today}")
@@ -185,5 +233,4 @@ def save_monitor(monitor_cn: str, monitor_en: str):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    # 测试
     save_monitor("# 测试中文", "# Test English")
