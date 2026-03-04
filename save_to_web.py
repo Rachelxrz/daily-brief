@@ -80,7 +80,7 @@ def _call_claude(prompt: str, max_tokens: int = 2000) -> str:
         except Exception as e:
             log.warning(f"   ⚠️ Claude 调用第{attempt}次失败: {e}")
         if attempt < 3:
-            time.sleep(30)
+            time.sleep(60)
     return ""
 
 
