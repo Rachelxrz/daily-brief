@@ -28,13 +28,12 @@ env:
   ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
 
 jobs:
-
   # ==============================================
   #  JOB 1: 每日新闻简报（08:00 美东时间）
   # ==============================================
   
   daily-news-brief:
-    name: 📰 每日新闻简报
+    name: 每日新闻简报
     runs-on: ubuntu-latest
     timeout-minutes: 15
    if: >-
