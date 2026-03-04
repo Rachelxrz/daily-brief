@@ -55,7 +55,7 @@ def save_data(data: dict):
     log.info(f"✅ 已写入 {DATA_FILE}，共 {len(data)} 天数据")
 
 
-def _call_claude(prompt: str, max_tokens: int = 2000) -> str:
+def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
     api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
         return ""
@@ -71,7 +71,7 @@ def _call_claude(prompt: str, max_tokens: int = 2000) -> str:
     }
     for attempt in range(1, 4):
         try:
-            resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=60)
+            resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=90)
             resp.raise_for_status()
             data = resp.json()
             text = "".join(b.get("text","") for b in data.get("content",[]) if b.get("type")=="text")
@@ -84,128 +84,165 @@ def _call_claude(prompt: str, max_tokens: int = 2000) -> str:
     return ""
 
 
-def generate_news_with_insights(news_data: dict) -> tuple[str, str]:
+def _parse_json(text: str):
+    """健壮的 JSON 解析，处理 markdown 代码块和多余文字。"""
+    clean = text.strip()
+    if "```" in clean:
+        parts = clean.split("```")
+        for p in parts:
+            p2 = p.strip()
+            if p2.startswith("json"):
+                p2 = p2[4:].strip()
+            if p2.startswith("{"):
+                clean = p2
+                break
+    start = clean.find("{")
+    end   = clean.rfind("}")
+    if start != -1 and end != -1:
+        clean = clean[start:end+1]
+    return json.loads(clean)
+
+
+def generate_news_with_insights(news_data: dict) -> tuple:
     """
-    调用 Claude 一次性生成：
-    - 每条新闻的中文翻译 + 一句话 AI 洞察
+    调用 Claude 生成：
+    - 每条新闻：中文标题 + 英文标题 + 3句话描述（中英各自）
+    - 全局洞察：投资3条 + 健康3条（中英各自）
     返回 (cn_report, en_report)
     """
-    tz_cst   = timezone(timedelta(hours=8))
-    date_cn  = datetime.now(tz_cst).strftime("%Y年%m月%d日")
-    date_en  = datetime.now(tz_cst).strftime("%B %d, %Y")
+    tz_cst  = timezone(timedelta(hours=8))
+    date_cn = datetime.now(tz_cst).strftime("%Y年%m月%d日")
+    date_en = datetime.now(tz_cst).strftime("%B %d, %Y")
 
     # 构建新闻列表
     news_lines = []
     for cat, items in news_data.items():
-        cat_en = CATEGORY_EN.get(cat, cat)
-        news_lines.append(f"\n[{cat_en}]")
+        news_lines.append(f"\n[{CATEGORY_EN.get(cat, cat)}]")
         for i, item in enumerate(items, 1):
             news_lines.append(f"{i}. [{item['source']}] {item['title']}")
-
     news_text = "\n".join(news_lines)
 
-    prompt = f"""你是一位专业的投资顾问和健康顾问。以下是今日精选新闻（{date_en}）。
+    prompt = f"""You are a professional investment advisor and health advisor. Below are today's curated news ({date_en}).
 
-请为每一条新闻：
-1. 翻译标题为中文
-2. 写一句话洞察（从投资价值、个人健康、或趋势判断角度，20字以内，直接、有洞见）
+For EACH news item, provide:
+1. title_cn: Chinese translation of the title
+2. summary_cn: 3-sentence Chinese summary/description of the story
+3. summary_en: 3-sentence English summary/description of the story
 
-重要规则：
-- 严格输出合法 JSON，不要任何 markdown 代码块
-- 所有字符串值中不能出现双引号，如有请用单引号替代
-- insight 不超过25个汉字
+Then provide GLOBAL INSIGHTS (based on ALL news combined):
+- investment_insights_cn: exactly 3 actionable investment insights in Chinese (each max 30 chars)
+- investment_insights_en: exactly 3 actionable investment insights in English (each max 15 words)
+- health_insights_cn: exactly 3 actionable health/wellness insights in Chinese (each max 30 chars)
+- health_insights_en: exactly 3 actionable health/wellness insights in English (each max 15 words)
 
-输出格式：
+IMPORTANT: Output ONLY valid JSON. No markdown. No quotes inside string values (use alternate phrasing instead).
+
+JSON format:
 {{
-  "date": "{date_cn}",
-  "categories": {{
+  "articles": {{
     "finance": [
-      {{"title_en": "原英文标题", "title_cn": "中文翻译", "insight": "一句话洞察"}},
-      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
+      {{"title_en": "...", "title_cn": "...", "summary_cn": "...", "summary_en": "..."}},
+      {{"title_en": "...", "title_cn": "...", "summary_cn": "...", "summary_en": "..."}}
     ],
-    "social": [
-      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
-    ],
-    "wellness": [
-      {{"title_en": "...", "title_cn": "...", "insight": "..."}}
-    ]
+    "social": [...],
+    "wellness": [...]
+  }},
+  "insights": {{
+    "investment_cn": ["洞察1", "洞察2", "洞察3"],
+    "investment_en": ["insight 1", "insight 2", "insight 3"],
+    "health_cn": ["洞察1", "洞察2", "洞察3"],
+    "health_en": ["insight 1", "insight 2", "insight 3"]
   }}
 }}
 
-新闻列表：
+News list:
 {news_text}"""
 
-    log.info("🤖 调用 Claude 生成新闻洞察...")
-    result = _call_claude(prompt, max_tokens=3000)
+    log.info("🤖 调用 Claude 生成新闻内容与洞察...")
+    result = _call_claude(prompt, max_tokens=4000)
 
     if not result:
-        log.warning("⚠️ 洞察生成失败，使用纯英文版")
+        log.warning("⚠️ 内容生成失败，使用纯标题版")
         return "", _format_plain_en(news_data, date_en)
 
-    # 解析 JSON
     try:
-        # 清理可能的 markdown 代码块
-        clean = result.strip()
-        if "```" in clean:
-            parts = clean.split("```")
-            for p in parts:
-                p2 = p.strip()
-                if p2.startswith("json"):
-                    p2 = p2[4:].strip()
-                if p2.startswith("{"):
-                    clean = p2
-                    break
-        # 找到第一个 { 和最后一个 }
-        start_idx = clean.find("{")
-        end_idx   = clean.rfind("}")
-        if start_idx != -1 and end_idx != -1:
-            clean = clean[start_idx:end_idx+1]
-        parsed = json.loads(clean)
+        parsed = _parse_json(result)
     except Exception as e:
-        log.warning(f"⚠️ JSON 解析失败: {e}，使用纯英文版")
-        # Log first 200 chars of result for debugging
-        log.warning(f"   返回内容预览: {result[:200] if result else 'empty'}")
+        log.warning(f"⚠️ JSON 解析失败: {e}")
+        log.warning(f"   返回内容预览: {result[:300]}")
         return "", _format_plain_en(news_data, date_en)
 
-    # 生成中文版 Markdown
-    cn_lines = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
-    en_lines = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
+    articles = parsed.get("articles", {})
+    insights = parsed.get("insights", {})
 
-    cats = parsed.get("categories", {})
+    # ── 生成中文版 ──────────────────────────────────────
+    cn = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
     for cat_key in ["finance", "social", "wellness"]:
-        items_parsed = cats.get(cat_key, [])
+        items_parsed = articles.get(cat_key, [])
         orig_items   = news_data.get(cat_key, [])
         if not items_parsed:
             continue
-
-        cn_lines.append(f"\n## {CATEGORY_CN.get(cat_key, cat_key)}\n")
-        en_lines.append(f"\n## {CATEGORY_EN.get(cat_key, cat_key)}\n")
-
+        cn.append(f"\n## {CATEGORY_CN.get(cat_key, cat_key)}\n")
         for i, p in enumerate(items_parsed):
-            title_cn = p.get("title_cn", "")
-            title_en = p.get("title_en", "")
-            insight  = p.get("insight", "")
-            # 获取原始 url
-            url = orig_items[i]["url"] if i < len(orig_items) else ""
-            source = orig_items[i]["source"] if i < len(orig_items) else ""
+            title_cn  = p.get("title_cn", orig_items[i]["title"] if i < len(orig_items) else "")
+            summary_cn = p.get("summary_cn", "")
+            cn.append(f"**{title_cn}**")
+            if summary_cn:
+                cn.append(f"\n{summary_cn}\n")
 
-            if title_cn:
-                cn_lines.append(f"- **{title_cn}**")
-                if insight:
-                    cn_lines.append(f"  > 💡 {insight}")
-            if title_en:
-                en_line = f"- **[{title_en}]({url})**" if url else f"- **{title_en}**"
-                en_lines.append(en_line)
-                if insight:
-                    en_lines.append(f"  > 💡 {insight}")
+    # 中文全局洞察
+    inv_cn    = insights.get("investment_cn", [])
+    health_cn = insights.get("health_cn", [])
+    if inv_cn or health_cn:
+        cn.append("\n---\n## 💡 今日洞察\n")
+        if inv_cn:
+            cn.append("**📈 投资建议**")
+            for s in inv_cn[:3]:
+                cn.append(f"- {s}")
+            cn.append("")
+        if health_cn:
+            cn.append("**🧠 健康建议**")
+            for s in health_cn[:3]:
+                cn.append(f"- {s}")
 
-    cn_report = "\n".join(cn_lines)
-    en_report = "\n".join(en_lines)
-    return cn_report, en_report
+    # ── 生成英文版 ──────────────────────────────────────
+    en = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
+    for cat_key in ["finance", "social", "wellness"]:
+        items_parsed = articles.get(cat_key, [])
+        orig_items   = news_data.get(cat_key, [])
+        if not items_parsed:
+            continue
+        en.append(f"\n## {CATEGORY_EN.get(cat_key, cat_key)}\n")
+        for i, p in enumerate(items_parsed):
+            title_en   = p.get("title_en", orig_items[i]["title"] if i < len(orig_items) else "")
+            summary_en = p.get("summary_en", "")
+            url = orig_items[i].get("url","") if i < len(orig_items) else ""
+            if url:
+                en.append(f"**[{title_en}]({url})**")
+            else:
+                en.append(f"**{title_en}**")
+            if summary_en:
+                en.append(f"\n{summary_en}\n")
+
+    # 英文全局洞察
+    inv_en    = insights.get("investment_en", [])
+    health_en = insights.get("health_en", [])
+    if inv_en or health_en:
+        en.append("\n---\n## 💡 Today's Insights\n")
+        if inv_en:
+            en.append("**📈 Investment**")
+            for s in inv_en[:3]:
+                en.append(f"- {s}")
+            en.append("")
+        if health_en:
+            en.append("**🧠 Health & Wellness**")
+            for s in health_en[:3]:
+                en.append(f"- {s}")
+
+    return "\n".join(cn), "\n".join(en)
 
 
 def _format_plain_en(news_data: dict, date_en: str) -> str:
-    """无 AI 洞察时的纯英文备用版本。"""
     lines = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
     for cat, items in news_data.items():
         lines.append(f"\n## {CATEGORY_EN.get(cat, cat)}\n")
@@ -215,7 +252,6 @@ def _format_plain_en(news_data: dict, date_en: str) -> str:
 
 
 def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
-    """保存每日新闻简报。"""
     tz_cst = timezone(timedelta(hours=8))
     today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
 
@@ -236,18 +272,13 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
 
 
 def save_monitor(monitor_cn: str, monitor_en: str):
-    """保存市场结构监控数据（中英双语）。"""
     tz_cst = timezone(timedelta(hours=8))
     today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
-
     data = load_data()
     if today not in data:
         data[today] = {}
     data[today]["updated"] = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
-    data[today]["monitor"] = {
-        "cn": monitor_cn,
-        "en": monitor_en,
-    }
+    data[today]["monitor"] = {"cn": monitor_cn, "en": monitor_en}
     save_data(data)
     log.info(f"📌 市场监控已保存: {today}")
 
