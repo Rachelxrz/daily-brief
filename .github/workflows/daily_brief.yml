@@ -2,8 +2,10 @@ name: 📰 每日智识简报 + 📌 市场结构监控
 
 on:
   schedule:
-    - cron: '0 0 * * *'        # 08:00 北京时间 — 新闻简报
-    - cron: '30 1 * * 1-5'     # 09:30 北京时间 — 市场监控（工作日）
+    - cron: '0 13 * * *'       # 08:00 ET – 新闻简报
+    - cron: '30 14 * * 1-5'    # 09:30 ET – 市场监控（工作日）
+    - cron: '0 23 * * *'       # 18:00 ET – 晚间新闻简报
+    - cron: '30 23 * * 1-5'    # 18:30 ET – 晚间市场监控（工作日）
   workflow_dispatch:
     inputs:
       job_type:
@@ -34,10 +36,9 @@ jobs:
     name: 📰 每日新闻简报
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    if: |
-      (github.event_name == 'schedule' && github.event.schedule == '0 0 * * *') ||
-      (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'news_only'))
-
+   if: |
+        (github.event_name == 'schedule' && (github.event.schedule == '0 13 * * *' || github.event.schedule == '0 23 * * *')) ||
+        (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'news_only'))
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4
