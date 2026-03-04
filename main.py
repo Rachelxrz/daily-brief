@@ -113,8 +113,10 @@ def run_daily_job(dry_run: bool = False):
     log.info("\n📲 Step 3/3: 推送微信...")
     results = push_all(news_data)
 
-    # 保存到网页（传入 news_data dict，save_to_web 自动生成英文版+翻译中文版）
+    # 保存到网页（等待180秒让API速率窗口恢复，再生成洞察）
     try:
+        log.info("\n⏳ 等待 180 秒，让 API 速率限制恢复...")
+        time.sleep(180)
         save_news(news_data=news_data)
         log.info("🌐 新闻数据已保存到网页")
     except Exception as e:
