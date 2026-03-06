@@ -85,7 +85,34 @@ PROMPT_CN = """你是一位专业的宏观市场结构分析师。请使用 web_
 
 ---
 
-## 5) 📊 板块轮动结构
+## 5) 🛢️ 原油与油轮结构
+
+**原油价格：**
+- WTI 当前价格：$XX.XX / 桶
+- 布伦特 当前价格：$XX.XX / 桶
+- WTI/布伦特价差：$X.XX
+- 今日涨跌：[+/-X.XX%]
+- 关键支撑/阻力位：[说明]
+- 主导因素：[供需 / 地缘政治 / 美元走势 / 库存数据]
+
+**OPEC+ / 库存动态：**
+- 最新 EIA 库存变化：[+/-XXX万桶（增加/减少）]
+- OPEC+ 产量动态：[说明]
+
+**油轮运价（VLCC）：**
+- 波斯湾→中国（TD3C）：$XX.XX / 天（约 WS XX 点）
+- 波斯湾→美湾（TD1）：$XX.XX / 天（如有）
+- 近期趋势：[上升/下降/横盘] X天
+- 运价信号：[✅ 强势 / ⚠️ 中性 / ❌ 疲弱]
+
+**地缘风险对原油的影响：**
+- 霍尔木兹海峡：[畅通/紧张/受阻]
+- 红海/苏伊士：[畅通/绕行/受阻]
+- 综合风险溢价判断：[高/中/低]
+
+---
+
+## 6) 📊 板块轮动结构
 
 | 板块 vs 大盘 | 今日表现 | 相对强弱 |
 |------------|---------|---------|
@@ -98,7 +125,7 @@ PROMPT_CN = """你是一位专业的宏观市场结构分析师。请使用 web_
 
 ---
 
-## 6) 🧭 结构等级判定
+## 7) 🧭 结构等级判定
 
 **综合判定：[🟢 稳定 / 🟡 轻度风险 / 🟠 中等风险 / 🔴 系统性风险]**
 
@@ -110,6 +137,7 @@ PROMPT_CN = """你是一位专业的宏观市场结构分析师。请使用 web_
 |---------|------|------|
 | 减少科技（QQQ） | ✅是/❌否/🟡观望 | [理由] |
 | 提高实体资产（能源/LNG） | ✅是/❌否/🟡观望 | [理由] |
+| 油轮股（FRO/STNG/DHT） | ✅是/❌否/🟡观望 | [理由] |
 | 加黄金（GLD） | ✅是/❌否/🟡观望 | [理由] |
 | 加防御板块（XLU/国债） | ✅是/❌否/🟡观望 | [理由] |
 | 减风险暴露 | ✅是/❌否/🟡观望 | [理由] |
@@ -191,7 +219,34 @@ Output the English report in this exact format:
 
 ---
 
-## 5) 📊 Sector Rotation
+## 5) 🛢️ Crude Oil & Tanker Structure
+
+**Crude Oil Prices:**
+- WTI Current Price: $XX.XX / bbl
+- Brent Current Price: $XX.XX / bbl
+- WTI/Brent Spread: $X.XX
+- Today's Change: [+/-X.XX%]
+- Key Support / Resistance: [details]
+- Dominant Driver: [Supply-Demand / Geopolitics / USD / Inventory Data]
+
+**OPEC+ / Inventory Update:**
+- Latest EIA Inventory Change: [+/-XXX K bbls (Build / Draw)]
+- OPEC+ Production Dynamics: [details]
+
+**Tanker Rates (VLCC):**
+- Middle East Gulf → China (TD3C): $XX.XX / day (approx. WS XX pts)
+- Middle East Gulf → US Gulf (TD1): $XX.XX / day (if available)
+- Recent Trend: [Rising / Falling / Flat] for X days
+- Rate Signal: [✅ Strong / ⚠️ Neutral / ❌ Weak]
+
+**Geopolitical Risk Impact on Oil:**
+- Strait of Hormuz: [Open / Tense / Disrupted]
+- Red Sea / Suez: [Open / Rerouting / Disrupted]
+- Overall Risk Premium Assessment: [High / Medium / Low]
+
+---
+
+## 6) 📊 Sector Rotation
 
 | Sector vs Market | Today | Relative Strength |
 |------------------|-------|------------------|
@@ -204,7 +259,7 @@ Output the English report in this exact format:
 
 ---
 
-## 6) 🧭 Structure Rating & Action Bias
+## 7) 🧭 Structure Rating & Action Bias
 
 **Overall Rating: [🟢 Stable / 🟡 Low Risk / 🟠 Moderate Risk / 🔴 Systemic Risk]**
 
@@ -216,6 +271,7 @@ Output the English report in this exact format:
 |--------|---------------|-----------|
 | Reduce Tech (QQQ) | ✅Yes / ❌No / 🟡Watch | [reason] |
 | Increase Real Assets (Energy/LNG) | ✅Yes / ❌No / 🟡Watch | [reason] |
+| Tanker Stocks (FRO/STNG/DHT) | ✅Yes / ❌No / 🟡Watch | [reason] |
 | Add Gold (GLD) | ✅Yes / ❌No / 🟡Watch | [reason] |
 | Add Defensives (XLU/Bonds) | ✅Yes / ❌No / 🟡Watch | [reason] |
 | Reduce Risk Exposure | ✅Yes / ❌No / 🟡Watch | [reason] |
@@ -245,7 +301,7 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
         "messages": messages,
     }
     if use_search:
-        payload["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}]
+        payload["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 8}]
 
     headers = {
         "x-api-key": api_key,
