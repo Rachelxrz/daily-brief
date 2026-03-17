@@ -22,7 +22,7 @@ from pathlib import Path
 from scraper     import scrape_all
 from pusher      import push_all
 from config      import Config
-from save_to_web import save_news
+from save_to_web import save_news, translate_for_wechat, translate_for_wechat
 
 # ─── 日志设置 ──────────────────────────────────────────────
 os.makedirs(Config.LOG_DIR, exist_ok=True)
@@ -109,9 +109,15 @@ def run_daily_job(dry_run: bool = False):
                 log.info(f"  {i:02d}. [{item['source']}] {item['title'][:80]}")
         return news_data
     
-    # Step 3: 推送微信
+    # Step 3: 翻译 + 推送微信
     log.info("\n📲 Step 3/3: 推送微信...")
-    results = push_all(news_data)
+    log.info("   🌐 正在翻译新闻为中文...")
+    try:
+        wechat_data = translate_for_wechat(news_data)
+    except Exception as e:
+        log.warning(f"   ⚠️ 翻译异常，使用原文推送: {e}")
+        wechat_data = news_data
+    results = push_all(wechat_data)
 
     # 保存到网页（等待180秒让API速率窗口恢复，再生成洞察）
     try:
