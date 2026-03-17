@@ -242,6 +242,65 @@ News list:
     return "\n".join(cn), "\n".join(en)
 
 
+def translate_for_wechat(news_data: dict) -> dict:
+    """
+    调用 Claude 把新闻标题和摘要翻译成中文，返回结构化数据供微信推送使用。
+    格式与原始 news_data 相同，但 title/summary 替换为中文。
+    """
+    news_lines = []
+    for cat, items in news_data.items():
+        news_lines.append(f"\n[{cat}]")
+        for i, item in enumerate(items, 1):
+            news_lines.append(f"{i}. [{item['source']}] {item['title']}")
+            if item.get('summary'):
+                news_lines.append(f"   摘要原文: {item['summary'][:150]}")
+    news_text = "\n".join(news_lines)
+
+    prompt = f"""将以下新闻的标题和摘要翻译成简洁专业的中文。
+
+输出格式为 JSON（仅输出 JSON，不要 markdown 代码块，不要其他文字）：
+{{
+  "finance": [
+    {{"title": "中文标题", "summary": "中文摘要，2-3句话"}},
+    ...
+  ],
+  "social": [...],
+  "wellness": [...]
+}}
+
+新闻列表：
+{news_text}"""
+
+    log.info("🤖 调用 Claude 翻译微信推送新闻...")
+    result = _call_claude(prompt, max_tokens=3000)
+
+    if not result:
+        log.warning("⚠️ 翻译失败，微信将推送原文")
+        return news_data
+
+    try:
+        parsed = _parse_json(result)
+    except Exception as e:
+        log.warning(f"⚠️ 翻译 JSON 解析失败: {e}，微信将推送原文")
+        return news_data
+
+    # 把翻译后的 title/summary 合并回原始数据（保留 url/source/time 等字段）
+    translated = {}
+    for cat, orig_items in news_data.items():
+        translated_items = parsed.get(cat, [])
+        merged = []
+        for i, orig in enumerate(orig_items):
+            item = orig.copy()
+            if i < len(translated_items):
+                item['title']   = translated_items[i].get('title', orig['title'])
+                item['summary'] = translated_items[i].get('summary', orig.get('summary', ''))
+            merged.append(item)
+        translated[cat] = merged
+
+    log.info("✅ 微信推送新闻翻译完成")
+    return translated
+
+
 def _format_plain_en(news_data: dict, date_en: str) -> str:
     lines = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
     for cat, items in news_data.items():
