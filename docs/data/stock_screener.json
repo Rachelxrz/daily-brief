@@ -1,145 +1,413 @@
 {
   "latest": {
     "date": "2026-03-24",
-    "generated_at": "2026-03-24 14:45 ET",
-    "leading_sectors": {
-      "Materials": 2.37,
-      "Energy": 2.12,
-      "Utilities": 1.26
-    },
-    "sector_performance": {
-      "Materials": 2.37,
-      "Energy": 2.12,
-      "Utilities": 1.26,
-      "Industrials": 0.72,
-      "Consumer Staples": 0.45
-    },
-    "screener_config": {
-      "min_price": 100,
-      "min_market_cap_b": 15,
-      "min_avg_volume": 300000,
-      "min_eps": 0.25,
-      "ma_conditions": "Close > MA25(0.1%), MA50(0.2%), MA125(0.7%)"
-    },
-    "top_stocks": [
-      {
-        "price": 245.56,
-        "market_cap_b": 72.4,
-        "avg_volume": 2341494,
-        "day_change_pct": 5.6,
-        "eps": 13.23,
-        "ma25": 216.64,
-        "pct_above_ma25": 13.35,
-        "ma50": 200.57,
-        "pct_above_ma50": 22.43,
-        "ma125": 191.18,
-        "pct_above_ma125": 28.44,
-        "symbol": "MPC",
-        "sector": "Energy"
+    "generated_at": "2026-03-24 14:59 ET",
+    "leading_sectors": [
+      "Materials",
+      "Energy",
+      "Utilities",
+      "Industrials",
+      "Consumer Staples"
+    ],
+    "sector_perf": {
+      "Energy": {
+        "pct": 2.06,
+        "price": 60.86,
+        "etf": "XLE",
+        "etf_name": "Energy Select Sector SPDR",
+        "emoji": "⛽",
+        "is_leading": true
       },
-      {
-        "price": 126.45,
-        "market_cap_b": 19.4,
-        "avg_volume": 2920958,
-        "day_change_pct": 5.22,
-        "eps": 8.97,
-        "ma25": 111.8,
-        "pct_above_ma25": 13.11,
-        "ma50": 101.27,
-        "pct_above_ma50": 24.87,
-        "ma125": 89.65,
-        "pct_above_ma125": 41.05,
-        "symbol": "CF",
-        "sector": "Materials"
+      "Industrials": {
+        "pct": 0.76,
+        "price": 164.29,
+        "etf": "XLI",
+        "etf_name": "Industrial Select Sector SPDR",
+        "emoji": "🏗️",
+        "is_leading": true
       },
-      {
-        "price": 185.2,
-        "market_cap_b": 74.2,
-        "avg_volume": 2849096,
-        "day_change_pct": 4.77,
-        "eps": 10.78,
-        "ma25": 165.05,
-        "pct_above_ma25": 12.21,
-        "ma50": 155.48,
-        "pct_above_ma50": 19.12,
-        "ma125": 142.26,
-        "pct_above_ma125": 30.18,
-        "symbol": "PSX",
-        "sector": "Energy"
+      "Utilities": {
+        "pct": 1.26,
+        "price": 45.35,
+        "etf": "XLU",
+        "etf_name": "Utilities Select Sector SPDR",
+        "emoji": "🔌",
+        "is_leading": true
+      },
+      "Materials": {
+        "pct": 2.4,
+        "price": 48.69,
+        "etf": "XLB",
+        "etf_name": "Materials Select Sector SPDR",
+        "emoji": "⚗️",
+        "is_leading": true
+      },
+      "Consumer Staples": {
+        "pct": 0.38,
+        "price": 81.49,
+        "etf": "XLP",
+        "etf_name": "Consumer Staples Select Sector SPDR",
+        "emoji": "🛒",
+        "is_leading": true
+      },
+      "Gold": {
+        "pct": NaN,
+        "price": NaN,
+        "etf": "GLD",
+        "etf_name": "SPDR Gold Shares",
+        "emoji": "🥇",
+        "is_leading": false
+      },
+      "Copper": {
+        "pct": -1.01,
+        "price": 72.81,
+        "etf": "COPX",
+        "etf_name": "Global X Copper Miners ETF",
+        "emoji": "🔶",
+        "is_leading": false
       }
-    ]
-  },
-  "history": [
-    {
-      "date": "2026-03-24",
-      "generated_at": "2026-03-24 14:45 ET",
-      "leading_sectors": {
-        "Materials": 2.37,
-        "Energy": 2.12,
-        "Utilities": 1.26
-      },
-      "sector_performance": {
-        "Materials": 2.37,
-        "Energy": 2.12,
-        "Utilities": 1.26,
-        "Industrials": 0.72,
-        "Consumer Staples": 0.45
-      },
-      "screener_config": {
-        "min_price": 100,
-        "min_market_cap_b": 15,
-        "min_avg_volume": 300000,
-        "min_eps": 0.25,
-        "ma_conditions": "Close > MA25(0.1%), MA50(0.2%), MA125(0.7%)"
-      },
-      "top_stocks": [
+    },
+    "results_by_sector": {
+      "Materials": [
         {
-          "price": 245.56,
-          "market_cap_b": 72.4,
-          "avg_volume": 2341494,
-          "day_change_pct": 5.6,
+          "price": 126.21,
+          "market_cap_b": 19.4,
+          "avg_volume": 2921262,
+          "day_change_pct": 5.02,
+          "eps": 8.97,
+          "ma25": 111.79,
+          "pct_above_ma25": 12.9,
+          "ma50": 101.26,
+          "pct_above_ma50": 24.64,
+          "ma125": 89.65,
+          "pct_above_ma125": 40.78,
+          "symbol": "CF",
+          "sector": "Materials"
+        }
+      ],
+      "Energy": [
+        {
+          "price": 244.83,
+          "market_cap_b": 72.2,
+          "avg_volume": 2341668,
+          "day_change_pct": 5.29,
           "eps": 13.23,
-          "ma25": 216.64,
-          "pct_above_ma25": 13.35,
-          "ma50": 200.57,
-          "pct_above_ma50": 22.43,
-          "ma125": 191.18,
-          "pct_above_ma125": 28.44,
+          "ma25": 216.61,
+          "pct_above_ma25": 13.03,
+          "ma50": 200.55,
+          "pct_above_ma50": 22.08,
+          "ma125": 191.17,
+          "pct_above_ma125": 28.07,
           "symbol": "MPC",
           "sector": "Energy"
         },
         {
-          "price": 126.45,
-          "market_cap_b": 19.4,
-          "avg_volume": 2920958,
-          "day_change_pct": 5.22,
-          "eps": 8.97,
-          "ma25": 111.8,
-          "pct_above_ma25": 13.11,
-          "ma50": 101.27,
-          "pct_above_ma50": 24.87,
-          "ma125": 89.65,
-          "pct_above_ma125": 41.05,
-          "symbol": "CF",
-          "sector": "Materials"
-        },
-        {
-          "price": 185.2,
-          "market_cap_b": 74.2,
-          "avg_volume": 2849096,
-          "day_change_pct": 4.77,
+          "price": 184.59,
+          "market_cap_b": 74.0,
+          "avg_volume": 2849405,
+          "day_change_pct": 4.43,
           "eps": 10.78,
-          "ma25": 165.05,
-          "pct_above_ma25": 12.21,
-          "ma50": 155.48,
-          "pct_above_ma50": 19.12,
+          "ma25": 165.03,
+          "pct_above_ma25": 11.86,
+          "ma50": 155.47,
+          "pct_above_ma50": 18.73,
           "ma125": 142.26,
-          "pct_above_ma125": 30.18,
+          "pct_above_ma125": 29.76,
           "symbol": "PSX",
           "sector": "Energy"
+        },
+        {
+          "price": 296.7,
+          "market_cap_b": 63.9,
+          "avg_volume": 2079115,
+          "day_change_pct": 3.31,
+          "eps": 24.12,
+          "ma25": 249.08,
+          "pct_above_ma25": 19.12,
+          "ma50": 229.0,
+          "pct_above_ma50": 29.56,
+          "ma125": 217.51,
+          "pct_above_ma125": 36.4,
+          "symbol": "LNG",
+          "sector": "Energy"
+        }
+      ],
+      "Utilities": [],
+      "Industrials": [
+        {
+          "price": 374.45,
+          "market_cap_b": 145.4,
+          "avg_volume": 2676797,
+          "day_change_pct": 4.09,
+          "eps": 10.43,
+          "ma25": 363.09,
+          "pct_above_ma25": 3.13,
+          "ma50": 358.48,
+          "pct_above_ma50": 4.45,
+          "ma125": 354.53,
+          "pct_above_ma125": 5.62,
+          "symbol": "ETN",
+          "sector": "Industrials"
+        },
+        {
+          "price": 906.23,
+          "market_cap_b": 245.9,
+          "avg_volume": 3102888,
+          "day_change_pct": 2.67,
+          "eps": 17.65,
+          "ma25": 847.21,
+          "pct_above_ma25": 6.97,
+          "ma50": 785.35,
+          "pct_above_ma50": 15.39,
+          "ma125": 681.64,
+          "pct_above_ma125": 32.95,
+          "symbol": "GEV",
+          "sector": "Industrials"
+        },
+        {
+          "price": 578.69,
+          "market_cap_b": 86.6,
+          "avg_volume": 1117639,
+          "day_change_pct": 1.98,
+          "eps": 6.81,
+          "ma25": 562.14,
+          "pct_above_ma25": 2.94,
+          "ma50": 521.53,
+          "pct_above_ma50": 10.96,
+          "ma125": 470.46,
+          "pct_above_ma125": 23.01,
+          "symbol": "PWR",
+          "sector": "Industrials"
+        }
+      ],
+      "Consumer Staples": [
+        {
+          "price": 124.72,
+          "market_cap_b": 24.1,
+          "avg_volume": 1794889,
+          "day_change_pct": 3.23,
+          "eps": 4.93,
+          "ma25": 121.03,
+          "pct_above_ma25": 3.05,
+          "ma50": 117.23,
+          "pct_above_ma50": 6.39,
+          "ma125": 101.38,
+          "pct_above_ma125": 23.02,
+          "symbol": "BG",
+          "sector": "Consumer Staples"
         }
       ]
+    },
+    "screener_config": {
+      "strict_note": "Energy/Industrials/Utilities/Materials/Staples",
+      "relaxed_note": "Gold/Copper — 放宽价格、市值、EPS、均线条件"
+    }
+  },
+  "history": [
+    {
+      "date": "2026-03-24",
+      "generated_at": "2026-03-24 14:59 ET",
+      "leading_sectors": [
+        "Materials",
+        "Energy",
+        "Utilities",
+        "Industrials",
+        "Consumer Staples"
+      ],
+      "sector_perf": {
+        "Energy": {
+          "pct": 2.06,
+          "price": 60.86,
+          "etf": "XLE",
+          "etf_name": "Energy Select Sector SPDR",
+          "emoji": "⛽",
+          "is_leading": true
+        },
+        "Industrials": {
+          "pct": 0.76,
+          "price": 164.29,
+          "etf": "XLI",
+          "etf_name": "Industrial Select Sector SPDR",
+          "emoji": "🏗️",
+          "is_leading": true
+        },
+        "Utilities": {
+          "pct": 1.26,
+          "price": 45.35,
+          "etf": "XLU",
+          "etf_name": "Utilities Select Sector SPDR",
+          "emoji": "🔌",
+          "is_leading": true
+        },
+        "Materials": {
+          "pct": 2.4,
+          "price": 48.69,
+          "etf": "XLB",
+          "etf_name": "Materials Select Sector SPDR",
+          "emoji": "⚗️",
+          "is_leading": true
+        },
+        "Consumer Staples": {
+          "pct": 0.38,
+          "price": 81.49,
+          "etf": "XLP",
+          "etf_name": "Consumer Staples Select Sector SPDR",
+          "emoji": "🛒",
+          "is_leading": true
+        },
+        "Gold": {
+          "pct": NaN,
+          "price": NaN,
+          "etf": "GLD",
+          "etf_name": "SPDR Gold Shares",
+          "emoji": "🥇",
+          "is_leading": false
+        },
+        "Copper": {
+          "pct": -1.01,
+          "price": 72.81,
+          "etf": "COPX",
+          "etf_name": "Global X Copper Miners ETF",
+          "emoji": "🔶",
+          "is_leading": false
+        }
+      },
+      "results_by_sector": {
+        "Materials": [
+          {
+            "price": 126.21,
+            "market_cap_b": 19.4,
+            "avg_volume": 2921262,
+            "day_change_pct": 5.02,
+            "eps": 8.97,
+            "ma25": 111.79,
+            "pct_above_ma25": 12.9,
+            "ma50": 101.26,
+            "pct_above_ma50": 24.64,
+            "ma125": 89.65,
+            "pct_above_ma125": 40.78,
+            "symbol": "CF",
+            "sector": "Materials"
+          }
+        ],
+        "Energy": [
+          {
+            "price": 244.83,
+            "market_cap_b": 72.2,
+            "avg_volume": 2341668,
+            "day_change_pct": 5.29,
+            "eps": 13.23,
+            "ma25": 216.61,
+            "pct_above_ma25": 13.03,
+            "ma50": 200.55,
+            "pct_above_ma50": 22.08,
+            "ma125": 191.17,
+            "pct_above_ma125": 28.07,
+            "symbol": "MPC",
+            "sector": "Energy"
+          },
+          {
+            "price": 184.59,
+            "market_cap_b": 74.0,
+            "avg_volume": 2849405,
+            "day_change_pct": 4.43,
+            "eps": 10.78,
+            "ma25": 165.03,
+            "pct_above_ma25": 11.86,
+            "ma50": 155.47,
+            "pct_above_ma50": 18.73,
+            "ma125": 142.26,
+            "pct_above_ma125": 29.76,
+            "symbol": "PSX",
+            "sector": "Energy"
+          },
+          {
+            "price": 296.7,
+            "market_cap_b": 63.9,
+            "avg_volume": 2079115,
+            "day_change_pct": 3.31,
+            "eps": 24.12,
+            "ma25": 249.08,
+            "pct_above_ma25": 19.12,
+            "ma50": 229.0,
+            "pct_above_ma50": 29.56,
+            "ma125": 217.51,
+            "pct_above_ma125": 36.4,
+            "symbol": "LNG",
+            "sector": "Energy"
+          }
+        ],
+        "Utilities": [],
+        "Industrials": [
+          {
+            "price": 374.45,
+            "market_cap_b": 145.4,
+            "avg_volume": 2676797,
+            "day_change_pct": 4.09,
+            "eps": 10.43,
+            "ma25": 363.09,
+            "pct_above_ma25": 3.13,
+            "ma50": 358.48,
+            "pct_above_ma50": 4.45,
+            "ma125": 354.53,
+            "pct_above_ma125": 5.62,
+            "symbol": "ETN",
+            "sector": "Industrials"
+          },
+          {
+            "price": 906.23,
+            "market_cap_b": 245.9,
+            "avg_volume": 3102888,
+            "day_change_pct": 2.67,
+            "eps": 17.65,
+            "ma25": 847.21,
+            "pct_above_ma25": 6.97,
+            "ma50": 785.35,
+            "pct_above_ma50": 15.39,
+            "ma125": 681.64,
+            "pct_above_ma125": 32.95,
+            "symbol": "GEV",
+            "sector": "Industrials"
+          },
+          {
+            "price": 578.69,
+            "market_cap_b": 86.6,
+            "avg_volume": 1117639,
+            "day_change_pct": 1.98,
+            "eps": 6.81,
+            "ma25": 562.14,
+            "pct_above_ma25": 2.94,
+            "ma50": 521.53,
+            "pct_above_ma50": 10.96,
+            "ma125": 470.46,
+            "pct_above_ma125": 23.01,
+            "symbol": "PWR",
+            "sector": "Industrials"
+          }
+        ],
+        "Consumer Staples": [
+          {
+            "price": 124.72,
+            "market_cap_b": 24.1,
+            "avg_volume": 1794889,
+            "day_change_pct": 3.23,
+            "eps": 4.93,
+            "ma25": 121.03,
+            "pct_above_ma25": 3.05,
+            "ma50": 117.23,
+            "pct_above_ma50": 6.39,
+            "ma125": 101.38,
+            "pct_above_ma125": 23.02,
+            "symbol": "BG",
+            "sector": "Consumer Staples"
+          }
+        ]
+      },
+      "screener_config": {
+        "strict_note": "Energy/Industrials/Utilities/Materials/Staples",
+        "relaxed_note": "Gold/Copper — 放宽价格、市值、EPS、均线条件"
+      }
     }
   ],
-  "updated_at": "2026-03-24 14:45 ET"
+  "updated_at": "2026-03-24 14:59 ET"
 }
