@@ -1,0 +1,45 @@
+name: 📈 Daily Stock Screener
+
+on:
+  schedule:
+    # 每个交易日 美东时间 4:30PM (UTC 21:30) 收盘后运行
+    - cron: '30 21 * * 1-5'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  stock-screener:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许写入 docs/data/
+
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install yfinance pandas requests pytz
+
+      - name: 🚀 Run stock screener
+        env:
+          SERVERCHAN_KEY:  ${{ secrets.SERVERCHAN_KEY }}
+          WXPUSHER_TOKEN:  ${{ secrets.WXPUSHER_TOKEN }}
+          WXPUSHER_UIDS:   ${{ secrets.WXPUSHER_UIDS }}
+        run: |
+          python stock_screener.py
+
+      - name: 💾 Commit updated JSON
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/stock_screener.json
+          git diff --staged --quiet || git commit -m "📈 Update stock screener $(date -u +'%Y-%m-%d')"
+          git push
