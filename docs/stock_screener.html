@@ -1,201 +1,50 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日强势股筛选</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0d1117; color: #e6edf3;
-      padding: 20px; min-height: 100vh;
-    }
+name: 📈 Daily Stock Screener
 
-    .header { text-align: center; margin-bottom: 24px; }
-    .header h1 { font-size: 1.4rem; font-weight: 700; color: #58a6ff; }
-    .header .sub { font-size: 0.75rem; color: #8b949e; margin-top: 4px; }
+on:
+  schedule:
+    # 美东时间（UTC-4/5），每个交易日三次运行：
+    # 盘中  美东 14:00 = UTC 18:00  (下午2点，盘中动态)
+    # 盘中  美东 15:30 = UTC 19:30  (收盘前30分钟)
+    # 收盘后 美东 16:30 = UTC 20:30  (收盘后最终结果)
+    - cron: '0 18 * * 1-5'
+    - cron: '30 19 * * 1-5'
+    - cron: '30 20 * * 1-5'
+  workflow_dispatch:  # 允许手动触发
 
-    .etf-bar {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 6px; margin-bottom: 24px;
-    }
-    .etf-chip {
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 8px; padding: 8px 10px; text-align: center;
-    }
-    .etf-chip.leading { border-color: #3fb950; background: #0d2016; }
-    .etf-chip.falling { opacity: 0.5; }
-    .chip-name   { font-size: 0.62rem; color: #8b949e; margin-bottom: 2px; }
-    .chip-ticker { font-size: 0.8rem;  font-weight: 700; }
-    .chip-pct    { font-size: 0.9rem;  font-weight: 700; margin-top: 2px; }
+jobs:
+  stock-screener:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许写入 docs/data/
 
-    .sectors-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 14px;
-    }
-    .sector-block {
-      background: #161b22; border: 1px solid #30363d;
-      border-radius: 10px; overflow: hidden;
-    }
-    .sector-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 11px 14px; border-bottom: 1px solid #30363d;
-      background: #0d1117;
-    }
-    .sector-title { font-size: 0.85rem; font-weight: 700; }
-    .etf-badge {
-      font-size: 0.68rem; background: #21262d;
-      border: 1px solid #30363d; border-radius: 6px;
-      padding: 3px 8px; color: #8b949e;
-    }
-    .stock-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 14px; border-bottom: 1px solid #21262d;
-    }
-    .stock-row:last-child { border-bottom: none; }
-    .rank { font-size: 0.9rem; width: 22px; flex-shrink: 0; }
-    .stock-main { flex: 1; }
-    .stock-symbol { font-size: 0.95rem; font-weight: 700; }
-    .stock-metas  { display: flex; gap: 5px; margin-top: 3px; flex-wrap: wrap; }
-    .ma-pill {
-      font-size: 0.6rem; background: #0d2016;
-      color: #3fb950; border-radius: 4px; padding: 1px 5px;
-    }
-    .meta-dim { font-size: 0.6rem; color: #484f58; }
-    .stock-right { text-align: right; flex-shrink: 0; }
-    .day-chg { font-size: 1rem; font-weight: 700; }
-    .stock-price { font-size: 0.7rem; color: #8b949e; margin-top: 2px; }
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    .pos { color: #3fb950; }
-    .neg { color: #f85149; }
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-    .no-stocks { padding: 16px; font-size: 0.73rem; color: #484f58; text-align: center; }
+      - name: 📦 Install dependencies
+        run: |
+          pip install yfinance pandas requests pytz
 
-    .config-bar {
-      margin-top: 18px; background: #161b22;
-      border: 1px solid #30363d; border-radius: 8px;
-      padding: 11px 16px; display: flex; flex-wrap: wrap; gap: 12px;
-    }
-    .config-item { font-size: 0.67rem; color: #8b949e; }
-    .config-item span { color: #e6edf3; font-weight: 600; }
+      - name: 🚀 Run stock screener
+        env:
+          SERVERCHAN_KEY:  ${{ secrets.SERVERCHAN_KEY }}
+          WXPUSHER_TOKEN:  ${{ secrets.WXPUSHER_TOKEN }}
+          WXPUSHER_UIDS:   ${{ secrets.WXPUSHER_UIDS }}
+        run: |
+          python stock_screener.py
 
-    .footer { text-align: center; font-size: 0.62rem; color: #484f58; margin-top: 14px; }
-    .loading { text-align: center; color: #8b949e; padding: 36px; }
-  </style>
-</head>
-<body>
-
-<div class="header">
-  <h1>📈 每日强势股筛选</h1>
-  <div class="sub" id="updated-at">加载中...</div>
-</div>
-
-<div class="etf-bar" id="etf-bar"><div class="loading">加载中...</div></div>
-<div class="sectors-grid" id="sectors-grid"></div>
-
-<div class="config-bar">
-  <div class="config-item">价格 ≥ <span>$100</span></div>
-  <div class="config-item">市值 ≥ <span>$15B</span></div>
-  <div class="config-item">成交量 ≥ <span>300K</span></div>
-  <div class="config-item">EPS ≥ <span>0.25</span></div>
-  <div class="config-item">均线 <span>MA25 +0.1% / MA50 +0.2% / MA125 +0.7%</span></div>
-  <div class="config-item" style="color:#c9a84c">🥇🔶 Gold/Copper 使用放宽条件</div>
-</div>
-
-<div class="footer">数据来源: Yahoo Finance &nbsp;|&nbsp; 仅供参考，不构成投资建议</div>
-
-<script>
-const RANK = ['🥇','🥈','🥉'];
-const pCls = v => v >= 0 ? 'pos' : 'neg';
-const pStr = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
-
-async function load() {
-  try {
-    const res = await fetch('./data/stock_screener.json?t=' + Date.now());
-    if (!res.ok) throw new Error('暂无数据，等待首次运行');
-    render((await res.json()).latest);
-  } catch(e) {
-    document.getElementById('etf-bar').innerHTML =
-      `<div class="loading">⚠️ ${e.message}<br><small>每个交易日收盘后自动更新</small></div>`;
-  }
-}
-
-function render(r) {
-  if (!r) return;
-  document.getElementById('updated-at').textContent = '更新时间: ' + r.generated_at;
-
-  // ETF 总览栏（所有板块，按涨幅排序）
-  const bar = document.getElementById('etf-bar');
-  bar.innerHTML = '';
-  Object.entries(r.sector_perf || {})
-    .sort((a, b) => b[1].pct - a[1].pct)
-    .forEach(([name, info]) => {
-      bar.innerHTML += `
-        <div class="etf-chip ${info.is_leading ? 'leading' : 'falling'}">
-          <div class="chip-name">${info.emoji||''} ${name}</div>
-          <div class="chip-ticker">${info.etf}</div>
-          <div class="chip-pct ${pCls(info.pct)}">${pStr(info.pct)}</div>
-        </div>`;
-    });
-
-  // 每个上涨板块 → 独立卡片，各显示 TOP 3
-  const grid = document.getElementById('sectors-grid');
-  grid.innerHTML = '';
-  const leading = r.leading_sectors || [];
-
-  if (!leading.length) {
-    grid.innerHTML = '<div class="loading">今日所有板块下跌，无筛选结果</div>';
-    return;
-  }
-
-  leading.forEach(sName => {
-    const info   = (r.sector_perf || {})[sName] || {};
-    const stocks = (r.results_by_sector || {})[sName] || [];
-
-    let rows = stocks.length === 0
-      ? `<div class="no-stocks">无股票通过筛选条件</div>`
-      : stocks.map((s, i) => {
-          const ma25  = s.pct_above_ma25  != null ? `MA25 +${s.pct_above_ma25.toFixed(1)}%`   : '';
-          const ma50  = s.pct_above_ma50  != null ? `MA50 +${s.pct_above_ma50.toFixed(1)}%`   : '';
-          const ma125 = s.pct_above_ma125 != null ? `MA125 +${s.pct_above_ma125.toFixed(1)}%` : '';
-          const mcap  = s.market_cap_b    != null ? `$${s.market_cap_b}B` : '';
-          return `
-            <div class="stock-row">
-              <div class="rank">${RANK[i]||'#'+(i+1)}</div>
-              <div class="stock-main">
-                <div class="stock-symbol">${s.symbol}</div>
-                <div class="stock-metas">
-                  ${ma25  ? `<span class="ma-pill">${ma25}</span>`   : ''}
-                  ${ma50  ? `<span class="ma-pill">${ma50}</span>`   : ''}
-                  ${ma125 ? `<span class="ma-pill">${ma125}</span>`  : ''}
-                  ${mcap  ? `<span class="meta-dim">${mcap}</span>`  : ''}
-                </div>
-              </div>
-              <div class="stock-right">
-                <div class="day-chg ${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</div>
-                <div class="stock-price">$${s.price}</div>
-              </div>
-            </div>`;
-        }).join('');
-
-    grid.innerHTML += `
-      <div class="sector-block">
-        <div class="sector-header">
-          <div class="sector-title">${info.emoji||''} ${sName}</div>
-          <div class="etf-badge">
-            ${info.etf} $${info.price}
-            <span class="${pCls(info.pct)}" style="font-weight:700">${pStr(info.pct)}</span>
-          </div>
-        </div>
-        ${rows}
-      </div>`;
-  });
-}
-
-load();
-</script>
-</body>
-</html>
+      - name: 💾 Commit updated JSON
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/stock_screener.json
+          git diff --staged --quiet || git commit -m "📈 Update stock screener $(date -u +'%Y-%m-%d')"
+          git push
