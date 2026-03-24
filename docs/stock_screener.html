@@ -1,50 +1,286 @@
-name: 📈 Daily Stock Screener
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日股票分析</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0d1117; color: #e6edf3; padding: 20px; min-height: 100vh;
+    }
 
-on:
-  schedule:
-    # 美东时间（UTC-4/5），每个交易日三次运行：
-    # 盘中  美东 14:00 = UTC 18:00  (下午2点，盘中动态)
-    # 盘中  美东 15:30 = UTC 19:30  (收盘前30分钟)
-    # 收盘后 美东 16:30 = UTC 20:30  (收盘后最终结果)
-    - cron: '0 18 * * 1-5'
-    - cron: '30 19 * * 1-5'
-    - cron: '30 20 * * 1-5'
-  workflow_dispatch:  # 允许手动触发
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { font-size: 1.35rem; font-weight: 700; color: #58a6ff; }
+    .header .sub { font-size: 0.72rem; color: #8b949e; margin-top: 4px; }
 
-jobs:
-  stock-screener:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # 允许写入 docs/data/
+    /* Tab nav */
+    .tabs { display: flex; gap: 0; margin-bottom: 20px; width: fit-content; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; }
+    .tab-btn { background: transparent; border: none; cursor: pointer; padding: 7px 18px; font-size: 0.75rem; color: #8b949e; border-right: 1px solid #30363d; font-family: inherit; transition: all 0.15s; }
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn.active { background: #58a6ff; color: #0d1117; font-weight: 600; }
+    .tab-btn:hover:not(.active) { background: #161b22; color: #e6edf3; }
 
-    steps:
-      - name: 📥 Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+    /* ── Watchlist table ── */
+    .wl-summary { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .wl-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px; min-width: 140px; }
+    .wl-card-label { font-size: 0.65rem; color: #8b949e; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .wl-card-tickers { font-size: 0.72rem; color: #e6edf3; font-weight: 600; line-height: 1.6; }
+    .wl-card.green .wl-card-tickers { color: #3fb950; }
+    .wl-card.red   .wl-card-tickers { color: #f85149; }
+    .wl-card.up    .wl-card-tickers { color: #58a6ff; }
+    .wl-card.dn    .wl-card-tickers { color: #d29922; }
 
-      - name: 📦 Install dependencies
-        run: |
-          pip install yfinance pandas requests pytz
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    thead tr { border-bottom: 1px solid #30363d; }
+    th { text-align: left; padding: 7px 10px; font-size: 0.68rem; color: #8b949e; font-weight: 500; white-space: nowrap; }
+    th.r { text-align: right; }
+    td { padding: 7px 10px; border-bottom: 0.5px solid #21262d; white-space: nowrap; }
+    td.r { text-align: right; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
 
-      - name: 🚀 Run stock screener
-        env:
-          SERVERCHAN_KEY:  ${{ secrets.SERVERCHAN_KEY }}
-          WXPUSHER_TOKEN:  ${{ secrets.WXPUSHER_TOKEN }}
-          WXPUSHER_UIDS:   ${{ secrets.WXPUSHER_UIDS }}
-        run: |
-          python stock_screener.py
+    .sym { font-weight: 700; font-size: 0.82rem; }
+    .pos { color: #3fb950; }
+    .neg { color: #f85149; }
+    .neu { color: #8b949e; }
 
-      - name: 💾 Commit updated JSON
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/stock_screener.json
-          git diff --staged --quiet || git commit -m "📈 Update stock screener $(date -u +'%Y-%m-%d')"
-          git push
+    .badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; }
+    .badge.above { background: #0d2016; color: #3fb950; }
+    .badge.below { background: #2d1215; color: #f85149; }
+    .badge.na    { background: #21262d; color: #8b949e; }
+
+    .streak-up { color: #58a6ff; font-size: 13px; }
+    .streak-dn { color: #d29922; font-size: 13px; }
+
+    /* ── ETF bar ── */
+    .etf-bar { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; margin-bottom: 18px; }
+    .etf-chip { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 8px 10px; text-align: center; }
+    .etf-chip.leading { border-color: #3fb950; background: #0d2016; }
+    .etf-chip.falling { opacity: 0.5; }
+    .chip-name   { font-size: 0.6rem; color: #8b949e; margin-bottom: 2px; }
+    .chip-ticker { font-size: 0.8rem; font-weight: 700; }
+    .chip-pct    { font-size: 0.9rem; font-weight: 700; margin-top: 2px; }
+
+    /* ── Sector cards ── */
+    .sectors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+    .sector-block { background: #161b22; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; }
+    .sector-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #30363d; background: #0d1117; }
+    .sector-title { font-size: 0.83rem; font-weight: 700; }
+    .etf-badge { font-size: 0.67rem; background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 2px 8px; color: #8b949e; }
+    .stock-row { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 0.5px solid #21262d; }
+    .stock-row:last-child { border-bottom: none; }
+    .rank { font-size: 0.88rem; width: 22px; flex-shrink: 0; }
+    .stock-main { flex: 1; }
+    .stock-symbol { font-size: 0.92rem; font-weight: 700; }
+    .stock-metas  { display: flex; gap: 5px; margin-top: 3px; flex-wrap: wrap; }
+    .ma-pill { font-size: 0.6rem; background: #0d2016; color: #3fb950; border-radius: 4px; padding: 1px 5px; }
+    .stock-right { text-align: right; flex-shrink: 0; }
+    .day-chg { font-size: 0.98rem; font-weight: 700; }
+    .stock-price { font-size: 0.68rem; color: #8b949e; margin-top: 2px; }
+    .no-stocks { padding: 14px; font-size: 0.73rem; color: #484f58; text-align: center; }
+
+    .loading { text-align: center; color: #8b949e; padding: 32px; font-size: 0.8rem; }
+    .footer { text-align: center; font-size: 0.62rem; color: #484f58; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 每日股票分析</h1>
+  <div class="sub" id="updated-at">加载中...</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('watchlist')">📋 自选股技术分析</button>
+  <button class="tab-btn" onclick="switchTab('screener')">📈 板块强势股</button>
+</div>
+
+<!-- ── Tab A: Watchlist ── -->
+<div class="tab-panel active" id="tab-watchlist">
+  <div class="wl-summary" id="wl-summary"><div class="loading">加载中...</div></div>
+  <div class="tbl-wrap">
+    <table id="wl-table" style="display:none">
+      <thead>
+        <tr>
+          <th>股票</th>
+          <th class="r">价格</th>
+          <th class="r">今日</th>
+          <th class="r">MA20</th>
+          <th>vs MA20</th>
+          <th class="r">MA50</th>
+          <th>vs MA50</th>
+          <th>3日涨</th>
+          <th>3日跌</th>
+          <th>近3收盘</th>
+        </tr>
+      </thead>
+      <tbody id="wl-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Tab B: Screener ── -->
+<div class="tab-panel" id="tab-screener">
+  <div class="etf-bar" id="etf-bar"><div class="loading">加载中...</div></div>
+  <div class="sectors-grid" id="sectors-grid"></div>
+</div>
+
+<div class="footer">数据来源: Yahoo Finance &nbsp;|&nbsp; 仅供参考，不构成投资建议</div>
+
+<script>
+const RANK = ['🥇','🥈','🥉'];
+const pCls = v => v >= 0 ? 'pos' : 'neg';
+const pStr = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+
+function badge(above) {
+  if (above === null || above === undefined) return '<span class="badge na">N/A</span>';
+  return above
+    ? '<span class="badge above">Above</span>'
+    : '<span class="badge below">Below</span>';
+}
+
+function switchTab(t) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['watchlist','screener'][i] === t);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+}
+
+async function load() {
+  try {
+    const res  = await fetch('./data/stock_screener.json?t=' + Date.now());
+    if (!res.ok) throw new Error('暂无数据，等待首次运行');
+    const data = await res.json();
+    render(data.latest);
+  } catch(e) {
+    document.getElementById('wl-summary').innerHTML =
+      `<div class="loading">⚠️ ${e.message}<br><small>每个交易日自动更新</small></div>`;
+    document.getElementById('etf-bar').innerHTML = '';
+  }
+}
+
+function render(r) {
+  if (!r) return;
+  document.getElementById('updated-at').textContent = '更新时间: ' + r.generated_at;
+  renderWatchlist(r.watchlist || []);
+  renderScreener(r);
+}
+
+// ── Watchlist ──────────────────────────────────
+function renderWatchlist(wl) {
+  const ok     = wl.filter(r => !r.error && r.price != null);
+  const upBoth = ok.filter(r => r.above_ma20 && r.above_ma50);
+  const dnBoth = ok.filter(r => r.above_ma20 === false && r.above_ma50 === false);
+  const up3s   = ok.filter(r => r.up3);
+  const dn3s   = ok.filter(r => r.dn3);
+
+  document.getElementById('wl-summary').innerHTML = `
+    <div class="wl-card green">
+      <div class="wl-card-label">✅ MA20+MA50均上方 (${upBoth.length})</div>
+      <div class="wl-card-tickers">${upBoth.map(r=>r.symbol).join(' · ') || '无'}</div>
+    </div>
+    <div class="wl-card red">
+      <div class="wl-card-label">❌ MA20+MA50均下方 (${dnBoth.length})</div>
+      <div class="wl-card-tickers">${dnBoth.map(r=>r.symbol).join(' · ') || '无'}</div>
+    </div>
+    <div class="wl-card up">
+      <div class="wl-card-label">📈 连续3日收涨 (${up3s.length})</div>
+      <div class="wl-card-tickers">${up3s.map(r=>r.symbol).join(' · ') || '无'}</div>
+    </div>
+    <div class="wl-card dn">
+      <div class="wl-card-label">📉 连续3日收跌 (${dn3s.length})</div>
+      <div class="wl-card-tickers">${dn3s.map(r=>r.symbol).join(' · ') || '无'}</div>
+    </div>`;
+
+  const tbody = document.getElementById('wl-tbody');
+  tbody.innerHTML = wl.map(r => {
+    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="9" class="neu" style="font-size:11px">${r.error}</td></tr>`;
+    const dc    = r.day_chg ?? 0;
+    const last3 = (r.last3 || []).map(v => '$'+v.toFixed(2)).join(' → ');
+    return `<tr>
+      <td class="sym">${r.symbol}</td>
+      <td class="r">$${(r.price||0).toFixed(2)}</td>
+      <td class="r ${pCls(dc)}">${pStr(dc)}</td>
+      <td class="r neu">${r.ma20 != null ? '$'+r.ma20.toFixed(2) : '—'}</td>
+      <td>${badge(r.above_ma20)}</td>
+      <td class="r neu">${r.ma50 != null ? '$'+r.ma50.toFixed(2) : '—'}</td>
+      <td>${badge(r.above_ma50)}</td>
+      <td style="text-align:center">${r.up3 ? '<span class="streak-up">📈</span>' : '<span class="neu">—</span>'}</td>
+      <td style="text-align:center">${r.dn3 ? '<span class="streak-dn">📉</span>' : '<span class="neu">—</span>'}</td>
+      <td class="neu" style="font-size:11px">${last3}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('wl-table').style.display = 'table';
+}
+
+// ── Screener ───────────────────────────────────
+function renderScreener(r) {
+  const bar = document.getElementById('etf-bar');
+  bar.innerHTML = '';
+  Object.entries(r.sector_perf || {})
+    .sort((a,b) => b[1].pct - a[1].pct)
+    .forEach(([name, info]) => {
+      bar.innerHTML += `
+        <div class="etf-chip ${info.is_leading ? 'leading' : 'falling'}">
+          <div class="chip-name">${info.emoji||''} ${name}</div>
+          <div class="chip-ticker">${info.etf}</div>
+          <div class="chip-pct ${pCls(info.pct)}">${pStr(info.pct)}</div>
+        </div>`;
+    });
+
+  const grid    = document.getElementById('sectors-grid');
+  const leading = r.leading_sectors || [];
+  grid.innerHTML = '';
+  if (!leading.length) {
+    grid.innerHTML = '<div class="loading">今日所有板块下跌，无筛选结果</div>';
+    return;
+  }
+
+  leading.forEach(sName => {
+    const info   = (r.sector_perf||{})[sName] || {};
+    const stocks = (r.results_by_sector||{})[sName] || [];
+    let rows = stocks.length === 0
+      ? `<div class="no-stocks">无股票通过筛选条件</div>`
+      : stocks.map((s,i) => {
+          const ma25  = s.pct_above_ma25  != null ? `MA25 +${s.pct_above_ma25.toFixed(1)}%`   : '';
+          const ma50  = s.pct_above_ma50  != null ? `MA50 +${s.pct_above_ma50.toFixed(1)}%`   : '';
+          const ma125 = s.pct_above_ma125 != null ? `MA125 +${s.pct_above_ma125.toFixed(1)}%` : '';
+          return `<div class="stock-row">
+            <div class="rank">${RANK[i]||'#'+(i+1)}</div>
+            <div class="stock-main">
+              <div class="stock-symbol">${s.symbol}</div>
+              <div class="stock-metas">
+                ${ma25  ? `<span class="ma-pill">${ma25}</span>`  : ''}
+                ${ma50  ? `<span class="ma-pill">${ma50}</span>`  : ''}
+                ${ma125 ? `<span class="ma-pill">${ma125}</span>` : ''}
+              </div>
+            </div>
+            <div class="stock-right">
+              <div class="day-chg ${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</div>
+              <div class="stock-price">$${s.price}</div>
+            </div>
+          </div>`;
+        }).join('');
+
+    grid.innerHTML += `
+      <div class="sector-block">
+        <div class="sector-header">
+          <div class="sector-title">${info.emoji||''} ${sName}</div>
+          <div class="etf-badge">${info.etf} $${info.price} <span class="${pCls(info.pct)}" style="font-weight:700">${pStr(info.pct)}</span></div>
+        </div>
+        ${rows}
+      </div>`;
+  });
+}
+
+load();
+</script>
+</body>
+</html>
