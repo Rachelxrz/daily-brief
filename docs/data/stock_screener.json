@@ -1,0 +1,145 @@
+{
+  "latest": {
+    "date": "2026-03-24",
+    "generated_at": "2026-03-24 14:45 ET",
+    "leading_sectors": {
+      "Materials": 2.37,
+      "Energy": 2.12,
+      "Utilities": 1.26
+    },
+    "sector_performance": {
+      "Materials": 2.37,
+      "Energy": 2.12,
+      "Utilities": 1.26,
+      "Industrials": 0.72,
+      "Consumer Staples": 0.45
+    },
+    "screener_config": {
+      "min_price": 100,
+      "min_market_cap_b": 15,
+      "min_avg_volume": 300000,
+      "min_eps": 0.25,
+      "ma_conditions": "Close > MA25(0.1%), MA50(0.2%), MA125(0.7%)"
+    },
+    "top_stocks": [
+      {
+        "price": 245.56,
+        "market_cap_b": 72.4,
+        "avg_volume": 2341494,
+        "day_change_pct": 5.6,
+        "eps": 13.23,
+        "ma25": 216.64,
+        "pct_above_ma25": 13.35,
+        "ma50": 200.57,
+        "pct_above_ma50": 22.43,
+        "ma125": 191.18,
+        "pct_above_ma125": 28.44,
+        "symbol": "MPC",
+        "sector": "Energy"
+      },
+      {
+        "price": 126.45,
+        "market_cap_b": 19.4,
+        "avg_volume": 2920958,
+        "day_change_pct": 5.22,
+        "eps": 8.97,
+        "ma25": 111.8,
+        "pct_above_ma25": 13.11,
+        "ma50": 101.27,
+        "pct_above_ma50": 24.87,
+        "ma125": 89.65,
+        "pct_above_ma125": 41.05,
+        "symbol": "CF",
+        "sector": "Materials"
+      },
+      {
+        "price": 185.2,
+        "market_cap_b": 74.2,
+        "avg_volume": 2849096,
+        "day_change_pct": 4.77,
+        "eps": 10.78,
+        "ma25": 165.05,
+        "pct_above_ma25": 12.21,
+        "ma50": 155.48,
+        "pct_above_ma50": 19.12,
+        "ma125": 142.26,
+        "pct_above_ma125": 30.18,
+        "symbol": "PSX",
+        "sector": "Energy"
+      }
+    ]
+  },
+  "history": [
+    {
+      "date": "2026-03-24",
+      "generated_at": "2026-03-24 14:45 ET",
+      "leading_sectors": {
+        "Materials": 2.37,
+        "Energy": 2.12,
+        "Utilities": 1.26
+      },
+      "sector_performance": {
+        "Materials": 2.37,
+        "Energy": 2.12,
+        "Utilities": 1.26,
+        "Industrials": 0.72,
+        "Consumer Staples": 0.45
+      },
+      "screener_config": {
+        "min_price": 100,
+        "min_market_cap_b": 15,
+        "min_avg_volume": 300000,
+        "min_eps": 0.25,
+        "ma_conditions": "Close > MA25(0.1%), MA50(0.2%), MA125(0.7%)"
+      },
+      "top_stocks": [
+        {
+          "price": 245.56,
+          "market_cap_b": 72.4,
+          "avg_volume": 2341494,
+          "day_change_pct": 5.6,
+          "eps": 13.23,
+          "ma25": 216.64,
+          "pct_above_ma25": 13.35,
+          "ma50": 200.57,
+          "pct_above_ma50": 22.43,
+          "ma125": 191.18,
+          "pct_above_ma125": 28.44,
+          "symbol": "MPC",
+          "sector": "Energy"
+        },
+        {
+          "price": 126.45,
+          "market_cap_b": 19.4,
+          "avg_volume": 2920958,
+          "day_change_pct": 5.22,
+          "eps": 8.97,
+          "ma25": 111.8,
+          "pct_above_ma25": 13.11,
+          "ma50": 101.27,
+          "pct_above_ma50": 24.87,
+          "ma125": 89.65,
+          "pct_above_ma125": 41.05,
+          "symbol": "CF",
+          "sector": "Materials"
+        },
+        {
+          "price": 185.2,
+          "market_cap_b": 74.2,
+          "avg_volume": 2849096,
+          "day_change_pct": 4.77,
+          "eps": 10.78,
+          "ma25": 165.05,
+          "pct_above_ma25": 12.21,
+          "ma50": 155.48,
+          "pct_above_ma50": 19.12,
+          "ma125": 142.26,
+          "pct_above_ma125": 30.18,
+          "symbol": "PSX",
+          "sector": "Energy"
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-03-24 14:45 ET"
+}
