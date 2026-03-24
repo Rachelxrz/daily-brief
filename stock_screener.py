@@ -126,21 +126,44 @@ WXPUSHER_UIDS  = os.environ.get("WXPUSHER_UIDS", "").split(",")
 # 3. 获取所有板块 ETF 今日表现
 # ─────────────────────────────────────────────
 
+def get_etf_day_change(ticker_symbol):
+    """
+    获取单只 ETF 的今日涨幅，兼容盘中/收盘后两种场景。
+    优先用 fast_info 实时价格 vs 昨日收盘对比（盘中最准确）；
+    若失败则回退到 5日历史数据末两行对比。
+    """
+    t = yf.Ticker(ticker_symbol)
+
+    # 方法1: fast_info — 实时当前价 vs 昨日收盘（盘中/盘后均适用）
+    try:
+        fi      = t.fast_info
+        current = getattr(fi, "last_price", None)
+        prev    = getattr(fi, "regular_market_previous_close", None)
+        if current and prev and prev > 0:
+            pct = round((current - prev) / prev * 100, 2)
+            return pct, round(current, 2)
+    except Exception:
+        pass
+
+    # 方法2: 5日历史收盘价兜底
+    hist = t.history(period="5d")
+    if len(hist) >= 2:
+        prev = hist["Close"].iloc[-2]
+        last = hist["Close"].iloc[-1]
+        return round((last - prev) / prev * 100, 2), round(last, 2)
+
+    return 0.0, 0.0
+
+
 def get_all_sector_perf():
     print("📊 获取板块 ETF 今日表现...\n")
     perf = {}
     for sector, cfg in SECTORS.items():
         etf = cfg["etf"]
         try:
-            t    = yf.Ticker(etf)
-            hist = t.history(period="2d")
-            if len(hist) >= 2:
-                prev  = hist["Close"].iloc[-2]
-                today = hist["Close"].iloc[-1]
-                pct   = (today - prev) / prev * 100
-                price = round(today, 2)
-                perf[sector] = {"pct": round(pct, 2), "price": price, "etf": etf}
-                print(f"  {cfg['emoji']} {sector:22s} {etf:5s}: ${price:<8.2f} {pct:+.2f}%")
+            pct, price = get_etf_day_change(etf)
+            perf[sector] = {"pct": pct, "price": price, "etf": etf}
+            print(f"  {cfg['emoji']} {sector:22s} {etf:5s}: ${price:<8.2f} {pct:+.2f}%")
         except Exception as e:
             perf[sector] = {"pct": 0, "price": 0, "etf": etf}
             print(f"  ⚠️ {sector} ({etf}) 获取失败: {e}")
@@ -155,7 +178,9 @@ def passes_screener(ticker_obj, hist_1y, cfg):
     metrics = {}
     try:
         info  = ticker_obj.fast_info
-        price = getattr(info, "last_price", None) or hist_1y["Close"].iloc[-1]
+        # 优先用实时价格，回退用历史收盘
+        current = getattr(info, "last_price", None)
+        price = current if current else hist_1y["Close"].iloc[-1]
         metrics["price"] = round(price, 2)
         if price < cfg["min_price"]:
             return False, metrics
@@ -171,9 +196,21 @@ def passes_screener(ticker_obj, hist_1y, cfg):
             return False, metrics
 
         if len(hist_1y) >= 2:
-            prev = hist_1y["Close"].iloc[-2]
-            curr = hist_1y["Close"].iloc[-1]
-            metrics["day_change_pct"] = round((curr - prev) / prev * 100, 2)
+            # 优先用 fast_info 实时价格（盘中准确）
+            try:
+                fi      = ticker_obj.fast_info
+                current = getattr(fi, "last_price", None)
+                prev    = getattr(fi, "regular_market_previous_close", None)
+                if current and prev and prev > 0:
+                    metrics["day_change_pct"] = round((current - prev) / prev * 100, 2)
+                    metrics["price"] = round(current, 2)  # 同步更新实时价格
+                else:
+                    raise ValueError("fast_info 无数据")
+            except Exception:
+                # 回退：用历史数据末两行
+                prev = hist_1y["Close"].iloc[-2]
+                curr = hist_1y["Close"].iloc[-1]
+                metrics["day_change_pct"] = round((curr - prev) / prev * 100, 2)
         else:
             metrics["day_change_pct"] = 0
 
