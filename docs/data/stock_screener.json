@@ -1,555 +1,1235 @@
 {
   "latest": {
-    "date": "2026-06-08",
-    "generated_at": "2026-06-08 18:54 ET",
+    "date": "2026-06-09",
+    "generated_at": "2026-06-09 18:56 ET",
     "watchlist": [
       {
         "symbol": "ALB",
-        "price": 149.84,
-        "day_chg": -3.6,
-        "ma20": 176.57,
-        "ma50": 183.7,
+        "price": 152.79,
+        "day_chg": 1.97,
+        "ma20": 173.71,
+        "ma50": 183.17,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
-        "dn3": true,
+        "dn3": false,
         "last3": [
-          165.65,
           155.44,
-          149.84
+          149.84,
+          152.79
         ]
       },
       {
         "symbol": "ANET",
-        "price": 156.4,
-        "day_chg": 1.38,
-        "ma20": 153.0,
-        "ma50": 152.95,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          166.01,
-          154.27,
-          156.4
-        ]
-      },
-      {
-        "symbol": "AVGO",
-        "price": 396.6,
-        "day_chg": 2.82,
-        "ma20": 427.35,
-        "ma50": 400.15,
+        "price": 152.16,
+        "day_chg": -2.71,
+        "ma20": 153.78,
+        "ma50": 153.58,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          418.91,
+          154.27,
+          156.4,
+          152.16
+        ]
+      },
+      {
+        "symbol": "AVGO",
+        "price": 392.16,
+        "day_chg": -1.12,
+        "ma20": 425.54,
+        "ma50": 401.98,
+        "above_ma20": false,
+        "above_ma50": false,
+        "up3": false,
+        "dn3": false,
+        "last3": [
           385.73,
-          396.6
+          396.6,
+          392.16
         ]
       },
       {
         "symbol": "BDRY",
         "price": 12.37,
-        "day_chg": -2.6,
-        "ma20": 12.82,
-        "ma50": 11.8,
+        "day_chg": 0.0,
+        "ma20": 12.8,
+        "ma50": 11.85,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          12.66,
           12.7,
+          12.37,
           12.37
         ]
       },
       {
         "symbol": "CEG",
-        "price": 250.67,
-        "day_chg": -1.63,
-        "ma20": 276.63,
-        "ma50": 288.09,
+        "price": 251.65,
+        "day_chg": 0.39,
+        "ma20": 274.26,
+        "ma50": 287.1,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
-        "dn3": true,
+        "dn3": false,
         "last3": [
-          264.59,
           254.83,
-          250.67
+          250.67,
+          251.65
         ]
       },
       {
         "symbol": "CIEN",
-        "price": 466.67,
-        "day_chg": -4.41,
-        "ma20": 565.86,
-        "ma50": 518.6,
+        "price": 439.34,
+        "day_chg": -5.86,
+        "ma20": 558.75,
+        "ma50": 519.36,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": true,
         "last3": [
-          535.63,
           488.21,
-          466.67
+          466.67,
+          439.34
         ]
       },
       {
         "symbol": "COHR",
-        "price": 401.93,
-        "day_chg": 6.62,
-        "ma20": 384.17,
-        "ma50": 336.7,
-        "above_ma20": true,
+        "price": 355.94,
+        "day_chg": -11.44,
+        "ma20": 382.98,
+        "ma50": 338.95,
+        "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          421.9,
           376.99,
-          401.93
+          401.93,
+          355.94
         ]
       },
       {
         "symbol": "COPX",
-        "price": 81.29,
-        "day_chg": 0.81,
-        "ma20": 86.44,
-        "ma50": 83.1,
+        "price": 80.14,
+        "day_chg": -1.41,
+        "ma20": 86.07,
+        "ma50": 83.27,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          90.22,
           80.64,
-          81.29
+          81.29,
+          80.14
         ]
       },
       {
         "symbol": "ETHA",
-        "price": 12.72,
-        "day_chg": 7.16,
-        "ma20": 15.42,
-        "ma50": 16.4,
+        "price": 12.48,
+        "day_chg": -1.89,
+        "ma20": 15.16,
+        "ma50": 16.35,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          13.39,
           11.87,
-          12.72
+          12.72,
+          12.48
         ]
       },
       {
         "symbol": "FRO",
-        "price": 35.01,
-        "day_chg": -0.45,
-        "ma20": 36.34,
-        "ma50": 36.07,
-        "above_ma20": false,
-        "above_ma50": false,
+        "price": 36.27,
+        "day_chg": 3.6,
+        "ma20": 36.25,
+        "ma50": 36.12,
+        "above_ma20": true,
+        "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          34.16,
           35.17,
-          35.01
+          35.01,
+          36.27
         ]
       },
       {
         "symbol": "GEV",
-        "price": 933.85,
-        "day_chg": 0.03,
-        "ma20": 1012.78,
-        "ma50": 1008.84,
+        "price": 920.15,
+        "day_chg": -1.47,
+        "ma20": 1005.13,
+        "ma50": 1010.18,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          963.33,
           933.61,
-          933.85
+          933.85,
+          920.15
         ]
       },
       {
         "symbol": "GS",
-        "price": 1045.0,
-        "day_chg": 0.61,
-        "ma20": 995.07,
-        "ma50": 936.73,
+        "price": 1032.01,
+        "day_chg": -1.24,
+        "ma20": 999.63,
+        "ma50": 941.38,
         "above_ma20": true,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          1092.61,
           1038.68,
-          1045.0
+          1045.0,
+          1032.01
         ]
       },
       {
         "symbol": "HEWJ",
-        "price": 62.18,
-        "day_chg": 1.25,
-        "ma20": 61.92,
-        "ma50": 59.94,
-        "above_ma20": true,
+        "price": 61.66,
+        "day_chg": -0.84,
+        "ma20": 61.94,
+        "ma50": 60.08,
+        "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          63.64,
           61.41,
-          62.18
+          62.18,
+          61.66
         ]
       },
       {
         "symbol": "LITE",
-        "price": 895.4,
-        "day_chg": 3.68,
-        "ma20": 935.39,
-        "ma50": 887.51,
+        "price": 821.76,
+        "day_chg": -8.22,
+        "ma20": 923.83,
+        "ma50": 889.89,
         "above_ma20": false,
-        "above_ma50": true,
+        "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          945.08,
           863.66,
-          895.4
+          895.4,
+          821.76
         ]
       },
       {
         "symbol": "MP",
-        "price": 57.58,
-        "day_chg": -2.7,
-        "ma20": 63.43,
-        "ma50": 61.26,
+        "price": 54.3,
+        "day_chg": -5.7,
+        "ma20": 62.78,
+        "ma50": 61.31,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": true,
         "last3": [
-          65.46,
           59.18,
-          57.58
+          57.58,
+          54.3
         ]
       },
       {
         "symbol": "NEE",
-        "price": 84.01,
-        "day_chg": -2.13,
-        "ma20": 88.31,
-        "ma50": 91.08,
+        "price": 84.83,
+        "day_chg": 0.98,
+        "ma20": 87.85,
+        "ma50": 90.96,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          85.06,
           85.84,
-          84.01
+          84.01,
+          84.83
         ]
       },
       {
         "symbol": "NVDA",
-        "price": 208.64,
-        "day_chg": 1.73,
-        "ma20": 218.56,
-        "ma50": 203.97,
+        "price": 208.19,
+        "day_chg": -0.22,
+        "ma20": 218.01,
+        "ma50": 204.79,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          218.66,
           205.1,
-          208.64
+          208.64,
+          208.19
         ]
       },
       {
         "symbol": "PLTR",
-        "price": 136.47,
-        "day_chg": 0.69,
-        "ma20": 139.51,
-        "ma50": 140.68,
+        "price": 132.07,
+        "day_chg": -3.22,
+        "ma20": 139.27,
+        "ma50": 140.46,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          141.7,
           135.53,
-          136.47
+          136.47,
+          132.07
         ]
       },
       {
         "symbol": "PWR",
-        "price": 693.81,
-        "day_chg": -0.19,
-        "ma20": 729.67,
-        "ma50": 668.62,
+        "price": 691.95,
+        "day_chg": -0.27,
+        "ma20": 725.2,
+        "ma50": 671.46,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
-        "dn3": false,
+        "dn3": true,
         "last3": [
-          719.17,
           695.11,
-          693.81
+          693.81,
+          691.95
         ]
       },
       {
         "symbol": "VRT",
-        "price": 300.57,
-        "day_chg": 0.02,
-        "ma20": 333.45,
-        "ma50": 314.04,
+        "price": 289.52,
+        "day_chg": -3.68,
+        "ma20": 329.53,
+        "ma50": 314.81,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
-          323.92,
           300.51,
-          300.57
+          300.57,
+          289.52
         ]
       },
       {
         "symbol": "VST",
-        "price": 146.9,
-        "day_chg": -1.25,
-        "ma20": 150.25,
-        "ma50": 154.27,
+        "price": 146.22,
+        "day_chg": -0.46,
+        "ma20": 149.96,
+        "ma50": 154.09,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": true,
         "last3": [
-          153.7,
           148.76,
-          146.9
+          146.9,
+          146.22
         ]
       },
       {
         "symbol": "MPWR",
-        "price": 1559.18,
-        "day_chg": 5.28,
-        "ma20": 1588.32,
-        "ma50": 1481.06,
+        "price": 1531.98,
+        "day_chg": -1.74,
+        "ma20": 1581.86,
+        "ma50": 1490.68,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          1652.6,
           1481.05,
-          1559.18
+          1559.18,
+          1531.98
         ]
       },
       {
         "symbol": "ADI",
-        "price": 403.89,
-        "day_chg": 0.62,
-        "ma20": 414.08,
-        "ma50": 384.84,
+        "price": 404.62,
+        "day_chg": 0.18,
+        "ma20": 413.23,
+        "ma50": 386.8,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          428.76,
           401.39,
-          403.89
+          403.89,
+          404.62
         ]
       },
       {
         "symbol": "GOOG",
-        "price": 361.17,
-        "day_chg": -1.25,
-        "ma20": 380.05,
-        "ma50": 353.45,
+        "price": 362.29,
+        "day_chg": 0.31,
+        "ma20": 378.62,
+        "ma50": 355.02,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          369.27,
-          365.76,
-          361.17
+          365.54,
+          361.17,
+          362.29
         ]
       },
       {
         "symbol": "NBIS",
-        "price": 218.0,
-        "day_chg": -4.31,
-        "ma20": 219.69,
-        "ma50": 174.86,
+        "price": 220.12,
+        "day_chg": 0.97,
+        "ma20": 221.39,
+        "ma50": 177.25,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          259.67,
           227.81,
-          218.0
+          218.0,
+          220.12
         ]
       },
       {
         "symbol": "MPC",
-        "price": 266.17,
-        "day_chg": 1.59,
-        "ma20": 255.7,
-        "ma50": 242.59,
+        "price": 258.15,
+        "day_chg": -3.01,
+        "ma20": 256.03,
+        "ma50": 242.73,
         "above_ma20": true,
         "above_ma50": true,
         "up3": false,
         "dn3": false,
         "last3": [
-          267.05,
           262.01,
-          266.17
+          266.17,
+          258.15
         ]
       }
     ],
     "leading_sectors": [
-      "Energy",
-      "Copper",
-      "Gold"
+      "Materials",
+      "Consumer Staples",
+      "Industrials",
+      "Utilities"
     ],
     "sector_perf": {
       "Energy": {
-        "pct": 1.14,
-        "price": 58.33,
+        "pct": -1.61,
+        "price": 57.39,
         "etf": "XLE",
         "etf_name": "Energy Select Sector SPDR",
         "emoji": "⛽",
-        "is_leading": true
+        "is_leading": false
       },
       "Industrials": {
-        "pct": -0.32,
-        "price": 173.63,
+        "pct": 1.13,
+        "price": 175.6,
         "etf": "XLI",
         "etf_name": "Industrial Select Sector SPDR",
         "emoji": "🏗️",
-        "is_leading": false
+        "is_leading": true
       },
       "Utilities": {
-        "pct": -1.87,
-        "price": 43.52,
+        "pct": 1.06,
+        "price": 43.98,
         "etf": "XLU",
         "etf_name": "Utilities Select Sector SPDR",
         "emoji": "🔌",
-        "is_leading": false
+        "is_leading": true
       },
       "Materials": {
-        "pct": -1.32,
-        "price": 49.96,
+        "pct": 1.62,
+        "price": 50.77,
         "etf": "XLB",
         "etf_name": "Materials Select Sector SPDR",
         "emoji": "⚗️",
-        "is_leading": false
+        "is_leading": true
       },
       "Consumer Staples": {
-        "pct": -0.44,
-        "price": 83.07,
+        "pct": 1.24,
+        "price": 84.1,
         "etf": "XLP",
         "etf_name": "Consumer Staples Select Sector SPDR",
         "emoji": "🛒",
-        "is_leading": false
+        "is_leading": true
       },
       "Gold": {
-        "pct": 0.26,
-        "price": 397.27,
+        "pct": -1.63,
+        "price": 390.78,
         "etf": "GLD",
         "etf_name": "SPDR Gold Shares",
         "emoji": "🥇",
-        "is_leading": true
+        "is_leading": false
       },
       "Copper": {
-        "pct": 0.81,
-        "price": 81.29,
+        "pct": -1.41,
+        "price": 80.14,
         "etf": "COPX",
         "etf_name": "Global X Copper Miners ETF",
         "emoji": "🔶",
-        "is_leading": true
+        "is_leading": false
       }
     },
     "results_by_sector": {
-      "Energy": [
+      "Materials": [
         {
-          "price": 140.15,
-          "market_cap_b": 74.6,
-          "avg_volume": 4057387,
-          "day_change_pct": 1.72,
-          "eps": 10.17,
-          "ma25": 137.63,
-          "pct_above_ma25": 1.83,
-          "ma50": 137.35,
-          "pct_above_ma50": 2.04,
-          "ma125": 124.23,
-          "pct_above_ma125": 12.82,
-          "symbol": "EOG",
-          "sector": "Energy"
+          "price": 227.33,
+          "market_cap_b": 20.3,
+          "avg_volume": 833657,
+          "day_change_pct": 3.6,
+          "eps": 8.23,
+          "ma25": 219.39,
+          "pct_above_ma25": 3.62,
+          "ma50": 215.25,
+          "pct_above_ma50": 5.61,
+          "ma125": 217.06,
+          "pct_above_ma125": 4.73,
+          "symbol": "PKG",
+          "sector": "Materials"
         },
         {
-          "price": 266.17,
-          "market_cap_b": 77.7,
-          "avg_volume": 2260759,
-          "day_change_pct": 1.59,
-          "eps": 15.2,
-          "ma25": 254.21,
-          "pct_above_ma25": 4.71,
-          "ma50": 242.59,
-          "pct_above_ma50": 9.72,
-          "ma125": 212.6,
-          "pct_above_ma125": 25.2,
-          "symbol": "MPC",
-          "sector": "Energy"
+          "price": 116.36,
+          "market_cap_b": 25.9,
+          "avg_volume": 1990983,
+          "day_change_pct": 3.08,
+          "eps": 6.98,
+          "ma25": 109.06,
+          "pct_above_ma25": 6.69,
+          "ma50": 108.43,
+          "pct_above_ma50": 7.31,
+          "ma125": 109.51,
+          "pct_above_ma125": 6.26,
+          "symbol": "PPG",
+          "sector": "Materials"
         },
         {
-          "price": 258.39,
-          "market_cap_b": 76.7,
-          "avg_volume": 3136877,
-          "day_change_pct": 1.0,
-          "eps": 13.69,
-          "ma25": 248.74,
-          "pct_above_ma25": 3.88,
-          "ma50": 244.18,
-          "pct_above_ma50": 5.82,
-          "ma125": 214.03,
-          "pct_above_ma125": 20.72,
-          "symbol": "VLO",
-          "sector": "Energy"
+          "price": 515.59,
+          "market_cap_b": 238.4,
+          "avg_volume": 2272153,
+          "day_change_pct": 2.72,
+          "eps": 15.06,
+          "ma25": 504.28,
+          "pct_above_ma25": 2.24,
+          "ma50": 501.84,
+          "pct_above_ma50": 2.74,
+          "ma125": 474.89,
+          "pct_above_ma125": 8.57,
+          "symbol": "LIN",
+          "sector": "Materials"
         }
       ],
-      "Copper": [
+      "Consumer Staples": [
         {
-          "price": 63.91,
-          "market_cap_b": 91.9,
-          "avg_volume": 17249046,
-          "day_change_pct": 0.85,
-          "eps": null,
-          "ma25": 63.74,
-          "pct_above_ma25": 0.27,
-          "ma50": 63.39,
-          "pct_above_ma50": 0.83,
-          "symbol": "FCX",
-          "sector": "Copper"
+          "price": 148.67,
+          "market_cap_b": 346.2,
+          "avg_volume": 9239317,
+          "day_change_pct": 2.46,
+          "eps": 6.83,
+          "ma25": 143.81,
+          "pct_above_ma25": 3.38,
+          "ma50": 144.0,
+          "pct_above_ma50": 3.25,
+          "ma125": 146.74,
+          "pct_above_ma125": 1.32,
+          "symbol": "PG",
+          "sector": "Consumer Staples"
+        },
+        {
+          "price": 126.68,
+          "market_cap_b": 24.6,
+          "avg_volume": 1781423,
+          "day_change_pct": 0.94,
+          "eps": 3.8,
+          "ma25": 124.57,
+          "pct_above_ma25": 1.69,
+          "ma50": 124.52,
+          "pct_above_ma50": 1.74,
+          "ma125": 115.45,
+          "pct_above_ma125": 9.73,
+          "symbol": "BG",
+          "sector": "Consumer Staples"
         }
       ],
-      "Gold": []
+      "Industrials": [
+        {
+          "price": 330.44,
+          "market_cap_b": 345.3,
+          "avg_volume": 5323401,
+          "day_change_pct": 2.61,
+          "eps": 8.05,
+          "ma25": 307.03,
+          "pct_above_ma25": 7.63,
+          "ma50": 300.15,
+          "pct_above_ma50": 10.09,
+          "ma125": 307.53,
+          "pct_above_ma125": 7.45,
+          "symbol": "GE",
+          "sector": "Industrials"
+        },
+        {
+          "price": 142.42,
+          "market_cap_b": 79.8,
+          "avg_volume": 3011164,
+          "day_change_pct": 2.41,
+          "eps": 4.33,
+          "ma25": 138.77,
+          "pct_above_ma25": 2.63,
+          "ma50": 138.72,
+          "pct_above_ma50": 2.67,
+          "ma125": 140.38,
+          "pct_above_ma125": 1.45,
+          "symbol": "EMR",
+          "sector": "Industrials"
+        },
+        {
+          "price": 271.28,
+          "market_cap_b": 161.1,
+          "avg_volume": 3548755,
+          "day_change_pct": 0.97,
+          "eps": 12.14,
+          "ma25": 266.49,
+          "pct_above_ma25": 1.8,
+          "ma50": 259.77,
+          "pct_above_ma50": 4.43,
+          "ma125": 248.34,
+          "pct_above_ma125": 9.24,
+          "symbol": "UNP",
+          "sector": "Industrials"
+        }
+      ],
+      "Utilities": []
     }
   },
   "history": [
+    {
+      "date": "2026-06-09",
+      "generated_at": "2026-06-09 18:56 ET",
+      "watchlist": [
+        {
+          "symbol": "ALB",
+          "price": 152.79,
+          "day_chg": 1.97,
+          "ma20": 173.71,
+          "ma50": 183.17,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            155.44,
+            149.84,
+            152.79
+          ]
+        },
+        {
+          "symbol": "ANET",
+          "price": 152.16,
+          "day_chg": -2.71,
+          "ma20": 153.78,
+          "ma50": 153.58,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            154.27,
+            156.4,
+            152.16
+          ]
+        },
+        {
+          "symbol": "AVGO",
+          "price": 392.16,
+          "day_chg": -1.12,
+          "ma20": 425.54,
+          "ma50": 401.98,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            385.73,
+            396.6,
+            392.16
+          ]
+        },
+        {
+          "symbol": "BDRY",
+          "price": 12.37,
+          "day_chg": 0.0,
+          "ma20": 12.8,
+          "ma50": 11.85,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            12.7,
+            12.37,
+            12.37
+          ]
+        },
+        {
+          "symbol": "CEG",
+          "price": 251.65,
+          "day_chg": 0.39,
+          "ma20": 274.26,
+          "ma50": 287.1,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            254.83,
+            250.67,
+            251.65
+          ]
+        },
+        {
+          "symbol": "CIEN",
+          "price": 439.34,
+          "day_chg": -5.86,
+          "ma20": 558.75,
+          "ma50": 519.36,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": true,
+          "last3": [
+            488.21,
+            466.67,
+            439.34
+          ]
+        },
+        {
+          "symbol": "COHR",
+          "price": 355.94,
+          "day_chg": -11.44,
+          "ma20": 382.98,
+          "ma50": 338.95,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            376.99,
+            401.93,
+            355.94
+          ]
+        },
+        {
+          "symbol": "COPX",
+          "price": 80.14,
+          "day_chg": -1.41,
+          "ma20": 86.07,
+          "ma50": 83.27,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            80.64,
+            81.29,
+            80.14
+          ]
+        },
+        {
+          "symbol": "ETHA",
+          "price": 12.48,
+          "day_chg": -1.89,
+          "ma20": 15.16,
+          "ma50": 16.35,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            11.87,
+            12.72,
+            12.48
+          ]
+        },
+        {
+          "symbol": "FRO",
+          "price": 36.27,
+          "day_chg": 3.6,
+          "ma20": 36.25,
+          "ma50": 36.12,
+          "above_ma20": true,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            35.17,
+            35.01,
+            36.27
+          ]
+        },
+        {
+          "symbol": "GEV",
+          "price": 920.15,
+          "day_chg": -1.47,
+          "ma20": 1005.13,
+          "ma50": 1010.18,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            933.61,
+            933.85,
+            920.15
+          ]
+        },
+        {
+          "symbol": "GS",
+          "price": 1032.01,
+          "day_chg": -1.24,
+          "ma20": 999.63,
+          "ma50": 941.38,
+          "above_ma20": true,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            1038.68,
+            1045.0,
+            1032.01
+          ]
+        },
+        {
+          "symbol": "HEWJ",
+          "price": 61.66,
+          "day_chg": -0.84,
+          "ma20": 61.94,
+          "ma50": 60.08,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            61.41,
+            62.18,
+            61.66
+          ]
+        },
+        {
+          "symbol": "LITE",
+          "price": 821.76,
+          "day_chg": -8.22,
+          "ma20": 923.83,
+          "ma50": 889.89,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            863.66,
+            895.4,
+            821.76
+          ]
+        },
+        {
+          "symbol": "MP",
+          "price": 54.3,
+          "day_chg": -5.7,
+          "ma20": 62.78,
+          "ma50": 61.31,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": true,
+          "last3": [
+            59.18,
+            57.58,
+            54.3
+          ]
+        },
+        {
+          "symbol": "NEE",
+          "price": 84.83,
+          "day_chg": 0.98,
+          "ma20": 87.85,
+          "ma50": 90.96,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            85.84,
+            84.01,
+            84.83
+          ]
+        },
+        {
+          "symbol": "NVDA",
+          "price": 208.19,
+          "day_chg": -0.22,
+          "ma20": 218.01,
+          "ma50": 204.79,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            205.1,
+            208.64,
+            208.19
+          ]
+        },
+        {
+          "symbol": "PLTR",
+          "price": 132.07,
+          "day_chg": -3.22,
+          "ma20": 139.27,
+          "ma50": 140.46,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            135.53,
+            136.47,
+            132.07
+          ]
+        },
+        {
+          "symbol": "PWR",
+          "price": 691.95,
+          "day_chg": -0.27,
+          "ma20": 725.2,
+          "ma50": 671.46,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": true,
+          "last3": [
+            695.11,
+            693.81,
+            691.95
+          ]
+        },
+        {
+          "symbol": "VRT",
+          "price": 289.52,
+          "day_chg": -3.68,
+          "ma20": 329.53,
+          "ma50": 314.81,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            300.51,
+            300.57,
+            289.52
+          ]
+        },
+        {
+          "symbol": "VST",
+          "price": 146.22,
+          "day_chg": -0.46,
+          "ma20": 149.96,
+          "ma50": 154.09,
+          "above_ma20": false,
+          "above_ma50": false,
+          "up3": false,
+          "dn3": true,
+          "last3": [
+            148.76,
+            146.9,
+            146.22
+          ]
+        },
+        {
+          "symbol": "MPWR",
+          "price": 1531.98,
+          "day_chg": -1.74,
+          "ma20": 1581.86,
+          "ma50": 1490.68,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            1481.05,
+            1559.18,
+            1531.98
+          ]
+        },
+        {
+          "symbol": "ADI",
+          "price": 404.62,
+          "day_chg": 0.18,
+          "ma20": 413.23,
+          "ma50": 386.8,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            401.39,
+            403.89,
+            404.62
+          ]
+        },
+        {
+          "symbol": "GOOG",
+          "price": 362.29,
+          "day_chg": 0.31,
+          "ma20": 378.62,
+          "ma50": 355.02,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            365.54,
+            361.17,
+            362.29
+          ]
+        },
+        {
+          "symbol": "NBIS",
+          "price": 220.12,
+          "day_chg": 0.97,
+          "ma20": 221.39,
+          "ma50": 177.25,
+          "above_ma20": false,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            227.81,
+            218.0,
+            220.12
+          ]
+        },
+        {
+          "symbol": "MPC",
+          "price": 258.15,
+          "day_chg": -3.01,
+          "ma20": 256.03,
+          "ma50": 242.73,
+          "above_ma20": true,
+          "above_ma50": true,
+          "up3": false,
+          "dn3": false,
+          "last3": [
+            262.01,
+            266.17,
+            258.15
+          ]
+        }
+      ],
+      "leading_sectors": [
+        "Materials",
+        "Consumer Staples",
+        "Industrials",
+        "Utilities"
+      ],
+      "sector_perf": {
+        "Energy": {
+          "pct": -1.61,
+          "price": 57.39,
+          "etf": "XLE",
+          "etf_name": "Energy Select Sector SPDR",
+          "emoji": "⛽",
+          "is_leading": false
+        },
+        "Industrials": {
+          "pct": 1.13,
+          "price": 175.6,
+          "etf": "XLI",
+          "etf_name": "Industrial Select Sector SPDR",
+          "emoji": "🏗️",
+          "is_leading": true
+        },
+        "Utilities": {
+          "pct": 1.06,
+          "price": 43.98,
+          "etf": "XLU",
+          "etf_name": "Utilities Select Sector SPDR",
+          "emoji": "🔌",
+          "is_leading": true
+        },
+        "Materials": {
+          "pct": 1.62,
+          "price": 50.77,
+          "etf": "XLB",
+          "etf_name": "Materials Select Sector SPDR",
+          "emoji": "⚗️",
+          "is_leading": true
+        },
+        "Consumer Staples": {
+          "pct": 1.24,
+          "price": 84.1,
+          "etf": "XLP",
+          "etf_name": "Consumer Staples Select Sector SPDR",
+          "emoji": "🛒",
+          "is_leading": true
+        },
+        "Gold": {
+          "pct": -1.63,
+          "price": 390.78,
+          "etf": "GLD",
+          "etf_name": "SPDR Gold Shares",
+          "emoji": "🥇",
+          "is_leading": false
+        },
+        "Copper": {
+          "pct": -1.41,
+          "price": 80.14,
+          "etf": "COPX",
+          "etf_name": "Global X Copper Miners ETF",
+          "emoji": "🔶",
+          "is_leading": false
+        }
+      },
+      "results_by_sector": {
+        "Materials": [
+          {
+            "price": 227.33,
+            "market_cap_b": 20.3,
+            "avg_volume": 833657,
+            "day_change_pct": 3.6,
+            "eps": 8.23,
+            "ma25": 219.39,
+            "pct_above_ma25": 3.62,
+            "ma50": 215.25,
+            "pct_above_ma50": 5.61,
+            "ma125": 217.06,
+            "pct_above_ma125": 4.73,
+            "symbol": "PKG",
+            "sector": "Materials"
+          },
+          {
+            "price": 116.36,
+            "market_cap_b": 25.9,
+            "avg_volume": 1990983,
+            "day_change_pct": 3.08,
+            "eps": 6.98,
+            "ma25": 109.06,
+            "pct_above_ma25": 6.69,
+            "ma50": 108.43,
+            "pct_above_ma50": 7.31,
+            "ma125": 109.51,
+            "pct_above_ma125": 6.26,
+            "symbol": "PPG",
+            "sector": "Materials"
+          },
+          {
+            "price": 515.59,
+            "market_cap_b": 238.4,
+            "avg_volume": 2272153,
+            "day_change_pct": 2.72,
+            "eps": 15.06,
+            "ma25": 504.28,
+            "pct_above_ma25": 2.24,
+            "ma50": 501.84,
+            "pct_above_ma50": 2.74,
+            "ma125": 474.89,
+            "pct_above_ma125": 8.57,
+            "symbol": "LIN",
+            "sector": "Materials"
+          }
+        ],
+        "Consumer Staples": [
+          {
+            "price": 148.67,
+            "market_cap_b": 346.2,
+            "avg_volume": 9239317,
+            "day_change_pct": 2.46,
+            "eps": 6.83,
+            "ma25": 143.81,
+            "pct_above_ma25": 3.38,
+            "ma50": 144.0,
+            "pct_above_ma50": 3.25,
+            "ma125": 146.74,
+            "pct_above_ma125": 1.32,
+            "symbol": "PG",
+            "sector": "Consumer Staples"
+          },
+          {
+            "price": 126.68,
+            "market_cap_b": 24.6,
+            "avg_volume": 1781423,
+            "day_change_pct": 0.94,
+            "eps": 3.8,
+            "ma25": 124.57,
+            "pct_above_ma25": 1.69,
+            "ma50": 124.52,
+            "pct_above_ma50": 1.74,
+            "ma125": 115.45,
+            "pct_above_ma125": 9.73,
+            "symbol": "BG",
+            "sector": "Consumer Staples"
+          }
+        ],
+        "Industrials": [
+          {
+            "price": 330.44,
+            "market_cap_b": 345.3,
+            "avg_volume": 5323401,
+            "day_change_pct": 2.61,
+            "eps": 8.05,
+            "ma25": 307.03,
+            "pct_above_ma25": 7.63,
+            "ma50": 300.15,
+            "pct_above_ma50": 10.09,
+            "ma125": 307.53,
+            "pct_above_ma125": 7.45,
+            "symbol": "GE",
+            "sector": "Industrials"
+          },
+          {
+            "price": 142.42,
+            "market_cap_b": 79.8,
+            "avg_volume": 3011164,
+            "day_change_pct": 2.41,
+            "eps": 4.33,
+            "ma25": 138.77,
+            "pct_above_ma25": 2.63,
+            "ma50": 138.72,
+            "pct_above_ma50": 2.67,
+            "ma125": 140.38,
+            "pct_above_ma125": 1.45,
+            "symbol": "EMR",
+            "sector": "Industrials"
+          },
+          {
+            "price": 271.28,
+            "market_cap_b": 161.1,
+            "avg_volume": 3548755,
+            "day_change_pct": 0.97,
+            "eps": 12.14,
+            "ma25": 266.49,
+            "pct_above_ma25": 1.8,
+            "ma50": 259.77,
+            "pct_above_ma50": 4.43,
+            "ma125": 248.34,
+            "pct_above_ma125": 9.24,
+            "symbol": "UNP",
+            "sector": "Industrials"
+          }
+        ],
+        "Utilities": []
+      }
+    },
     {
       "date": "2026-06-08",
       "generated_at": "2026-06-08 18:54 ET",
@@ -17917,572 +18597,7 @@
           }
         ]
       }
-    },
-    {
-      "date": "2026-04-27",
-      "generated_at": "2026-04-27 18:12 ET",
-      "watchlist": [
-        {
-          "symbol": "ALB",
-          "price": 199.53,
-          "day_chg": 5.95,
-          "ma20": 186.29,
-          "ma50": 176.86,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            193.14,
-            188.33,
-            199.53
-          ]
-        },
-        {
-          "symbol": "ANET",
-          "price": 172.47,
-          "day_chg": -2.51,
-          "ma20": 150.71,
-          "ma50": 140.43,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            172.55,
-            176.91,
-            172.47
-          ]
-        },
-        {
-          "symbol": "AVGO",
-          "price": 418.2,
-          "day_chg": -1.08,
-          "ma20": 370.2,
-          "ma50": 342.76,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            419.94,
-            422.76,
-            418.2
-          ]
-        },
-        {
-          "symbol": "BDRY",
-          "price": 11.27,
-          "day_chg": 3.39,
-          "ma20": 10.83,
-          "ma50": 10.93,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            11.34,
-            10.9,
-            11.27
-          ]
-        },
-        {
-          "symbol": "CEG",
-          "price": 315.17,
-          "day_chg": 0.52,
-          "ma20": 289.06,
-          "ma50": 300.33,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            292.77,
-            313.53,
-            315.17
-          ]
-        },
-        {
-          "symbol": "CIEN",
-          "price": 506.34,
-          "day_chg": -2.78,
-          "ma20": 472.63,
-          "ma50": 400.56,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            515.85,
-            520.8,
-            506.34
-          ]
-        },
-        {
-          "symbol": "COHR",
-          "price": 321.53,
-          "day_chg": -4.33,
-          "ma20": 299.26,
-          "ma50": 271.32,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            337.68,
-            336.09,
-            321.53
-          ]
-        },
-        {
-          "symbol": "COPX",
-          "price": 81.7,
-          "day_chg": -0.81,
-          "ma20": 81.63,
-          "ma50": 82.18,
-          "above_ma20": true,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            82.46,
-            82.37,
-            81.7
-          ]
-        },
-        {
-          "symbol": "ETHA",
-          "price": 17.27,
-          "day_chg": -1.43,
-          "ma20": 16.98,
-          "ma50": 16.13,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            17.49,
-            17.52,
-            17.27
-          ]
-        },
-        {
-          "symbol": "FRO",
-          "price": 35.99,
-          "day_chg": 1.12,
-          "ma20": 35.34,
-          "ma50": 34.26,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            34.9,
-            35.59,
-            35.99
-          ]
-        },
-        {
-          "symbol": "GEV",
-          "price": 1120.23,
-          "day_chg": -2.52,
-          "ma20": 983.04,
-          "ma50": 902.29,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            1149.53,
-            1149.19,
-            1120.23
-          ]
-        },
-        {
-          "symbol": "GS",
-          "price": 937.81,
-          "day_chg": 1.18,
-          "ma20": 897.47,
-          "ma50": 869.45,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            931.3,
-            926.91,
-            937.81
-          ]
-        },
-        {
-          "symbol": "HEWJ",
-          "price": 58.78,
-          "day_chg": 0.34,
-          "ma20": 58.48,
-          "ma50": 57.9,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            58.54,
-            58.58,
-            58.78
-          ]
-        },
-        {
-          "symbol": "LITE",
-          "price": 859.68,
-          "day_chg": -2.49,
-          "ma20": 837.58,
-          "ma50": 740.42,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            846.89,
-            881.64,
-            859.68
-          ]
-        },
-        {
-          "symbol": "MP",
-          "price": 64.92,
-          "day_chg": 6.9,
-          "ma20": 57.17,
-          "ma50": 57.41,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            63.32,
-            60.73,
-            64.92
-          ]
-        },
-        {
-          "symbol": "NEE",
-          "price": 94.83,
-          "day_chg": -0.47,
-          "ma20": 92.88,
-          "ma50": 92.35,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            96.25,
-            95.28,
-            94.83
-          ]
-        },
-        {
-          "symbol": "NVDA",
-          "price": 216.61,
-          "day_chg": 4.0,
-          "ma20": 190.84,
-          "ma50": 185.62,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            199.64,
-            208.27,
-            216.61
-          ]
-        },
-        {
-          "symbol": "PLTR",
-          "price": 143.1,
-          "day_chg": 0.01,
-          "ma20": 142.38,
-          "ma50": 144.63,
-          "above_ma20": true,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            141.57,
-            143.09,
-            143.1
-          ]
-        },
-        {
-          "symbol": "PWR",
-          "price": 637.28,
-          "day_chg": 1.99,
-          "ma20": 587.42,
-          "ma50": 570.33,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            633.44,
-            624.84,
-            637.28
-          ]
-        },
-        {
-          "symbol": "VRT",
-          "price": 322.43,
-          "day_chg": -0.32,
-          "ma20": 290.15,
-          "ma50": 269.72,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            321.75,
-            323.46,
-            322.43
-          ]
-        },
-        {
-          "symbol": "VST",
-          "price": 166.58,
-          "day_chg": 1.36,
-          "ma20": 157.19,
-          "ma50": 161.19,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            156.85,
-            164.35,
-            166.58
-          ]
-        },
-        {
-          "symbol": "MPWR",
-          "price": 1587.57,
-          "day_chg": -2.73,
-          "ma20": 1350.82,
-          "ma50": 1206.05,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            1592.17,
-            1632.06,
-            1587.57
-          ]
-        },
-        {
-          "symbol": "ADI",
-          "price": 392.59,
-          "day_chg": -1.75,
-          "ma20": 353.41,
-          "ma50": 338.78,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            403.88,
-            399.57,
-            392.59
-          ]
-        },
-        {
-          "symbol": "GOOG",
-          "price": 348.52,
-          "day_chg": 1.81,
-          "ma20": 319.32,
-          "ma50": 309.28,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            337.75,
-            342.32,
-            348.52
-          ]
-        },
-        {
-          "symbol": "NBIS",
-          "price": 144.96,
-          "day_chg": -1.49,
-          "ma20": 138.49,
-          "ma50": 118.36,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            157.08,
-            147.16,
-            144.96
-          ]
-        },
-        {
-          "symbol": "MPC",
-          "price": 227.21,
-          "day_chg": 1.37,
-          "ma20": 228.77,
-          "ma50": 222.66,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            221.1,
-            224.14,
-            227.21
-          ]
-        }
-      ],
-      "leading_sectors": [
-        "Industrials",
-        "Utilities"
-      ],
-      "sector_perf": {
-        "Energy": {
-          "pct": -0.18,
-          "price": 56.77,
-          "etf": "XLE",
-          "etf_name": "Energy Select Sector SPDR",
-          "emoji": "⛽",
-          "is_leading": false
-        },
-        "Industrials": {
-          "pct": 0.02,
-          "price": 172.51,
-          "etf": "XLI",
-          "etf_name": "Industrial Select Sector SPDR",
-          "emoji": "🏗️",
-          "is_leading": true
-        },
-        "Utilities": {
-          "pct": 0.02,
-          "price": 46.19,
-          "etf": "XLU",
-          "etf_name": "Utilities Select Sector SPDR",
-          "emoji": "🔌",
-          "is_leading": true
-        },
-        "Materials": {
-          "pct": -0.27,
-          "price": 51.78,
-          "etf": "XLB",
-          "etf_name": "Materials Select Sector SPDR",
-          "emoji": "⚗️",
-          "is_leading": false
-        },
-        "Consumer Staples": {
-          "pct": -1.07,
-          "price": 82.34,
-          "etf": "XLP",
-          "etf_name": "Consumer Staples Select Sector SPDR",
-          "emoji": "🛒",
-          "is_leading": false
-        },
-        "Gold": {
-          "pct": -0.78,
-          "price": 429.89,
-          "etf": "GLD",
-          "etf_name": "SPDR Gold Shares",
-          "emoji": "🥇",
-          "is_leading": false
-        },
-        "Copper": {
-          "pct": -0.81,
-          "price": 81.7,
-          "etf": "COPX",
-          "etf_name": "Global X Copper Miners ETF",
-          "emoji": "🔶",
-          "is_leading": false
-        }
-      },
-      "results_by_sector": {
-        "Industrials": [
-          {
-            "price": 637.28,
-            "market_cap_b": 95.6,
-            "avg_volume": 1078293,
-            "day_change_pct": 1.99,
-            "eps": 6.81,
-            "ma25": 582.51,
-            "pct_above_ma25": 9.4,
-            "ma50": 570.33,
-            "pct_above_ma50": 11.74,
-            "ma125": 499.62,
-            "pct_above_ma125": 27.55,
-            "symbol": "PWR",
-            "sector": "Industrials"
-          },
-          {
-            "price": 268.91,
-            "market_cap_b": 159.7,
-            "avg_volume": 3576644,
-            "day_change_pct": 0.08,
-            "eps": 12.15,
-            "ma25": 248.99,
-            "pct_above_ma25": 8.0,
-            "ma50": 252.01,
-            "pct_above_ma50": 6.71,
-            "ma125": 238.74,
-            "pct_above_ma125": 12.64,
-            "symbol": "UNP",
-            "sector": "Industrials"
-          },
-          {
-            "price": 141.47,
-            "market_cap_b": 79.5,
-            "avg_volume": 3027068,
-            "day_change_pct": 0.08,
-            "eps": 4.09,
-            "ma25": 137.4,
-            "pct_above_ma25": 2.96,
-            "ma50": 139.89,
-            "pct_above_ma50": 1.13,
-            "ma125": 139.13,
-            "pct_above_ma125": 1.68,
-            "symbol": "EMR",
-            "sector": "Industrials"
-          }
-        ],
-        "Utilities": [
-          {
-            "price": 135.07,
-            "market_cap_b": 73.4,
-            "avg_volume": 3291639,
-            "day_change_pct": 0.25,
-            "eps": 6.66,
-            "ma25": 132.73,
-            "pct_above_ma25": 1.77,
-            "ma50": 132.06,
-            "pct_above_ma50": 2.28,
-            "ma125": 123.42,
-            "pct_above_ma125": 9.44,
-            "symbol": "AEP",
-            "sector": "Utilities"
-          },
-          {
-            "price": 113.44,
-            "market_cap_b": 51.9,
-            "avg_volume": 2749467,
-            "day_change_pct": -0.18,
-            "eps": 3.91,
-            "ma25": 112.06,
-            "pct_above_ma25": 1.23,
-            "ma50": 108.45,
-            "pct_above_ma50": 4.6,
-            "ma125": 99.9,
-            "pct_above_ma125": 13.55,
-            "symbol": "ETR",
-            "sector": "Utilities"
-          }
-        ]
-      }
     }
   ],
-  "updated_at": "2026-06-08 18:54 ET"
+  "updated_at": "2026-06-09 18:56 ET"
 }
