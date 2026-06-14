@@ -800,12 +800,13 @@ function renderWheel(day) {
         <div class="candidate-header">
           <div>
             <span class="candidate-ticker">${c.ticker}</span>
+            <span class="candidate-badge" style="background:var(--accent);color:#fff">📌 卖 Put</span>
             ${c.congress_signal ? '<span class="candidate-badge">⭐国会信号</span>' : ''}
           </div>
           <span class="candidate-price">$${c.price}</span>
         </div>
         <div class="candidate-detail">
-          <strong>Strike $${c.strike}</strong>  到期 ${c.expiry}（${c.dte} 天）  IV ${(c.iv*100).toFixed(0)}%<br>
+          <strong>Strike $${c.strike}</strong>（OTM ~${((1 - c.strike/c.price)*100).toFixed(0)}%）  到期 ${c.expiry}（${c.dte} 天）  IV ${(c.iv*100).toFixed(0)}%<br>
           预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong><br>
           MA20✅  MA50✅  ADX: ${c.adx}  RSI: ${c.rsi}
         </div>

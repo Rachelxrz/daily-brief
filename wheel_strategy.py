@@ -361,11 +361,12 @@ def build_push_message(today_str: str, candidates: list,
     if candidates:
         for i, c in enumerate(candidates, 1):
             badge = "  ⭐国会信号" if c["congress_signal"] else ""
+            otm_pct = round((1 - c["strike"] / c["price"]) * 100, 1)
             lines.append(
-                f"\n{i}. {c['ticker']}  ${c['price']}{badge}"
+                f"\n{i}. 【卖Put】{c['ticker']}  ${c['price']}{badge}"
             )
             lines.append(
-                f"   Strike: ${c['strike']}  到期: {c['expiry']} ({c['dte']}天)"
+                f"   Strike: ${c['strike']}（OTM {otm_pct}%）  到期: {c['expiry']} ({c['dte']}天)"
                 f"  IV: {c['iv']:.0%}"
             )
             lines.append(
