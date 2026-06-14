@@ -760,9 +760,10 @@ function renderWheel(day) {
     return;
   }
 
-  const candidates = w.candidates || [];
-  const positions  = w.positions  || [];
-  const summary    = w.summary    || {};
+  const candidates     = w.candidates      || [];
+  const callCandidates = w.call_candidates || [];
+  const positions      = w.positions       || [];
+  const summary        = w.summary         || {};
 
   // Summary row
   const safe   = positions.filter(p => p.status === '安全').length;
@@ -815,6 +816,37 @@ function renderWheel(day) {
     candidatesHtml = '<div class="empty" style="padding:2rem"><div class="empty-icon">📭</div>今日无符合条件的候选标的</div>';
   }
 
+  // Call Candidates
+  let callHtml = '';
+  if (callCandidates.length) {
+    callHtml = callCandidates.map(c => {
+      const unrPct = c.unrealized_pct !== undefined
+        ? (c.unrealized_pct >= 0 ? '+' : '') + c.unrealized_pct.toFixed(1) + '%'
+        : '--';
+      const alreadyBadge = c.already_covered
+        ? '<span class="candidate-badge" style="background:#b45309;color:#fff">⚠️ 已有Call仓位</span>'
+        : '';
+      return `
+        <div class="candidate-card">
+          <div class="candidate-header">
+            <div>
+              <span class="candidate-ticker">${c.ticker}</span>
+              <span class="candidate-badge" style="background:#6d28d9;color:#fff">📞 卖 Call</span>
+              ${alreadyBadge}
+            </div>
+            <span class="candidate-price">$${c.price}</span>
+          </div>
+          <div class="candidate-detail">
+            持有 <strong>${c.shares} 股</strong>（可卖 ${c.contracts} 张）  成本 $${c.cost_basis}  浮盈 <strong>${unrPct}</strong><br>
+            <strong>Strike $${c.strike}</strong>（OTM ~${((c.otm_pct||0)*100).toFixed(0)}%）  到期 ${c.expiry}（${c.dte} 天）  IV ${(c.iv*100).toFixed(0)}%<br>
+            预估 Premium: <strong>~$${c.premium}/股（$${(c.premium*100).toFixed(0)}/张）</strong>
+          </div>
+        </div>`;
+    }).join('');
+  } else {
+    callHtml = '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📭</div>无可用 Covered Call 候选（需持有≥100股）</div>';
+  }
+
   // Positions
   const statusClass = { '安全': 'safe', '注意': 'warn', '危险': 'danger' };
   const statusIcon  = { '安全': '🟢', '注意': '🟡', '危险': '🔴' };
@@ -846,6 +878,8 @@ function renderWheel(day) {
       <div>
         <div class="wheel-section-label">📋 今日候选（卖 Put）</div>
         ${candidatesHtml}
+        <div class="wheel-section-label" style="margin-top:1.2rem">📞 今日候选（卖 Covered Call）</div>
+        ${callHtml}
       </div>
       <div>
         <div class="wheel-section-label">📊 当前持仓</div>
@@ -884,6 +918,7 @@ function getDemoData() {
       wheel: {
         date: today,
         candidates: [],
+        call_candidates: [],
         positions: [],
         summary: { month: today.slice(0,7), premium_earned: 0, positions_closed: 0 }
       }

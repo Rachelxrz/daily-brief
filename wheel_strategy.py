@@ -140,8 +140,8 @@ def next_option_expiry() -> tuple:
     return exp.strftime("%Y-%m-%d"), dte
 
 
-def suggest_strike(price: float) -> float:
-    """建议 Strike = 当前价 × 92%，舍入到最近整数（低价股）或 5 的倍数（高价股）。"""
+def suggest_put_strike(price: float) -> float:
+    """建议 Put Strike = 当前价 × 92%（OTM ~8%）。"""
     raw = price * 0.92
     if price < 50:
         return round(raw)
@@ -151,12 +151,22 @@ def suggest_strike(price: float) -> float:
         return round(raw / 10) * 10
 
 
-def estimate_premium(price: float, iv: float, dte: int, strike: float) -> float:
-    """简化 BS 估算 OTM Put premium（仅供参考）。"""
-    t       = max(dte, 1) / 365
-    atm_val = price * iv * math.sqrt(t) * 0.4
-    otm_pct = max(price - strike, 0) / price
-    discount = math.exp(-otm_pct * 8)
+def suggest_call_strike(price: float) -> float:
+    """建议 Call Strike = 当前价 × 108%（OTM ~8%）。"""
+    raw = price * 1.08
+    if price < 50:
+        return round(raw)
+    elif price < 200:
+        return round(raw / 5) * 5
+    else:
+        return round(raw / 10) * 10
+
+
+def estimate_premium(price: float, iv: float, dte: int, otm_pct: float) -> float:
+    """简化 BS 估算 OTM 期权 premium（Put 或 Call 均适用）。"""
+    t        = max(dte, 1) / 365
+    atm_val  = price * iv * math.sqrt(t) * 0.4
+    discount = math.exp(-abs(otm_pct) * 8)
     return max(round(atm_val * discount, 2), 0.05)
 
 
@@ -210,8 +220,9 @@ def screen_candidates(congress_set: set) -> list:
             if iv < rules["min_iv"]:
                 continue
 
-            strike  = suggest_strike(price)
-            premium = estimate_premium(price, iv, dte, strike)
+            strike  = suggest_put_strike(price)
+            otm_pct = (price - strike) / price
+            premium = estimate_premium(price, iv, dte, otm_pct)
 
             results.append({
                 "ticker":         ticker,
@@ -235,6 +246,77 @@ def screen_candidates(congress_set: set) -> list:
 
     results.sort(key=lambda r: r["iv"] * r["adx"], reverse=True)
     return results[:MAX_CANDIDATES]
+
+
+# ── Covered Call screening ────────────────────────────────────────────────
+
+def screen_covered_calls() -> list:
+    """对 wheel_positions 中的 stock 仓位生成卖 Covered Call 建议。"""
+    data    = load_watchlist()
+    stocks  = [p for p in data.get("wheel_positions", [])
+               if p.get("type") == "stock"
+               and p.get("status") == "open"
+               and p.get("shares", 0) >= 100]
+    if not stocks:
+        return []
+
+    # 已有的 short_call 仓位，避免重复建议
+    existing_calls = {p["ticker"] for p in data.get("wheel_positions", [])
+                      if p.get("type") == "short_call" and p.get("status") == "open"}
+
+    exp_str, dte = next_option_expiry()
+    results = []
+
+    log.info(f"   📋 扫描 {len(stocks)} 只股票持仓（Covered Call）")
+
+    for pos in stocks:
+        ticker    = pos["ticker"]
+        shares    = pos["shares"]
+        contracts = shares // 100
+        cost      = pos.get("cost_basis", 0)
+
+        already_covered = ticker in existing_calls
+
+        try:
+            t     = yf.Ticker(ticker)
+            price = t.fast_info.last_price
+            if not price:
+                hist  = t.history(period="5d")
+                price = float(hist["Close"].iloc[-1]) if not hist.empty else None
+            if not price:
+                continue
+
+            strike   = suggest_call_strike(price)
+            iv       = get_iv(t, price)
+            otm_pct  = (strike - price) / price
+            premium  = estimate_premium(price, iv, dte, otm_pct)
+            unreal_pct = round((price - cost) / cost * 100, 1) if cost > 0 else None
+
+            results.append({
+                "ticker":               ticker,
+                "price":                round(price, 2),
+                "shares":               shares,
+                "contracts":            contracts,
+                "cost_basis":           round(cost, 2),
+                "unrealized_pct":       unreal_pct,
+                "strike":               strike,
+                "expiry":               exp_str,
+                "dte":                  dte,
+                "premium":              premium,
+                "premium_per_contract": round(premium * 100, 0),
+                "iv":                   iv,
+                "otm_pct":              round(otm_pct * 100, 1),
+                "already_covered":      already_covered,
+            })
+            note = "  ⚠️已有Call" if already_covered else ""
+            log.info(f"   ✅ [卖Call] {ticker:6s} ${price:.2f}  Strike=${strike}"
+                     f"  OTM+{otm_pct:.0%}  IV={iv:.0%}{note}")
+
+        except Exception as e:
+            log.warning(f"   ⚠️ [卖Call] {ticker}: {e}")
+
+    results.sort(key=lambda r: r["iv"] * r["contracts"], reverse=True)
+    return results
 
 
 # ── Position tracking ─────────────────────────────────────────────────────
@@ -309,9 +391,11 @@ def calc_position_status(pos: dict, current_price: float) -> dict:
 
 
 def track_positions() -> list:
-    """读取 wheel_positions，拉取实时价格，返回状态列表。"""
+    """读取 wheel_positions 中的期权仓位（short_put / short_call），返回状态列表。"""
     data      = load_watchlist()
-    positions = [p for p in data.get("wheel_positions", []) if p.get("status") == "open"]
+    positions = [p for p in data.get("wheel_positions", [])
+                 if p.get("status") == "open"
+                 and p.get("type") in ("short_put", "short_call")]
     if not positions:
         return []
 
@@ -352,7 +436,7 @@ def monthly_summary() -> dict:
 
 # ── Push message ──────────────────────────────────────────────────────────
 
-def build_push_message(today_str: str, candidates: list,
+def build_push_message(today_str: str, candidates: list, call_candidates: list,
                        positions: list, summary: dict) -> str:
     lines = [f"🎡 Wheel Strategy 日报 {today_str}", ""]
 
@@ -380,11 +464,34 @@ def build_push_message(today_str: str, candidates: list,
         lines.append("  今日无符合条件的候选标的")
 
     # 持仓
-    lines.append("\n━━━ 📊 当前持仓 ━━━")
+    # 卖Call候选
+    lines.append("\n━━━ 📋 今日候选（卖 Covered Call） ━━━")
+    if call_candidates:
+        for i, c in enumerate(call_candidates, 1):
+            covered_note = "  ⚠️ 已有Call仓位" if c.get("already_covered") else ""
+            unreal = f"  持仓浮盈: {c['unrealized_pct']:+.1f}%" if c["unrealized_pct"] is not None else ""
+            lines.append(
+                f"\n{i}. 【卖Call】{c['ticker']}  ${c['price']}{covered_note}"
+            )
+            lines.append(
+                f"   持{c['shares']}股 → 可卖 {c['contracts']} 张{unreal}"
+            )
+            lines.append(
+                f"   Strike: ${c['strike']}（OTM +{c['otm_pct']}%）  到期: {c['expiry']} ({c['dte']}天)"
+                f"  IV: {c['iv']:.0%}"
+            )
+            lines.append(
+                f"   预估 Premium: ~${c['premium']}/股"
+                f"（${int(c['premium_per_contract'])}/张）"
+            )
+    else:
+        lines.append("  暂无持股仓位（wheel_positions 中添加 type=stock 记录）")
+
+    lines.append("\n━━━ 📊 当前期权仓位 ━━━")
     if positions:
         for p in positions:
             icon    = STATUS_COLORS.get(p["status"], "⚪")
-            pt_cn   = "卖Put" if "put" in p["type"] else "卖Call"
+            pt_cn   = "卖Put" if "put" in p["type"] else "卖Covered Call"
             dist_sign = "+" if p["dist_pct"] >= 0 else ""
             lines.append(
                 f"\n[{pt_cn}] {p['ticker']} ${p['strike']}  到期 {p['expiry']}  剩 {p['dte']} 天"
@@ -423,24 +530,29 @@ def run_wheel_strategy(dry_run: bool = False) -> dict:
     # 国会信号标的集合（用于候选加星）
     congress_set = {s["ticker"] for s in load_watchlist().get("congress_signals", [])}
 
-    log.info("\n📋 步骤 1 — 候选筛选")
+    log.info("\n📋 步骤 1 — 卖Put候选筛选")
     candidates = screen_candidates(congress_set)
     log.info(f"   → {len(candidates)} 只通过筛选")
 
-    log.info("\n📊 步骤 2 — 持仓追踪")
+    log.info("\n📋 步骤 2 — Covered Call 候选（持股仓位）")
+    call_candidates = screen_covered_calls()
+    log.info(f"   → {len(call_candidates)} 只生成建议")
+
+    log.info("\n📊 步骤 3 — 期权仓位追踪")
     positions = track_positions()
-    log.info(f"   → {len(positions)} 个活跃仓位")
+    log.info(f"   → {len(positions)} 个活跃期权仓位")
 
     summary = monthly_summary()
 
     wheel_data = {
-        "date":       today_str,
-        "candidates": candidates,
-        "positions":  positions,
-        "summary":    summary,
+        "date":            today_str,
+        "candidates":      candidates,
+        "call_candidates": call_candidates,
+        "positions":       positions,
+        "summary":         summary,
     }
 
-    message = build_push_message(today_str, candidates, positions, summary)
+    message = build_push_message(today_str, candidates, call_candidates, positions, summary)
 
     if dry_run:
         log.info("\n🔍 [Dry Run] 推送内容预览：\n" + message)

@@ -1,55 +1,26 @@
 {
   "last_updated": "2026-06-15",
   "core_holdings": [
-    {
-      "ticker": "GLD",
-      "direction": "long",
-      "weight": 0.3
-    },
-    {
-      "ticker": "WTI",
-      "direction": "long",
-      "weight": 0.2
-    },
-    {
-      "ticker": "QQQ",
-      "direction": "long",
-      "weight": 0.25
-    },
-    {
-      "ticker": "TLT",
-      "direction": "long",
-      "weight": 0.2
-    }
+    {"ticker": "GLD", "direction": "long", "weight": 0.3},
+    {"ticker": "WTI", "direction": "long", "weight": 0.2},
+    {"ticker": "QQQ", "direction": "long", "weight": 0.25},
+    {"ticker": "TLT", "direction": "long", "weight": 0.2}
   ],
   "long_term": [
-    "ALB",
-    "ANET",
-    "AVGO",
-    "BDRY",
-    "CEG",
-    "CIEN",
-    "COHR",
-    "COPX",
-    "ETHA",
-    "FRO",
-    "GEV",
-    "GS",
-    "HEWJ",
-    "LITE",
-    "MP",
-    "NEE",
-    "NVDA",
-    "PLTR",
-    "PWR",
-    "VRT",
-    "VST",
-    "MPWR",
-    "ADI",
-    "GOOG",
-    "NBIS",
-    "MPC"
+    "ALB","ANET","AVGO","BDRY","CEG","CIEN","COHR","COPX",
+    "ETHA","FRO","GEV","GS","HEWJ","LITE","MP","NEE",
+    "NVDA","PLTR","PWR","VRT","VST","MPWR","ADI","GOOG","NBIS","MPC"
   ],
   "congress_signals": [],
-  "wheel_positions": []
+  "wheel_positions": [
+    {"ticker": "NVDA",  "type": "stock", "shares": 213, "cost_basis": 234.69, "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "GLD",   "type": "stock", "shares": 372, "cost_basis": 397.22, "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "VRT",   "type": "stock", "shares": 193, "cost_basis": 229.35, "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "XBI",   "type": "stock", "shares": 292, "cost_basis": 231.67, "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "ALB",   "type": "stock", "shares": 101, "cost_basis": 198.14, "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "ETHA",  "type": "stock", "shares": 402, "cost_basis": 25.01,  "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "XLU",   "type": "stock", "shares": 101, "cost_basis": 46.17,  "opened_date": "2026-06-14", "status": "open"},
+    {"ticker": "USD",   "type": "short_put",  "strike": 75.0, "expiry": "2026-08-21", "premium_received": 0, "opened_date": "2026-06-14", "contracts": 2, "status": "open"},
+    {"ticker": "ETHA",  "type": "short_call", "strike": 32.0, "expiry": "2027-01-15", "premium_received": 0, "opened_date": "2026-06-14", "contracts": 1, "status": "open"}
+  ]
 }
