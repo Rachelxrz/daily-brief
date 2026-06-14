@@ -342,6 +342,18 @@ def save_monitor(monitor_cn: str, monitor_en: str):
     log.info(f"📌 市场监控已保存: {today}")
 
 
+def save_congress(congress_data: dict):
+    tz_cst = timezone(timedelta(hours=8))
+    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    data = load_data()
+    if today not in data:
+        data[today] = {}
+    data[today]["updated"] = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
+    data[today]["congress"] = congress_data
+    save_data(data)
+    log.info(f"🏛 国会信号已保存: {today}")
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     save_monitor("# 测试中文", "# Test English")
