@@ -70,10 +70,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp docs/data.json /tmp/data.json
+          cp docs/data.json /tmp/new_data.json
           git fetch origin main
           git reset --hard origin/main
-          cp /tmp/data.json docs/data.json
+          python merge_data.py /tmp/new_data.json docs/data.json
           git add docs/data.json
           git diff --staged --quiet || git commit -m "Daily news brief $(date +'%Y-%m-%d')"
           git push
@@ -125,10 +125,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp docs/data.json /tmp/data.json
+          cp docs/data.json /tmp/new_data.json
           git fetch origin main
           git reset --hard origin/main
-          cp /tmp/data.json docs/data.json
+          python merge_data.py /tmp/new_data.json docs/data.json
           git add docs/data.json
           git diff --staged --quiet || git commit -m "Market monitor $(date +'%Y-%m-%d')"
           git push
@@ -180,11 +180,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp docs/data.json /tmp/data.json
+          cp docs/data.json /tmp/new_data.json
           [ -f docs/data/congress_seen.json ] && cp docs/data/congress_seen.json /tmp/congress_seen.json || true
           git fetch origin main
           git reset --hard origin/main
-          cp /tmp/data.json docs/data.json
+          python merge_data.py /tmp/new_data.json docs/data.json
           [ -f /tmp/congress_seen.json ] && cp /tmp/congress_seen.json docs/data/congress_seen.json || true
           git add docs/data.json docs/data/congress_seen.json
           git diff --staged --quiet || git commit -m "congress_tracker $(date +'%Y-%m-%d')"
@@ -270,10 +270,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp docs/data.json /tmp/data.json
+          cp docs/data.json /tmp/new_data.json
           git fetch origin main
           git reset --hard origin/main
-          cp /tmp/data.json docs/data.json
+          python merge_data.py /tmp/new_data.json docs/data.json
           git add docs/data.json
           git diff --staged --quiet || git commit -m "wheel_strategy $(date +'%Y-%m-%d')"
           git push
