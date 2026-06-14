@@ -324,6 +324,39 @@
   .ai-insight-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
   .ai-insight-text { font-size: 0.78rem; line-height: 1.6; color: var(--fg); }
 
+  /* ── Wheel tab ───────────────────────────────── */
+  .wheel-summary { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .wheel-stat { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.7rem 1.1rem; min-width: 110px; text-align: center; }
+  .wheel-stat-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+  .wheel-stat-value { font-size: 1.1rem; font-weight: 600; }
+  .wheel-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1.2rem; }
+  @media (max-width: 900px) { .wheel-layout { grid-template-columns: 1fr; } }
+  .wheel-section-label { font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--muted); margin: 0.8rem 0 0.4rem; }
+  .candidate-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.5rem; }
+  .candidate-header { display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.35rem; }
+  .candidate-ticker { font-size: 1rem; font-weight: 700; color: var(--fg); }
+  .candidate-price { font-size: 0.85rem; color: var(--muted); }
+  .candidate-badge { font-size: 0.6rem; background: var(--gold); color: #0a0b0d;
+    padding: 0.1rem 0.35rem; border-radius: 3px; font-weight: 600; margin-left: 0.4rem; }
+  .candidate-detail { font-size: 0.72rem; color: var(--muted); line-height: 1.7; }
+  .candidate-detail strong { color: var(--fg); }
+  .position-card { background: var(--surface); border-radius: 6px; padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem; border-left: 3px solid var(--border); }
+  .position-card.safe   { border-left-color: var(--green); }
+  .position-card.warn   { border-left-color: var(--amber); }
+  .position-card.danger { border-left-color: var(--red); }
+  .position-header { display: flex; justify-content: space-between; font-size: 0.78rem;
+    font-weight: 600; margin-bottom: 0.25rem; }
+  .position-meta { font-size: 0.68rem; color: var(--muted); line-height: 1.6; }
+  .position-advice { font-size: 0.68rem; color: var(--accent); margin-top: 0.2rem; }
+  .wheel-source-note { font-size: 0.6rem; color: var(--muted); margin-top: 0.5rem;
+    padding: 0.4rem; border: 1px solid var(--border); border-radius: 3px; }
+
   /* ── Footer ──────────────────────────────────── */
   footer {
     text-align: center; padding: 3rem 2rem;
@@ -356,6 +389,7 @@
     <button class="tab-btn" onclick="switchTab('monitor')">📌 结构监控</button>
     <button class="tab-btn" onclick="switchTab('screener')">📈 强势股筛选</button>
     <button class="tab-btn" onclick="switchTab('congress')">🏛 国会信号</button>
+    <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel</button>
   </div>
 
   <!-- Date bar -->
@@ -391,6 +425,12 @@
   <div id="panel-congress" class="panel">
     <div id="congress-content">
       <div class="empty"><div class="empty-icon">🏛</div>加载中...</div>
+    </div>
+  </div>
+
+  <div id="panel-wheel" class="panel">
+    <div id="wheel-content">
+      <div class="empty"><div class="empty-icon">🎡</div>加载中...</div>
     </div>
   </div>
 
@@ -505,7 +545,7 @@ function selectDate(date) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener','congress'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','screener','congress','wheel'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -515,9 +555,10 @@ function switchTab(tab) {
 function render() {
   const day = allData[currentDate] || {};
 
-  if (currentTab === 'news')      renderNews(day);
+  if (currentTab === 'news')          renderNews(day);
   else if (currentTab === 'congress') renderCongress(day);
   else if (currentTab === 'monitor')  renderMonitor(day);
+  else if (currentTab === 'wheel')    renderWheel(day);
 }
 
 function renderNews(day) {
@@ -711,6 +752,111 @@ function renderCongress(day) {
     </div>`;
 }
 
+function renderWheel(day) {
+  const el = document.getElementById('wheel-content');
+  const w  = day.wheel;
+  if (!w) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🎡</div>当日无 Wheel 数据</div>';
+    return;
+  }
+
+  const candidates = w.candidates || [];
+  const positions  = w.positions  || [];
+  const summary    = w.summary    || {};
+
+  // Summary row
+  const safe   = positions.filter(p => p.status === '安全').length;
+  const warn   = positions.filter(p => p.status === '注意').length;
+  const danger = positions.filter(p => p.status === '危险').length;
+  const sumHtml = `
+    <div class="wheel-summary">
+      <div class="wheel-stat">
+        <div class="wheel-stat-label">候选数</div>
+        <div class="wheel-stat-value">${candidates.length}</div>
+      </div>
+      <div class="wheel-stat">
+        <div class="wheel-stat-label">活跃仓位</div>
+        <div class="wheel-stat-value">${positions.length}</div>
+      </div>
+      <div class="wheel-stat">
+        <div class="wheel-stat-label">安全 / 注意 / 危险</div>
+        <div class="wheel-stat-value" style="font-size:0.9rem">
+          🟢${safe} / 🟡${warn} / 🔴${danger}
+        </div>
+      </div>
+      <div class="wheel-stat">
+        <div class="wheel-stat-label">本月已收 Premium</div>
+        <div class="wheel-stat-value" style="color:var(--green)">
+          $${summary.premium_earned || 0}
+        </div>
+      </div>
+    </div>`;
+
+  // Candidates
+  let candidatesHtml = '';
+  if (candidates.length) {
+    candidatesHtml = candidates.map(c => `
+      <div class="candidate-card">
+        <div class="candidate-header">
+          <div>
+            <span class="candidate-ticker">${c.ticker}</span>
+            ${c.congress_signal ? '<span class="candidate-badge">⭐国会信号</span>' : ''}
+          </div>
+          <span class="candidate-price">$${c.price}</span>
+        </div>
+        <div class="candidate-detail">
+          <strong>Strike $${c.strike}</strong>  到期 ${c.expiry}（${c.dte} 天）  IV ${(c.iv*100).toFixed(0)}%<br>
+          预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong><br>
+          MA20✅  MA50✅  ADX: ${c.adx}  RSI: ${c.rsi}
+        </div>
+      </div>`).join('');
+  } else {
+    candidatesHtml = '<div class="empty" style="padding:2rem"><div class="empty-icon">📭</div>今日无符合条件的候选标的</div>';
+  }
+
+  // Positions
+  const statusClass = { '安全': 'safe', '注意': 'warn', '危险': 'danger' };
+  const statusIcon  = { '安全': '🟢', '注意': '🟡', '危险': '🔴' };
+  let posHtml = '';
+  if (positions.length) {
+    posHtml = positions.map(p => {
+      const cls   = statusClass[p.status] || '';
+      const icon  = statusIcon[p.status]  || '⚪';
+      const ptCn  = p.type.includes('put') ? '卖Put' : '卖Call';
+      const sign  = p.dist_pct >= 0 ? '+' : '';
+      return `
+        <div class="position-card ${cls}">
+          <div class="position-header">
+            <span>${ptCn} ${p.ticker} $${p.strike}</span>
+            <span>${icon} ${p.status}</span>
+          </div>
+          <div class="position-meta">
+            到期: ${p.expiry}（剩 ${p.dte} 天）  当前价 $${p.price}  距Strike ${sign}${p.dist_pct}%
+          </div>
+          <div class="position-advice">→ ${p.advice}</div>
+        </div>`;
+    }).join('');
+  } else {
+    posHtml = '<div class="wheel-source-note">暂无活跃仓位 — 在 watchlist.json 的 wheel_positions 中添加</div>';
+  }
+
+  el.innerHTML = sumHtml + `
+    <div class="wheel-layout">
+      <div>
+        <div class="wheel-section-label">📋 今日候选（卖 Put）</div>
+        ${candidatesHtml}
+      </div>
+      <div>
+        <div class="wheel-section-label">📊 当前持仓</div>
+        ${posHtml}
+        <div class="wheel-source-note" style="margin-top:0.8rem">
+          ⚠️ 仅供参考，不构成投资建议<br>
+          Premium 为估算值，实际以市场为准
+        </div>
+      </div>
+    </div>`;
+}
+
 function showEmpty() {
   document.getElementById('news-content').innerHTML =
     '<div class="empty"><div class="empty-icon">🌱</div>暂无数据，等待首次运行...</div>';
@@ -733,6 +879,12 @@ function getDemoData() {
         medium: [],
         watch: [],
         sector_breakdown: {}
+      },
+      wheel: {
+        date: today,
+        candidates: [],
+        positions: [],
+        summary: { month: today.slice(0,7), premium_earned: 0, positions_closed: 0 }
       }
     }
   };
