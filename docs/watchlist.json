@@ -1,0 +1,55 @@
+{
+  "last_updated": "2026-06-15",
+  "core_holdings": [
+    {
+      "ticker": "GLD",
+      "direction": "long",
+      "weight": 0.3
+    },
+    {
+      "ticker": "WTI",
+      "direction": "long",
+      "weight": 0.2
+    },
+    {
+      "ticker": "QQQ",
+      "direction": "long",
+      "weight": 0.25
+    },
+    {
+      "ticker": "TLT",
+      "direction": "long",
+      "weight": 0.2
+    }
+  ],
+  "long_term": [
+    "ALB",
+    "ANET",
+    "AVGO",
+    "BDRY",
+    "CEG",
+    "CIEN",
+    "COHR",
+    "COPX",
+    "ETHA",
+    "FRO",
+    "GEV",
+    "GS",
+    "HEWJ",
+    "LITE",
+    "MP",
+    "NEE",
+    "NVDA",
+    "PLTR",
+    "PWR",
+    "VRT",
+    "VST",
+    "MPWR",
+    "ADI",
+    "GOOG",
+    "NBIS",
+    "MPC"
+  ],
+  "congress_signals": [],
+  "wheel_positions": []
+}

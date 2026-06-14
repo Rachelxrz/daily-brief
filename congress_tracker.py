@@ -27,6 +27,7 @@ import requests
 from config import Config
 from market_monitor import push_serverchan, push_wecom, push_wxpusher
 from save_to_web import save_congress
+from watchlist_manager import add_congress_ticker, remove_expired_tickers
 from stock_screener import get_hist
 
 log = logging.getLogger(__name__)
@@ -694,6 +695,24 @@ def run_congress_tracker(dry_run: bool = False) -> dict:
     new_items = [s for s in scored if trade_key(s["trade"]) not in seen]
 
     log.info(f"   📊 强:{len(strong)} 中:{len(medium)} 弱:{len(weak)}  新增:{len(new_items)}")
+
+    # ── watchlist 集成 ────────────────────────────────────────────
+    try:
+        remove_expired_tickers()
+        for s in [*strong, *medium]:
+            t = s["trade"]
+            if t.get("transaction") == "Buy" and t.get("ticker"):
+                add_congress_ticker(
+                    ticker=t["ticker"],
+                    reason=f"{t['member']} {t['asset_type']}买入（评分{s['score']}）",
+                    members=[t["member"]],
+                    signal_score=s["score"],
+                    sector=(t["sector_info"].get("label_cn")
+                            or t["sector_info"].get("sector")
+                            or "未知"),
+                )
+    except Exception as e:
+        log.warning(f"   ⚠️ watchlist 更新失败（跳过）: {e}")
 
     ai_insight = generate_ai_insight(strong, medium, sector_breakdown)
 
