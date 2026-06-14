@@ -73,6 +73,9 @@ HEWJ, LITE, MP, NEE, NVDA, PLTR, PWR, VRT, VST, MPWR, ADI, GOOG, NBIS, MPC
 
 ## 🚧 开发中模块
 
+- [ ] **动态Watchlist管理** (`watchlist_manager.py`)
+  - 规格详见: `modules/watchlist/spec.md`
+  - 优先级: **最高**，其他模块依赖此模块
 - [ ] **国会交易信号模块** (`congress_tracker.py`)
   - 规格详见: `modules/congress/spec.md`
   - 状态详见: `modules/congress/status.md`
