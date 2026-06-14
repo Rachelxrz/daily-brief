@@ -16,6 +16,7 @@ Congressional Trading Signal Tracker
 
 import json
 import logging
+import os
 import sys
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -34,6 +35,9 @@ log = logging.getLogger(__name__)
 # 数据源 & 常量
 # ═══════════════════════════════════════════════
 HOUSE_URL = "https://raw.githubusercontent.com/TattooedHead/house-stock-watcher-data/main/data/all_transactions.json"
+
+ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
 
 RECENT_DAYS          = 7       # 信号窗口：披露日期在最近N天内
 MIN_TRADE_SIZE       = 10_000  # 层二过滤：交易规模下限（美元）
@@ -508,7 +512,8 @@ def format_trade_block(trade: dict, score: int, comparison: dict, show_score: bo
 
 
 def build_push_message(today_str: str, strong: list, medium: list, weak: list,
-                        sector_breakdown: dict, anti_signals: list) -> str:
+                        sector_breakdown: dict, anti_signals: list,
+                        ai_insight: str = "") -> str:
     lines = [f"🏛 国会交易信号 {today_str}", ""]
 
     if strong:
@@ -550,9 +555,61 @@ def build_push_message(today_str: str, strong: list, medium: list, weak: list,
         lines.append("  无")
 
     lines.append("")
+    if ai_insight:
+        lines.append("🤖 AI 解读")
+        lines.append(f"  {ai_insight}")
+        lines.append("")
     lines.append("⚠️ 仅供参考，不构成投资建议 | 数据：House Stock Watcher 社区镜像（参议院数据暂缺）")
 
     return "\n".join(lines)
+
+
+def generate_ai_insight(strong: list, medium: list, sector_breakdown: dict) -> str:
+    """调用 Claude API 生成 2-3 句中文投资洞察。无信号或 API 未配置时返回空字符串。"""
+    if not strong and not medium:
+        return ""
+    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        return ""
+
+    def _fmt(items):
+        parts = []
+        for s in items[:3]:
+            t = s["trade"]
+            trans = "买入" if t["transaction"] == "Buy" else "卖出"
+            parts.append(f"{t['member']}({t['party']}) {trans} {t['ticker']} [{t['sector_info'].get('label_cn','未知')}] 评分{s['score']}分")
+        return "；".join(parts) if parts else "无"
+
+    sector_str = "、".join(f"{k}{v:.0f}%" for k, v in list(sector_breakdown.items())[:4]) or "无"
+
+    prompt = (
+        "你是一位专业投资顾问。根据以下美国国会议员本周的交易信号，"
+        "用2-3句简洁的中文生成一段投资洞察，重点说明对以下持仓和关注股的启示。"
+        "直接输出洞察文字，不要任何标题或格式前缀，不超过150字。\n\n"
+        f"持仓：GLD(黄金30%) · QQQ(科技25%) · WTI(原油20%) · TLT(国债20%)\n"
+        f"强信号：{_fmt(strong)}\n"
+        f"中等信号：{_fmt(medium)}\n"
+        f"本周买入行业分布：{sector_str}"
+    )
+
+    try:
+        resp = requests.post(
+            ANTHROPIC_API_URL,
+            json={"model": ANTHROPIC_MODEL, "max_tokens": 300,
+                  "messages": [{"role": "user", "content": prompt}]},
+            headers={"x-api-key": api_key, "anthropic-version": "2023-06-01",
+                     "Content-Type": "application/json"},
+            timeout=45,
+        )
+        resp.raise_for_status()
+        blocks = resp.json().get("content", [])
+        text = "".join(b.get("text", "") for b in blocks if b.get("type") == "text").strip()
+        if text:
+            log.info("   🤖 AI 解读生成成功")
+            return text
+    except Exception as e:
+        log.warning(f"   ⚠️ AI 解读生成失败（跳过）: {e}")
+    return ""
 
 
 def _serialize(item: dict) -> dict:
@@ -638,15 +695,19 @@ def run_congress_tracker(dry_run: bool = False) -> dict:
 
     log.info(f"   📊 强:{len(strong)} 中:{len(medium)} 弱:{len(weak)}  新增:{len(new_items)}")
 
+    ai_insight = generate_ai_insight(strong, medium, sector_breakdown)
+
     congress_data = {
         "date":             today_str,
         "strong":           [_serialize(s) for s in strong],
         "medium":           [_serialize(s) for s in medium],
         "watch":            [_serialize(s) for s in weak],
         "sector_breakdown": sector_breakdown,
+        "ai_insight":       ai_insight,
     }
 
-    message = build_push_message(today_str, strong, medium, weak, sector_breakdown, anti_signals)
+    message = build_push_message(today_str, strong, medium, weak, sector_breakdown, anti_signals,
+                                 ai_insight=ai_insight)
 
     if dry_run:
         log.info("\n🔍 [Dry Run] 推送内容预览：\n" + message)
