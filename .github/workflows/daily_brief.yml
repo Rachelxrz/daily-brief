@@ -196,3 +196,36 @@ jobs:
           name: congress-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7
+
+  update-status:
+    name: ⚙️ Update PROJECT_STATUS
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [daily-news-brief, market-monitor]
+    if: always() && github.event.inputs.dry_run != 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0          # 需要完整 git 历史来生成变更日志
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Refresh status
+        run: python update_status.py
+
+      - name: Commit & push status
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp PROJECT_STATUS.md /tmp/PROJECT_STATUS.md
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/PROJECT_STATUS.md PROJECT_STATUS.md
+          git add PROJECT_STATUS.md
+          git diff --staged --quiet || git commit -m "Update PROJECT_STATUS $(date +'%Y-%m-%d')"
+          git push
