@@ -209,6 +209,113 @@
   }
   .empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.4; }
 
+  /* ── Congress signal cards ──────────────────── */
+  .congress-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .congress-layout { grid-template-columns: 1fr; } }
+
+  .congress-summary {
+    display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+  }
+  .congress-stat {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.5rem 1rem;
+    display: flex; flex-direction: column; gap: 0.15rem;
+  }
+  .congress-stat-label {
+    font-size: 0.6rem; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .congress-stat-value { font-size: 1rem; font-weight: 500; }
+
+  .signal-section-label {
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin: 1rem 0 0.5rem;
+  }
+  .signal-section-label:first-child { margin-top: 0; }
+
+  .signal-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid; border-radius: 6px;
+    margin-bottom: 0.6rem; overflow: hidden;
+  }
+  .signal-card.strong { border-left-color: var(--red); }
+  .signal-card.medium { border-left-color: var(--amber); }
+  .signal-card.weak   { border-left-color: var(--green); }
+  .signal-card-inner  { padding: 0.9rem 1.1rem; }
+
+  .signal-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 0.5rem;
+  }
+  .signal-member { font-size: 0.82rem; color: var(--text); font-weight: 500; }
+  .signal-party  { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
+  .signal-ticker-wrap { text-align: right; }
+  .signal-ticker { font-size: 1.05rem; color: var(--gold); font-weight: 500; }
+  .signal-action { font-size: 0.62rem; color: var(--muted); }
+
+  .signal-meta {
+    font-size: 0.7rem; color: var(--muted); margin-bottom: 0.25rem;
+  }
+  .signal-comparison {
+    font-size: 0.7rem; color: var(--blue);
+    background: rgba(92,156,224,0.06);
+    padding: 0.25rem 0.5rem; border-radius: 3px;
+    margin: 0.3rem 0;
+  }
+  .signal-score { font-size: 0.62rem; color: var(--gold-dim); text-align: right; }
+
+  .weak-list {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.6rem 0.9rem;
+  }
+  .weak-item {
+    font-size: 0.7rem; color: var(--muted);
+    padding: 0.2rem 0; border-bottom: 1px solid var(--border);
+  }
+  .weak-item:last-child { border-bottom: none; }
+
+  .congress-sidebar { display: flex; flex-direction: column; gap: 1rem; }
+  .sidebar-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden;
+  }
+  .sidebar-card-header {
+    padding: 0.55rem 1rem; border-bottom: 1px solid var(--border);
+    font-size: 0.62rem; color: var(--gold);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .sidebar-card-body { padding: 0.7rem 1rem; }
+
+  .sector-bar-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.4rem; font-size: 0.7rem;
+  }
+  .sector-bar-label { width: 58px; color: var(--muted); flex-shrink: 0; }
+  .sector-bar-track {
+    flex: 1; background: var(--border); border-radius: 2px; height: 4px; overflow: hidden;
+  }
+  .sector-bar-fill { height: 100%; background: var(--gold); border-radius: 2px; }
+  .sector-bar-pct { width: 34px; color: var(--text); text-align: right; flex-shrink: 0; }
+
+  .anti-signal-item {
+    font-size: 0.7rem; color: var(--red);
+    padding: 0.25rem 0; border-bottom: 1px solid var(--border);
+  }
+  .anti-signal-item:last-child { border-bottom: none; }
+  .sidebar-no-data { font-size: 0.7rem; color: var(--muted); }
+
+  .congress-source-note {
+    font-size: 0.6rem; color: var(--muted); margin-top: 0.5rem;
+    padding: 0.5rem; border: 1px solid var(--border); border-radius: 3px;
+    line-height: 1.5;
+  }
+
   /* ── Footer ──────────────────────────────────── */
   footer {
     text-align: center; padding: 3rem 2rem;
@@ -240,6 +347,7 @@
     <button class="tab-btn active" onclick="switchTab('news')">📰 每日简报</button>
     <button class="tab-btn" onclick="switchTab('monitor')">📌 结构监控</button>
     <button class="tab-btn" onclick="switchTab('screener')">📈 强势股筛选</button>
+    <button class="tab-btn" onclick="switchTab('congress')">🏛 国会信号</button>
   </div>
 
   <!-- Date bar -->
@@ -269,6 +377,13 @@
       style="width:100%; height:80vh; border:none; border-radius:6px;"
       title="每日强势股筛选">
     </iframe>
+  </div>
+
+  <!-- Congress panel -->
+  <div id="panel-congress" class="panel">
+    <div id="congress-content">
+      <div class="empty"><div class="empty-icon">🏛</div>加载中...</div>
+    </div>
   </div>
 
 </div>
@@ -382,7 +497,7 @@ function selectDate(date) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','screener','congress'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -392,8 +507,9 @@ function switchTab(tab) {
 function render() {
   const day = allData[currentDate] || {};
 
-  if (currentTab === 'news') renderNews(day);
-  else renderMonitor(day);
+  if (currentTab === 'news')      renderNews(day);
+  else if (currentTab === 'congress') renderCongress(day);
+  else if (currentTab === 'monitor')  renderMonitor(day);
 }
 
 function renderNews(day) {
@@ -453,6 +569,136 @@ function renderMonitor(day) {
   `;
 }
 
+function renderCongress(day) {
+  const el = document.getElementById('congress-content');
+  const c = day.congress;
+
+  if (!c) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🏛</div>当日无国会信号数据</div>';
+    return;
+  }
+
+  const strong = c.strong || [];
+  const medium = c.medium || [];
+  const watch  = c.watch  || [];
+  const breakdown = c.sector_breakdown || {};
+  const allItems = [...strong, ...medium, ...watch];
+  const antiSignals = allItems.filter(s => s.comparison && s.comparison.includes('方向相反'));
+
+  // Summary row
+  const summary = `
+    <div class="congress-summary">
+      <div class="congress-stat">
+        <span class="congress-stat-label">强信号</span>
+        <span class="congress-stat-value" style="color:var(--red)">🔴 ${strong.length}</span>
+      </div>
+      <div class="congress-stat">
+        <span class="congress-stat-label">中等信号</span>
+        <span class="congress-stat-value" style="color:var(--amber)">🟡 ${medium.length}</span>
+      </div>
+      <div class="congress-stat">
+        <span class="congress-stat-label">弱信号/观察</span>
+        <span class="congress-stat-value" style="color:var(--green)">🟢 ${watch.length}</span>
+      </div>
+      <div class="congress-stat">
+        <span class="congress-stat-label">信号日期</span>
+        <span class="congress-stat-value" style="font-size:0.82rem">${c.date || '--'}</span>
+      </div>
+    </div>`;
+
+  // Signal card builder
+  function signalCard(item, tier) {
+    const trans = item.transaction === 'Buy' ? '买入' : '卖出';
+    return `
+      <div class="signal-card ${tier}">
+        <div class="signal-card-inner">
+          <div class="signal-header">
+            <div>
+              <div class="signal-member">${item.member}</div>
+              <div class="signal-party">${item.party} · ${item.committee} · ${item.chamber}</div>
+            </div>
+            <div class="signal-ticker-wrap">
+              <div class="signal-ticker">${item.ticker}</div>
+              <div class="signal-action">${trans} ${item.asset_type}</div>
+            </div>
+          </div>
+          <div class="signal-meta">📅 ${item.trade_date} · 延迟 ${item.delay_days} 天 · ${item.size_range}</div>
+          <div class="signal-meta">🏭 ${item.sector || '未知行业'}</div>
+          <div class="signal-comparison">${item.comparison || ''}</div>
+          ${tier === 'strong' ? `<div class="signal-score">信号强度：${item.score} 分</div>` : ''}
+        </div>
+      </div>`;
+  }
+
+  // Main column
+  let mainCol = '';
+  if (strong.length) {
+    mainCol += '<div class="signal-section-label">🔴 强信号</div>';
+    mainCol += strong.map(s => signalCard(s, 'strong')).join('');
+  }
+  if (medium.length) {
+    mainCol += '<div class="signal-section-label">🟡 中等信号</div>';
+    mainCol += medium.map(s => signalCard(s, 'medium')).join('');
+  }
+  if (watch.length) {
+    mainCol += '<div class="signal-section-label">🟢 弱信号/观察</div>';
+    mainCol += '<div class="weak-list">';
+    mainCol += watch.slice(0, 10).map(s => {
+      const t = s.transaction === 'Buy' ? '买入' : '卖出';
+      return `<div class="weak-item">${s.member} · ${t} <strong>${s.ticker}</strong> · ${s.sector || '未知'}</div>`;
+    }).join('');
+    if (watch.length > 10) mainCol += `<div class="weak-item" style="color:var(--muted)">...等共 ${watch.length} 条</div>`;
+    mainCol += '</div>';
+  }
+  if (!allItems.length) {
+    mainCol = '<div class="empty" style="padding:3rem"><div class="empty-icon">📭</div>本周暂无符合条件的国会交易信号</div>';
+  }
+
+  // Sector breakdown
+  const bEntries = Object.entries(breakdown).slice(0, 6);
+  let sectorHtml = '';
+  if (bEntries.length) {
+    const maxPct = Math.max(...bEntries.map(([,v]) => v));
+    sectorHtml = bEntries.map(([label, pct]) => `
+      <div class="sector-bar-row">
+        <span class="sector-bar-label">${label}</span>
+        <div class="sector-bar-track">
+          <div class="sector-bar-fill" style="width:${Math.round(pct / maxPct * 100)}%"></div>
+        </div>
+        <span class="sector-bar-pct">${pct}%</span>
+      </div>`).join('');
+  } else {
+    sectorHtml = '<div class="sidebar-no-data">暂无买入数据</div>';
+  }
+
+  // Anti-signals
+  const antiHtml = antiSignals.length
+    ? antiSignals.map(s => {
+        const t = s.transaction === 'Sell' ? '卖出' : '买入';
+        return `<div class="anti-signal-item">⚠️ ${s.member} ${t} ${s.ticker}</div>`;
+      }).join('')
+    : '<div class="sidebar-no-data">无</div>';
+
+  el.innerHTML = summary + `
+    <div class="congress-layout">
+      <div class="congress-main">${mainCol}</div>
+      <div class="congress-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">📊 本周买入行业分布</div>
+          <div class="sidebar-card-body">${sectorHtml}</div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">⚠️ 与持仓方向相反</div>
+          <div class="sidebar-card-body">${antiHtml}</div>
+        </div>
+        <div class="congress-source-note">
+          数据来源：House Stock Watcher 社区镜像<br>
+          ⚠️ 参议院数据暂缺 · 信号窗口 7 天 · 仅供参考，不构成投资建议
+        </div>
+      </div>
+    </div>`;
+}
+
 function showEmpty() {
   document.getElementById('news-content').innerHTML =
     '<div class="empty"><div class="empty-icon">🌱</div>暂无数据，等待首次运行...</div>';
@@ -468,6 +714,13 @@ function getDemoData() {
       monitor: {
         cn: "# 📌 结构监控 标准版\n\n> 数据将在 GitHub Actions 首次运行后自动填充\n\n---\n\n## 1) 🌪️ 波动性结构\n- VIX 当前水平：--\n- 风险区判定：--",
         en: "# 📌 Market Structure Monitor\n\n> Data will be populated after the first GitHub Actions run\n\n---\n\n## 1) 🌪️ Volatility Structure\n- VIX Current Level: --"
+      },
+      congress: {
+        date: today,
+        strong: [],
+        medium: [],
+        watch: [],
+        sector_breakdown: {}
       }
     }
   };
