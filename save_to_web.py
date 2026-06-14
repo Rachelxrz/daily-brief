@@ -354,6 +354,18 @@ def save_congress(congress_data: dict):
     log.info(f"🏛 国会信号已保存: {today}")
 
 
+def save_wheel(wheel_data: dict):
+    tz_cst = timezone(timedelta(hours=8))
+    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    data = load_data()
+    if today not in data:
+        data[today] = {}
+    data[today]["updated"] = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
+    data[today]["wheel"] = wheel_data
+    save_data(data)
+    log.info(f"🎡 Wheel 数据已保存: {today}")
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     save_monitor("# 测试中文", "# Test English")

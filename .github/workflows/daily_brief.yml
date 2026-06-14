@@ -7,6 +7,7 @@ on:
     - cron: '0 23 * * *'       # 18:00 ET - Evening news brief (daily)
     - cron: '30 23 * * 1-5'    # 18:30 ET - Evening market monitor (weekdays)
     - cron: '30 20 * * 1-5'    # 16:30 ET - Congress signal (weekdays, post-market)
+    - cron: '0 13 * * 1-5'     # 08:00 ET - Wheel Strategy scan (weekdays, pre-market)
   workflow_dispatch:
     inputs:
       job_type:
@@ -14,7 +15,7 @@ on:
         required: true
         default: 'both'
         type: choice
-        options: [both, news_only, market_only, congress_only]
+        options: [both, news_only, market_only, congress_only, wheel_only]
       dry_run:
         description: 'Dry run (no push)'
         required: false
@@ -229,3 +230,58 @@ jobs:
           git add PROJECT_STATUS.md
           git diff --staged --quiet || git commit -m "Update PROJECT_STATUS $(date +'%Y-%m-%d')"
           git push
+
+  wheel-strategy:
+    name: 🎡 Wheel Strategy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '0 13 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'wheel_only'))
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create directories
+        run: mkdir -p logs docs docs/data
+
+      - name: Run wheel strategy
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python wheel_strategy.py --dry-run
+          else
+            python wheel_strategy.py
+          fi
+
+      - name: Commit & push web data
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/data.json
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "wheel_strategy $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
