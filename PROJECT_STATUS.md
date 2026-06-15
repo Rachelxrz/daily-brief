@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-16 02:52 CST
+**自动刷新时间**：2026-06-16 06:33 CST
 **data.json 今日更新**：2026-06-16 02:05 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,8 +26,7 @@
 - Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `ede5ba4` 2026-06-15 — fix: news CN missing + SQZ scoring correction
-- `a556c98` 2026-06-15 — fix: NaN in stock_screener.json causes invalid JSON parse error
+- `25a3cb6` 2026-06-15 — fix: Supertrend NaN propagation bug; congress fallback to last available date
 
 <!-- AUTO:END -->
 
