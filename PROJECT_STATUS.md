@@ -44,6 +44,7 @@
 | `watchlist_manager.py` | ✅ v1.1 已完成 | — | — | — |
 | **国会交易信号** (`congress_tracker.py`) | ✅ **v1.2 已上线** | ✅ 国会信号 tab | ✅ | ✅ `congress` |
 | **Wheel Strategy** (`wheel_strategy.py`) | ✅ **v1.1 已上线** | ✅ Wheel tab | ✅ | ✅ `wheel` |
+| **技术信号+期权建议** (`signal_advisor.py`) | ✅ **v1.1 已上线** | ✅ 技术信号 tab | ✅ | ✅ `signal_advisor` |
 
 ---
 
@@ -82,9 +83,9 @@
 
 ## 3. 输出渠道现状
 
-- **网页 tab（5个）**：每日简报 ✅ ｜ 结构监控 ✅ ｜ 强势股筛选 ✅ ｜ 国会信号 ✅ ｜ Wheel ✅
+- **网页 tab（6个）**：每日简报 ✅ ｜ 结构监控 ✅ ｜ 强势股筛选 ✅ ｜ 国会信号 ✅ ｜ Wheel ✅ ｜ 技术信号 ✅
 - **企业微信**：WxPusher + ServerChan + WeCom，中英双语。
-- **data.json**：结构 `data[YYYY-MM-DD] = {updated, news, monitor, congress, wheel}`，保留最近 30 天。
+- **data.json**：结构 `data[YYYY-MM-DD] = {updated, news, monitor, congress, wheel, signal_advisor}`，保留最近 30 天。
 
 ---
 
@@ -106,6 +107,8 @@
 | `market-monitor` | 09:30 + 18:30（工作日）| 市场结构监控 |
 | `wheel-strategy` | 08:00（工作日）| Wheel 候选筛选 + 持仓追踪 |
 | `congress-signal` | 16:30（工作日）| 国会交易信号 |
+| `signal-advisor-premarket` | 08:00（工作日）| 技术信号+期权建议 盘前 |
+| `signal-advisor-postmarket` | 17:30（工作日）| 技术信号+期权建议 盘后 |
 | `update-status` | 随 news + market 后自动触发 | 刷新 PROJECT_STATUS.md AUTO 区块 |
 
 ---
@@ -127,14 +130,16 @@
 
 ## 7. 下一步优先级
 
-1. **参议院数据补全**：寻找可靠免费替代（Quiver Quant 免费层 / Capitol Trades 抓取）
-2. **Wheel v1.2**：月度收益统计完善（胜率、P&L 明细）
-3. **Wheel v2.0**：企业微信回复指令录入仓位
-4. **congress_tracker v2.0**：参议院覆盖（依赖第1项）
+1. **signal_advisor IRA 持仓**：`IRA_HOLDINGS` 待用户补充真实 IRA 仓位
+2. **参议院数据补全**：寻找可靠免费替代（Quiver Quant 免费层 / Capitol Trades 抓取）
+3. **Wheel v1.2**：月度收益统计完善（胜率、P&L 明细）
+4. **signal_advisor v2.0**：接入真实 IV 数据（Unusual Whales）
+5. **congress_tracker v2.0**：参议院覆盖（依赖第2项）
 
 ---
 
 ## 8. 变更日志
 
+- **2026-06-15**：`signal_advisor.py` v1.1 上线；四指标（Supertrend/SQZ Momentum/ADX+DI/MA）+ 六种信号 + LEAP/MID_TERM 期权建议；网页新增第6个 tab（技术信号）；daily_brief.yml 新增盘前(08:00 ET) + 盘后(17:30 ET) 两个 job。
 - **2026-06-14**：`watchlist_manager.py` v1.1、`congress_tracker.py` v1.2（AI 解读）、`wheel_strategy.py` v1.1（候选筛选+持仓追踪）全部上线；网页新增第5个 tab（Wheel）；PROJECT_STATUS 全面更新。
 - **2026-06-13**：congress_tracker.py v1.0/v1.1 完成，干运行通过。`update_status.py` + AUTO 区块加入仓库。

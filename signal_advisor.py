@@ -379,8 +379,8 @@ def get_signal(st: dict, sqz: dict, adx: dict, ma: dict) -> str:
     dip      = adx.get("di_pos", 0)
     dim      = adx.get("di_neg", 0)
 
-    # ⚡ 突破关注：价格极接近 Supertrend 线（优先判断）
-    if st_near:
+    # ⚡ 突破关注：价格接近 ST 线 ≤1% 且 SQZ 处于 SQUEEZE 状态
+    if st_near and sqz_st == "SQUEEZE":
         return "⚡ 突破关注"
 
     # 💚 强势上涨：ST 持续 UP + SQZ 正增强 + ADX 强 + DI+ 领先

@@ -8,8 +8,8 @@ on:
     - cron: '30 23 * * 1-5'    # 18:30 ET - Evening market monitor (weekdays)
     - cron: '30 20 * * 1-5'    # 16:30 ET - Congress signal (weekdays, post-market)
     - cron: '0 13 * * 1-5'     # 08:00 ET - Wheel Strategy scan (weekdays, pre-market)
-    - cron: '0 12 * * 1-5'     # 07:00 ET - Signal Advisor pre-market (weekdays)
-    - cron: '0 22 * * 1-5'     # 17:00 ET - Signal Advisor post-market (weekdays)
+    - cron: '0 12 * * 1-5'     # 08:00 ET - Signal Advisor pre-market (weekdays)
+    - cron: '30 21 * * 1-5'    # 17:30 ET - Signal Advisor post-market (weekdays)
   workflow_dispatch:
     inputs:
       job_type:
@@ -342,7 +342,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: >-
-      (github.event_name == 'schedule' && github.event.schedule == '0 22 * * 1-5') ||
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 1-5') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_post')
 
     steps:
