@@ -283,17 +283,127 @@
     }
   },
   "2026-06-15": {
-    "updated": "2026-06-15 08:11 CST",
+    "updated": "2026-06-15 08:37 CST",
     "news": {
       "cn": "# 📰 每日智识简报（中文）\n### 2026年06月15日\n\n\n## 📈 金融财经\n\n**SpaceX筹集750亿美元创纪录IPO准备纳斯达克上市**\n\nSpaceX正在进行历史上最大规模的IPO融资，计划筹集750亿美元资金。这次上市将使SpaceX成为市值最高的私人航天公司之一。投资者对该公司的太空探索和卫星互联网业务前景非常看好。\n\n**欧央行自2023年来首次加息应对伊朗冲突推高能源成本**\n\n欧洲央行决定加息以应对伊朗冲突导致的能源价格上涨压力。这是自2023年以来欧央行首次提高利率。地缘政治紧张局势正在推高通胀预期，迫使央行采取紧缩政策。\n\n\n## 📱 自媒体精选\n\n**斯坦福毕业生在谷歌CEO皮查伊演讲时集体退场**\n\n斯坦福大学毕业典礼上，多名学生在谷歌CEO桑达尔·皮查伊发表演讲时集体退场抗议。学生们对谷歌在AI技术应用和员工权益方面的政策表示不满。这一事件反映了年轻一代对科技巨头社会责任的关注。\n\n**英国可能禁止16岁以下儿童使用社交媒体**\n\n英国政府正在考虑立法禁止16岁以下儿童使用社交媒体平台。这项提议旨在保护青少年免受网络欺凌和心理健康问题的影响。如果通过，英国将成为首个实施此类严格限制的主要国家。\n\n\n## 🧠 健康·心理·美学\n\n**研究发现大脑可以持续改善直到90多岁**\n\n最新研究表明人类大脑的改善能力可以持续到90多岁高龄。研究人员发现即使在高龄阶段，大脑仍能形成新的神经连接。这一发现为老年人认知训练和终身学习提供了科学依据。\n\n**70多岁学习乐器有助保护记忆力**\n\n科学研究表明，70多岁开始学习乐器能够有效保护和改善记忆力。音乐学习能够刺激大脑多个区域的活动，增强神经可塑性。这为老年人预防认知衰退提供了新的干预方法。\n\n\n---\n## 💡 今日洞察\n\n**📈 投资建议**\n- 关注SpaceX等航天概念股投资机会\n- 警惕地缘冲突推高能源股波动风险\n- 配置受益于AI公司上市潮的指数基金\n\n**🧠 健康建议**\n- 70岁后仍可开始学习新技能锻炼大脑\n- 重视青少年社交媒体使用心理健康\n- 利用音乐学习预防老年认知衰退",
       "en": "# 📰 Daily Intelligence Brief\n### June 15, 2026\n\n\n## 📈 Finance & Markets\n\n**[SpaceX raising $75 billion in record-setting IPO as Nasdaq debut awaits](https://www.cnbc.com/2026/06/14/charlie-javice-reportedly-seeking-a-pardon-from-trump-.html)**\n\nSpaceX is conducting the largest IPO in history, planning to raise $75 billion in funding. This listing will make SpaceX one of the highest-valued private aerospace companies. Investors are very optimistic about the company's space exploration and satellite internet business prospects.\n\n**[ECB hikes interest rates for first time since 2023 as Iran war ramps up energy costs](https://www.cnbc.com/2026/06/13/spacex-surges-but-bigger-days-are-ahead-td-securities-.html)**\n\nThe European Central Bank decided to raise interest rates to address energy price pressures from the Iran conflict. This is the ECB's first rate hike since 2023. Geopolitical tensions are driving up inflation expectations, forcing the central bank to adopt tightening policies.\n\n\n## 📱 Tech & Media\n\n**[Stanford grads walk out on Google CEO Sundar Pichai speech](https://andreklein.net/your-epub-is-fine-kobo-disagrees-blame-adobe/)**\n\nAt Stanford's graduation ceremony, multiple students walked out during Google CEO Sundar Pichai's speech in protest. Students expressed dissatisfaction with Google's policies on AI technology applications and employee rights. This event reflects young people's concerns about tech giants' social responsibility.\n\n**[UK may ban social media for children under 16](https://iza.ac/posts/2026/06/food-authenticity/)**\n\nThe UK government is considering legislation to ban children under 16 from using social media platforms. This proposal aims to protect teenagers from cyberbullying and mental health issues. If passed, the UK would become the first major country to implement such strict restrictions.\n\n\n## 🧠 Health & Wellness\n\n**[Your brain can keep improving into your 90s, study finds](https://www.sciencedaily.com/releases/2026/06/260613215430.htm)**\n\nLatest research shows human brain improvement capabilities can continue into the 90s. Researchers found that even at advanced ages, the brain can still form new neural connections. This finding provides scientific basis for cognitive training and lifelong learning in elderly people.\n\n**[Learning a musical instrument in your 70s could help protect memory](https://www.sciencedaily.com/releases/2026/06/260613034222.htm)**\n\nScientific research shows that learning musical instruments in your 70s can effectively protect and improve memory. Musical learning stimulates multiple brain regions and enhances neuroplasticity. This provides a new intervention method for preventing cognitive decline in elderly people.\n\n\n---\n## 💡 Today's Insights\n\n**📈 Investment**\n- Focus on SpaceX aerospace investment opportunities\n- Beware energy volatility from geopolitical conflicts\n- Allocate to index funds benefiting AI IPOs\n\n**🧠 Health & Wellness**\n- Start learning new skills after 70 for brain health\n- Monitor teen social media mental health impacts\n- Use music learning to prevent cognitive decline"
     },
     "congress": {
       "date": "2026-06-15",
-      "strong": [],
-      "medium": [],
-      "watch": [],
-      "sector_breakdown": {},
+      "strong": [
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "MSFT",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-05-15",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 21,
+          "amount_mid": 75000,
+          "size_range": "$50K-100K",
+          "sector": "科技",
+          "score": 5,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        }
+      ],
+      "medium": [
+        {
+          "member": "Mike Kelly",
+          "party": "R",
+          "chamber": "House",
+          "committee": "Ways and Means",
+          "ticker": "BMY",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-05-07",
+          "disclosure_date": "2026-06-10",
+          "delay_days": 34,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "医疗",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "RVTY",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-05-04",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 32,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "医疗",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "IBM",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-05-15",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 21,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "科技",
+          "score": 3,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        },
+        {
+          "member": "Tim Moore",
+          "party": "",
+          "chamber": "House",
+          "committee": "N/A",
+          "ticker": "T",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-04",
+          "disclosure_date": "2026-06-04",
+          "delay_days": 0,
+          "amount_mid": 75000,
+          "size_range": "$50K-100K",
+          "sector": "通讯",
+          "score": 3,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        }
+      ],
+      "watch": [
+        {
+          "member": "Robert E. Latta",
+          "party": "",
+          "chamber": "House",
+          "committee": "N/A",
+          "ticker": "FMAO",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-04",
+          "disclosure_date": "2026-06-04",
+          "delay_days": 0,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "金融",
+          "score": 2,
+          "comparison": "🔗 行业相关：与您 TLT 持仓相关（利率敏感/金融板块）"
+        }
+      ],
+      "sector_breakdown": {
+        "科技": 25.0,
+        "医疗": 25.0,
+        "金融": 25.0,
+        "通讯": 25.0
+      },
       "ai_insight": ""
     },
     "wheel": {
