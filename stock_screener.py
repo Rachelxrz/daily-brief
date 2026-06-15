@@ -572,6 +572,17 @@ def run_all():
 # 保存 JSON
 # ═══════════════════════════════════════════════
 
+def _sanitize(obj):
+    """递归将 NaN/Inf 替换为 None，确保合法 JSON。"""
+    if isinstance(obj, float):
+        return None if (obj != obj or obj == float('inf') or obj == float('-inf')) else obj
+    if isinstance(obj, dict):
+        return {k: _sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize(v) for v in obj]
+    return obj
+
+
 def save_json(report, path="docs/data/stock_screener.json"):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     history = []
@@ -580,10 +591,10 @@ def save_json(report, path="docs/data/stock_screener.json"):
             history = json.load(f).get("history", [])
     history = [h for h in history if h.get("date") != report["date"]]
     history.insert(0, report)
+    payload = _sanitize({"latest": report, "history": history[:30],
+                          "updated_at": report["generated_at"]})
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"latest": report, "history": history[:30],
-                   "updated_at": report["generated_at"]},
-                  f, ensure_ascii=False, indent=2)
+        json.dump(payload, f, ensure_ascii=False, indent=2)
     print(f"\n💾 JSON 已保存: {path}")
 
 
