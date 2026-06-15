@@ -19,7 +19,7 @@ DATA_FILE = DOCS_DIR / "data.json"
 MAX_DAYS  = 30
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
-ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
+ANTHROPIC_MODEL   = "claude-sonnet-4-6"
 
 CATEGORY_CN = {
     "finance":  "📈 金融财经",
@@ -163,14 +163,14 @@ News list:
 
     if not result:
         log.warning("⚠️ 内容生成失败，使用纯标题版")
-        return "", _format_plain_en(news_data, date_en)
+        return _format_plain_cn(news_data, date_cn), _format_plain_en(news_data, date_en)
 
     try:
         parsed = _parse_json(result)
     except Exception as e:
         log.warning(f"⚠️ JSON 解析失败: {e}")
         log.warning(f"   返回内容预览: {result[:300]}")
-        return "", _format_plain_en(news_data, date_en)
+        return _format_plain_cn(news_data, date_cn), _format_plain_en(news_data, date_en)
 
     articles = parsed.get("articles", {})
     insights = parsed.get("insights", {})
@@ -299,6 +299,15 @@ def translate_for_wechat(news_data: dict) -> dict:
 
     log.info("✅ 微信推送新闻翻译完成")
     return translated
+
+
+def _format_plain_cn(news_data: dict, date_cn: str) -> str:
+    lines = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
+    for cat, items in news_data.items():
+        lines.append(f"\n## {CATEGORY_CN.get(cat, cat)}\n")
+        for item in items:
+            lines.append(f"- 【{item['source']}】{item['title']}")
+    return "\n".join(lines)
 
 
 def _format_plain_en(news_data: dict, date_en: str) -> str:

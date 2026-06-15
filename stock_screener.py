@@ -315,9 +315,11 @@ def analyze_watchlist():
             if adx_d and adx_d["adx"] >= 25:                     score += 1
             if adx_d and adx_d["di_plus"] > adx_d["di_minus"]:  score += 1
             if st_d  and st_d["direction"] == "bullish":          score += 2
-            if sqz_d and sqz_d["sqz_dir"] == "up":               score += 1
+            if sqz_d:
+                if sqz_d["sqz_dir"] == "up":                      score += 1   # 动量向上
+                elif sqz_d["sqz_on"] and sqz_d["sqz_dir"]=="down": score -= 1  # 挤压中动量向下，警告
             if up3:                                                score += 1
-            if dn3:                                                score  = max(0, score - 1)
+            if dn3:                                                score -= 1
             score = max(0, min(10, score))
             GRADE_MAP = [(9,"超强势"), (7,"强势"), (5,"中性"), (3,"偏弱"), (0,"弱势")]
             grade = next(label for thr, label in GRADE_MAP if score >= thr)
