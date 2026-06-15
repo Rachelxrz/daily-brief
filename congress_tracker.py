@@ -40,26 +40,31 @@ HOUSE_URL = "https://raw.githubusercontent.com/TattooedHead/house-stock-watcher-
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
 
-RECENT_DAYS          = 7       # 信号窗口：披露日期在最近N天内
+RECENT_DAYS          = 14      # 信号窗口：披露日期在最近N天内（国会批量披露，14天确保不漏）
 MIN_TRADE_SIZE       = 10_000  # 层二过滤：交易规模下限（美元）
 SEEN_FILE            = Path(__file__).parent / "docs" / "data" / "congress_seen.json"
 SEEN_RETENTION_DAYS  = 14
 
 # ═══════════════════════════════════════════════
-# 层一：议员筛选（硬编码 Top 关注名单，基于 2025 年数据）
+# 高信号议员加分名单（不作为硬过滤条件，仅用于 score_trade 加分）
+# 数据来源：对 house-stock-watcher 数据实际分析后更新
 # ═══════════════════════════════════════════════
-TRACKED_MEMBERS = [
-    {"name": "Warren Davidson",  "party": "R", "chamber": "House", "committee": "Financial Services"},
-    {"name": "Donald Norcross",  "party": "D", "chamber": "House", "committee": "Armed Services"},
-    {"name": "Terri Sewell",     "party": "D", "chamber": "House", "committee": "Ways and Means"},
-    {"name": "Bryan Steil",      "party": "R", "chamber": "House", "committee": "Financial Services"},
-    {"name": "Alex Padilla",     "party": "D", "chamber": "Senate","committee": "Judiciary"},
-    {"name": "Rick Scott",       "party": "R", "chamber": "Senate","committee": "Commerce"},
-    {"name": "Nancy Pelosi",     "party": "D", "chamber": "House", "committee": "N/A"},  # 长期跟踪
-    {"name": "Michael Guest",    "party": "R", "chamber": "House", "committee": "Ethics"},
-    {"name": "Tom McClintock",   "party": "R", "chamber": "House", "committee": "Budget"},
-    {"name": "Dwight Evans",     "party": "D", "chamber": "House", "committee": "Ways and Means"},
-]
+BONUS_MEMBERS = {
+    # 长期高关注度
+    "Nancy Pelosi":           {"party": "D", "committee": "N/A"},
+    "Dwight Evans":           {"party": "D", "committee": "Ways and Means"},
+    "Warren Davidson":        {"party": "R", "committee": "Financial Services"},
+    # 当前活跃交易者（2025-2026 数据分析）
+    "Josh Gottheimer":        {"party": "D", "committee": "Financial Services"},
+    "Gilbert Cisneros":       {"party": "D", "committee": "Armed Services"},
+    "April McClain Delaney":  {"party": "D", "committee": "N/A"},
+    "Maria Elvira Salazar":   {"party": "R", "committee": "Foreign Affairs"},
+    "Daniel Goldman":         {"party": "D", "committee": "Judiciary"},
+    "Lisa McClain":           {"party": "R", "committee": "Armed Services"},
+    "Virginia Foxx":          {"party": "R", "committee": "Education"},
+    "Kevin Hern":             {"party": "R", "committee": "Budget"},
+    "Mike Kelly":             {"party": "R", "committee": "Ways and Means"},
+}
 
 # 已知"声明由基金经理全权委托"的议员（信号失真，直接过滤）。当前暂无，按需补充。
 DELEGATED_MANAGER_MEMBERS = set()
@@ -161,27 +166,9 @@ INDUSTRY_CN = {
 # 工具函数
 # ═══════════════════════════════════════════════
 
-def _normalize_name(name: str) -> str:
-    return " ".join(name.replace(".", "").split()).lower()
-
-
-_TRACKED_LOOKUP = {_normalize_name(m["name"]): m for m in TRACKED_MEMBERS}
-
-
-def match_tracked_member(representative: str):
-    """精确匹配，回退到姓+名首字母匹配（处理 Tom/Thomas 等简称差异）。"""
-    norm = _normalize_name(representative)
-    if norm in _TRACKED_LOOKUP:
-        return _TRACKED_LOOKUP[norm]
-    parts = norm.split()
-    if len(parts) < 2:
-        return None
-    first, last = parts[0], parts[-1]
-    for key, member in _TRACKED_LOOKUP.items():
-        mparts = key.split()
-        if len(mparts) >= 2 and mparts[-1] == last and mparts[0][0] == first[0]:
-            return member
-    return None
+def get_bonus_member(name: str) -> dict | None:
+    """返回 BONUS_MEMBERS 条目（若存在），否则返回 None。"""
+    return BONUS_MEMBERS.get(name.strip())
 
 
 def normalize_transaction(raw_type: str) -> str:
@@ -319,8 +306,8 @@ def fetch_recent_trades(now: datetime) -> list:
 
     trades = []
     for r in raw:
-        member = match_tracked_member(r.get("representative", ""))
-        if not member or member["name"] in DELEGATED_MANAGER_MEMBERS:
+        member_name = (r.get("representative") or "").strip()
+        if not member_name or member_name in DELEGATED_MANAGER_MEMBERS:
             continue
 
         ticker = (r.get("ticker") or "").strip().upper()
@@ -344,11 +331,12 @@ def fetch_recent_trades(now: datetime) -> list:
         if not isinstance(amount_mid, (int, float)) or amount_mid < MIN_TRADE_SIZE:
             continue
 
+        bonus = get_bonus_member(member_name)
         trades.append({
-            "member":          member["name"],
-            "party":           member["party"],
-            "chamber":         member["chamber"],
-            "committee":       member["committee"],
+            "member":          member_name,
+            "party":           bonus["party"] if bonus else "",
+            "chamber":         "House",
+            "committee":       bonus["committee"] if bonus else "N/A",
             "ticker":          ticker,
             "asset_type":      normalize_asset_type(r.get("asset_type", ""), r.get("asset_description", "")),
             "transaction":     transaction,
@@ -396,6 +384,15 @@ def score_trade(trade: dict, multi_member_buy_tickers: set) -> int:
     else:
         score = 0
 
+    # 高信号议员加分
+    if trade["member"] in BONUS_MEMBERS:
+        score += 2
+
+    # Watchlist 标的加分（仅买入）
+    if transaction == "Buy" and trade["ticker"] in MY_WATCHLIST:
+        score += 2
+
+    # 委员会与行业匹配（bonus 议员才有有效 committee）
     sector = trade["sector_info"].get("sector")
     if sector and sector in COMMITTEE_SECTOR_MAP.get(trade["committee"], []):
         score += 1
