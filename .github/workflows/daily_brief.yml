@@ -8,6 +8,8 @@ on:
     - cron: '30 23 * * 1-5'    # 18:30 ET - Evening market monitor (weekdays)
     - cron: '30 20 * * 1-5'    # 16:30 ET - Congress signal (weekdays, post-market)
     - cron: '0 13 * * 1-5'     # 08:00 ET - Wheel Strategy scan (weekdays, pre-market)
+    - cron: '0 12 * * 1-5'     # 07:00 ET - Signal Advisor pre-market (weekdays)
+    - cron: '0 22 * * 1-5'     # 17:00 ET - Signal Advisor post-market (weekdays)
   workflow_dispatch:
     inputs:
       job_type:
@@ -15,7 +17,7 @@ on:
         required: true
         default: 'both'
         type: choice
-        options: [both, news_only, market_only, congress_only, wheel_only]
+        options: [both, news_only, market_only, congress_only, wheel_only, signal_pre, signal_post]
       dry_run:
         description: 'Dry run (no push)'
         required: false
@@ -283,5 +285,103 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wheel-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
+
+  signal-advisor-premarket:
+    name: 📊 技术信号（盘前）
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '0 12 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_pre')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create directories
+        run: mkdir -p logs docs
+
+      - name: Run signal advisor (pre-market)
+        run: python signal_advisor.py --session pre
+
+      - name: Commit & push web data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/new_data.json
+          git fetch origin main
+          git reset --hard origin/main
+          python merge_data.py /tmp/new_data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "signal_advisor_pre $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signal-pre-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
+
+  signal-advisor-postmarket:
+    name: 📊 技术信号（盘后）
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '0 22 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_post')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create directories
+        run: mkdir -p logs docs
+
+      - name: Run signal advisor (post-market)
+        run: python signal_advisor.py --session post
+
+      - name: Commit & push web data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/new_data.json
+          git fetch origin main
+          git reset --hard origin/main
+          python merge_data.py /tmp/new_data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "signal_advisor_post $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signal-post-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7

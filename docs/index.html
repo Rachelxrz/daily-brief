@@ -394,6 +394,7 @@
     <button class="tab-btn" onclick="switchTab('screener')">📈 强势股筛选</button>
     <button class="tab-btn" onclick="switchTab('congress')">🏛 国会信号</button>
     <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel</button>
+    <button class="tab-btn" onclick="switchTab('signals')">📊 技术信号</button>
   </div>
 
   <!-- Date bar -->
@@ -435,6 +436,13 @@
   <div id="panel-wheel" class="panel">
     <div id="wheel-content">
       <div class="empty"><div class="empty-icon">🎡</div>加载中...</div>
+    </div>
+  </div>
+
+  <!-- Signal Advisor panel -->
+  <div id="panel-signals" class="panel">
+    <div id="signals-content">
+      <div class="empty"><div class="empty-icon">📊</div>加载中...</div>
     </div>
   </div>
 
@@ -549,7 +557,7 @@ function selectDate(date) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener','congress','wheel'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -563,6 +571,7 @@ function render() {
   else if (currentTab === 'congress') renderCongress(day);
   else if (currentTab === 'monitor')  renderMonitor(day);
   else if (currentTab === 'wheel')    renderWheel(day);
+  else if (currentTab === 'signals')  renderSignalAdvisor(day);
 }
 
 function renderNews(day) {
@@ -970,6 +979,228 @@ function renderWheel(day) {
     </div>`;
 }
 
+// ── Signal Advisor ────────────────────────────────────────────────────────
+function renderSignalAdvisor(day) {
+  const el = document.getElementById('signals-content');
+  const sa = day.signal_advisor;
+  if (!sa) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>当日无技术信号数据</div>';
+    return;
+  }
+
+  const sess    = sa.session === 'pre_market' ? '盘前' : '盘后';
+  const regular = sa.regular_account || {};
+  const ira     = sa.ira_account     || {};
+  const wl      = sa.watchlist       || {};
+  const opts    = sa.option_recommendations || [];
+
+  const SIG_META = {
+    '💚 强势上涨':   {bg:'#0d2016', color:'#3fb950', border:'#1a4029'},
+    '🟢 趋势初确认': {bg:'#071a10', color:'#56d364', border:'#0d3520'},
+    '⚡ 突破关注':   {bg:'#1c1e10', color:'#e3b341', border:'#3a3508'},
+    '🟡 震荡整理':   {bg:'#161203', color:'#d29922', border:'#2d2502'},
+    '🟠 走弱观察':   {bg:'#1e1305', color:'#e09a3c', border:'#3d2208'},
+    '🔴 强烈看跌':   {bg:'#2d1215', color:'#f85149', border:'#5a1e22'},
+    '⚪ 数据不足':   {bg:'#161b22', color:'#6b6860', border:'#30363d'},
+  };
+
+  const REC_COLOR = {
+    'LEAP':       {bg:'#07261c', color:'#3fb950', label:'LEAP'},
+    'MID_TERM':   {bg:'#07161f', color:'#58a6ff', label:'中期'},
+    'NO_ACTION':  {bg:'#161b22', color:'#6b6860', label:'观望'},
+  };
+
+  function signalBadge(sig) {
+    const m = SIG_META[sig] || SIG_META['⚪ 数据不足'];
+    return `<span style="background:${m.bg};color:${m.color};border:1px solid ${m.border};
+      padding:2px 7px;border-radius:4px;font-size:0.7rem;white-space:nowrap">${sig}</span>`;
+  }
+
+  function recBadge(rec) {
+    const m = REC_COLOR[rec] || REC_COLOR['NO_ACTION'];
+    return `<span style="background:${m.bg};color:${m.color};padding:2px 7px;
+      border-radius:4px;font-size:0.65rem;font-weight:600">${m.label}</span>`;
+  }
+
+  function pnlColor(pct) {
+    if (pct == null) return 'inherit';
+    return pct >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  function buildHoldingRows(accountObj) {
+    const entries = Object.entries(accountObj);
+    if (!entries.length) return '<div class="empty" style="padding:1rem">暂无持仓</div>';
+    const ORDER = ['💚 强势上涨','🟢 趋势初确认','⚡ 突破关注','🟡 震荡整理','🟠 走弱观察','🔴 强烈看跌','⚪ 数据不足'];
+    entries.sort((a,b) => ORDER.indexOf(a[1].signal) - ORDER.indexOf(b[1].signal));
+    return entries.map(([ticker, d]) => {
+      const st    = d.supertrend || {};
+      const adx   = d.adx       || {};
+      const sqz   = d.sqzmom    || {};
+      const opt   = d.option_rec || {};
+      const dir   = st.direction === 'UP' ? '↑' : '↓';
+      const flip  = st.bars_since_flip <= 5 ? `<span style="color:var(--muted);font-size:0.65rem">(${st.bars_since_flip}根)</span>` : '';
+      const near  = st.near_flip ? '⚡' : '';
+      const sqzMap = {SQUEEZE:'SQZ🔴', RELEASED:'SQZ🟢出', NO_SQUEEZE:'SQZ🟢'};
+      const sqzS  = sqzMap[sqz.sqz_state] || '';
+      const momMap = {INCREASING:'↑', DECREASING:'↓', FLIPPING:'⇄'};
+      const momS  = momMap[sqz.momentum_dir] || '';
+      const pnl   = d.unrealized_pnl_pct;
+      const pnlS  = pnl != null ? `<span style="color:${pnlColor(pnl)};font-size:0.75rem">${pnl>=0?'+':''}${pnl.toFixed(1)}%</span>` : '';
+      const rec   = opt.recommendation || 'NO_ACTION';
+      return `<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:8px 6px;font-weight:600;white-space:nowrap">${ticker}</td>
+        <td style="padding:8px 6px;color:var(--text)">$${(d.price||0).toFixed(2)}</td>
+        <td style="padding:8px 6px">${signalBadge(d.signal || '⚪ 数据不足')}</td>
+        <td style="padding:8px 6px;font-size:0.8rem;white-space:nowrap">
+          <span style="color:${st.direction==='UP'?'var(--green)':'var(--red)'}">ST${dir}</span>${flip}${near}
+        </td>
+        <td style="padding:8px 6px;font-size:0.8rem;white-space:nowrap">${sqzS}${momS}</td>
+        <td style="padding:8px 6px;font-size:0.8rem;white-space:nowrap">
+          ADX${adx.adx||'?'} <span style="color:var(--green)">DI+${adx.di_pos||'?'}</span>/<span style="color:var(--red)">DI-${adx.di_neg||'?'}</span>
+        </td>
+        <td style="padding:8px 6px">${pnlS}</td>
+        <td style="padding:8px 6px">${recBadge(rec)}</td>
+        <td style="padding:8px 6px;font-size:0.75rem;color:var(--muted);max-width:180px">${d.action||''}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function buildWlRows(wlObj) {
+    const entries = Object.entries(wlObj);
+    if (!entries.length) return '';
+    const BULL = ['💚 强势上涨','🟢 趋势初确认','⚡ 突破关注'];
+    const BEAR = ['🔴 强烈看跌','🟠 走弱观察'];
+    const bullE  = entries.filter(([,d]) => BULL.includes(d.signal));
+    const bearE  = entries.filter(([,d]) => BEAR.includes(d.signal));
+    const otherE = entries.filter(([,d]) => !BULL.includes(d.signal) && !BEAR.includes(d.signal));
+
+    function miniRow(ticker, d) {
+      const st = d.supertrend || {};
+      const dir = st.direction === 'UP' ? '↑' : '↓';
+      return `<span style="display:inline-flex;align-items:center;gap:4px;
+        background:var(--surface);border:1px solid var(--border);
+        border-radius:5px;padding:3px 8px;margin:3px;font-size:0.75rem;white-space:nowrap">
+        <strong>${ticker}</strong>
+        <span style="color:${st.direction==='UP'?'var(--green)':'var(--red)'}">ST${dir}</span>
+        ${signalBadge(d.signal||'⚪ 数据不足')}
+      </span>`;
+    }
+
+    let html = '';
+    if (bullE.length) {
+      html += `<div style="margin-bottom:0.6rem">
+        <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">强势 — 可关注建仓</div>
+        <div>${bullE.map(([t,d]) => miniRow(t,d)).join('')}</div></div>`;
+    }
+    if (otherE.length) {
+      html += `<div style="margin-bottom:0.6rem">
+        <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">震荡等待</div>
+        <div>${otherE.map(([t,d]) => miniRow(t,d)).join('')}</div></div>`;
+    }
+    if (bearE.length) {
+      html += `<div>
+        <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">走弱回避</div>
+        <div>${bearE.map(([t,d]) => miniRow(t,d)).join('')}</div></div>`;
+    }
+    return html;
+  }
+
+  function buildOptRows(optArr) {
+    if (!optArr.length) return '<div class="empty" style="padding:1rem">暂无期权建议</div>';
+    const leaps = optArr.filter(o => o.recommendation === 'LEAP');
+    const mids  = optArr.filter(o => o.recommendation === 'MID_TERM');
+    let html = '';
+    if (leaps.length) {
+      html += `<div style="margin-bottom:0.8rem">
+        <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:6px">LEAP（12-18个月 ITM call，Delta 0.70-0.80）</div>
+        ${leaps.map(o => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.8rem">
+          ✅ <strong>${o.ticker}</strong> — ${o.rationale||''}
+          ${o.suggested_expiry ? `<br><span style="color:var(--muted);font-size:0.7rem;margin-left:1.2em">到期 ${o.suggested_expiry}，Delta ${o.suggested_delta||''}${o.max_position_cost?'，上限 $'+(o.max_position_cost||0).toLocaleString():''}</span>` : ''}
+        </div>`).join('')}
+      </div>`;
+    }
+    if (mids.length) {
+      html += `<div>
+        <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:6px">中期期权（3-6个月，Delta 0.50-0.65）</div>
+        ${mids.map(o => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.8rem">
+          ✅ <strong>${o.ticker}</strong> — ${o.rationale||''}
+          ${o.suggested_expiry ? `<br><span style="color:var(--muted);font-size:0.7rem;margin-left:1.2em">到期 ${o.suggested_expiry}，Delta ${o.suggested_delta||''}${o.max_position_cost?'，上限 $'+(o.max_position_cost||0).toLocaleString():''}</span>` : ''}
+        </div>`).join('')}
+      </div>`;
+    }
+    return html;
+  }
+
+  const tableStyle = `width:100%;border-collapse:collapse;font-size:0.8rem`;
+  const thStyle    = `padding:6px 6px;text-align:left;font-size:0.65rem;color:var(--muted);
+    text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);
+    white-space:nowrap`;
+
+  el.innerHTML = `
+    <div style="margin-bottom:1rem;font-size:0.75rem;color:var(--muted)">
+      ${sa.date} · ${sess} · <span style="color:var(--gold)">技术信号 v1.1</span>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      padding:1.2rem;margin-bottom:1rem">
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;
+        letter-spacing:0.1em;margin-bottom:0.8rem">🏦 普通账户持仓信号</div>
+      <div style="overflow-x:auto">
+        <table style="${tableStyle}">
+          <thead><tr>
+            <th style="${thStyle}">股票</th>
+            <th style="${thStyle}">价格</th>
+            <th style="${thStyle}">信号</th>
+            <th style="${thStyle}">Supertrend</th>
+            <th style="${thStyle}">SQZ</th>
+            <th style="${thStyle}">ADX / DI</th>
+            <th style="${thStyle}">浮盈亏</th>
+            <th style="${thStyle}">期权</th>
+            <th style="${thStyle}">操作建议</th>
+          </tr></thead>
+          <tbody>${buildHoldingRows(regular)}</tbody>
+        </table>
+      </div>
+    </div>
+
+    ${Object.keys(ira).length ? `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      padding:1.2rem;margin-bottom:1rem">
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;
+        letter-spacing:0.1em;margin-bottom:0.8rem">🏦 IRA 账户持仓信号</div>
+      <div style="overflow-x:auto">
+        <table style="${tableStyle}">
+          <thead><tr>
+            <th style="${thStyle}">股票</th><th style="${thStyle}">价格</th>
+            <th style="${thStyle}">信号</th><th style="${thStyle}">Supertrend</th>
+            <th style="${thStyle}">SQZ</th><th style="${thStyle}">ADX / DI</th>
+            <th style="${thStyle}">浮盈亏</th><th style="${thStyle}">期权</th>
+            <th style="${thStyle}">操作建议</th>
+          </tr></thead>
+          <tbody>${buildHoldingRows(ira)}</tbody>
+        </table>
+      </div>
+    </div>` : ''}
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      padding:1.2rem;margin-bottom:1rem">
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;
+        letter-spacing:0.1em;margin-bottom:0.8rem">📋 期权建议（IRA 优先）</div>
+      ${buildOptRows(opts)}
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      padding:1.2rem;margin-bottom:1rem">
+      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;
+        letter-spacing:0.1em;margin-bottom:0.8rem">👀 Watchlist 信号扫描</div>
+      ${buildWlRows(wl)}
+    </div>
+
+    <div style="font-size:0.7rem;color:var(--muted);text-align:center;padding:0.5rem 0">
+      ⚠️ 仅供参考，不构成投资建议 · 盘前数据为前日收盘价
+    </div>`;
+}
+
 function showEmpty() {
   document.getElementById('news-content').innerHTML =
     '<div class="empty"><div class="empty-icon">🌱</div>暂无数据，等待首次运行...</div>';
@@ -999,7 +1230,8 @@ function getDemoData() {
         call_candidates: [],
         positions: [],
         summary: { month: today.slice(0,7), premium_earned: 0, positions_closed: 0 }
-      }
+      },
+      signal_advisor: null
     }
   };
 }
