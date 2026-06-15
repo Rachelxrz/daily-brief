@@ -307,25 +307,41 @@ def analyze_watchlist():
             st_d  = calc_supertrend(hist)
             sqz_d = calc_sqzmom(hist)
 
+            # 综合强势评分 (0-10)
+            score = 0
+            if above_ma20:                                         score += 2
+            if above_ma50:                                         score += 2
+            if adx_d and adx_d["adx"] >= 25:                     score += 1
+            if adx_d and adx_d["di_plus"] > adx_d["di_minus"]:  score += 1
+            if st_d  and st_d["direction"] == "bullish":          score += 2
+            if sqz_d and sqz_d["sqz_dir"] == "up":               score += 1
+            if up3:                                                score += 1
+            if dn3:                                                score  = max(0, score - 1)
+            score = max(0, min(10, score))
+            GRADE_MAP = [(9,"超强势"), (7,"强势"), (5,"中性"), (3,"偏弱"), (0,"弱势")]
+            grade = next(label for thr, label in GRADE_MAP if score >= thr)
+
             entry = {
-                "symbol":     symbol,
-                "price":      price,
-                "day_chg":    day_chg,
-                "ma20":       ma20,
-                "ma50":       ma50,
-                "above_ma20": above_ma20,
-                "above_ma50": above_ma50,
-                "up3":        up3,
-                "dn3":        dn3,
-                "last3":      last3,
-                "adx":        adx_d["adx"]       if adx_d  else None,
-                "di_plus":    adx_d["di_plus"]   if adx_d  else None,
-                "di_minus":   adx_d["di_minus"]  if adx_d  else None,
-                "supertrend": st_d["direction"]  if st_d   else None,
-                "st_value":   st_d["value"]      if st_d   else None,
-                "sqz_on":     sqz_d["sqz_on"]    if sqz_d  else None,
-                "sqz_dir":    sqz_d["sqz_dir"]   if sqz_d  else None,
-                "sqz_mom":    sqz_d["sqz_mom"]   if sqz_d  else None,
+                "symbol":         symbol,
+                "price":          price,
+                "day_chg":        day_chg,
+                "ma20":           ma20,
+                "ma50":           ma50,
+                "above_ma20":     above_ma20,
+                "above_ma50":     above_ma50,
+                "up3":            up3,
+                "dn3":            dn3,
+                "last3":          last3,
+                "adx":            adx_d["adx"]       if adx_d  else None,
+                "di_plus":        adx_d["di_plus"]   if adx_d  else None,
+                "di_minus":       adx_d["di_minus"]  if adx_d  else None,
+                "supertrend":     st_d["direction"]  if st_d   else None,
+                "st_value":       st_d["value"]      if st_d   else None,
+                "sqz_on":         sqz_d["sqz_on"]    if sqz_d  else None,
+                "sqz_dir":        sqz_d["sqz_dir"]   if sqz_d  else None,
+                "sqz_mom":        sqz_d["sqz_mom"]   if sqz_d  else None,
+                "strength_score": score,
+                "strength_grade": grade,
             }
             results.append(entry)
 

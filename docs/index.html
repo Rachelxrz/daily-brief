@@ -806,15 +806,52 @@ function renderWheel(day) {
       </div>
     </div>`;
 
-  // Candidates
+  // 计算年化收益率，合并排序，取 Top 3
+  const annYield = (c) => ((c.premium / c.price) * (365 / Math.max(c.dte, 1)) * 100);
+  const putMeta  = candidates.map(c => ({...c, _type:'put',  _label:'卖 Put',  _color:'var(--accent)', _emoji:'📌', _yield: annYield(c)}));
+  const callMeta = callCandidates.map(c => ({...c, _type:'call', _label:'卖 Call', _color:'#6d28d9',       _emoji:'📞', _yield: annYield(c)}));
+  const top3     = [...putMeta, ...callMeta].sort((a,b) => b._yield - a._yield).slice(0, 3);
+  const medals   = ['🥇','🥈','🥉'];
+
+  const top3Html = top3.length === 0
+    ? '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📭</div>今日无候选标的</div>'
+    : top3.map((c, i) => {
+        const isCall = c._type === 'call';
+        const unrStr = isCall && c.unrealized_pct != null
+          ? (c.unrealized_pct>=0?'+':'')+c.unrealized_pct.toFixed(1)+'%' : '--';
+        const detail = isCall
+          ? `持有 <strong>${c.shares}股</strong>&nbsp; 成本 $${c.cost_basis}&nbsp; 浮盈 <strong>${unrStr}</strong><br>
+             <strong>Strike $${c.strike}</strong>（OTM ~+${(c.otm_pct||0).toFixed(0)}%）&nbsp; 到期 ${c.expiry}（${c.dte} 天）&nbsp; IV ${(c.iv*100).toFixed(0)}%<br>
+             预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong>`
+          : `<strong>Strike $${c.strike}</strong>（OTM ~${((1-c.strike/c.price)*100).toFixed(0)}%）&nbsp; 到期 ${c.expiry}（${c.dte} 天）&nbsp; IV ${(c.iv*100).toFixed(0)}%<br>
+             预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong><br>
+             ADX: <strong>${c.adx}</strong>&nbsp; RSI: <strong>${c.rsi}</strong>`;
+        const topCls = i === 0 ? ' top-pick-card' : '';
+        const banner = i === 0 ? '<div class="top-pick-banner">🏆 综合最优 · 年化 Premium 最高</div>' : '';
+        return `<div class="candidate-card${topCls}">
+          ${banner}
+          <div class="candidate-header">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="font-size:1rem">${medals[i]}</span>
+              <span class="candidate-ticker">${c.ticker}</span>
+              <span class="candidate-badge" style="background:${c._color};color:#fff">${c._emoji} ${c._label}</span>
+              ${c.congress_signal?'<span class="candidate-badge">⭐国会信号</span>':''}
+              ${c.already_covered?'<span class="candidate-badge" style="background:#b45309;color:#fff">⚠️ 已有Call</span>':''}
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="candidate-price">$${c.price}</span>
+              <div style="font-size:0.62rem;color:var(--green);font-weight:600;margin-top:2px">年化 ~${c._yield.toFixed(0)}%</div>
+            </div>
+          </div>
+          <div class="candidate-detail">${detail}</div>
+        </div>`;
+      }).join('');
+
+  // 原有 Put / Call 详细列表
   let candidatesHtml = '';
   if (candidates.length) {
-    candidatesHtml = candidates.map((c, idx) => {
-      const topBanner = idx === 0 ? '<div class="top-pick-banner">🏆 最推荐卖 Put</div>' : '';
-      const topClass  = idx === 0 ? ' top-pick-card' : '';
-      return `
-      <div class="candidate-card${topClass}">
-        ${topBanner}
+    candidatesHtml = candidates.map(c => `
+      <div class="candidate-card">
         <div class="candidate-header">
           <div>
             <span class="candidate-ticker">${c.ticker}</span>
@@ -828,10 +865,9 @@ function renderWheel(day) {
           预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong><br>
           ADX: <strong>${c.adx}</strong>&nbsp; RSI: <strong>${c.rsi}</strong>
         </div>
-      </div>`;
-    }).join('');
+      </div>`).join('');
   } else {
-    candidatesHtml = '<div class="empty" style="padding:2rem"><div class="empty-icon">📭</div>今日无符合条件的候选标的</div>';
+    candidatesHtml = '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📭</div>今日无符合条件的候选标的</div>';
   }
 
   // Call Candidates
@@ -892,11 +928,13 @@ function renderWheel(day) {
   }
 
   el.innerHTML = sumHtml + `
-    <div class="wheel-layout">
+    <div class="wheel-section-label">🏆 Top 3 综合推荐（按年化 Premium 排序）</div>
+    ${top3Html}
+    <div class="wheel-layout" style="margin-top:1.2rem">
       <div>
-        <div class="wheel-section-label">📋 今日候选（卖 Put）</div>
+        <div class="wheel-section-label">📋 全部候选（卖 Put）</div>
         ${candidatesHtml}
-        <div class="wheel-section-label" style="margin-top:1.2rem">📞 今日候选（卖 Covered Call）</div>
+        <div class="wheel-section-label" style="margin-top:1.2rem">📞 全部候选（卖 Covered Call）</div>
         ${callHtml}
       </div>
       <div>

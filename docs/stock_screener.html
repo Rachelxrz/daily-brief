@@ -34,6 +34,14 @@
     .wl-card.red   .wl-card-tickers { color: #f85149; }
     .wl-card.up    .wl-card-tickers { color: #58a6ff; }
     .wl-card.dn    .wl-card-tickers { color: #d29922; }
+    .wl-card.fire  .wl-card-tickers { color: #f0a500; }
+
+    .score-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+    .score-s5 { background: #0d2016; color: #3fb950; }
+    .score-s4 { background: #092016; color: #58c26a; }
+    .score-s3 { background: #1c1a00; color: #d4a017; }
+    .score-s2 { background: #1a1000; color: #e09a3c; }
+    .score-s1 { background: #2d1215; color: #f85149; }
 
     .tbl-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -128,6 +136,7 @@
           <th class="r">DI-</th>
           <th>趋势</th>
           <th>SQZ</th>
+          <th>评分</th>
         </tr>
       </thead>
       <tbody id="wl-tbody"></tbody>
@@ -209,9 +218,19 @@ function renderWatchlist(wl) {
       <div class="wl-card-tickers">${dn3s.map(r=>r.symbol).join(' · ') || '无'}</div>
     </div>`;
 
+  // Top 5 strongest stocks card
+  const ranked = ok.slice().sort((a,b) => (b.strength_score||0) - (a.strength_score||0));
+  const top5   = ranked.slice(0, 5);
+  document.getElementById('wl-summary').innerHTML += `
+    <div class="wl-card fire" style="min-width:200px">
+      <div class="wl-card-label">🔥 强势排行 Top 5</div>
+      <div class="wl-card-tickers">${top5.map(r => `${r.symbol}<span style="color:#8b949e;font-weight:400"> ${r.strength_score||0}分</span>`).join(' · ') || '无'}</div>
+    </div>`;
+
   const tbody = document.getElementById('wl-tbody');
-  tbody.innerHTML = wl.map(r => {
-    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="14" class="neu" style="font-size:11px">${r.error}</td></tr>`;
+  const sorted = wl.slice().sort((a,b) => (b.strength_score||0) - (a.strength_score||0));
+  tbody.innerHTML = sorted.map(r => {
+    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="15" class="neu" style="font-size:11px">${r.error}</td></tr>`;
     const dc    = r.day_chg ?? 0;
     const last3 = (r.last3 || []).map(v => '$'+v.toFixed(2)).join(' → ');
 
@@ -226,6 +245,11 @@ function renderWatchlist(wl) {
     const sqzBadge = r.sqz_on == null ? '<span class="neu">—</span>'
                    : r.sqz_on ? `<span class="badge-sqz">挤压${r.sqz_dir==='up'?' ↑':' ↓'}</span>`
                                : `<span class="badge-nsqz">${r.sqz_dir==='up'?'↑动':'↓动'}</span>`;
+
+    const sc = r.strength_score ?? null;
+    const scClass = sc == null ? 'score-s1' : sc >= 9 ? 'score-s5' : sc >= 7 ? 'score-s4' : sc >= 5 ? 'score-s3' : sc >= 3 ? 'score-s2' : 'score-s1';
+    const scLabel = r.strength_grade || '—';
+    const scHtml  = sc != null ? `<span class="score-chip ${scClass}">${sc}/10 ${scLabel}</span>` : '<span class="neu">—</span>';
 
     return `<tr>
       <td class="sym">${r.symbol}</td>
@@ -243,6 +267,7 @@ function renderWatchlist(wl) {
       <td class="r">${dimHtml}</td>
       <td>${stBadge}</td>
       <td>${sqzBadge}</td>
+      <td>${scHtml}</td>
     </tr>`;
   }).join('');
 
