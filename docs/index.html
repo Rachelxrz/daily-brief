@@ -339,12 +339,16 @@
     border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.5rem; }
   .candidate-header { display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 0.35rem; }
-  .candidate-ticker { font-size: 1rem; font-weight: 700; color: var(--fg); }
-  .candidate-price { font-size: 0.85rem; color: var(--muted); }
+  .candidate-ticker { font-size: 1rem; font-weight: 700; color: var(--gold); }
+  .candidate-price { font-size: 0.85rem; color: var(--text); font-weight: 600; }
   .candidate-badge { font-size: 0.6rem; background: var(--gold); color: #0a0b0d;
     padding: 0.1rem 0.35rem; border-radius: 3px; font-weight: 600; margin-left: 0.4rem; }
-  .candidate-detail { font-size: 0.72rem; color: var(--muted); line-height: 1.7; }
-  .candidate-detail strong { color: var(--fg); }
+  .candidate-detail { font-size: 0.73rem; color: var(--text); line-height: 1.8; }
+  .candidate-detail strong { color: var(--gold); }
+  .top-pick-card { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
+  .top-pick-banner { font-size: 0.62rem; background: var(--gold); color: #0a0b0d;
+    padding: 0.15rem 0.5rem; border-radius: 3px 3px 0 0; margin: -0.75rem -1rem 0.5rem;
+    font-weight: 700; letter-spacing: 0.05em; }
   .position-card { background: var(--surface); border-radius: 6px; padding: 0.75rem 1rem;
     margin-bottom: 0.5rem; border-left: 3px solid var(--border); }
   .position-card.safe   { border-left-color: var(--green); }
@@ -352,7 +356,7 @@
   .position-card.danger { border-left-color: var(--red); }
   .position-header { display: flex; justify-content: space-between; font-size: 0.78rem;
     font-weight: 600; margin-bottom: 0.25rem; }
-  .position-meta { font-size: 0.68rem; color: var(--muted); line-height: 1.6; }
+  .position-meta { font-size: 0.68rem; color: var(--text); line-height: 1.6; }
   .position-advice { font-size: 0.68rem; color: var(--accent); margin-top: 0.2rem; }
   .wheel-source-note { font-size: 0.6rem; color: var(--muted); margin-top: 0.5rem;
     padding: 0.4rem; border: 1px solid var(--border); border-radius: 3px; }
@@ -744,9 +748,18 @@ function renderCongress(day) {
           <div class="sidebar-card-header">⚠️ 与持仓方向相反</div>
           <div class="sidebar-card-body">${antiHtml}</div>
         </div>
+        <div class="sidebar-card" style="margin-top:0.8rem">
+          <div class="sidebar-card-header">📐 评分规则</div>
+          <div class="sidebar-card-body" style="font-size:0.65rem;line-height:1.8;color:#aaa">
+            基础分：期权买入 +3 · 股票买入 +2 · 股票卖出 +1<br>
+            加分：高信号议员 +2 · Watchlist标的(买) +2 · 委员会匹配 +1 · 多人同买 +1 · 金额>$50K +1<br>
+            减分：披露延迟>45天 −1 · >60天 −2<br>
+            <span style="color:var(--red)">强信号 ≥5</span> · <span style="color:var(--amber)">中等 ≥3</span> · <span style="color:var(--green)">观察 ≥1</span>
+          </div>
+        </div>
         <div class="congress-source-note">
           数据来源：House Stock Watcher 社区镜像<br>
-          ⚠️ 参议院数据暂缺 · 信号窗口 7 天 · 仅供参考，不构成投资建议
+          ⚠️ 参议院数据暂缺 · 信号窗口 14 天 · 仅供参考，不构成投资建议
         </div>
       </div>
     </div>`;
@@ -796,8 +809,12 @@ function renderWheel(day) {
   // Candidates
   let candidatesHtml = '';
   if (candidates.length) {
-    candidatesHtml = candidates.map(c => `
-      <div class="candidate-card">
+    candidatesHtml = candidates.map((c, idx) => {
+      const topBanner = idx === 0 ? '<div class="top-pick-banner">🏆 最推荐卖 Put</div>' : '';
+      const topClass  = idx === 0 ? ' top-pick-card' : '';
+      return `
+      <div class="candidate-card${topClass}">
+        ${topBanner}
         <div class="candidate-header">
           <div>
             <span class="candidate-ticker">${c.ticker}</span>
@@ -807,11 +824,12 @@ function renderWheel(day) {
           <span class="candidate-price">$${c.price}</span>
         </div>
         <div class="candidate-detail">
-          <strong>Strike $${c.strike}</strong>（OTM ~${((1 - c.strike/c.price)*100).toFixed(0)}%）  到期 ${c.expiry}（${c.dte} 天）  IV ${(c.iv*100).toFixed(0)}%<br>
+          <strong>Strike $${c.strike}</strong>（OTM ~${((1 - c.strike/c.price)*100).toFixed(0)}%）&nbsp; 到期 ${c.expiry}（${c.dte} 天）&nbsp; IV ${(c.iv*100).toFixed(0)}%<br>
           预估 Premium: <strong>~$${c.premium}/股（$${c.premium_per_contract}/张）</strong><br>
-          MA20✅  MA50✅  ADX: ${c.adx}  RSI: ${c.rsi}
+          ADX: <strong>${c.adx}</strong>&nbsp; RSI: <strong>${c.rsi}</strong>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   } else {
     candidatesHtml = '<div class="empty" style="padding:2rem"><div class="empty-icon">📭</div>今日无符合条件的候选标的</div>';
   }

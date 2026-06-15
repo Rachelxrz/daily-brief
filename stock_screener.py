@@ -25,6 +25,8 @@ import os
 import requests
 from datetime import datetime
 import pytz
+import numpy as np
+import pandas as pd
 
 # ═══════════════════════════════════════════════
 # ★ 模块 B 配置 — 自选股 Watchlist
@@ -126,6 +128,128 @@ def get_hist(symbol, period="3mo"):
         return None, None
 
 
+def calc_adx_di(hist, period=14):
+    """Wilder-smoothed ADX + DI+ / DI-"""
+    try:
+        high  = hist["High"].values.astype(float)
+        low   = hist["Low"].values.astype(float)
+        close = hist["Close"].values.astype(float)
+        n = len(close)
+        if n < period * 2 + 1:
+            return None
+
+        tr  = np.zeros(n)
+        pdm = np.zeros(n)
+        mdm = np.zeros(n)
+        for i in range(1, n):
+            tr[i]  = max(high[i]-low[i], abs(high[i]-close[i-1]), abs(low[i]-close[i-1]))
+            up     = high[i] - high[i-1]
+            down   = low[i-1] - low[i]
+            pdm[i] = up   if (up > down and up > 0)   else 0
+            mdm[i] = down if (down > up and down > 0) else 0
+
+        def wilder(arr, p):
+            out = np.zeros(n)
+            out[p] = arr[1:p+1].sum()
+            for i in range(p+1, n):
+                out[i] = out[i-1] - out[i-1]/p + arr[i]
+            return out
+
+        atr = wilder(tr,  period)
+        pDM = wilder(pdm, period)
+        mDM = wilder(mdm, period)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            di_p = np.where(atr > 0, pDM / atr * 100, 0)
+            di_m = np.where(atr > 0, mDM / atr * 100, 0)
+            dx   = np.where((di_p + di_m) > 0, np.abs(di_p - di_m) / (di_p + di_m) * 100, 0)
+        adx_arr = wilder(dx, period)
+        return {
+            "adx":      round(float(adx_arr[-1]), 1),
+            "di_plus":  round(float(di_p[-1]),    1),
+            "di_minus": round(float(di_m[-1]),    1),
+        }
+    except Exception:
+        return None
+
+
+def calc_supertrend(hist, period=10, factor=3.0):
+    """ATR-based Supertrend indicator"""
+    try:
+        high  = hist["High"].values.astype(float)
+        low   = hist["Low"].values.astype(float)
+        close = hist["Close"].values.astype(float)
+        n = len(close)
+        if n < period + 1:
+            return None
+
+        tr = np.zeros(n)
+        for i in range(1, n):
+            tr[i] = max(high[i]-low[i], abs(high[i]-close[i-1]), abs(low[i]-close[i-1]))
+        atr = pd.Series(tr).rolling(period).mean().values
+
+        hl2     = (high + low) / 2
+        up_band = hl2 + factor * atr
+        dn_band = hl2 - factor * atr
+
+        final_up = np.copy(up_band)
+        final_dn = np.copy(dn_band)
+        trend    = np.ones(n)
+        for i in range(1, n):
+            final_up[i] = up_band[i] if (up_band[i] < final_up[i-1] or close[i-1] > final_up[i-1]) else final_up[i-1]
+            final_dn[i] = dn_band[i] if (dn_band[i] > final_dn[i-1] or close[i-1] < final_dn[i-1]) else final_dn[i-1]
+            if trend[i-1] == 1:
+                trend[i] = -1 if close[i] < final_dn[i] else 1
+            else:
+                trend[i] =  1 if close[i] > final_up[i] else -1
+
+        direction = "bullish" if trend[-1] == 1 else "bearish"
+        value = round(float(final_dn[-1] if trend[-1] == 1 else final_up[-1]), 2)
+        return {"direction": direction, "value": value}
+    except Exception:
+        return None
+
+
+def calc_sqzmom(hist, bb_len=20, kc_mult=1.5):
+    """Squeeze Momentum: BB inside KC + linear regression momentum"""
+    try:
+        close = hist["Close"].values.astype(float)
+        high  = hist["High"].values.astype(float)
+        low   = hist["Low"].values.astype(float)
+        n = len(close)
+        if n < bb_len + 5:
+            return None
+
+        close_s = pd.Series(close)
+        ma      = close_s.rolling(bb_len).mean()
+        std     = close_s.rolling(bb_len).std()
+        bb_up   = (ma + 2 * std).values
+        bb_dn   = (ma - 2 * std).values
+
+        tr = np.zeros(n)
+        for i in range(1, n):
+            tr[i] = max(high[i]-low[i], abs(high[i]-close[i-1]), abs(low[i]-close[i-1]))
+        atr_s = pd.Series(tr).rolling(bb_len).mean()
+        kc_up = (ma + kc_mult * atr_s).values
+        kc_dn = (ma - kc_mult * atr_s).values
+
+        sqz_on = bool(bb_up[-1] < kc_up[-1] and bb_dn[-1] > kc_dn[-1])
+
+        highest = pd.Series(high).rolling(bb_len).max().values
+        lowest  = pd.Series(low).rolling(bb_len).min().values
+        delta   = close - (highest + lowest) / 2 - ma.values
+        y = delta[-bb_len:]
+        if len(y) < bb_len or np.any(np.isnan(y)):
+            return None
+        slope = float(np.polyfit(np.arange(bb_len, dtype=float), y, 1)[0])
+        return {
+            "sqz_on":  sqz_on,
+            "sqz_mom": round(slope, 4),
+            "sqz_dir": "up" if slope > 0 else "down",
+        }
+    except Exception:
+        return None
+
+
 # ═══════════════════════════════════════════════
 # 模块 B — Watchlist 技术分析
 # ═══════════════════════════════════════════════
@@ -178,6 +302,11 @@ def analyze_watchlist():
             # 最近3日收盘价（便于展示）
             last3 = [round(c, 2) for c in closes[-3:]] if n >= 3 else []
 
+            # 高级技术指标
+            adx_d = calc_adx_di(hist)
+            st_d  = calc_supertrend(hist)
+            sqz_d = calc_sqzmom(hist)
+
             entry = {
                 "symbol":     symbol,
                 "price":      price,
@@ -189,6 +318,14 @@ def analyze_watchlist():
                 "up3":        up3,
                 "dn3":        dn3,
                 "last3":      last3,
+                "adx":        adx_d["adx"]       if adx_d  else None,
+                "di_plus":    adx_d["di_plus"]   if adx_d  else None,
+                "di_minus":   adx_d["di_minus"]  if adx_d  else None,
+                "supertrend": st_d["direction"]  if st_d   else None,
+                "st_value":   st_d["value"]      if st_d   else None,
+                "sqz_on":     sqz_d["sqz_on"]    if sqz_d  else None,
+                "sqz_dir":    sqz_d["sqz_dir"]   if sqz_d  else None,
+                "sqz_mom":    sqz_d["sqz_mom"]   if sqz_d  else None,
             }
             results.append(entry)
 
@@ -331,6 +468,18 @@ def screen_sector(sector_name, sector_cfg, screener_cfg):
             if ok:
                 metrics["symbol"] = symbol
                 metrics["sector"] = sector_name
+                adx_d = calc_adx_di(hist)
+                st_d  = calc_supertrend(hist)
+                sqz_d = calc_sqzmom(hist)
+                if adx_d:
+                    metrics.update(adx_d)
+                if st_d:
+                    metrics["supertrend"] = st_d["direction"]
+                    metrics["st_value"]   = st_d["value"]
+                if sqz_d:
+                    metrics["sqz_on"]  = sqz_d["sqz_on"]
+                    metrics["sqz_dir"] = sqz_d["sqz_dir"]
+                    metrics["sqz_mom"] = sqz_d["sqz_mom"]
                 passed.append(metrics)
                 print(f"    ✅ {symbol}: ${metrics['price']}  {metrics['day_change_pct']:+.2f}%")
             else:

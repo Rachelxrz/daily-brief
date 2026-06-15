@@ -57,6 +57,12 @@
     .streak-up { color: #58a6ff; font-size: 13px; }
     .streak-dn { color: #d29922; font-size: 13px; }
 
+    .badge-bull { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; background: #0d2016; color: #3fb950; }
+    .badge-bear { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; background: #2d1215; color: #f85149; }
+    .badge-sqz  { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; background: #1c1c2e; color: #a371f7; }
+    .badge-nsqz { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; background: #21262d; color: #8b949e; }
+    .adx-pill   { font-size: 0.6rem; background: #161b22; border: 1px solid #30363d; color: #e6edf3; border-radius: 4px; padding: 1px 5px; }
+
     /* ── ETF bar ── */
     .etf-bar { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; margin-bottom: 18px; }
     .etf-chip { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 8px 10px; text-align: center; }
@@ -117,6 +123,11 @@
           <th>3日涨</th>
           <th>3日跌</th>
           <th>近3收盘</th>
+          <th class="r">ADX</th>
+          <th class="r">DI+</th>
+          <th class="r">DI-</th>
+          <th>趋势</th>
+          <th>SQZ</th>
         </tr>
       </thead>
       <tbody id="wl-tbody"></tbody>
@@ -200,9 +211,22 @@ function renderWatchlist(wl) {
 
   const tbody = document.getElementById('wl-tbody');
   tbody.innerHTML = wl.map(r => {
-    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="9" class="neu" style="font-size:11px">${r.error}</td></tr>`;
+    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="14" class="neu" style="font-size:11px">${r.error}</td></tr>`;
     const dc    = r.day_chg ?? 0;
     const last3 = (r.last3 || []).map(v => '$'+v.toFixed(2)).join(' → ');
+
+    const adx = r.adx;
+    const dip = r.di_plus;
+    const dim = r.di_minus;
+    const adxCls   = adx == null ? 'neu' : adx >= 25 ? 'pos' : 'neu';
+    const dipHtml  = dip != null ? `<span class="${dip > (dim||0) ? 'pos' : 'neu'}">${dip.toFixed(1)}</span>` : '<span class="neu">—</span>';
+    const dimHtml  = dim != null ? `<span class="${dim > (dip||0) ? 'neg' : 'neu'}">${dim.toFixed(1)}</span>` : '<span class="neu">—</span>';
+    const stBadge  = r.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
+                   : r.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '<span class="neu">—</span>';
+    const sqzBadge = r.sqz_on == null ? '<span class="neu">—</span>'
+                   : r.sqz_on ? `<span class="badge-sqz">挤压${r.sqz_dir==='up'?' ↑':' ↓'}</span>`
+                               : `<span class="badge-nsqz">${r.sqz_dir==='up'?'↑动':'↓动'}</span>`;
+
     return `<tr>
       <td class="sym">${r.symbol}</td>
       <td class="r">$${(r.price||0).toFixed(2)}</td>
@@ -214,6 +238,11 @@ function renderWatchlist(wl) {
       <td style="text-align:center">${r.up3 ? '<span class="streak-up">📈</span>' : '<span class="neu">—</span>'}</td>
       <td style="text-align:center">${r.dn3 ? '<span class="streak-dn">📉</span>' : '<span class="neu">—</span>'}</td>
       <td class="neu" style="font-size:11px">${last3}</td>
+      <td class="r ${adxCls}" style="font-weight:600">${adx != null ? adx.toFixed(1) : '—'}</td>
+      <td class="r">${dipHtml}</td>
+      <td class="r">${dimHtml}</td>
+      <td>${stBadge}</td>
+      <td>${sqzBadge}</td>
     </tr>`;
   }).join('');
 
@@ -252,6 +281,12 @@ function renderScreener(r) {
           const ma25  = s.pct_above_ma25  != null ? `MA25 +${s.pct_above_ma25.toFixed(1)}%`   : '';
           const ma50  = s.pct_above_ma50  != null ? `MA50 +${s.pct_above_ma50.toFixed(1)}%`   : '';
           const ma125 = s.pct_above_ma125 != null ? `MA125 +${s.pct_above_ma125.toFixed(1)}%` : '';
+          const adxPill = s.adx != null ? `<span class="adx-pill">ADX ${s.adx.toFixed(0)}${s.di_plus>s.di_minus?' DI+↑':' DI-↑'}</span>` : '';
+          const stPill  = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
+                        : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
+          const sqzPill = s.sqz_on != null
+            ? (s.sqz_on ? `<span class="badge-sqz">挤压${s.sqz_dir==='up'?' ↑':' ↓'}</span>`
+                        : `<span class="badge-nsqz">${s.sqz_dir==='up'?'↑动':'↓动'}</span>`) : '';
           return `<div class="stock-row">
             <div class="rank">${RANK[i]||'#'+(i+1)}</div>
             <div class="stock-main">
@@ -260,6 +295,7 @@ function renderScreener(r) {
                 ${ma25  ? `<span class="ma-pill">${ma25}</span>`  : ''}
                 ${ma50  ? `<span class="ma-pill">${ma50}</span>`  : ''}
                 ${ma125 ? `<span class="ma-pill">${ma125}</span>` : ''}
+                ${adxPill}${stPill}${sqzPill}
               </div>
             </div>
             <div class="stock-right">

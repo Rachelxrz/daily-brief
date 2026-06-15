@@ -486,10 +486,9 @@ def run_market_monitor(dry_run: bool = False) -> dict:
         log.info(en_report)
         return {"cn": cn_report, "en": en_report}
 
-    # Step 3: 推送（先中文，再英文）
+    # Step 3: 推送中文（仅中文，英文保存到网页但不推送）
     log.info("\n📲 Step 3/3: 推送到微信...")
-    push_one_report(cn_report, f"📌 市场结构监控（中文）· {date_cn}", "中文")
-    push_one_report(en_report, f"📌 Market Monitor (EN) · {date_en}", "英文")
+    push_one_report(cn_report, f"📌 市场结构监控 · {date_cn}", "中文")
 
     # 保存到网页
     try:
@@ -499,7 +498,7 @@ def run_market_monitor(dry_run: bool = False) -> dict:
         log.warning(f"⚠️  网页数据保存失败: {e}")
 
     log.info("\n" + "=" * 60)
-    log.info("✅ 市场监控完成 — 中英双语已推送")
+    log.info("✅ 市场监控完成 — 中文已推送，英文已保存到网页")
     log.info("=" * 60)
 
     return {"cn": cn_report, "en": en_report}
