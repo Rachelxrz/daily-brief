@@ -637,7 +637,7 @@
     }
   },
   "2026-06-16": {
-    "updated": "2026-06-16 01:59 CST",
+    "updated": "2026-06-16 02:05 CST",
     "wheel": {
       "date": "2026-06-16",
       "candidates": [
@@ -866,6 +866,10 @@
         "premium_earned": 0.0,
         "positions_closed": 0
       }
+    },
+    "news": {
+      "cn": "",
+      "en": "# 📰 Daily Intelligence Brief\n### June 16, 2026\n\n\n## 📈 Finance & Markets\n\n- [CNBC Finance] SpaceX IPO leaves retail investors with too few shares and a tough hold-or-sell decision\n- [CNBC Finance] SpaceX doesn't have a timeline for its human missions to Mars. Kalshi traders say don't expect it this decade\n- [CNBC Finance] Ron Baron bought $1 billion of SpaceX shares in IPO, lifting stake to $25 billion\n- [CNBC Finance] Charlie Javice reportedly seeking a pardon from Trump\n- [CNBC World Economy] UK economy shrank 0.1% in April as Iran conflict weighed on growth\n- [CNBC World Economy] A Chinese start-up's unfolding dilemma exposes cracks in Beijing's tech funding machine\n- [CNBC World Economy] Wholesale prices rose 1.1% in May, more than expected, on surge in energy\n- [CNBC World Economy] ECB hikes interest rates for first time since 2023 as Iran war ramps up energy costs\n- [Yahoo Finance] Oil executives send a blunt message to Americans on gas prices\n- [Yahoo Finance] How to harness the power of the Chase trifecta\n\n## 📱 Tech & Media\n\n- [Hacker News] How TimescaleDB compresses time-series data\n- [Hacker News] Launch HN: Drafted (YC P26) – Models for residential architecture\n- [Hacker News] TinyWind: A pixel pirate sailing game with real wind physics (380k+ kms sailed)\n- [Hacker News] Memory safety CVEs differ between Rust and C/C++\n- [TechCrunch] These are the countries moving to ban social media for children\n- [TechCrunch] Cybersecurity vets protest ‘dangerous’ US government ban on Anthropic’s most powerful models\n- [TechCrunch] SpaceX’s biggest-ever IPO just grew to $85.7 billion raised\n- [TechCrunch] UK unveils sweeping social media ban for users under 16\n- [The Verge] Big Tech’s desperate last push at AI regulation\n- [The Verge] Xbox turmoil continues with a studio closure and executive departures\n\n## 🧠 Health & Wellness\n\n- [ScienceDaily Mind] This popular brain supplement was linked to shorter lifespans in men\n- [ScienceDaily Mind] Why middle age is becoming a breaking point in the U.S.\n- [ScienceDaily Mind] Your brain can keep improving into your 90s, study finds\n- [ScienceDaily Mind] Learning a musical instrument in your 70s could help protect memory\n- [PsyPost] Given permission to use AI, most college students show surprising restraint in their final essays\n- [PsyPost] Scientists discover how exercising muscles communicate with the brain to fight depression\n- [PsyPost] Head injuries in contact sports linked to leaky brain barrier and cognitive decline\n- [PsyPost] Trump’s anti-free speech rhetoric increases support for censorship among his voters\n- [Psychology Today] Sportsmanship and Young Children\n- [Psychology Today] Why Group Fitness Feels So Good"
     }
   }
 }
