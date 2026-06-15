@@ -163,10 +163,11 @@ def calc_adx_di(hist, period=14):
             di_m = np.where(atr > 0, mDM / atr * 100, 0)
             dx   = np.where((di_p + di_m) > 0, np.abs(di_p - di_m) / (di_p + di_m) * 100, 0)
         adx_arr = wilder(dx, period)
+        # Wilder smoothing accumulates ~period× the average; divide back to 0-100
         return {
-            "adx":      round(float(adx_arr[-1]), 1),
-            "di_plus":  round(float(di_p[-1]),    1),
-            "di_minus": round(float(di_m[-1]),    1),
+            "adx":      round(float(adx_arr[-1]) / period, 1),
+            "di_plus":  round(float(di_p[-1]),             1),
+            "di_minus": round(float(di_m[-1]),             1),
         }
     except Exception:
         return None
@@ -575,7 +576,7 @@ def save_json(report, path="docs/data/stock_screener.json"):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     history = []
     if os.path.exists(path):
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             history = json.load(f).get("history", [])
     history = [h for h in history if h.get("date") != report["date"]]
     history.insert(0, report)

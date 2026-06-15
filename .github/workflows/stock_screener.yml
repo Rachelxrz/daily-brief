@@ -26,7 +26,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install yfinance pandas requests pytz
+          pip install yfinance pandas numpy requests pytz
 
       - name: 🚀 Run stock screener
         env:
