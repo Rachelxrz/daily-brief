@@ -16,20 +16,20 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-15 08:11 CST
-**data.json 今日更新**：2026-06-15 07:41 CST
+**自动刷新时间**：2026-06-16 01:58 CST
+**data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
-- 每日简报 (main.py)：✅ 今日已产出
+- 每日简报 (main.py)：⚪ 今日无产出
 - 市场结构监控 (market_monitor.py)：⚪ 今日无产出
-- 国会交易信号 (congress_tracker.py)：✅ 今日已产出
-- Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
+- 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
+- Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `3410adc` 2026-06-14 — wheel: add Covered Call screening + holdings positions
-- `7f382f9` 2026-06-14 — fix: Wheel 候选明确标注卖Put，加 OTM% 显示
-- `a9641b9` 2026-06-14 — data: 回填 wheel 数据至 data.json
-- `0b37bd7` 2026-06-14 — fix: 修复多 job 并发覆盖 data.json 的 bug
+- `b805566` 2026-06-15 — fix: ADX calculation divide-by-period bug; encoding fix; force-push today's screener data
+- `94cea73` 2026-06-14 — feat: wheel top-3 combined ranking, watchlist strength score, ADX/SQZ display
+- `0543be5` 2026-06-14 — feat: add SQZMOM/ADX+DI/Supertrend to screener; brighten Wheel UI; remove EN WeChat push
+- `e249bed` 2026-06-14 — fix: merge_data preserve non-empty module data over empty snapshots
 
 <!-- AUTO:END -->
 
