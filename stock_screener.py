@@ -174,37 +174,65 @@ def calc_adx_di(hist, period=14):
 
 
 def calc_supertrend(hist, period=10, factor=3.0):
-    """ATR-based Supertrend indicator"""
+    """ATR-based Supertrend indicator (NaN-safe initialization)"""
     try:
         high  = hist["High"].values.astype(float)
         low   = hist["Low"].values.astype(float)
         close = hist["Close"].values.astype(float)
         n = len(close)
-        if n < period + 1:
+        if n < period * 2:
             return None
 
         tr = np.zeros(n)
         for i in range(1, n):
             tr[i] = max(high[i]-low[i], abs(high[i]-close[i-1]), abs(low[i]-close[i-1]))
-        atr = pd.Series(tr).rolling(period).mean().values
+
+        # Simple rolling ATR (NaN for warmup period)
+        atr = np.full(n, np.nan)
+        for i in range(period, n):
+            atr[i] = tr[i-period+1:i+1].mean()
 
         hl2     = (high + low) / 2
-        up_band = hl2 + factor * atr
+        up_band = hl2 + factor * atr   # NaN for warmup
         dn_band = hl2 - factor * atr
 
-        final_up = np.copy(up_band)
-        final_dn = np.copy(dn_band)
-        trend    = np.ones(n)
+        final_up = np.full(n, np.nan)
+        final_dn = np.full(n, np.nan)
+        trend    = np.zeros(n, dtype=int)   # 0=warmup, 1=bullish, -1=bearish
+
         for i in range(1, n):
-            final_up[i] = up_band[i] if (up_band[i] < final_up[i-1] or close[i-1] > final_up[i-1]) else final_up[i-1]
-            final_dn[i] = dn_band[i] if (dn_band[i] > final_dn[i-1] or close[i-1] < final_dn[i-1]) else final_dn[i-1]
-            if trend[i-1] == 1:
+            if np.isnan(up_band[i]):
+                continue  # still in warmup, keep 0
+
+            # When previous final band is NaN (first valid bar), seed from raw band
+            fu_prev = final_up[i-1]
+            fd_prev = final_dn[i-1]
+
+            if np.isnan(fu_prev):
+                final_up[i] = up_band[i]
+            else:
+                final_up[i] = up_band[i] if (up_band[i] < fu_prev or close[i-1] > fu_prev) else fu_prev
+
+            if np.isnan(fd_prev):
+                final_dn[i] = dn_band[i]
+            else:
+                final_dn[i] = dn_band[i] if (dn_band[i] > fd_prev or close[i-1] < fd_prev) else fd_prev
+
+            prev_trend = trend[i-1]
+            if prev_trend == 0:
+                # First valid bar: initialize direction from price vs lower band
+                trend[i] = 1 if close[i] > final_dn[i] else -1
+            elif prev_trend == 1:
                 trend[i] = -1 if close[i] < final_dn[i] else 1
             else:
                 trend[i] =  1 if close[i] > final_up[i] else -1
 
+        if trend[-1] == 0:
+            return None
+
         direction = "bullish" if trend[-1] == 1 else "bearish"
-        value = round(float(final_dn[-1] if trend[-1] == 1 else final_up[-1]), 2)
+        val_raw   = final_dn[-1] if trend[-1] == 1 else final_up[-1]
+        value     = None if np.isnan(val_raw) else round(float(val_raw), 2)
         return {"direction": direction, "value": value}
     except Exception:
         return None

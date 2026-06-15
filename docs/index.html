@@ -624,10 +624,32 @@ function renderMonitor(day) {
 
 function renderCongress(day) {
   const el = document.getElementById('congress-content');
-  const c = day.congress;
+  let c = day.congress;
 
-  if (!c) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">🏛</div>当日无国会信号数据</div>';
+  // Fallback: if current day has no congress data, find the latest day that does
+  const hasCongressData = (obj) => obj && (
+    (obj.strong && obj.strong.length > 0) ||
+    (obj.medium && obj.medium.length > 0) ||
+    (obj.watch  && obj.watch.length  > 0)
+  );
+
+  if (!hasCongressData(c)) {
+    const allDates = Object.keys(allData).sort().reverse();
+    for (const d of allDates) {
+      if (hasCongressData(allData[d].congress)) {
+        c = allData[d].congress;
+        const note = document.createElement('div');
+        note.style.cssText = 'font-size:0.68rem;color:var(--muted);margin-bottom:0.8rem;padding:0.4rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)';
+        note.textContent = `⚠️ 当日无国会数据，显示最近有效数据（${d}）`;
+        el.innerHTML = '';
+        el.appendChild(note);
+        break;
+      }
+    }
+  }
+
+  if (!hasCongressData(c)) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🏛</div>暂无国会信号数据（14天内无记录）</div>';
     return;
   }
 
