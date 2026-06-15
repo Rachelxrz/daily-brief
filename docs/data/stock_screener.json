@@ -1,14 +1,14 @@
 {
   "latest": {
     "date": "2026-06-15",
-    "generated_at": "2026-06-15 15:15 ET",
+    "generated_at": "2026-06-15 19:15 ET",
     "watchlist": [
       {
         "symbol": "ALB",
-        "price": 169.66,
-        "day_chg": -0.45,
-        "ma20": 166.75,
-        "ma50": 181.38,
+        "price": 168.9,
+        "day_chg": -0.89,
+        "ma20": 166.71,
+        "ma50": 181.37,
         "above_ma20": true,
         "above_ma50": false,
         "up3": false,
@@ -16,7 +16,7 @@
         "last3": [
           158.65,
           170.42,
-          169.66
+          168.9
         ],
         "adx": 23.7,
         "di_plus": 25.7,
@@ -25,16 +25,16 @@
         "st_value": 142.11,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 1.9755,
+        "sqz_mom": 1.9652,
         "strength_score": 6,
         "strength_grade": "中性"
       },
       {
         "symbol": "ANET",
-        "price": 167.26,
-        "day_chg": 2.46,
-        "ma20": 157.07,
-        "ma50": 156.55,
+        "price": 169.09,
+        "day_chg": 3.58,
+        "ma20": 157.16,
+        "ma50": 156.58,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -42,25 +42,25 @@
         "last3": [
           156.4,
           163.24,
-          167.26
+          169.09
         ],
-        "adx": 15.5,
-        "di_plus": 28.6,
-        "di_minus": 23.3,
+        "adx": 15.6,
+        "di_plus": 29.5,
+        "di_minus": 23.0,
         "supertrend": "bearish",
         "st_value": 180.76,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.9666,
+        "sqz_mom": 0.9915,
         "strength_score": 7,
         "strength_grade": "强势"
       },
       {
         "symbol": "AVGO",
-        "price": 394.46,
-        "day_chg": 3.24,
-        "ma20": 417.19,
-        "ma50": 408.05,
+        "price": 393.94,
+        "day_chg": 3.11,
+        "ma20": 417.17,
+        "ma50": 408.04,
         "above_ma20": false,
         "above_ma50": false,
         "up3": false,
@@ -68,7 +68,7 @@
         "last3": [
           385.57,
           382.07,
-          394.46
+          393.94
         ],
         "adx": 21.7,
         "di_plus": 23.1,
@@ -77,42 +77,42 @@
         "st_value": 467.31,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -3.4322,
+        "sqz_mom": -3.4393,
         "strength_score": 0,
         "strength_grade": "弱势"
       },
       {
         "symbol": "BDRY",
-        "price": 12.06,
-        "day_chg": -2.11,
-        "ma20": 12.64,
+        "price": 11.99,
+        "day_chg": -2.68,
+        "ma20": 12.63,
         "ma50": 12.02,
         "above_ma20": false,
-        "above_ma50": true,
+        "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
           12.52,
           12.32,
-          12.06
+          11.99
         ],
         "adx": 13.4,
         "di_plus": 19.3,
         "di_minus": 33.4,
-        "supertrend": "bullish",
-        "st_value": 12.03,
+        "supertrend": "bearish",
+        "st_value": 13.21,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -0.099,
-        "strength_score": 4,
-        "strength_grade": "偏弱"
+        "sqz_mom": -0.1,
+        "strength_score": 0,
+        "strength_grade": "弱势"
       },
       {
         "symbol": "CEG",
-        "price": 263.96,
-        "day_chg": 4.02,
-        "ma20": 269.11,
-        "ma50": 284.66,
+        "price": 262.35,
+        "day_chg": 3.39,
+        "ma20": 269.03,
+        "ma50": 284.63,
         "above_ma20": false,
         "above_ma50": false,
         "up3": true,
@@ -120,7 +120,7 @@
         "last3": [
           246.71,
           253.76,
-          263.96
+          262.35
         ],
         "adx": 23.2,
         "di_plus": 24.1,
@@ -129,16 +129,16 @@
         "st_value": 277.47,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.8916,
+        "sqz_mom": 0.8696,
         "strength_score": 2,
         "strength_grade": "弱势"
       },
       {
         "symbol": "CIEN",
-        "price": 459.33,
-        "day_chg": 2.99,
-        "ma20": 532.95,
-        "ma50": 522.73,
+        "price": 463.41,
+        "day_chg": 3.91,
+        "ma20": 533.16,
+        "ma50": 522.81,
         "above_ma20": false,
         "above_ma50": false,
         "up3": true,
@@ -146,7 +146,7 @@
         "last3": [
           445.22,
           445.98,
-          459.33
+          463.41
         ],
         "adx": 24.2,
         "di_plus": 19.6,
@@ -155,16 +155,16 @@
         "st_value": 581.15,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -8.106,
+        "sqz_mom": -8.0507,
         "strength_score": 1,
         "strength_grade": "弱势"
       },
       {
         "symbol": "COHR",
-        "price": 416.08,
-        "day_chg": 8.06,
-        "ma20": 380.7,
-        "ma50": 350.06,
+        "price": 413.84,
+        "day_chg": 7.48,
+        "ma20": 380.58,
+        "ma50": 350.02,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -172,7 +172,7 @@
         "last3": [
           363.58,
           385.03,
-          416.08
+          413.84
         ],
         "adx": 15.3,
         "di_plus": 24.7,
@@ -181,14 +181,14 @@
         "st_value": 338.03,
         "sqz_on": true,
         "sqz_dir": "down",
-        "sqz_mom": -3.4883,
+        "sqz_mom": -3.5187,
         "strength_score": 7,
         "strength_grade": "强势"
       },
       {
         "symbol": "COPX",
-        "price": 89.89,
-        "day_chg": 4.56,
+        "price": 89.81,
+        "day_chg": 4.47,
         "ma20": 85.14,
         "ma50": 83.96,
         "above_ma20": true,
@@ -198,7 +198,7 @@
         "last3": [
           83.16,
           85.97,
-          89.89
+          89.81
         ],
         "adx": 14.4,
         "di_plus": 36.0,
@@ -207,14 +207,14 @@
         "st_value": 90.85,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -0.2022,
+        "sqz_mom": -0.2033,
         "strength_score": 6,
         "strength_grade": "中性"
       },
       {
         "symbol": "ETHA",
-        "price": 13.83,
-        "day_chg": 10.02,
+        "price": 13.76,
+        "day_chg": 9.47,
         "ma20": 14.31,
         "ma50": 16.12,
         "above_ma20": false,
@@ -224,7 +224,7 @@
         "last3": [
           12.7,
           12.57,
-          13.83
+          13.76
         ],
         "adx": 38.8,
         "di_plus": 22.2,
@@ -233,14 +233,14 @@
         "st_value": 14.27,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.1155,
+        "sqz_mom": 0.1145,
         "strength_score": 2,
         "strength_grade": "弱势"
       },
       {
         "symbol": "FRO",
-        "price": 39.49,
-        "day_chg": 1.09,
+        "price": 39.43,
+        "day_chg": 0.92,
         "ma20": 35.02,
         "ma50": 34.92,
         "above_ma20": true,
@@ -250,7 +250,7 @@
         "last3": [
           35.58,
           39.07,
-          39.49
+          39.43
         ],
         "adx": 19.7,
         "di_plus": 36.9,
@@ -259,16 +259,16 @@
         "st_value": 34.69,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.0877,
+        "sqz_mom": 0.0868,
         "strength_score": 9,
         "strength_grade": "超强势"
       },
       {
         "symbol": "GEV",
-        "price": 986.1,
-        "day_chg": 4.83,
-        "ma20": 976.45,
-        "ma50": 1014.52,
+        "price": 979.07,
+        "day_chg": 4.08,
+        "ma20": 976.1,
+        "ma50": 1014.38,
         "above_ma20": true,
         "above_ma50": false,
         "up3": true,
@@ -276,25 +276,25 @@
         "last3": [
           906.79,
           940.66,
-          986.1
+          979.07
         ],
         "adx": 20.6,
         "di_plus": 21.9,
-        "di_minus": 25.2,
+        "di_minus": 25.1,
         "supertrend": "bearish",
         "st_value": 1012.97,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 5.027,
+        "sqz_mom": 4.9316,
         "strength_score": 4,
         "strength_grade": "偏弱"
       },
       {
         "symbol": "GS",
-        "price": 1080.36,
-        "day_chg": 1.66,
-        "ma20": 1018.53,
-        "ma50": 957.74,
+        "price": 1076.17,
+        "day_chg": 1.26,
+        "ma20": 1018.32,
+        "ma50": 957.66,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -302,7 +302,7 @@
         "last3": [
           1035.64,
           1062.75,
-          1080.36
+          1076.17
         ],
         "adx": 29.3,
         "di_plus": 33.6,
@@ -311,14 +311,14 @@
         "st_value": 980.16,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -4.1621,
+        "sqz_mom": -4.219,
         "strength_score": 9,
         "strength_grade": "超强势"
       },
       {
         "symbol": "HEWJ",
-        "price": 64.11,
-        "day_chg": 2.03,
+        "price": 64.16,
+        "day_chg": 2.12,
         "ma20": 62.14,
         "ma50": 60.55,
         "above_ma20": true,
@@ -328,25 +328,25 @@
         "last3": [
           62.17,
           62.83,
-          64.11
+          64.16
         ],
         "adx": 17.7,
-        "di_plus": 34.1,
+        "di_plus": 34.2,
         "di_minus": 23.5,
         "supertrend": "bullish",
         "st_value": 60.44,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -0.1952,
+        "sqz_mom": -0.1946,
         "strength_score": 8,
         "strength_grade": "强势"
       },
       {
         "symbol": "LITE",
-        "price": 961.34,
-        "day_chg": 4.32,
-        "ma20": 905.35,
-        "ma50": 903.43,
+        "price": 957.24,
+        "day_chg": 3.87,
+        "ma20": 905.15,
+        "ma50": 903.34,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -354,7 +354,7 @@
         "last3": [
           889.59,
           921.56,
-          961.34
+          957.24
         ],
         "adx": 12.9,
         "di_plus": 26.1,
@@ -363,16 +363,16 @@
         "st_value": 790.39,
         "sqz_on": true,
         "sqz_dir": "up",
-        "sqz_mom": 1.7888,
+        "sqz_mom": 1.7331,
         "strength_score": 9,
         "strength_grade": "超强势"
       },
       {
         "symbol": "MP",
-        "price": 58.94,
-        "day_chg": 2.41,
-        "ma20": 61.59,
-        "ma50": 62.01,
+        "price": 58.26,
+        "day_chg": 1.23,
+        "ma20": 61.55,
+        "ma50": 62.0,
         "above_ma20": false,
         "above_ma50": false,
         "up3": true,
@@ -380,7 +380,7 @@
         "last3": [
           57.18,
           57.55,
-          58.94
+          58.26
         ],
         "adx": 17.4,
         "di_plus": 25.6,
@@ -389,24 +389,24 @@
         "st_value": 68.88,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.1001,
+        "sqz_mom": 0.091,
         "strength_score": 2,
         "strength_grade": "弱势"
       },
       {
         "symbol": "NEE",
-        "price": 86.62,
-        "day_chg": 0.74,
-        "ma20": 86.19,
-        "ma50": 90.45,
-        "above_ma20": true,
+        "price": 86.12,
+        "day_chg": 0.15,
+        "ma20": 86.16,
+        "ma50": 90.44,
+        "above_ma20": false,
         "above_ma50": false,
         "up3": false,
         "dn3": false,
         "last3": [
           84.84,
           85.99,
-          86.62
+          86.12
         ],
         "adx": 33.2,
         "di_plus": 14.5,
@@ -415,16 +415,16 @@
         "st_value": 89.72,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.4921,
-        "strength_score": 4,
-        "strength_grade": "偏弱"
+        "sqz_mom": 0.4853,
+        "strength_score": 2,
+        "strength_grade": "弱势"
       },
       {
         "symbol": "NVDA",
-        "price": 211.96,
-        "day_chg": 3.3,
-        "ma20": 213.8,
-        "ma50": 207.4,
+        "price": 212.45,
+        "day_chg": 3.54,
+        "ma20": 213.82,
+        "ma50": 207.41,
         "above_ma20": false,
         "above_ma50": true,
         "up3": true,
@@ -432,7 +432,7 @@
         "last3": [
           204.87,
           205.19,
-          211.96
+          212.45
         ],
         "adx": 15.6,
         "di_plus": 22.1,
@@ -441,15 +441,15 @@
         "st_value": 231.53,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -1.24,
+        "sqz_mom": -1.2333,
         "strength_score": 4,
         "strength_grade": "偏弱"
       },
       {
         "symbol": "PLTR",
-        "price": 134.55,
-        "day_chg": 5.13,
-        "ma20": 138.77,
+        "price": 134.71,
+        "day_chg": 5.25,
+        "ma20": 138.78,
         "ma50": 139.36,
         "above_ma20": false,
         "above_ma50": false,
@@ -458,7 +458,7 @@
         "last3": [
           131.08,
           127.99,
-          134.55
+          134.71
         ],
         "adx": 16.0,
         "di_plus": 22.8,
@@ -467,16 +467,16 @@
         "st_value": 149.55,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -0.8077,
+        "sqz_mom": -0.8056,
         "strength_score": 0,
         "strength_grade": "弱势"
       },
       {
         "symbol": "PWR",
-        "price": 732.33,
-        "day_chg": 3.47,
-        "ma20": 709.43,
-        "ma50": 682.88,
+        "price": 724.35,
+        "day_chg": 2.35,
+        "ma20": 709.03,
+        "ma50": 682.72,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -484,7 +484,7 @@
         "last3": [
           683.29,
           707.74,
-          732.33
+          724.35
         ],
         "adx": 18.8,
         "di_plus": 23.7,
@@ -493,24 +493,24 @@
         "st_value": 757.88,
         "sqz_on": true,
         "sqz_dir": "down",
-        "sqz_mom": -2.1949,
+        "sqz_mom": -2.3031,
         "strength_score": 5,
         "strength_grade": "中性"
       },
       {
         "symbol": "VRT",
-        "price": 315.85,
-        "day_chg": 4.29,
-        "ma20": 315.19,
-        "ma50": 318.65,
-        "above_ma20": true,
+        "price": 311.93,
+        "day_chg": 2.99,
+        "ma20": 315.0,
+        "ma50": 318.57,
+        "above_ma20": false,
         "above_ma50": false,
         "up3": true,
         "dn3": false,
         "last3": [
           297.88,
           302.87,
-          315.85
+          311.93
         ],
         "adx": 16.4,
         "di_plus": 22.7,
@@ -518,43 +518,43 @@
         "supertrend": "bearish",
         "st_value": 343.02,
         "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.0079,
-        "strength_score": 4,
-        "strength_grade": "偏弱"
+        "sqz_dir": "down",
+        "sqz_mom": -0.0453,
+        "strength_score": 1,
+        "strength_grade": "弱势"
       },
       {
         "symbol": "VST",
-        "price": 154.98,
-        "day_chg": 4.7,
-        "ma20": 150.8,
-        "ma50": 153.78,
+        "price": 153.52,
+        "day_chg": 3.72,
+        "ma20": 150.73,
+        "ma50": 153.75,
         "above_ma20": true,
-        "above_ma50": true,
+        "above_ma50": false,
         "up3": true,
         "dn3": false,
         "last3": [
           146.38,
           148.02,
-          154.98
+          153.52
         ],
         "adx": 12.7,
-        "di_plus": 26.5,
-        "di_minus": 22.2,
+        "di_plus": 26.7,
+        "di_minus": 22.1,
         "supertrend": "bearish",
         "st_value": 160.09,
         "sqz_on": false,
         "sqz_dir": "up",
-        "sqz_mom": 0.2251,
-        "strength_score": 7,
-        "strength_grade": "强势"
+        "sqz_mom": 0.2053,
+        "strength_score": 5,
+        "strength_grade": "中性"
       },
       {
         "symbol": "MPWR",
-        "price": 1653.48,
-        "day_chg": 4.83,
-        "ma20": 1575.84,
-        "ma50": 1529.92,
+        "price": 1652.29,
+        "day_chg": 4.75,
+        "ma20": 1575.78,
+        "ma50": 1529.89,
         "above_ma20": true,
         "above_ma50": true,
         "up3": false,
@@ -562,7 +562,7 @@
         "last3": [
           1589.55,
           1577.32,
-          1653.48
+          1652.29
         ],
         "adx": 17.8,
         "di_plus": 23.1,
@@ -571,16 +571,16 @@
         "st_value": 1425.03,
         "sqz_on": true,
         "sqz_dir": "up",
-        "sqz_mom": 1.4777,
+        "sqz_mom": 1.4615,
         "strength_score": 8,
         "strength_grade": "强势"
       },
       {
         "symbol": "ADI",
-        "price": 429.53,
-        "day_chg": 2.81,
-        "ma20": 411.25,
-        "ma50": 394.71,
+        "price": 427.58,
+        "day_chg": 2.34,
+        "ma20": 411.16,
+        "ma50": 394.67,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -588,7 +588,7 @@
         "last3": [
           412.13,
           417.79,
-          429.53
+          427.58
         ],
         "adx": 22.1,
         "di_plus": 26.7,
@@ -597,16 +597,16 @@
         "st_value": 369.9,
         "sqz_on": true,
         "sqz_dir": "down",
-        "sqz_mom": -0.1833,
+        "sqz_mom": -0.2098,
         "strength_score": 7,
         "strength_grade": "强势"
       },
       {
         "symbol": "GOOG",
-        "price": 367.97,
-        "day_chg": 2.74,
-        "ma20": 371.8,
-        "ma50": 360.76,
+        "price": 367.11,
+        "day_chg": 2.5,
+        "ma20": 371.75,
+        "ma50": 360.74,
         "above_ma20": false,
         "above_ma50": true,
         "up3": true,
@@ -614,7 +614,7 @@
         "last3": [
           356.56,
           358.16,
-          367.94
+          367.11
         ],
         "adx": 19.9,
         "di_plus": 24.2,
@@ -623,16 +623,16 @@
         "st_value": 386.04,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -2.013,
+        "sqz_mom": -2.0243,
         "strength_score": 4,
         "strength_grade": "偏弱"
       },
       {
         "symbol": "NBIS",
-        "price": 259.74,
-        "day_chg": 11.78,
-        "ma20": 226.32,
-        "ma50": 187.63,
+        "price": 260.07,
+        "day_chg": 11.93,
+        "ma20": 226.33,
+        "ma50": 187.64,
         "above_ma20": true,
         "above_ma50": true,
         "up3": true,
@@ -640,7 +640,7 @@
         "last3": [
           222.24,
           232.36,
-          259.74
+          260.07
         ],
         "adx": 23.6,
         "di_plus": 28.0,
@@ -649,16 +649,16 @@
         "st_value": 204.26,
         "sqz_on": false,
         "sqz_dir": "down",
-        "sqz_mom": -4.614,
+        "sqz_mom": -4.6095,
         "strength_score": 8,
         "strength_grade": "强势"
       },
       {
         "symbol": "MPC",
-        "price": 251.9,
-        "day_chg": -4.43,
-        "ma20": 257.95,
-        "ma50": 244.21,
+        "price": 250.86,
+        "day_chg": -4.83,
+        "ma20": 257.9,
+        "ma50": 244.19,
         "above_ma20": false,
         "above_ma50": true,
         "up3": false,
@@ -666,7 +666,7 @@
         "last3": [
           260.81,
           263.58,
-          251.9
+          250.86
         ],
         "adx": 21.8,
         "di_plus": 21.3,
@@ -675,26 +675,342 @@
         "st_value": 241.32,
         "sqz_on": true,
         "sqz_dir": "down",
-        "sqz_mom": -1.4472,
+        "sqz_mom": -1.4612,
         "strength_score": 3,
         "strength_grade": "偏弱"
       }
     ],
-    "leading_sectors": [],
-    "sector_perf": {},
-    "results_by_sector": {}
+    "leading_sectors": [
+      "Copper",
+      "Gold",
+      "Industrials",
+      "Materials",
+      "Utilities"
+    ],
+    "sector_perf": {
+      "Energy": {
+        "pct": -3.48,
+        "price": 55.55,
+        "etf": "XLE",
+        "etf_name": "Energy Select Sector SPDR",
+        "emoji": "⛽",
+        "is_leading": false
+      },
+      "Industrials": {
+        "pct": 1.42,
+        "price": 178.68,
+        "etf": "XLI",
+        "etf_name": "Industrial Select Sector SPDR",
+        "emoji": "🏗️",
+        "is_leading": true
+      },
+      "Utilities": {
+        "pct": 0.47,
+        "price": 44.74,
+        "etf": "XLU",
+        "etf_name": "Utilities Select Sector SPDR",
+        "emoji": "🔌",
+        "is_leading": true
+      },
+      "Materials": {
+        "pct": 0.61,
+        "price": 52.5,
+        "etf": "XLB",
+        "etf_name": "Materials Select Sector SPDR",
+        "emoji": "⚗️",
+        "is_leading": true
+      },
+      "Consumer Staples": {
+        "pct": -0.4,
+        "price": 85.48,
+        "etf": "XLP",
+        "etf_name": "Consumer Staples Select Sector SPDR",
+        "emoji": "🛒",
+        "is_leading": false
+      },
+      "Gold": {
+        "pct": 2.59,
+        "price": 396.55,
+        "etf": "GLD",
+        "etf_name": "SPDR Gold Shares",
+        "emoji": "🥇",
+        "is_leading": true
+      },
+      "Copper": {
+        "pct": 4.47,
+        "price": 89.81,
+        "etf": "COPX",
+        "etf_name": "Global X Copper Miners ETF",
+        "emoji": "🔶",
+        "is_leading": true
+      }
+    },
+    "results_by_sector": {
+      "Copper": [
+        {
+          "price": 28.75,
+          "market_cap_b": 11.4,
+          "avg_volume": 6435523,
+          "day_change_pct": 3.34,
+          "eps": null,
+          "ma25": 26.92,
+          "pct_above_ma25": 6.8,
+          "ma50": 25.37,
+          "pct_above_ma50": 13.31,
+          "symbol": "HBM",
+          "sector": "Copper",
+          "adx": 17.7,
+          "di_plus": 36.4,
+          "di_minus": 25.0,
+          "supertrend": "bearish",
+          "st_value": 31.01,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -0.2246
+        },
+        {
+          "price": 70.13,
+          "market_cap_b": 100.8,
+          "avg_volume": 17326466,
+          "day_change_pct": 2.51,
+          "eps": null,
+          "ma25": 65.13,
+          "pct_above_ma25": 7.68,
+          "ma50": 64.18,
+          "pct_above_ma50": 9.27,
+          "symbol": "FCX",
+          "sector": "Copper",
+          "adx": 16.3,
+          "di_plus": 32.3,
+          "di_minus": 20.3,
+          "supertrend": "bearish",
+          "st_value": 74.21,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -0.1032
+        },
+        {
+          "price": 66.16,
+          "market_cap_b": 32.4,
+          "avg_volume": 4365174,
+          "day_change_pct": 2.04,
+          "eps": null,
+          "ma25": 64.29,
+          "pct_above_ma25": 2.92,
+          "ma50": 61.2,
+          "pct_above_ma50": 8.1,
+          "symbol": "TECK",
+          "sector": "Copper",
+          "adx": 15.2,
+          "di_plus": 33.3,
+          "di_minus": 23.4,
+          "supertrend": "bearish",
+          "st_value": 69.59,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -0.3343
+        }
+      ],
+      "Gold": [
+        {
+          "price": 33.76,
+          "market_cap_b": 8.8,
+          "avg_volume": 2347672,
+          "day_change_pct": 10.11,
+          "eps": null,
+          "ma25": 31.98,
+          "pct_above_ma25": 5.57,
+          "ma50": 32.48,
+          "pct_above_ma50": 3.93,
+          "symbol": "EGO",
+          "sector": "Gold",
+          "adx": 16.7,
+          "di_plus": 31.4,
+          "di_minus": 25.9,
+          "supertrend": "bullish",
+          "st_value": 27.88,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -0.0401
+        },
+        {
+          "price": 17.93,
+          "market_cap_b": 10.4,
+          "avg_volume": 10201202,
+          "day_change_pct": 7.69,
+          "eps": null,
+          "ma25": 17.01,
+          "pct_above_ma25": 5.38,
+          "ma50": 17.6,
+          "pct_above_ma50": 1.86,
+          "symbol": "IAG",
+          "sector": "Gold",
+          "adx": 17.7,
+          "di_plus": 33.1,
+          "di_minus": 24.2,
+          "supertrend": "bullish",
+          "st_value": 15.14,
+          "sqz_on": false,
+          "sqz_dir": "up",
+          "sqz_mom": 0.0716
+        }
+      ],
+      "Industrials": [
+        {
+          "price": 407.06,
+          "market_cap_b": 158.1,
+          "avg_volume": 2613104,
+          "day_change_pct": 4.0,
+          "eps": 10.22,
+          "ma25": 399.17,
+          "pct_above_ma25": 1.98,
+          "ma50": 402.15,
+          "pct_above_ma50": 1.22,
+          "ma125": 370.17,
+          "pct_above_ma125": 9.97,
+          "symbol": "ETN",
+          "sector": "Industrials",
+          "adx": 13.7,
+          "di_plus": 20.9,
+          "di_minus": 24.0,
+          "supertrend": "bearish",
+          "st_value": 421.27,
+          "sqz_on": false,
+          "sqz_dir": "up",
+          "sqz_mom": 1.8476
+        },
+        {
+          "price": 227.41,
+          "market_cap_b": 144.1,
+          "avg_volume": 4218831,
+          "day_change_pct": 3.22,
+          "eps": 6.26,
+          "ma25": 221.85,
+          "pct_above_ma25": 2.51,
+          "ma50": 221.2,
+          "pct_above_ma50": 2.81,
+          "ma125": 221.42,
+          "pct_above_ma125": 2.7,
+          "symbol": "HON",
+          "sector": "Industrials",
+          "adx": 18.9,
+          "di_plus": 28.5,
+          "di_minus": 22.4,
+          "supertrend": "bearish",
+          "st_value": 233.11,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -1.4426
+        },
+        {
+          "price": 270.1,
+          "market_cap_b": 15.9,
+          "avg_volume": 1065340,
+          "day_change_pct": 2.95,
+          "eps": 3.2,
+          "ma25": 266.23,
+          "pct_above_ma25": 1.45,
+          "ma50": 246.36,
+          "pct_above_ma50": 9.64,
+          "ma125": 209.07,
+          "pct_above_ma125": 29.19,
+          "symbol": "GNRC",
+          "sector": "Industrials",
+          "adx": 23.0,
+          "di_plus": 24.0,
+          "di_minus": 25.6,
+          "supertrend": "bearish",
+          "st_value": 295.68,
+          "sqz_on": false,
+          "sqz_dir": "down",
+          "sqz_mom": -1.9576
+        }
+      ],
+      "Materials": [
+        {
+          "price": 292.99,
+          "market_cap_b": 38.0,
+          "avg_volume": 1051372,
+          "day_change_pct": 2.28,
+          "eps": 8.45,
+          "ma25": 275.41,
+          "pct_above_ma25": 6.38,
+          "ma50": 283.2,
+          "pct_above_ma50": 3.46,
+          "ma125": 288.68,
+          "pct_above_ma125": 1.49,
+          "symbol": "VMC",
+          "sector": "Materials",
+          "adx": 17.4,
+          "di_plus": 30.3,
+          "di_minus": 17.9,
+          "supertrend": "bullish",
+          "st_value": 267.51,
+          "sqz_on": false,
+          "sqz_dir": "up",
+          "sqz_mom": 2.4819
+        },
+        {
+          "price": 121.53,
+          "market_cap_b": 27.1,
+          "avg_volume": 1989526,
+          "day_change_pct": 1.84,
+          "eps": 6.98,
+          "ma25": 110.6,
+          "pct_above_ma25": 9.88,
+          "ma50": 109.52,
+          "pct_above_ma50": 10.97,
+          "ma125": 110.08,
+          "pct_above_ma125": 10.41,
+          "symbol": "PPG",
+          "sector": "Materials",
+          "adx": 15.7,
+          "di_plus": 34.2,
+          "di_minus": 14.8,
+          "supertrend": "bullish",
+          "st_value": 112.31,
+          "sqz_on": false,
+          "sqz_dir": "up",
+          "sqz_mom": 0.3507
+        },
+        {
+          "price": 229.96,
+          "market_cap_b": 20.5,
+          "avg_volume": 837502,
+          "day_change_pct": 0.76,
+          "eps": 8.24,
+          "ma25": 219.46,
+          "pct_above_ma25": 4.78,
+          "ma50": 216.5,
+          "pct_above_ma50": 6.22,
+          "ma125": 217.88,
+          "pct_above_ma125": 5.55,
+          "symbol": "PKG",
+          "sector": "Materials",
+          "adx": 12.3,
+          "di_plus": 26.4,
+          "di_minus": 18.2,
+          "supertrend": "bullish",
+          "st_value": 211.13,
+          "sqz_on": false,
+          "sqz_dir": "up",
+          "sqz_mom": 0.8729
+        }
+      ],
+      "Utilities": []
+    }
   },
   "history": [
     {
       "date": "2026-06-15",
-      "generated_at": "2026-06-15 15:15 ET",
+      "generated_at": "2026-06-15 19:15 ET",
       "watchlist": [
         {
           "symbol": "ALB",
-          "price": 169.66,
-          "day_chg": -0.45,
-          "ma20": 166.75,
-          "ma50": 181.38,
+          "price": 168.9,
+          "day_chg": -0.89,
+          "ma20": 166.71,
+          "ma50": 181.37,
           "above_ma20": true,
           "above_ma50": false,
           "up3": false,
@@ -702,7 +1018,7 @@
           "last3": [
             158.65,
             170.42,
-            169.66
+            168.9
           ],
           "adx": 23.7,
           "di_plus": 25.7,
@@ -711,16 +1027,16 @@
           "st_value": 142.11,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 1.9755,
+          "sqz_mom": 1.9652,
           "strength_score": 6,
           "strength_grade": "中性"
         },
         {
           "symbol": "ANET",
-          "price": 167.26,
-          "day_chg": 2.46,
-          "ma20": 157.07,
-          "ma50": 156.55,
+          "price": 169.09,
+          "day_chg": 3.58,
+          "ma20": 157.16,
+          "ma50": 156.58,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -728,25 +1044,25 @@
           "last3": [
             156.4,
             163.24,
-            167.26
+            169.09
           ],
-          "adx": 15.5,
-          "di_plus": 28.6,
-          "di_minus": 23.3,
+          "adx": 15.6,
+          "di_plus": 29.5,
+          "di_minus": 23.0,
           "supertrend": "bearish",
           "st_value": 180.76,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.9666,
+          "sqz_mom": 0.9915,
           "strength_score": 7,
           "strength_grade": "强势"
         },
         {
           "symbol": "AVGO",
-          "price": 394.46,
-          "day_chg": 3.24,
-          "ma20": 417.19,
-          "ma50": 408.05,
+          "price": 393.94,
+          "day_chg": 3.11,
+          "ma20": 417.17,
+          "ma50": 408.04,
           "above_ma20": false,
           "above_ma50": false,
           "up3": false,
@@ -754,7 +1070,7 @@
           "last3": [
             385.57,
             382.07,
-            394.46
+            393.94
           ],
           "adx": 21.7,
           "di_plus": 23.1,
@@ -763,42 +1079,42 @@
           "st_value": 467.31,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -3.4322,
+          "sqz_mom": -3.4393,
           "strength_score": 0,
           "strength_grade": "弱势"
         },
         {
           "symbol": "BDRY",
-          "price": 12.06,
-          "day_chg": -2.11,
-          "ma20": 12.64,
+          "price": 11.99,
+          "day_chg": -2.68,
+          "ma20": 12.63,
           "ma50": 12.02,
           "above_ma20": false,
-          "above_ma50": true,
+          "above_ma50": false,
           "up3": false,
           "dn3": false,
           "last3": [
             12.52,
             12.32,
-            12.06
+            11.99
           ],
           "adx": 13.4,
           "di_plus": 19.3,
           "di_minus": 33.4,
-          "supertrend": "bullish",
-          "st_value": 12.03,
+          "supertrend": "bearish",
+          "st_value": 13.21,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -0.099,
-          "strength_score": 4,
-          "strength_grade": "偏弱"
+          "sqz_mom": -0.1,
+          "strength_score": 0,
+          "strength_grade": "弱势"
         },
         {
           "symbol": "CEG",
-          "price": 263.96,
-          "day_chg": 4.02,
-          "ma20": 269.11,
-          "ma50": 284.66,
+          "price": 262.35,
+          "day_chg": 3.39,
+          "ma20": 269.03,
+          "ma50": 284.63,
           "above_ma20": false,
           "above_ma50": false,
           "up3": true,
@@ -806,7 +1122,7 @@
           "last3": [
             246.71,
             253.76,
-            263.96
+            262.35
           ],
           "adx": 23.2,
           "di_plus": 24.1,
@@ -815,16 +1131,16 @@
           "st_value": 277.47,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.8916,
+          "sqz_mom": 0.8696,
           "strength_score": 2,
           "strength_grade": "弱势"
         },
         {
           "symbol": "CIEN",
-          "price": 459.33,
-          "day_chg": 2.99,
-          "ma20": 532.95,
-          "ma50": 522.73,
+          "price": 463.41,
+          "day_chg": 3.91,
+          "ma20": 533.16,
+          "ma50": 522.81,
           "above_ma20": false,
           "above_ma50": false,
           "up3": true,
@@ -832,7 +1148,7 @@
           "last3": [
             445.22,
             445.98,
-            459.33
+            463.41
           ],
           "adx": 24.2,
           "di_plus": 19.6,
@@ -841,16 +1157,16 @@
           "st_value": 581.15,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -8.106,
+          "sqz_mom": -8.0507,
           "strength_score": 1,
           "strength_grade": "弱势"
         },
         {
           "symbol": "COHR",
-          "price": 416.08,
-          "day_chg": 8.06,
-          "ma20": 380.7,
-          "ma50": 350.06,
+          "price": 413.84,
+          "day_chg": 7.48,
+          "ma20": 380.58,
+          "ma50": 350.02,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -858,7 +1174,7 @@
           "last3": [
             363.58,
             385.03,
-            416.08
+            413.84
           ],
           "adx": 15.3,
           "di_plus": 24.7,
@@ -867,14 +1183,14 @@
           "st_value": 338.03,
           "sqz_on": true,
           "sqz_dir": "down",
-          "sqz_mom": -3.4883,
+          "sqz_mom": -3.5187,
           "strength_score": 7,
           "strength_grade": "强势"
         },
         {
           "symbol": "COPX",
-          "price": 89.89,
-          "day_chg": 4.56,
+          "price": 89.81,
+          "day_chg": 4.47,
           "ma20": 85.14,
           "ma50": 83.96,
           "above_ma20": true,
@@ -884,7 +1200,7 @@
           "last3": [
             83.16,
             85.97,
-            89.89
+            89.81
           ],
           "adx": 14.4,
           "di_plus": 36.0,
@@ -893,14 +1209,14 @@
           "st_value": 90.85,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -0.2022,
+          "sqz_mom": -0.2033,
           "strength_score": 6,
           "strength_grade": "中性"
         },
         {
           "symbol": "ETHA",
-          "price": 13.83,
-          "day_chg": 10.02,
+          "price": 13.76,
+          "day_chg": 9.47,
           "ma20": 14.31,
           "ma50": 16.12,
           "above_ma20": false,
@@ -910,7 +1226,7 @@
           "last3": [
             12.7,
             12.57,
-            13.83
+            13.76
           ],
           "adx": 38.8,
           "di_plus": 22.2,
@@ -919,14 +1235,14 @@
           "st_value": 14.27,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.1155,
+          "sqz_mom": 0.1145,
           "strength_score": 2,
           "strength_grade": "弱势"
         },
         {
           "symbol": "FRO",
-          "price": 39.49,
-          "day_chg": 1.09,
+          "price": 39.43,
+          "day_chg": 0.92,
           "ma20": 35.02,
           "ma50": 34.92,
           "above_ma20": true,
@@ -936,7 +1252,7 @@
           "last3": [
             35.58,
             39.07,
-            39.49
+            39.43
           ],
           "adx": 19.7,
           "di_plus": 36.9,
@@ -945,16 +1261,16 @@
           "st_value": 34.69,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.0877,
+          "sqz_mom": 0.0868,
           "strength_score": 9,
           "strength_grade": "超强势"
         },
         {
           "symbol": "GEV",
-          "price": 986.1,
-          "day_chg": 4.83,
-          "ma20": 976.45,
-          "ma50": 1014.52,
+          "price": 979.07,
+          "day_chg": 4.08,
+          "ma20": 976.1,
+          "ma50": 1014.38,
           "above_ma20": true,
           "above_ma50": false,
           "up3": true,
@@ -962,25 +1278,25 @@
           "last3": [
             906.79,
             940.66,
-            986.1
+            979.07
           ],
           "adx": 20.6,
           "di_plus": 21.9,
-          "di_minus": 25.2,
+          "di_minus": 25.1,
           "supertrend": "bearish",
           "st_value": 1012.97,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 5.027,
+          "sqz_mom": 4.9316,
           "strength_score": 4,
           "strength_grade": "偏弱"
         },
         {
           "symbol": "GS",
-          "price": 1080.36,
-          "day_chg": 1.66,
-          "ma20": 1018.53,
-          "ma50": 957.74,
+          "price": 1076.17,
+          "day_chg": 1.26,
+          "ma20": 1018.32,
+          "ma50": 957.66,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -988,7 +1304,7 @@
           "last3": [
             1035.64,
             1062.75,
-            1080.36
+            1076.17
           ],
           "adx": 29.3,
           "di_plus": 33.6,
@@ -997,14 +1313,14 @@
           "st_value": 980.16,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -4.1621,
+          "sqz_mom": -4.219,
           "strength_score": 9,
           "strength_grade": "超强势"
         },
         {
           "symbol": "HEWJ",
-          "price": 64.11,
-          "day_chg": 2.03,
+          "price": 64.16,
+          "day_chg": 2.12,
           "ma20": 62.14,
           "ma50": 60.55,
           "above_ma20": true,
@@ -1014,25 +1330,25 @@
           "last3": [
             62.17,
             62.83,
-            64.11
+            64.16
           ],
           "adx": 17.7,
-          "di_plus": 34.1,
+          "di_plus": 34.2,
           "di_minus": 23.5,
           "supertrend": "bullish",
           "st_value": 60.44,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -0.1952,
+          "sqz_mom": -0.1946,
           "strength_score": 8,
           "strength_grade": "强势"
         },
         {
           "symbol": "LITE",
-          "price": 961.34,
-          "day_chg": 4.32,
-          "ma20": 905.35,
-          "ma50": 903.43,
+          "price": 957.24,
+          "day_chg": 3.87,
+          "ma20": 905.15,
+          "ma50": 903.34,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -1040,7 +1356,7 @@
           "last3": [
             889.59,
             921.56,
-            961.34
+            957.24
           ],
           "adx": 12.9,
           "di_plus": 26.1,
@@ -1049,16 +1365,16 @@
           "st_value": 790.39,
           "sqz_on": true,
           "sqz_dir": "up",
-          "sqz_mom": 1.7888,
+          "sqz_mom": 1.7331,
           "strength_score": 9,
           "strength_grade": "超强势"
         },
         {
           "symbol": "MP",
-          "price": 58.94,
-          "day_chg": 2.41,
-          "ma20": 61.59,
-          "ma50": 62.01,
+          "price": 58.26,
+          "day_chg": 1.23,
+          "ma20": 61.55,
+          "ma50": 62.0,
           "above_ma20": false,
           "above_ma50": false,
           "up3": true,
@@ -1066,7 +1382,7 @@
           "last3": [
             57.18,
             57.55,
-            58.94
+            58.26
           ],
           "adx": 17.4,
           "di_plus": 25.6,
@@ -1075,24 +1391,24 @@
           "st_value": 68.88,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.1001,
+          "sqz_mom": 0.091,
           "strength_score": 2,
           "strength_grade": "弱势"
         },
         {
           "symbol": "NEE",
-          "price": 86.62,
-          "day_chg": 0.74,
-          "ma20": 86.19,
-          "ma50": 90.45,
-          "above_ma20": true,
+          "price": 86.12,
+          "day_chg": 0.15,
+          "ma20": 86.16,
+          "ma50": 90.44,
+          "above_ma20": false,
           "above_ma50": false,
           "up3": false,
           "dn3": false,
           "last3": [
             84.84,
             85.99,
-            86.62
+            86.12
           ],
           "adx": 33.2,
           "di_plus": 14.5,
@@ -1101,16 +1417,16 @@
           "st_value": 89.72,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.4921,
-          "strength_score": 4,
-          "strength_grade": "偏弱"
+          "sqz_mom": 0.4853,
+          "strength_score": 2,
+          "strength_grade": "弱势"
         },
         {
           "symbol": "NVDA",
-          "price": 211.96,
-          "day_chg": 3.3,
-          "ma20": 213.8,
-          "ma50": 207.4,
+          "price": 212.45,
+          "day_chg": 3.54,
+          "ma20": 213.82,
+          "ma50": 207.41,
           "above_ma20": false,
           "above_ma50": true,
           "up3": true,
@@ -1118,7 +1434,7 @@
           "last3": [
             204.87,
             205.19,
-            211.96
+            212.45
           ],
           "adx": 15.6,
           "di_plus": 22.1,
@@ -1127,15 +1443,15 @@
           "st_value": 231.53,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -1.24,
+          "sqz_mom": -1.2333,
           "strength_score": 4,
           "strength_grade": "偏弱"
         },
         {
           "symbol": "PLTR",
-          "price": 134.55,
-          "day_chg": 5.13,
-          "ma20": 138.77,
+          "price": 134.71,
+          "day_chg": 5.25,
+          "ma20": 138.78,
           "ma50": 139.36,
           "above_ma20": false,
           "above_ma50": false,
@@ -1144,7 +1460,7 @@
           "last3": [
             131.08,
             127.99,
-            134.55
+            134.71
           ],
           "adx": 16.0,
           "di_plus": 22.8,
@@ -1153,16 +1469,16 @@
           "st_value": 149.55,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -0.8077,
+          "sqz_mom": -0.8056,
           "strength_score": 0,
           "strength_grade": "弱势"
         },
         {
           "symbol": "PWR",
-          "price": 732.33,
-          "day_chg": 3.47,
-          "ma20": 709.43,
-          "ma50": 682.88,
+          "price": 724.35,
+          "day_chg": 2.35,
+          "ma20": 709.03,
+          "ma50": 682.72,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -1170,7 +1486,7 @@
           "last3": [
             683.29,
             707.74,
-            732.33
+            724.35
           ],
           "adx": 18.8,
           "di_plus": 23.7,
@@ -1179,24 +1495,24 @@
           "st_value": 757.88,
           "sqz_on": true,
           "sqz_dir": "down",
-          "sqz_mom": -2.1949,
+          "sqz_mom": -2.3031,
           "strength_score": 5,
           "strength_grade": "中性"
         },
         {
           "symbol": "VRT",
-          "price": 315.85,
-          "day_chg": 4.29,
-          "ma20": 315.19,
-          "ma50": 318.65,
-          "above_ma20": true,
+          "price": 311.93,
+          "day_chg": 2.99,
+          "ma20": 315.0,
+          "ma50": 318.57,
+          "above_ma20": false,
           "above_ma50": false,
           "up3": true,
           "dn3": false,
           "last3": [
             297.88,
             302.87,
-            315.85
+            311.93
           ],
           "adx": 16.4,
           "di_plus": 22.7,
@@ -1204,43 +1520,43 @@
           "supertrend": "bearish",
           "st_value": 343.02,
           "sqz_on": false,
-          "sqz_dir": "up",
-          "sqz_mom": 0.0079,
-          "strength_score": 4,
-          "strength_grade": "偏弱"
+          "sqz_dir": "down",
+          "sqz_mom": -0.0453,
+          "strength_score": 1,
+          "strength_grade": "弱势"
         },
         {
           "symbol": "VST",
-          "price": 154.98,
-          "day_chg": 4.7,
-          "ma20": 150.8,
-          "ma50": 153.78,
+          "price": 153.52,
+          "day_chg": 3.72,
+          "ma20": 150.73,
+          "ma50": 153.75,
           "above_ma20": true,
-          "above_ma50": true,
+          "above_ma50": false,
           "up3": true,
           "dn3": false,
           "last3": [
             146.38,
             148.02,
-            154.98
+            153.52
           ],
           "adx": 12.7,
-          "di_plus": 26.5,
-          "di_minus": 22.2,
+          "di_plus": 26.7,
+          "di_minus": 22.1,
           "supertrend": "bearish",
           "st_value": 160.09,
           "sqz_on": false,
           "sqz_dir": "up",
-          "sqz_mom": 0.2251,
-          "strength_score": 7,
-          "strength_grade": "强势"
+          "sqz_mom": 0.2053,
+          "strength_score": 5,
+          "strength_grade": "中性"
         },
         {
           "symbol": "MPWR",
-          "price": 1653.48,
-          "day_chg": 4.83,
-          "ma20": 1575.84,
-          "ma50": 1529.92,
+          "price": 1652.29,
+          "day_chg": 4.75,
+          "ma20": 1575.78,
+          "ma50": 1529.89,
           "above_ma20": true,
           "above_ma50": true,
           "up3": false,
@@ -1248,7 +1564,7 @@
           "last3": [
             1589.55,
             1577.32,
-            1653.48
+            1652.29
           ],
           "adx": 17.8,
           "di_plus": 23.1,
@@ -1257,16 +1573,16 @@
           "st_value": 1425.03,
           "sqz_on": true,
           "sqz_dir": "up",
-          "sqz_mom": 1.4777,
+          "sqz_mom": 1.4615,
           "strength_score": 8,
           "strength_grade": "强势"
         },
         {
           "symbol": "ADI",
-          "price": 429.53,
-          "day_chg": 2.81,
-          "ma20": 411.25,
-          "ma50": 394.71,
+          "price": 427.58,
+          "day_chg": 2.34,
+          "ma20": 411.16,
+          "ma50": 394.67,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -1274,7 +1590,7 @@
           "last3": [
             412.13,
             417.79,
-            429.53
+            427.58
           ],
           "adx": 22.1,
           "di_plus": 26.7,
@@ -1283,16 +1599,16 @@
           "st_value": 369.9,
           "sqz_on": true,
           "sqz_dir": "down",
-          "sqz_mom": -0.1833,
+          "sqz_mom": -0.2098,
           "strength_score": 7,
           "strength_grade": "强势"
         },
         {
           "symbol": "GOOG",
-          "price": 367.97,
-          "day_chg": 2.74,
-          "ma20": 371.8,
-          "ma50": 360.76,
+          "price": 367.11,
+          "day_chg": 2.5,
+          "ma20": 371.75,
+          "ma50": 360.74,
           "above_ma20": false,
           "above_ma50": true,
           "up3": true,
@@ -1300,7 +1616,7 @@
           "last3": [
             356.56,
             358.16,
-            367.94
+            367.11
           ],
           "adx": 19.9,
           "di_plus": 24.2,
@@ -1309,16 +1625,16 @@
           "st_value": 386.04,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -2.013,
+          "sqz_mom": -2.0243,
           "strength_score": 4,
           "strength_grade": "偏弱"
         },
         {
           "symbol": "NBIS",
-          "price": 259.74,
-          "day_chg": 11.78,
-          "ma20": 226.32,
-          "ma50": 187.63,
+          "price": 260.07,
+          "day_chg": 11.93,
+          "ma20": 226.33,
+          "ma50": 187.64,
           "above_ma20": true,
           "above_ma50": true,
           "up3": true,
@@ -1326,7 +1642,7 @@
           "last3": [
             222.24,
             232.36,
-            259.74
+            260.07
           ],
           "adx": 23.6,
           "di_plus": 28.0,
@@ -1335,16 +1651,16 @@
           "st_value": 204.26,
           "sqz_on": false,
           "sqz_dir": "down",
-          "sqz_mom": -4.614,
+          "sqz_mom": -4.6095,
           "strength_score": 8,
           "strength_grade": "强势"
         },
         {
           "symbol": "MPC",
-          "price": 251.9,
-          "day_chg": -4.43,
-          "ma20": 257.95,
-          "ma50": 244.21,
+          "price": 250.86,
+          "day_chg": -4.83,
+          "ma20": 257.9,
+          "ma50": 244.19,
           "above_ma20": false,
           "above_ma50": true,
           "up3": false,
@@ -1352,7 +1668,7 @@
           "last3": [
             260.81,
             263.58,
-            251.9
+            250.86
           ],
           "adx": 21.8,
           "di_plus": 21.3,
@@ -1361,14 +1677,330 @@
           "st_value": 241.32,
           "sqz_on": true,
           "sqz_dir": "down",
-          "sqz_mom": -1.4472,
+          "sqz_mom": -1.4612,
           "strength_score": 3,
           "strength_grade": "偏弱"
         }
       ],
-      "leading_sectors": [],
-      "sector_perf": {},
-      "results_by_sector": {}
+      "leading_sectors": [
+        "Copper",
+        "Gold",
+        "Industrials",
+        "Materials",
+        "Utilities"
+      ],
+      "sector_perf": {
+        "Energy": {
+          "pct": -3.48,
+          "price": 55.55,
+          "etf": "XLE",
+          "etf_name": "Energy Select Sector SPDR",
+          "emoji": "⛽",
+          "is_leading": false
+        },
+        "Industrials": {
+          "pct": 1.42,
+          "price": 178.68,
+          "etf": "XLI",
+          "etf_name": "Industrial Select Sector SPDR",
+          "emoji": "🏗️",
+          "is_leading": true
+        },
+        "Utilities": {
+          "pct": 0.47,
+          "price": 44.74,
+          "etf": "XLU",
+          "etf_name": "Utilities Select Sector SPDR",
+          "emoji": "🔌",
+          "is_leading": true
+        },
+        "Materials": {
+          "pct": 0.61,
+          "price": 52.5,
+          "etf": "XLB",
+          "etf_name": "Materials Select Sector SPDR",
+          "emoji": "⚗️",
+          "is_leading": true
+        },
+        "Consumer Staples": {
+          "pct": -0.4,
+          "price": 85.48,
+          "etf": "XLP",
+          "etf_name": "Consumer Staples Select Sector SPDR",
+          "emoji": "🛒",
+          "is_leading": false
+        },
+        "Gold": {
+          "pct": 2.59,
+          "price": 396.55,
+          "etf": "GLD",
+          "etf_name": "SPDR Gold Shares",
+          "emoji": "🥇",
+          "is_leading": true
+        },
+        "Copper": {
+          "pct": 4.47,
+          "price": 89.81,
+          "etf": "COPX",
+          "etf_name": "Global X Copper Miners ETF",
+          "emoji": "🔶",
+          "is_leading": true
+        }
+      },
+      "results_by_sector": {
+        "Copper": [
+          {
+            "price": 28.75,
+            "market_cap_b": 11.4,
+            "avg_volume": 6435523,
+            "day_change_pct": 3.34,
+            "eps": null,
+            "ma25": 26.92,
+            "pct_above_ma25": 6.8,
+            "ma50": 25.37,
+            "pct_above_ma50": 13.31,
+            "symbol": "HBM",
+            "sector": "Copper",
+            "adx": 17.7,
+            "di_plus": 36.4,
+            "di_minus": 25.0,
+            "supertrend": "bearish",
+            "st_value": 31.01,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -0.2246
+          },
+          {
+            "price": 70.13,
+            "market_cap_b": 100.8,
+            "avg_volume": 17326466,
+            "day_change_pct": 2.51,
+            "eps": null,
+            "ma25": 65.13,
+            "pct_above_ma25": 7.68,
+            "ma50": 64.18,
+            "pct_above_ma50": 9.27,
+            "symbol": "FCX",
+            "sector": "Copper",
+            "adx": 16.3,
+            "di_plus": 32.3,
+            "di_minus": 20.3,
+            "supertrend": "bearish",
+            "st_value": 74.21,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -0.1032
+          },
+          {
+            "price": 66.16,
+            "market_cap_b": 32.4,
+            "avg_volume": 4365174,
+            "day_change_pct": 2.04,
+            "eps": null,
+            "ma25": 64.29,
+            "pct_above_ma25": 2.92,
+            "ma50": 61.2,
+            "pct_above_ma50": 8.1,
+            "symbol": "TECK",
+            "sector": "Copper",
+            "adx": 15.2,
+            "di_plus": 33.3,
+            "di_minus": 23.4,
+            "supertrend": "bearish",
+            "st_value": 69.59,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -0.3343
+          }
+        ],
+        "Gold": [
+          {
+            "price": 33.76,
+            "market_cap_b": 8.8,
+            "avg_volume": 2347672,
+            "day_change_pct": 10.11,
+            "eps": null,
+            "ma25": 31.98,
+            "pct_above_ma25": 5.57,
+            "ma50": 32.48,
+            "pct_above_ma50": 3.93,
+            "symbol": "EGO",
+            "sector": "Gold",
+            "adx": 16.7,
+            "di_plus": 31.4,
+            "di_minus": 25.9,
+            "supertrend": "bullish",
+            "st_value": 27.88,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -0.0401
+          },
+          {
+            "price": 17.93,
+            "market_cap_b": 10.4,
+            "avg_volume": 10201202,
+            "day_change_pct": 7.69,
+            "eps": null,
+            "ma25": 17.01,
+            "pct_above_ma25": 5.38,
+            "ma50": 17.6,
+            "pct_above_ma50": 1.86,
+            "symbol": "IAG",
+            "sector": "Gold",
+            "adx": 17.7,
+            "di_plus": 33.1,
+            "di_minus": 24.2,
+            "supertrend": "bullish",
+            "st_value": 15.14,
+            "sqz_on": false,
+            "sqz_dir": "up",
+            "sqz_mom": 0.0716
+          }
+        ],
+        "Industrials": [
+          {
+            "price": 407.06,
+            "market_cap_b": 158.1,
+            "avg_volume": 2613104,
+            "day_change_pct": 4.0,
+            "eps": 10.22,
+            "ma25": 399.17,
+            "pct_above_ma25": 1.98,
+            "ma50": 402.15,
+            "pct_above_ma50": 1.22,
+            "ma125": 370.17,
+            "pct_above_ma125": 9.97,
+            "symbol": "ETN",
+            "sector": "Industrials",
+            "adx": 13.7,
+            "di_plus": 20.9,
+            "di_minus": 24.0,
+            "supertrend": "bearish",
+            "st_value": 421.27,
+            "sqz_on": false,
+            "sqz_dir": "up",
+            "sqz_mom": 1.8476
+          },
+          {
+            "price": 227.41,
+            "market_cap_b": 144.1,
+            "avg_volume": 4218831,
+            "day_change_pct": 3.22,
+            "eps": 6.26,
+            "ma25": 221.85,
+            "pct_above_ma25": 2.51,
+            "ma50": 221.2,
+            "pct_above_ma50": 2.81,
+            "ma125": 221.42,
+            "pct_above_ma125": 2.7,
+            "symbol": "HON",
+            "sector": "Industrials",
+            "adx": 18.9,
+            "di_plus": 28.5,
+            "di_minus": 22.4,
+            "supertrend": "bearish",
+            "st_value": 233.11,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -1.4426
+          },
+          {
+            "price": 270.1,
+            "market_cap_b": 15.9,
+            "avg_volume": 1065340,
+            "day_change_pct": 2.95,
+            "eps": 3.2,
+            "ma25": 266.23,
+            "pct_above_ma25": 1.45,
+            "ma50": 246.36,
+            "pct_above_ma50": 9.64,
+            "ma125": 209.07,
+            "pct_above_ma125": 29.19,
+            "symbol": "GNRC",
+            "sector": "Industrials",
+            "adx": 23.0,
+            "di_plus": 24.0,
+            "di_minus": 25.6,
+            "supertrend": "bearish",
+            "st_value": 295.68,
+            "sqz_on": false,
+            "sqz_dir": "down",
+            "sqz_mom": -1.9576
+          }
+        ],
+        "Materials": [
+          {
+            "price": 292.99,
+            "market_cap_b": 38.0,
+            "avg_volume": 1051372,
+            "day_change_pct": 2.28,
+            "eps": 8.45,
+            "ma25": 275.41,
+            "pct_above_ma25": 6.38,
+            "ma50": 283.2,
+            "pct_above_ma50": 3.46,
+            "ma125": 288.68,
+            "pct_above_ma125": 1.49,
+            "symbol": "VMC",
+            "sector": "Materials",
+            "adx": 17.4,
+            "di_plus": 30.3,
+            "di_minus": 17.9,
+            "supertrend": "bullish",
+            "st_value": 267.51,
+            "sqz_on": false,
+            "sqz_dir": "up",
+            "sqz_mom": 2.4819
+          },
+          {
+            "price": 121.53,
+            "market_cap_b": 27.1,
+            "avg_volume": 1989526,
+            "day_change_pct": 1.84,
+            "eps": 6.98,
+            "ma25": 110.6,
+            "pct_above_ma25": 9.88,
+            "ma50": 109.52,
+            "pct_above_ma50": 10.97,
+            "ma125": 110.08,
+            "pct_above_ma125": 10.41,
+            "symbol": "PPG",
+            "sector": "Materials",
+            "adx": 15.7,
+            "di_plus": 34.2,
+            "di_minus": 14.8,
+            "supertrend": "bullish",
+            "st_value": 112.31,
+            "sqz_on": false,
+            "sqz_dir": "up",
+            "sqz_mom": 0.3507
+          },
+          {
+            "price": 229.96,
+            "market_cap_b": 20.5,
+            "avg_volume": 837502,
+            "day_change_pct": 0.76,
+            "eps": 8.24,
+            "ma25": 219.46,
+            "pct_above_ma25": 4.78,
+            "ma50": 216.5,
+            "pct_above_ma50": 6.22,
+            "ma125": 217.88,
+            "pct_above_ma125": 5.55,
+            "symbol": "PKG",
+            "sector": "Materials",
+            "adx": 12.3,
+            "di_plus": 26.4,
+            "di_minus": 18.2,
+            "supertrend": "bullish",
+            "st_value": 211.13,
+            "sqz_on": false,
+            "sqz_dir": "up",
+            "sqz_mom": 0.8729
+          }
+        ],
+        "Utilities": []
+      }
     },
     {
       "date": "2026-06-12",
@@ -18919,5 +19551,5 @@
       }
     }
   ],
-  "updated_at": "2026-06-15 15:15 ET"
+  "updated_at": "2026-06-15 19:15 ET"
 }
