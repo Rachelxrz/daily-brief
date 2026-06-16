@@ -176,7 +176,7 @@ def calc_supertrend(df: pd.DataFrame, period: int = 10, multiplier: float = 3.0)
         # near_flip: price within 1% of Supertrend line
         near_flip = False
         if line_value is not None:
-            near_flip = abs(close[-1] - line_value) / close[-1] <= 0.01
+            near_flip = bool(abs(float(close[-1]) - line_value) / float(close[-1]) <= 0.01)
 
         return {
             "direction":      direction,
@@ -756,18 +756,20 @@ def build_message(session: str, regular: list, ira: list, watchlist: list) -> st
 # ═══════════════════════════════════════════════════════════════════════════
 
 def _sanitize(obj):
+    if isinstance(obj, bool):          # must be before int/np.integer (bool is subclass of int)
+        return obj
     if isinstance(obj, float):
         return None if (obj != obj or obj == float("inf") or obj == float("-inf")) else obj
     if isinstance(obj, dict):
         return {k: _sanitize(v) for k, v in obj.items()}
     if isinstance(obj, list):
         return [_sanitize(v) for v in obj]
+    if isinstance(obj, np.bool_):      # numpy boolean
+        return bool(obj)
     if isinstance(obj, (np.integer,)):
         return int(obj)
     if isinstance(obj, (np.floating,)):
         return None if np.isnan(obj) else float(obj)
-    if isinstance(obj, bool):
-        return obj
     return obj
 
 
