@@ -136,6 +136,55 @@
   .panel.active { display: block; animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* ── Language toggle ────────────────────────────── */
+  .lang-toggle-bar {
+    display: flex; gap: 0.5rem; margin-bottom: 1rem;
+  }
+  .lang-btn {
+    padding: 4px 16px; font-size: 0.7rem; cursor: pointer;
+    background: var(--surface); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 4px;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
+    transition: all 0.15s;
+  }
+  .lang-btn.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .lang-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
+  /* ── New candidates (screener) ──────────────────── */
+  .new-candidates-section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 1rem;
+  }
+  .new-candidates-header {
+    font-size: 0.7rem; color: var(--gold); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .new-candidate-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #07261c; border: 1px solid #1a4029;
+    border-radius: 5px; padding: 4px 10px; margin: 3px;
+    font-size: 0.75rem; cursor: default;
+  }
+  .new-candidate-chip.breakout { background: #1c1e10; border-color: #3a3508; }
+
+  .new-candidates-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .new-candidate-chip {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; color: var(--text);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip-signal { font-size: 0.68rem; color: var(--muted); }
+
+  /* ── Congress overlap tags ──────────────────────── */
+  .signal-overlap {
+    font-size: 0.68rem; padding: 3px 8px; border-radius: 4px;
+    margin-top: 4px; display: inline-block; margin-right: 4px;
+  }
+  .signal-overlap.direct   { background: #07261c; color: #3fb950; border: 1px solid #1a4029; }
+  .signal-overlap.watchlist{ background: #0d1a2d; color: #58a6ff; border: 1px solid #1c3a5e; }
+  .signal-overlap.sector   { background: #1c1c2e; color: #a371f7; border: 1px solid #3a3065; }
+  .signal-overlap.bullish  { background: #1a1808; color: #e3b341; border: 1px solid #3d3308; }
+
   /* ── Report card ─────────────────────────────── */
   .report-grid {
     display: grid;
@@ -419,6 +468,7 @@
 
   <!-- Screener panel -->
   <div id="panel-screener" class="panel">
+    <div id="new-candidates"></div>
     <iframe
       src="./stock_screener.html"
       style="width:100%; height:80vh; border:none; border-radius:6px;"
@@ -512,6 +562,7 @@ function renderMd(text) {
 let allData = {};
 let currentTab = 'news';
 let currentDate = null;
+let currentNewsLang = 'cn';
 
 // ── Load data.json ─────────────────────────────────────────
 async function loadData() {
@@ -570,40 +621,81 @@ function render() {
   if (currentTab === 'news')          renderNews(day);
   else if (currentTab === 'congress') renderCongress(day);
   else if (currentTab === 'monitor')  renderMonitor(day);
+  else if (currentTab === 'screener') renderScreener(day);
   else if (currentTab === 'wheel')    renderWheel(day);
   else if (currentTab === 'signals')  renderSignalAdvisor(day);
+}
+
+function setNewsLang(lang) {
+  currentNewsLang = lang;
+  render();
 }
 
 function renderNews(day) {
   const el = document.getElementById('news-content');
   const news = day.news;
   if (!news || (!news.cn && !news.en)) {
+    el.className = '';
     el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无简报数据</div>';
     return;
   }
   const cnContent = news.cn && news.cn.trim() ? news.cn : null;
   const enContent = news.en && news.en.trim() ? news.en : null;
-  // If only one version available, show full width
-  const gridClass = (cnContent && enContent) ? 'report-grid' : '';
-  el.className = gridClass;
+
+  // Pick effective lang (fall back if selected lang unavailable)
+  const lang = (currentNewsLang === 'cn' && cnContent) ? 'cn'
+             : (currentNewsLang === 'en' && enContent) ? 'en'
+             : cnContent ? 'cn' : 'en';
+  const content = lang === 'cn' ? cnContent : enContent;
+  const title   = lang === 'cn' ? '📰 每日智识简报' : '📰 Daily Intelligence Brief';
+
+  el.className = '';
   el.innerHTML = `
-    ${cnContent ? `
+    <div class="lang-toggle-bar">
+      <button class="lang-btn ${lang==='cn'?'active':''}" onclick="setNewsLang('cn')">中文</button>
+      <button class="lang-btn ${lang==='en'?'active':''}" onclick="setNewsLang('en')">English</button>
+    </div>
     <div class="report-card">
       <div class="report-card-header">
-        <span class="report-card-title">📰 每日智识简报</span>
-        <span class="report-card-lang">中文</span>
+        <span class="report-card-title">${title}</span>
+        <span class="report-card-lang">${lang==='cn'?'中文':'English'}</span>
       </div>
-      <div class="report-card-body">${renderMd(cnContent)}</div>
-    </div>` : ''}
-    ${enContent ? `
-    <div class="report-card">
-      <div class="report-card-header">
-        <span class="report-card-title">📰 Daily Intelligence Brief</span>
-        <span class="report-card-lang">English</span>
-      </div>
-      <div class="report-card-body">${renderMd(enContent)}</div>
-    </div>` : ''}
-  `;
+      <div class="report-card-body">${renderMd(content)}</div>
+    </div>`;
+}
+
+function renderScreener(day) {
+  const el = document.getElementById('new-candidates');
+  if (!el) return;
+  const sa = day.signal_advisor;
+  if (!sa || !sa.watchlist) { el.innerHTML = ''; return; }
+
+  // Known holdings tickers (don't show these as "new candidates")
+  const holdings = new Set([
+    'ADI','ALB','ASML','COHR','COIN','ETN','GEV','GOOG','MPWR','NVDA',
+    'VRT','ETHA','GLD','QQQ','SLV','XBI'
+  ]);
+  const BULLISH = new Set(['💚 强势上涨','🟢 趋势初确认','⚡ 突破关注']);
+
+  const candidates = Object.entries(sa.watchlist)
+    .filter(([ticker, d]) => !holdings.has(ticker) && BULLISH.has(d.signal))
+    .sort((a, b) => {
+      const order = {'⚡ 突破关注': 0, '💚 强势上涨': 1, '🟢 趋势初确认': 2};
+      return (order[a[1].signal] ?? 9) - (order[b[1].signal] ?? 9);
+    });
+
+  if (!candidates.length) { el.innerHTML = ''; return; }
+
+  const chips = candidates.map(([ticker, d]) => {
+    const price = d.price ? `$${d.price.toFixed(0)}` : '';
+    return `<span class="new-candidate-chip">${ticker} ${price} <span class="chip-signal">${d.signal}</span></span>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="new-candidates-section">
+      <div class="new-candidates-header">🔍 今日新候选（Watchlist 信号变绿，不在持仓）</div>
+      <div class="new-candidates-chips">${chips}</div>
+    </div>`;
 }
 
 function renderMonitor(day) {
@@ -690,9 +782,53 @@ function renderCongress(day) {
       </div>
     </div>`;
 
+  // Overlap detection data
+  const HOLDINGS_SET = new Set([
+    'ADI','ALB','ASML','COHR','COIN','ETN','GEV','GOOG','MPWR','NVDA',
+    'VRT','ETHA','GLD','QQQ','SLV','XBI'
+  ]);
+  const WATCHLIST_SET = new Set([
+    'ALB','ANET','AVGO','BDRY','CEG','CIEN','COHR','COPX','ETHA','FRO',
+    'GEV','GS','HEWJ','LITE','MP','NEE','NVDA','PLTR','PWR','VRT','VST',
+    'MPWR','ADI','GOOG','NBIS','MPC'
+  ]);
+  const SECTOR_HOLDINGS = {
+    '科技':   ['QQQ','GOOG','NVDA'],
+    '半导体': ['ADI','COHR','MPWR','NVDA'],
+    '能源':   ['GLD','SLV'],
+    '工业':   ['GEV','ETN','VRT'],
+    '医疗':   ['XBI'],
+    '金融':   ['COIN','GS'],
+  };
+  const sa = day.signal_advisor;
+  const saWatchlist = (sa && sa.watchlist) ? sa.watchlist : {};
+  const BULLISH_SET = new Set(['💚 强势上涨','🟢 趋势初确认','⚡ 突破关注']);
+
   // Signal card builder
   function signalCard(item, tier) {
     const trans = item.transaction === 'Buy' ? '买入' : '卖出';
+    const ticker = item.ticker;
+    // Build overlap tags
+    let overlapTags = '';
+    if (HOLDINGS_SET.has(ticker)) {
+      overlapTags += `<span class="signal-overlap direct">🔗 直接持仓</span>`;
+    }
+    if (WATCHLIST_SET.has(ticker) && !HOLDINGS_SET.has(ticker)) {
+      overlapTags += `<span class="signal-overlap watchlist">📌 Watchlist</span>`;
+    }
+    // Sector resonance
+    const itemSector = item.sector || '';
+    for (const [sec, tickers] of Object.entries(SECTOR_HOLDINGS)) {
+      if (itemSector.includes(sec)) {
+        overlapTags += `<span class="signal-overlap sector">🏦 行业重叠: ${tickers.slice(0,2).join('/')}</span>`;
+        break;
+      }
+    }
+    // Technical signal resonance
+    if (saWatchlist[ticker] && BULLISH_SET.has(saWatchlist[ticker].signal)) {
+      overlapTags += `<span class="signal-overlap bullish">⚡ 技术共振: ${saWatchlist[ticker].signal}</span>`;
+    }
+    const overlapBlock = overlapTags ? `<div style="margin-top:6px">${overlapTags}</div>` : '';
     return `
       <div class="signal-card ${tier}">
         <div class="signal-card-inner">
@@ -702,14 +838,15 @@ function renderCongress(day) {
               <div class="signal-party">${item.party} · ${item.committee} · ${item.chamber}</div>
             </div>
             <div class="signal-ticker-wrap">
-              <div class="signal-ticker">${item.ticker}</div>
+              <div class="signal-ticker">${ticker}</div>
               <div class="signal-action">${trans} ${item.asset_type}</div>
             </div>
           </div>
           <div class="signal-meta">📅 ${item.trade_date} · 延迟 ${item.delay_days} 天 · ${item.size_range}</div>
-          <div class="signal-meta">🏭 ${item.sector || '未知行业'}</div>
+          <div class="signal-meta">🏭 ${itemSector || '未知行业'}</div>
           <div class="signal-comparison">${item.comparison || ''}</div>
           ${tier === 'strong' ? `<div class="signal-score">信号强度：${item.score} 分</div>` : ''}
+          ${overlapBlock}
         </div>
       </div>`;
   }
