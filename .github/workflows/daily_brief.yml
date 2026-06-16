@@ -25,11 +25,12 @@ on:
         type: boolean
 
 env:
-  WECOM_WEBHOOK_URL:    ${{ secrets.WECOM_WEBHOOK_URL }}
-  WXPUSHER_APP_TOKEN:   ${{ secrets.WXPUSHER_APP_TOKEN }}
-  WXPUSHER_UIDS:        ${{ secrets.WXPUSHER_UIDS }}
-  SERVERCHAN_SENDKEY:   ${{ secrets.SERVERCHAN_SENDKEY }}
-  ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}
+  WECOM_WEBHOOK_URL:      ${{ secrets.WECOM_WEBHOOK_URL }}
+  WXPUSHER_APP_TOKEN:     ${{ secrets.WXPUSHER_APP_TOKEN }}
+  WXPUSHER_UIDS:          ${{ secrets.WXPUSHER_UIDS }}
+  SERVERCHAN_SENDKEY:     ${{ secrets.SERVERCHAN_SENDKEY }}
+  ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
+  LAMBDA_FINANCE_TOKEN:   ${{ secrets.LAMBDA_FINANCE_TOKEN }}
 
 jobs:
 

@@ -32,6 +32,15 @@ CATEGORY_EN = {
     "wellness": "🧠 Health & Wellness",
 }
 
+def _fetch_lambda_ai_news() -> list[dict]:
+    """静默拉取 Lambda Finance AI 新闻，失败返回空列表。"""
+    try:
+        from lambda_news import fetch_ai_news
+        return fetch_ai_news(top_n=10)
+    except Exception as e:
+        log.warning(f"⚠️ Lambda 新闻拉取失败，跳过: {e}")
+        return []
+
 
 def load_data() -> dict:
     if DATA_FILE.exists():
@@ -107,12 +116,16 @@ def generate_news_with_insights(news_data: dict) -> tuple:
     """
     调用 Claude 生成：
     - 每条新闻：中文标题 + 英文标题 + 3句话描述（中英各自）
+    - Lambda AI 新闻：顶部独立区块
     - 全局洞察：投资3条 + 健康3条（中英各自）
     返回 (cn_report, en_report)
     """
     tz_cst  = timezone(timedelta(hours=8))
     date_cn = datetime.now(tz_cst).strftime("%Y年%m月%d日")
     date_en = datetime.now(tz_cst).strftime("%B %d, %Y")
+
+    # ── 拉取 Lambda AI 新闻 ──────────────────────────────
+    lambda_articles = _fetch_lambda_ai_news()
 
     # 构建新闻列表
     news_lines = []
@@ -175,8 +188,64 @@ News list:
     articles = parsed.get("articles", {})
     insights = parsed.get("insights", {})
 
+    # ── Lambda AI 新闻区块（中英共用原始标题，附中文翻译由 Claude 生成）──
+    lambda_block_cn = ""
+    lambda_block_en = ""
+    if lambda_articles:
+        # 让 Claude 生成中文标题和一句话摘要
+        lambda_prompt = (
+            "Below are today's top AI-related news headlines. "
+            "For each, provide a concise Chinese title (title_cn, ≤25 chars) "
+            "and a one-sentence Chinese insight (insight_cn, ≤50 chars) about its investment relevance. "
+            "Output ONLY a JSON array, no markdown:\n"
+            "[{\"title_cn\": \"...\", \"insight_cn\": \"...\"}, ...]\n\n"
+            "Headlines:\n" +
+            "\n".join(f"{i+1}. [{a['source']}] {a['title']}" for i, a in enumerate(lambda_articles))
+        )
+        log.info("🤖 Lambda AI 新闻中文化...")
+        lambda_raw = _call_claude(lambda_prompt, max_tokens=1500)
+        try:
+            raw_clean = lambda_raw.strip()
+            if "```" in raw_clean:
+                parts = raw_clean.split("```")
+                for p in parts:
+                    p2 = p.strip().lstrip("json").strip()
+                    if p2.startswith("["):
+                        raw_clean = p2
+                        break
+            start = raw_clean.find("[")
+            end   = raw_clean.rfind("]")
+            if start != -1 and end != -1:
+                raw_clean = raw_clean[start:end+1]
+            lambda_parsed = json.loads(raw_clean)
+        except Exception:
+            lambda_parsed = []
+
+        cn_lines = ["\n## 🤖 AI前沿（Lambda Finance）\n"]
+        en_lines = ["\n## 🤖 AI Focus (Lambda Finance)\n"]
+        for i, a in enumerate(lambda_articles):
+            info = lambda_parsed[i] if i < len(lambda_parsed) else {}
+            title_cn = info.get("title_cn") or a["title"][:30]
+            insight  = info.get("insight_cn", "")
+            url      = a.get("url", "")
+            src      = a.get("source", "")
+            pub      = a.get("published", "")
+
+            cn_lines.append(f"**{title_cn}**")
+            if insight:
+                cn_lines.append(f"*{insight}*")
+            cn_lines.append(f"<small>[{src}]({url}) {pub}</small>\n")
+
+            en_lines.append(f"**[{a['title']}]({url})**")
+            en_lines.append(f"<small>[{src}] {pub}</small>\n")
+
+        lambda_block_cn = "\n".join(cn_lines)
+        lambda_block_en = "\n".join(en_lines)
+
     # ── 生成中文版 ──────────────────────────────────────
     cn = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
+    if lambda_block_cn:
+        cn.append(lambda_block_cn)
     for cat_key in ["finance", "social", "wellness"]:
         items_parsed = articles.get(cat_key, [])
         orig_items   = news_data.get(cat_key, [])
@@ -207,6 +276,8 @@ News list:
 
     # ── 生成英文版 ──────────────────────────────────────
     en = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
+    if lambda_block_en:
+        en.append(lambda_block_en)
     for cat_key in ["finance", "social", "wellness"]:
         items_parsed = articles.get(cat_key, [])
         orig_items   = news_data.get(cat_key, [])
