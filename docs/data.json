@@ -2226,7 +2226,7 @@
     }
   },
   "2026-06-17": {
-    "updated": "2026-06-17 02:10 CST",
+    "updated": "2026-06-17 06:29 CST",
     "signal_advisor": {
       "date": "2026-06-17",
       "session": "pre_market",
@@ -3679,6 +3679,124 @@
     "news": {
       "cn": "# 📰 每日智识简报（中文）\n### 2026年06月17日\n\n\n## 📈 金融财经\n\n- 【CNBC Finance】Prediction market traders speculate Anthropic will restore access quickly to AI model after Trump admin directed it to limit reach\n- 【CNBC Finance】The new oil? Inside the effort to turn AI computing power into a tradeable commodity\n- 【CNBC Finance】People in China are watching the World Cup differently this time\n- 【CNBC Finance】CFTC chair Selig defends decision to approve ‘perps’ in U.S.\n- 【CNBC World Economy】UK economy shrank 0.1% in April as Iran conflict weighed on growth\n- 【CNBC World Economy】A Chinese start-up's unfolding dilemma exposes cracks in Beijing's tech funding machine\n- 【CNBC World Economy】Wholesale prices rose 1.1% in May, more than expected, on surge in energy\n- 【CNBC World Economy】ECB hikes interest rates for first time since 2023 as Iran war ramps up energy costs\n- 【Yahoo Finance】Cathie Wood buys $529.7 million of popular new stock\n- 【Yahoo Finance】SpaceX set to extend rally after record Wall Street debut\n\n## 📱 自媒体精选\n\n- 【Hacker News】10Gb/s Ethernet: switching to a Broadcom SFP+ module\n- 【Hacker News】Claude: Elevated errors across many models\n- 【Hacker News】The octopus architecture for AI agents\n- 【Hacker News】Gamers beware: malicious wallpapers on Steam found stealing accounts\n- 【TechCrunch】Android 17 launches with new multitasking tools as Google expands Gemini features\n- 【TechCrunch】Mobileye’s US robotaxi launch will put it on both sides of the AV business\n- 【TechCrunch】Rivian cuts hundreds of workers after R2 deliveries start\n- 【TechCrunch】Snap finally debuts its long-awaited AR glasses, Specs, and, oof, they aren’t cheap\n- 【The Verge】Verizon’s ‘Simplicity’ flat-rate plan starts at $30 per month for new customers\n- 【The Verge】Apple 2027 rumors: AirPods with cameras for AI and the second folding iPhone\n\n## 🧠 健康·心理·美学\n\n- 【ScienceDaily Mind】Copper drug clears toxic Alzheimer’s proteins and restores memory\n- 【ScienceDaily Mind】This popular brain supplement was linked to shorter lifespans in men\n- 【ScienceDaily Mind】Why middle age is becoming a breaking point in the U.S.\n- 【ScienceDaily Mind】Your brain can keep improving into your 90s, study finds\n- 【PsyPost】Psychedelic users process emotional expressions differently than nonusers\n- 【PsyPost】Unprecedented brain implant allows paralyzed man to completely control his computer and “speak” independently\n- 【PsyPost】Practicing moderate-intensity Nordic walking reduces depression symptoms, study suggests\n- 【PsyPost】New study suggests parenthood increases meaning in life but leaves everyday happiness largely unchanged\n- 【Psychology Today】How to Pace Yourself in Overloaded Moments\n- 【Psychology Today】What if Your Success Is a Response to Childhood Pain?",
       "en": "# 📰 Daily Intelligence Brief\n### June 17, 2026\n\n\n## 📈 Finance & Markets\n\n- [CNBC Finance] Prediction market traders speculate Anthropic will restore access quickly to AI model after Trump admin directed it to limit reach\n- [CNBC Finance] The new oil? Inside the effort to turn AI computing power into a tradeable commodity\n- [CNBC Finance] People in China are watching the World Cup differently this time\n- [CNBC Finance] CFTC chair Selig defends decision to approve ‘perps’ in U.S.\n- [CNBC World Economy] UK economy shrank 0.1% in April as Iran conflict weighed on growth\n- [CNBC World Economy] A Chinese start-up's unfolding dilemma exposes cracks in Beijing's tech funding machine\n- [CNBC World Economy] Wholesale prices rose 1.1% in May, more than expected, on surge in energy\n- [CNBC World Economy] ECB hikes interest rates for first time since 2023 as Iran war ramps up energy costs\n- [Yahoo Finance] Cathie Wood buys $529.7 million of popular new stock\n- [Yahoo Finance] SpaceX set to extend rally after record Wall Street debut\n\n## 📱 Tech & Media\n\n- [Hacker News] 10Gb/s Ethernet: switching to a Broadcom SFP+ module\n- [Hacker News] Claude: Elevated errors across many models\n- [Hacker News] The octopus architecture for AI agents\n- [Hacker News] Gamers beware: malicious wallpapers on Steam found stealing accounts\n- [TechCrunch] Android 17 launches with new multitasking tools as Google expands Gemini features\n- [TechCrunch] Mobileye’s US robotaxi launch will put it on both sides of the AV business\n- [TechCrunch] Rivian cuts hundreds of workers after R2 deliveries start\n- [TechCrunch] Snap finally debuts its long-awaited AR glasses, Specs, and, oof, they aren’t cheap\n- [The Verge] Verizon’s ‘Simplicity’ flat-rate plan starts at $30 per month for new customers\n- [The Verge] Apple 2027 rumors: AirPods with cameras for AI and the second folding iPhone\n\n## 🧠 Health & Wellness\n\n- [ScienceDaily Mind] Copper drug clears toxic Alzheimer’s proteins and restores memory\n- [ScienceDaily Mind] This popular brain supplement was linked to shorter lifespans in men\n- [ScienceDaily Mind] Why middle age is becoming a breaking point in the U.S.\n- [ScienceDaily Mind] Your brain can keep improving into your 90s, study finds\n- [PsyPost] Psychedelic users process emotional expressions differently than nonusers\n- [PsyPost] Unprecedented brain implant allows paralyzed man to completely control his computer and “speak” independently\n- [PsyPost] Practicing moderate-intensity Nordic walking reduces depression symptoms, study suggests\n- [PsyPost] New study suggests parenthood increases meaning in life but leaves everyday happiness largely unchanged\n- [Psychology Today] How to Pace Yourself in Overloaded Moments\n- [Psychology Today] What if Your Success Is a Response to Childhood Pain?"
+    },
+    "congress": {
+      "date": "2026-06-17",
+      "strong": [
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "MSFT",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-05-15",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 21,
+          "amount_mid": 75000,
+          "size_range": "$50K-100K",
+          "sector": "科技",
+          "score": 5,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        }
+      ],
+      "medium": [
+        {
+          "member": "Mike Kelly",
+          "party": "R",
+          "chamber": "House",
+          "committee": "Ways and Means",
+          "ticker": "BMY",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-05-07",
+          "disclosure_date": "2026-06-10",
+          "delay_days": 34,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "医疗",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "RVTY",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-05-04",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 32,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "医疗",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "IBM",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-05-15",
+          "disclosure_date": "2026-06-05",
+          "delay_days": 21,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "科技",
+          "score": 3,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        },
+        {
+          "member": "Tim Moore",
+          "party": "",
+          "chamber": "House",
+          "committee": "N/A",
+          "ticker": "T",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-04",
+          "disclosure_date": "2026-06-04",
+          "delay_days": 0,
+          "amount_mid": 75000,
+          "size_range": "$50K-100K",
+          "sector": "通讯",
+          "score": 3,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        }
+      ],
+      "watch": [
+        {
+          "member": "Robert E. Latta",
+          "party": "",
+          "chamber": "House",
+          "committee": "N/A",
+          "ticker": "FMAO",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-04",
+          "disclosure_date": "2026-06-04",
+          "delay_days": 0,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "金融",
+          "score": 2,
+          "comparison": "🔗 行业相关：与您 TLT 持仓相关（利率敏感/金融板块）"
+        }
+      ],
+      "sector_breakdown": {
+        "科技": 25.0,
+        "医疗": 25.0,
+        "金融": 25.0,
+        "通讯": 25.0
+      },
+      "ai_insight": ""
     }
   }
 }
