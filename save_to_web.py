@@ -89,7 +89,7 @@ def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
         except Exception as e:
             log.warning(f"   ⚠️ Claude 调用第{attempt}次失败: {e}")
         if attempt < 3:
-            time.sleep(60)
+            time.sleep(10)
     return ""
 
 
@@ -112,12 +112,27 @@ def _parse_json(text: str):
     return json.loads(clean)
 
 
+def _parse_json_array(text: str) -> list:
+    """从 Claude 返回中提取 JSON 数组。"""
+    raw = text.strip() if text else ""
+    if "```" in raw:
+        for part in raw.split("```"):
+            p = part.strip().lstrip("json").strip()
+            if p.startswith("["):
+                raw = p
+                break
+    start = raw.find("[")
+    end   = raw.rfind("]")
+    if start != -1 and end != -1:
+        return json.loads(raw[start:end+1])
+    return []
+
+
 def generate_news_with_insights(news_data: dict) -> tuple:
     """
-    调用 Claude 生成：
-    - 每条新闻：中文标题 + 英文标题 + 3句话描述（中英各自）
-    - Lambda AI 新闻：顶部独立区块
-    - 全局洞察：投资3条 + 健康3条（中英各自）
+    拆成两次轻量 Claude 调用：
+    1. 标题翻译 → 简单字符串数组（小输出，几乎不会失败）
+    2. 全局洞察 → 独立调用（可选，失败不影响标题）
     返回 (cn_report, en_report)
     """
     tz_cst  = timezone(timedelta(hours=8))
@@ -141,26 +156,14 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         log.info("🤖 Lambda AI 新闻中文化...")
         lambda_raw = _call_claude(lambda_prompt, max_tokens=1500)
         try:
-            raw_clean = lambda_raw.strip() if lambda_raw else ""
-            if "```" in raw_clean:
-                parts = raw_clean.split("```")
-                for p in parts:
-                    p2 = p.strip().lstrip("json").strip()
-                    if p2.startswith("["):
-                        raw_clean = p2
-                        break
-            start = raw_clean.find("[")
-            end   = raw_clean.rfind("]")
-            if start != -1 and end != -1:
-                raw_clean = raw_clean[start:end+1]
-            lambda_parsed = json.loads(raw_clean) if raw_clean else []
+            lambda_parsed = _parse_json_array(lambda_raw)
         except Exception:
             lambda_parsed = []
 
         cn_lines = ["\n## 🤖 AI前沿（Lambda Finance）\n"]
         en_lines = ["\n## 🤖 AI Focus (Lambda Finance)\n"]
         for i, a in enumerate(lambda_articles):
-            info = lambda_parsed[i] if i < len(lambda_parsed) else {}
+            info     = lambda_parsed[i] if i < len(lambda_parsed) else {}
             title_cn = info.get("title_cn") or a["title"][:30]
             insight  = info.get("insight_cn", "")
             url      = a.get("url", "")
@@ -175,97 +178,68 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         lambda_block_cn = "\n".join(cn_lines)
         lambda_block_en = "\n".join(en_lines)
 
-    # 构建新闻列表
-    news_lines = []
-    for cat, items in news_data.items():
-        news_lines.append(f"\n[{CATEGORY_EN.get(cat, cat)}]")
-        for i, item in enumerate(items, 1):
-            news_lines.append(f"{i}. [{item['source']}] {item['title']}")
-    news_text = "\n".join(news_lines)
+    # ── 构建扁平新闻列表（按类别顺序）─────────────────────
+    cat_order = ["finance", "social", "wellness"]
+    flat_items = []   # [(cat, item), ...]
+    for cat in cat_order:
+        for item in news_data.get(cat, []):
+            flat_items.append((cat, item))
 
-    prompt = f"""You are a professional investment advisor and health advisor. Below are today's curated news ({date_en}).
+    titles_text = "\n".join(
+        f"{i+1}. {item['title']}" for i, (_, item) in enumerate(flat_items)
+    )
 
-For EACH news item, provide:
-1. title_cn: Chinese translation of the title
-2. summary_cn: 3-sentence Chinese summary/description of the story
-3. summary_en: 3-sentence English summary/description of the story
+    # ── 调用 1：标题翻译（关键，输出小，99% 成功）─────────
+    translate_prompt = (
+        f"Translate the following {len(flat_items)} English news headlines into concise, accurate Chinese. "
+        "Output ONLY a JSON array of strings — one string per headline, in the same order. "
+        "No explanations, no markdown, no extra text.\n\n"
+        f"Headlines:\n{titles_text}"
+    )
+    log.info(f"🤖 调用 Claude 翻译 {len(flat_items)} 条新闻标题...")
+    trans_raw = _call_claude(translate_prompt, max_tokens=2000)
+    cn_titles: list[str] = []
+    if trans_raw:
+        try:
+            cn_titles = _parse_json_array(trans_raw)
+        except Exception as e:
+            log.warning(f"⚠️ 标题翻译解析失败: {e}，预览: {trans_raw[:200]}")
 
-Then provide GLOBAL INSIGHTS (based on ALL news combined):
-- investment_insights_cn: exactly 3 actionable investment insights in Chinese (each max 30 chars)
-- investment_insights_en: exactly 3 actionable investment insights in English (each max 15 words)
-- health_insights_cn: exactly 3 actionable health/wellness insights in Chinese (each max 30 chars)
-- health_insights_en: exactly 3 actionable health/wellness insights in English (each max 15 words)
+    # ── 调用 2：全局洞察（可选）────────────────────────────
+    insights_prompt = (
+        f"Based on today's curated news ({date_en}), generate actionable insights. "
+        "Output ONLY valid JSON, no markdown:\n"
+        "{\"investment_cn\": [\"洞察1\",\"洞察2\",\"洞察3\"], "
+        "\"investment_en\": [\"insight 1\",\"insight 2\",\"insight 3\"], "
+        "\"health_cn\": [\"洞察1\",\"洞察2\",\"洞察3\"], "
+        "\"health_en\": [\"insight 1\",\"insight 2\",\"insight 3\"]}\n\n"
+        f"News summary:\n{titles_text[:1500]}"
+    )
+    log.info("🤖 调用 Claude 生成全局洞察...")
+    insights_raw = _call_claude(insights_prompt, max_tokens=800)
+    insights: dict = {}
+    if insights_raw:
+        try:
+            insights = _parse_json(insights_raw)
+        except Exception as e:
+            log.warning(f"⚠️ 洞察解析失败: {e}")
 
-IMPORTANT: Output ONLY valid JSON. No markdown. No quotes inside string values (use alternate phrasing instead).
-
-JSON format:
-{{
-  "articles": {{
-    "finance": [
-      {{"title_en": "...", "title_cn": "...", "summary_cn": "...", "summary_en": "..."}},
-      {{"title_en": "...", "title_cn": "...", "summary_cn": "...", "summary_en": "..."}}
-    ],
-    "social": [...],
-    "wellness": [...]
-  }},
-  "insights": {{
-    "investment_cn": ["洞察1", "洞察2", "洞察3"],
-    "investment_en": ["insight 1", "insight 2", "insight 3"],
-    "health_cn": ["洞察1", "洞察2", "洞察3"],
-    "health_en": ["insight 1", "insight 2", "insight 3"]
-  }}
-}}
-
-News list:
-{news_text}"""
-
-    log.info("🤖 调用 Claude 生成新闻内容与洞察...")
-    result = _call_claude(prompt, max_tokens=4000)
-
-    if not result:
-        log.warning("⚠️ 内容生成失败，使用纯标题版")
-        cn_plain = _format_plain_cn(news_data, date_cn)
-        en_plain = _format_plain_en(news_data, date_en)
-        if lambda_block_cn:
-            cn_plain = cn_plain.replace(f"### {date_cn}\n", f"### {date_cn}\n{lambda_block_cn}", 1)
-        if lambda_block_en:
-            en_plain = en_plain.replace(f"### {date_en}\n", f"### {date_en}\n{lambda_block_en}", 1)
-        return cn_plain, en_plain
-
-    try:
-        parsed = _parse_json(result)
-    except Exception as e:
-        log.warning(f"⚠️ JSON 解析失败: {e}")
-        log.warning(f"   返回内容预览: {result[:300]}")
-        cn_plain = _format_plain_cn(news_data, date_cn)
-        en_plain = _format_plain_en(news_data, date_en)
-        if lambda_block_cn:
-            cn_plain = cn_plain.replace(f"### {date_cn}\n", f"### {date_cn}\n{lambda_block_cn}", 1)
-        if lambda_block_en:
-            en_plain = en_plain.replace(f"### {date_en}\n", f"### {date_en}\n{lambda_block_en}", 1)
-        return cn_plain, en_plain
-
-    articles = parsed.get("articles", {})
-    insights = parsed.get("insights", {})
-
-    # ── 生成中文版 ──────────────────────────────────────
+    # ── 生成中文版 ──────────────────────────────────────────
     cn = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
     if lambda_block_cn:
         cn.append(lambda_block_cn)
-    for cat_key in ["finance", "social", "wellness"]:
-        items_parsed = articles.get(cat_key, [])
-        orig_items   = news_data.get(cat_key, [])
-        if not items_parsed:
-            continue
-        cn.append(f"\n## {CATEGORY_CN.get(cat_key, cat_key)}\n")
-        for i, p in enumerate(items_parsed):
-            title_cn  = p.get("title_cn", orig_items[i]["title"] if i < len(orig_items) else "")
-            summary_cn = p.get("summary_cn", "")
-            cn.append(f"**{title_cn}**")
-            if summary_cn:
-                cn.append(f"\n{summary_cn}\n")
 
-    # 中文全局洞察
+    idx = 0
+    for cat in cat_order:
+        items = news_data.get(cat, [])
+        if not items:
+            continue
+        cn.append(f"\n## {CATEGORY_CN.get(cat, cat)}\n")
+        for item in items:
+            title_cn = cn_titles[idx] if idx < len(cn_titles) else item["title"]
+            cn.append(f"- {title_cn}")
+            idx += 1
+
     inv_cn    = insights.get("investment_cn", [])
     health_cn = insights.get("health_cn", [])
     if inv_cn or health_cn:
@@ -280,28 +254,21 @@ News list:
             for s in health_cn[:3]:
                 cn.append(f"- {s}")
 
-    # ── 生成英文版 ──────────────────────────────────────
+    # ── 生成英文版 ──────────────────────────────────────────
     en = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
     if lambda_block_en:
         en.append(lambda_block_en)
-    for cat_key in ["finance", "social", "wellness"]:
-        items_parsed = articles.get(cat_key, [])
-        orig_items   = news_data.get(cat_key, [])
-        if not items_parsed:
-            continue
-        en.append(f"\n## {CATEGORY_EN.get(cat_key, cat_key)}\n")
-        for i, p in enumerate(items_parsed):
-            title_en   = p.get("title_en", orig_items[i]["title"] if i < len(orig_items) else "")
-            summary_en = p.get("summary_en", "")
-            url = orig_items[i].get("url","") if i < len(orig_items) else ""
-            if url:
-                en.append(f"**[{title_en}]({url})**")
-            else:
-                en.append(f"**{title_en}**")
-            if summary_en:
-                en.append(f"\n{summary_en}\n")
 
-    # 英文全局洞察
+    for cat in cat_order:
+        items = news_data.get(cat, [])
+        if not items:
+            continue
+        en.append(f"\n## {CATEGORY_EN.get(cat, cat)}\n")
+        for item in items:
+            url = item.get("url", "")
+            title = item["title"]
+            en.append(f"- {'['+title+']('+url+')' if url else title}")
+
     inv_en    = insights.get("investment_en", [])
     health_en = insights.get("health_en", [])
     if inv_en or health_en:
