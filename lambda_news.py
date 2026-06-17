@@ -42,7 +42,7 @@ def _post(body: dict, session_id: str | None = None, token: str = "") -> tuple[d
     if session_id:
         headers["mcp-session-id"] = session_id
     try:
-        r = requests.post(_URL, json=body, headers=headers, timeout=20)
+        r = requests.post(_URL, json=body, headers=headers, timeout=8)
         sid = r.headers.get("mcp-session-id")
         for line in r.text.splitlines():
             if line.startswith("data: "):
