@@ -16,8 +16,8 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-17 09:33 CST
-**data.json 今日更新**：2026-06-17 08:20 CST
+**自动刷新时间**：2026-06-17 09:54 CST
+**data.json 今日更新**：2026-06-17 09:33 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
 - 每日简报 (main.py)：✅ 今日已产出
@@ -26,7 +26,7 @@
 - Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `b02cb0c` 2026-06-16 — Fix Lambda AI news: generate block before Claude call, reduce timeout to 8s
+- `223e1be` 2026-06-16 — Update model to claude-sonnet-4-6 in market_monitor and congress_tracker
 
 <!-- AUTO:END -->
 
