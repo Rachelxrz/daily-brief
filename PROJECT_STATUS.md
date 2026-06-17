@@ -16,17 +16,17 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-17 23:00 CST
-**data.json 今日更新**：2026-06-17 22:32 CST
+**自动刷新时间**：2026-06-18 00:27 CST
+**data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
-- 每日简报 (main.py)：✅ 今日已产出
-- 市场结构监控 (market_monitor.py)：✅ 今日已产出
-- 国会交易信号 (congress_tracker.py)：✅ 今日已产出
-- Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
+- 每日简报 (main.py)：⚪ 今日无产出
+- 市场结构监控 (market_monitor.py)：⚪ 今日无产出
+- 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
+- Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `a0a4e06` 2026-06-17 — Fix CN translation: line-by-line format, no JSON (avoids quote escaping)
+- `07410ed` 2026-06-17 — signal_advisor_pre 2026-06-17
 
 <!-- AUTO:END -->
 
