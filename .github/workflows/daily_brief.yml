@@ -290,99 +290,98 @@ jobs:
           retention-days: 7
 
   signal-advisor-premarket:
-    name: 📊 技术信号（盘前）
+    name: 📊 技术信号·核心（盘前）
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 12
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '0 12 * * 1-5') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_pre')
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Create directories
-        run: mkdir -p logs docs
-
-      - name: Run signal advisor (pre-market)
-        run: python signal_advisor.py --session pre
-
-      - name: Commit & push web data
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - run: mkdir -p logs docs
+      - run: python signal_advisor.py --session pre --group priority
+      - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp docs/data.json /tmp/new_data.json
-          git fetch origin main
-          git reset --hard origin/main
+          git fetch origin main && git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
           git add docs/data.json
           git diff --staged --quiet || git commit -m "signal_advisor_pre $(date +'%Y-%m-%d')"
           git push
-
-      - name: Upload logs
-        if: always()
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: signal-pre-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7
 
-  signal-advisor-postmarket:
-    name: 📊 技术信号（盘后）
+  signal-advisor-postmarket-priority:
+    name: 📊 技术信号·核心（盘后）
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 12
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 1-5') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_post')
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Create directories
-        run: mkdir -p logs docs
-
-      - name: Run signal advisor (post-market)
-        run: python signal_advisor.py --session post
-
-      - name: Commit & push web data
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - run: mkdir -p logs docs
+      - run: python signal_advisor.py --session post --group priority
+      - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp docs/data.json /tmp/new_data.json
-          git fetch origin main
-          git reset --hard origin/main
+          git fetch origin main && git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
           git add docs/data.json
-          git diff --staged --quiet || git commit -m "signal_advisor_post $(date +'%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "signal_advisor_post_priority $(date +'%Y-%m-%d')"
           git push
-
-      - name: Upload logs
-        if: always()
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: signal-post-logs-${{ github.run_number }}
+          name: signal-post-priority-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
+
+  signal-advisor-postmarket-extended:
+    name: 📊 技术信号·扩展（盘后）
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    needs: signal-advisor-postmarket-priority
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'signal_post')
+    steps:
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - run: mkdir -p logs docs
+      - run: python signal_advisor.py --session post --group extended
+      - name: Commit & push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/new_data.json
+          git fetch origin main && git reset --hard origin/main
+          python merge_data.py /tmp/new_data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "signal_advisor_post_extended $(date +'%Y-%m-%d')"
+          git push
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: signal-post-extended-logs-${{ github.run_number }}
           path: logs/
           retention-days: 7

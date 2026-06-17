@@ -52,34 +52,47 @@ REGULAR_HOLDINGS = {
     "ALB":  {"qty": 101, "cost_basis": 20012.65},
     "ASML": {"qty": 13,  "cost_basis": 24450.14},
     "COHR": {"qty": 92,  "cost_basis": 24670.89},
-    "COIN": {"qty": 52,  "cost_basis": 15312.44},
     "ETN":  {"qty": 51,  "cost_basis": 20829.68},
     "GEV":  {"qty": 54,  "cost_basis": 48935.44},
     "GOOG": {"qty": 51,  "cost_basis": 16698.99},
     "MPWR": {"qty": 24,  "cost_basis": 27845.59},
     "NVDA": {"qty": 190, "cost_basis": 35526.08},
     "VRT":  {"qty": 161, "cost_basis": 36057.36},
-    "ETHA": {"qty": 301, "cost_basis":  6891.40},
-    "GLD":  {"qty": 210, "cost_basis": 85203.54},
-    "QQQ":  {"qty": 73,  "cost_basis": 48025.14},
-    "SLV":  {"qty": 342, "cost_basis": 28299.00},
-    "XBI":  {"qty": 301, "cost_basis": 39391.03},
 }
 
 IRA_HOLDINGS = {
-    # 用户补充：格式同上
     # "TICKER": {"qty": N, "cost_basis": XXXXX.XX},
 }
 
 IRA_OPTIONS = {
-    # 用户补充：当前持有的 call/put
     # "TICKER": {"type": "call", "strike": 450, "expiry": "2027-01-16", "qty": 2, "cost_basis": 3200},
 }
 
-WATCHLIST = [
-    "ALB","ANET","AVGO","BDRY","CEG","CIEN","COHR","COPX",
-    "ETHA","FRO","GEV","GS","HEWJ","LITE","MP","NEE",
-    "NVDA","PLTR","PWR","VRT","VST","MPWR","ADI","GOOG","NBIS","MPC"
+# 宏观/ETF 观测（不计算期权建议）
+MACRO_WATCH = [
+    "GLD", "QQQ", "SLV", "ETHA", "XBI", "COIN", "FPX", "FLJH",
+]
+
+# 组一：高优先级 Watchlist（每次必跑）
+PRIORITY_WATCHLIST = [
+    # 存储/内存
+    "MRVL", "MU", "NVMI", "ONTO", "WDC", "STX", "SNDK",
+    # 半导体设备/ETF
+    "AEHR", "KLAC", "TSM", "SMH",
+    # 大型半导体/科技
+    "ARM", "AVGO", "AMD",
+    # 光纤/网络
+    "LITE", "CIEN", "ANET",
+    # 近期信号活跃
+    "NBIS", "PLTR", "PWR", "GS", "GLW", "CEG", "FTAI",
+]
+
+# 组二：扩展 Watchlist（盘后单独跑）
+EXTENDED_WATCHLIST = [
+    "BDRY", "COPX", "FRO", "HEWJ", "MP", "NEE", "VST", "MSFT",
+    "LNG", "TXN", "XOM", "DHT", "TNK", "DUK", "RTX", "AVAV",
+    "SE", "DOCN", "EQIX", "INTC", "RKLB", "SPCX",
+    "XMMO", "IWM", "BNO", "UTES", "REMX", "GDX", "USD",
 ]
 
 
@@ -773,7 +786,9 @@ def _sanitize(obj):
     return obj
 
 
-def save_signal_data(session: str, regular: list, ira: list, watchlist: list):
+def save_signal_data(session: str, group: str,
+                     regular: list, ira: list,
+                     macro: list, priority: list, extended: list):
     tz_cst = timezone(timedelta(hours=8))
     today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
 
@@ -797,21 +812,7 @@ def save_signal_data(session: str, regular: list, ira: list, watchlist: list):
             })
         return out
 
-    opt_recs = _sanitize([
-        {"ticker": r["ticker"], **(r.get("option_rec") or {})}
-        for r in regular + ira
-        if (r.get("option_rec") or {}).get("recommendation") in ("LEAP", "MID_TERM")
-    ])
-
-    payload = _sanitize({
-        "date":    today,
-        "session": "pre_market" if session == "pre" else "post_market",
-        "regular_account": _to_dict(regular),
-        "ira_account":     _to_dict(ira),
-        "watchlist":       _to_dict(watchlist),
-        "option_recommendations": opt_recs,
-    })
-
+    # 加载已有数据（extended 组需要 merge，不覆盖 priority 组结果）
     data = {}
     if DATA_FILE.exists():
         try:
@@ -819,14 +820,49 @@ def save_signal_data(session: str, regular: list, ira: list, watchlist: list):
         except Exception:
             pass
 
+    existing = data.get(today, {}).get("signal_advisor", {})
+
+    payload: dict = {
+        "date":    today,
+        "session": "pre_market" if session == "pre" else "post_market",
+        # 保留已有字段，本次覆盖对应分组
+        "regular_account":    existing.get("regular_account", {}),
+        "ira_account":        existing.get("ira_account", {}),
+        "macro_watch":        existing.get("macro_watch", {}),
+        "priority_watchlist": existing.get("priority_watchlist", {}),
+        "extended_watchlist": existing.get("extended_watchlist", {}),
+        "option_recommendations": existing.get("option_recommendations", []),
+    }
+
+    if group in ("priority", "all"):
+        payload["regular_account"]    = _to_dict(regular)
+        payload["ira_account"]        = _to_dict(ira)
+        payload["macro_watch"]        = _to_dict(macro)
+        payload["priority_watchlist"] = _to_dict(priority)
+        payload["option_recommendations"] = _sanitize([
+            {"ticker": r["ticker"], **(r.get("option_rec") or {})}
+            for r in regular + ira
+            if (r.get("option_rec") or {}).get("recommendation") in ("LEAP", "MID_TERM")
+        ])
+
+    if group in ("extended", "all"):
+        payload["extended_watchlist"] = _to_dict(extended)
+
+    # 合并 watchlist 供前端使用（向后兼容）
+    payload["watchlist"] = {
+        **payload.get("macro_watch", {}),
+        **payload.get("priority_watchlist", {}),
+        **payload.get("extended_watchlist", {}),
+    }
+
     if today not in data:
         data[today] = {}
     data[today]["updated"]        = datetime.now(tz_cst).strftime("%Y-%m-%d %H:%M CST")
-    data[today]["signal_advisor"] = payload
+    data[today]["signal_advisor"] = _sanitize(payload)
 
     DOCS_DIR.mkdir(exist_ok=True)
     DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    log.info(f"💾 signal_advisor 已写入 data.json: {today}")
+    log.info(f"💾 signal_advisor [{group}] 已写入 data.json: {today}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -873,7 +909,21 @@ def _push_serverchan(content: str, title: str):
 # 主流程
 # ═══════════════════════════════════════════════════════════════════════════
 
-def run_advisor(session: str = "post"):
+def _scan(tickers: list, holding_map: dict, label: str) -> list:
+    results = []
+    log.info(f"\n▶ {label} ({len(tickers)} 只) ...")
+    for ticker in tickers:
+        h = holding_map.get(ticker)
+        r = analyze_ticker(ticker, h)
+        results.append(r)
+        if "error" not in r:
+            log.info(f"  {ticker:<6} {r['signal']}  ${r['price']}")
+        else:
+            log.warning(f"  {ticker:<6} ⚠️ {r['error']}")
+    return results
+
+
+def run_advisor(session: str = "post", group: str = "all", dry_run: bool = False):
     try:
         import pytz
         et_tz = pytz.timezone("America/New_York")
@@ -887,71 +937,48 @@ def run_advisor(session: str = "post"):
 
     sess_cn = "盘前" if session == "pre" else "盘后"
     log.info("=" * 60)
-    log.info(f"📊 Signal Advisor v1.1  {now_et.strftime('%Y-%m-%d')}  {sess_cn}")
+    log.info(f"📊 Signal Advisor v2.0  {now_et.strftime('%Y-%m-%d')}  {sess_cn}  [{group}]")
     log.info("=" * 60)
 
-    # 普通账户持仓
-    log.info("\n▶ 普通账户持仓分析 ...")
-    regular: list = []
-    for ticker, h in REGULAR_HOLDINGS.items():
-        log.info(f"  {ticker} ...")
-        r = analyze_ticker(ticker, h)
-        regular.append(r)
-        if "error" not in r:
-            log.info(f"    {r['signal']}  ${r['price']}  {r['action']}")
-        else:
-            log.warning(f"    ⚠️  {r['error']}")
-
-    # IRA 账户持仓
-    ira: list = []
-    if IRA_HOLDINGS:
-        log.info("\n▶ IRA 账户持仓分析 ...")
-        for ticker, h in IRA_HOLDINGS.items():
-            log.info(f"  {ticker} ...")
-            r = analyze_ticker(ticker, h)
-            ira.append(r)
-            if "error" not in r:
-                log.info(f"    {r['signal']}  ${r['price']}")
-
-    # Watchlist（去掉已在持仓里的）
-    log.info("\n▶ Watchlist 信号扫描 ...")
     holding_tickers = set(REGULAR_HOLDINGS) | set(IRA_HOLDINGS)
-    wl_results: list = []
-    for ticker in WATCHLIST:
-        if ticker in holding_tickers:
-            continue
-        log.info(f"  {ticker} ...")
-        r = analyze_ticker(ticker)
-        wl_results.append(r)
-        if "error" not in r:
-            log.info(f"    {r['signal']}  ${r['price']}")
 
-    # 保存到 data.json
-    save_signal_data(session, regular, ira, wl_results)
+    regular, ira, macro, priority, extended = [], [], [], [], []
 
-    # 构建推送消息
-    msg   = build_message(session, regular, ira, wl_results)
-    title = f"📊 技术信号{sess_cn} {now_et.strftime('%m/%d')}"
+    if group in ("priority", "all"):
+        regular  = _scan(list(REGULAR_HOLDINGS), REGULAR_HOLDINGS, "普通账户持仓")
+        ira      = _scan(list(IRA_HOLDINGS),     IRA_HOLDINGS,     "IRA 账户持仓") if IRA_HOLDINGS else []
+        macro    = _scan([t for t in MACRO_WATCH        if t not in holding_tickers], {}, "宏观/ETF 观测")
+        priority = _scan([t for t in PRIORITY_WATCHLIST if t not in holding_tickers], {}, "优先 Watchlist")
+
+    if group in ("extended", "all"):
+        extended = _scan([t for t in EXTENDED_WATCHLIST if t not in holding_tickers], {}, "扩展 Watchlist")
+
+    if not dry_run:
+        save_signal_data(session, group, regular, ira, macro, priority, extended)
+
+    # 推送（priority 组或 all 组才推送持仓信号）
+    all_wl = macro + priority + extended
+    msg   = build_message(session, regular, ira, all_wl)
+    title = f"📊 技术信号{sess_cn}[{group}] {now_et.strftime('%m/%d')}"
 
     log.info("\n" + "─" * 60)
-    log.info("推送预览:")
-    log.info(msg[:800])
+    log.info(msg[:600])
     log.info("─" * 60)
 
-    _push_wxpusher(msg, title)
-    _push_serverchan(msg, title)
+    if not dry_run:
+        _push_wxpusher(msg, title)
+        _push_serverchan(msg, title)
 
-    ok_count = sum(1 for r in regular + ira + wl_results if "error" not in r)
-    err_count = len(regular) + len(ira) + len(wl_results) - ok_count
-    log.info(f"\n✅ 完成：{ok_count} 只分析成功，{err_count} 只失败")
-    return {"regular": regular, "ira": ira, "watchlist": wl_results}
+    total = regular + ira + macro + priority + extended
+    ok  = sum(1 for r in total if "error" not in r)
+    err = len(total) - ok
+    log.info(f"\n✅ 完成：{ok} 只成功，{err} 只失败")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="技术信号与期权建议模块")
-    parser.add_argument(
-        "--session", choices=["pre", "post"], default="post",
-        help="盘前(pre) 或 盘后(post)"
-    )
+    parser = argparse.ArgumentParser(description="技术信号与期权建议模块 v2.0")
+    parser.add_argument("--session",  choices=["pre", "post"], default="post")
+    parser.add_argument("--group",    choices=["priority", "extended", "all"], default="all")
+    parser.add_argument("--dry-run",  action="store_true")
     args = parser.parse_args()
-    run_advisor(args.session)
+    run_advisor(args.session, args.group, args.dry_run)

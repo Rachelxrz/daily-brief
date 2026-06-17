@@ -35,13 +35,24 @@ GitHub Actions (触发器)
 
 ## 持仓与监控标的
 
-**核心持仓**: GLD · WTI · QQQ · TLT
+**普通账户持仓（10只）**:
+ADI · ALB · ASML · COHR · ETN · GEV · GOOG · MPWR · NVDA · VRT
 
-**Watchlist（26只）**:
-ALB, ANET, AVGO, BDRY, CEG, CIEN, COHR, COPX, ETHA, FRO, GEV, GS,
-HEWJ, LITE, MP, NEE, NVDA, PLTR, PWR, VRT, VST, MPWR, ADI, GOOG, NBIS, MPC
+**宏观/ETF 观测（8只，不计算期权建议）**:
+GLD · QQQ · SLV · ETHA · XBI · COIN · FPX · FLJH
 
-**板块 ETF 覆盖**: XLE(能源) · XLI(工业) · XLU(公用事业) · XLB(材料) · XLP(消费) · GLD(黄金) · COPX(铜)
+**Watchlist 组一·高优先级（22只，每次必跑）**:
+存储/内存: MRVL · MU · NVMI · ONTO · WDC · STX · SNDK
+半导体设备: AEHR · KLAC · TSM · SMH
+大型科技: ARM · AVGO · AMD
+光纤/网络: LITE · CIEN · ANET
+近期活跃: NBIS · PLTR · PWR · GS · GLW · CEG · FTAI
+
+**Watchlist 组二·扩展（29只，盘后单独跑）**:
+原有: BDRY · COPX · FRO · HEWJ · MP · NEE · VST · MSFT
+能源/工业: LNG · TXN · XOM · DHT · TNK · DUK · RTX · AVAV
+科技/云: SE · DOCN · EQIX · INTC · RKLB · SPCX
+ETF/宏观: XMMO · IWM · BNO · UTES · REMX · GDX · USD
 
 ---
 
