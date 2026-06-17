@@ -38,7 +38,7 @@ log = logging.getLogger(__name__)
 HOUSE_URL = "https://raw.githubusercontent.com/TattooedHead/house-stock-watcher-data/main/data/all_transactions.json"
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
-ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
+ANTHROPIC_MODEL   = "claude-sonnet-4-6"
 
 RECENT_DAYS          = 14      # 信号窗口：披露日期在最近N天内（国会批量披露，14天确保不漏）
 MIN_TRADE_SIZE       = 10_000  # 层二过滤：交易规模下限（美元）

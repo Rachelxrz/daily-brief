@@ -21,7 +21,7 @@ from save_to_web import save_monitor
 log = logging.getLogger(__name__)
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
-ANTHROPIC_MODEL   = "claude-sonnet-4-20250514"
+ANTHROPIC_MODEL   = "claude-sonnet-4-6"
 
 # ─────────────────────────────────────────────────────────────
 #  PROMPT: 中文版
