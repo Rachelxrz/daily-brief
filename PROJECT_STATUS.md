@@ -16,8 +16,8 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-18 06:55 CST
-**data.json 今日更新**：2026-06-18 06:20 CST
+**自动刷新时间**：2026-06-18 07:49 CST
+**data.json 今日更新**：2026-06-18 06:56 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
 - 每日简报 (main.py)：✅ 今日已产出
@@ -26,8 +26,7 @@
 - Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `590cd22` 2026-06-17 — Watchlist v2: 4-group structure (REGULAR/MACRO/PRIORITY/EXTENDED), 3 signal-advisor jobs
-- `3cb0260` 2026-06-17 — congress_tracker 2026-06-17
+- `d7318d9` 2026-06-17 — signal_advisor_post_priority 2026-06-17
 
 <!-- AUTO:END -->
 
