@@ -114,13 +114,15 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
     """
     token = _TOKEN
     if not token:
-        log.warning("⚠️ LAMBDA_FINANCE_TOKEN 未设置，跳过 Lambda 新闻")
+        log.error("❌ LAMBDA_FINANCE_TOKEN 未设置，跳过 Lambda 新闻")
         return []
+    log.info(f"   LAMBDA_FINANCE_TOKEN 已设置（前8位: {token[:8]}...）")
 
     sid = _init(token)
     if not sid:
-        log.warning("⚠️ Lambda Finance 初始化失败")
+        log.error("❌ Lambda Finance 初始化失败（_init 返回 None），检查 token 或网络")
         return []
+    log.info(f"   session_id: {sid[:16]}...")
 
     log.info("🔗 Lambda Finance 会话已建立，拉取 AI 新闻...")
     all_articles: list[dict] = []

@@ -507,8 +507,18 @@
 // ── Simple Markdown renderer ──────────────────────────────
 function renderMd(text) {
   if (!text) return '<div class="empty"><div class="empty-icon">📭</div>暂无数据</div>';
+  // Extract links before escaping so URLs survive & → &amp;
+  const linkMap = {};
+  let linkIdx = 0;
+  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
+    const key = `\x00LINK${linkIdx++}\x00`;
+    linkMap[key] = `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    return key;
+  });
   let html = text
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    // restore extracted links
+    .replace(/\x00LINK(\d+)\x00/g, (_, i) => linkMap[`\x00LINK${i}\x00`])
     // headings
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
     .replace(/^## (.+)$/gm, '<h2>$1</h2>')

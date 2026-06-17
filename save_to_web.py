@@ -67,7 +67,9 @@ def save_data(data: dict):
 def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
     api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
+        log.error("❌ ANTHROPIC_API_KEY 未设置，跳过 Claude 调用")
         return ""
+    log.info(f"   → Claude 调用 model={ANTHROPIC_MODEL} max_tokens={max_tokens} prompt_len={len(prompt)}")
     payload = {
         "model": ANTHROPIC_MODEL,
         "max_tokens": max_tokens,
@@ -81,11 +83,16 @@ def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
     for attempt in range(1, 4):
         try:
             resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=90)
+            log.info(f"   ← HTTP {resp.status_code}")
+            if resp.status_code != 200:
+                log.warning(f"   ⚠️ 非200响应: {resp.text[:300]}")
             resp.raise_for_status()
             data = resp.json()
             text = "".join(b.get("text","") for b in data.get("content",[]) if b.get("type")=="text")
             if text.strip():
+                log.info(f"   ✅ Claude 返回 {len(text)} 字符")
                 return text.strip()
+            log.warning("   ⚠️ Claude 返回空内容")
         except Exception as e:
             log.warning(f"   ⚠️ Claude 调用第{attempt}次失败: {e}")
         if attempt < 3:
@@ -169,12 +176,12 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             url      = a.get("url", "")
             src      = a.get("source", "")
             pub      = a.get("published", "")
-            cn_lines.append(f"**{title_cn}**")
+            cn_lines.append(f"**[{title_cn}]({url})**")
             if insight:
                 cn_lines.append(f"*{insight}*")
-            cn_lines.append(f"<small>[{src}]({url}) {pub}</small>\n")
+            cn_lines.append(f"*{src} · {pub}*\n")
             en_lines.append(f"**[{a['title']}]({url})**")
-            en_lines.append(f"<small>[{src}] {pub}</small>\n")
+            en_lines.append(f"*{src} · {pub}*\n")
         lambda_block_cn = "\n".join(cn_lines)
         lambda_block_en = "\n".join(en_lines)
 
