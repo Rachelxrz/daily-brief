@@ -243,7 +243,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         "===INVESTMENT_EN===\nInsight 1\nInsight 2\nInsight 3\n"
         "===HEALTH_CN===\n健康洞察1\n健康洞察2\n健康洞察3\n"
         "===HEALTH_EN===\nInsight 1\nInsight 2\nInsight 3\n\n"
-        f"News headlines:\n{titles_text[:1500]}"
+        f"News headlines:\n{articles_text_reg[:1500]}"
     )
     log.info("🤖 调用 Claude 生成全局洞察...")
     insights_raw = _call_claude(insights_prompt, max_tokens=600)
