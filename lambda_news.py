@@ -107,10 +107,10 @@ def _parse_articles(raw: str) -> list[dict]:
     return []
 
 
-def fetch_ai_news(top_n: int = 10) -> list[dict]:
+def fetch_ai_news(top_n: int = 15) -> list[dict]:
     """
     从 Lambda Finance 拉取 AI 相关新闻，筛选出最重要的 top_n 条。
-    返回 list of {"title": str, "url": str, "source": str, "published": str}
+    返回 list of {"title": str, "url": str, "source": str, "published": str, "summary": str}
     """
     token = _TOKEN
     if not token:
@@ -130,7 +130,7 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
 
     # 1. 搜索 AI 关键词
     for query in ["artificial intelligence semiconductor", "AI chip GPU datacenter"]:
-        raw = _tool("search_news", {"query": query, "limit": 20}, sid, token)
+        raw = _tool("search_news", {"query": query, "limit": 30}, sid, token)
         for a in _parse_articles(raw):
             url = a.get("url") or a.get("link", "")
             if url and url not in seen_urls:
@@ -139,7 +139,7 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
 
     # 2. 按持仓 ticker 拉最新新闻
     for ticker in _AI_TICKERS:
-        raw = _tool("get_news", {"symbol": ticker, "limit": 3, "latest": True}, sid, token)
+        raw = _tool("get_news", {"symbol": ticker, "limit": 5, "latest": True}, sid, token)
         for a in _parse_articles(raw):
             url = a.get("url") or a.get("link", "")
             if url and url not in seen_urls:
@@ -147,7 +147,7 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
                 all_articles.append(a)
 
     # 3. 通用市场新闻（过滤 AI 相关）
-    raw = _tool("get_news", {"limit": 20, "latest": True}, sid, token)
+    raw = _tool("get_news", {"limit": 30, "latest": True}, sid, token)
     for a in _parse_articles(raw):
         url = a.get("url") or a.get("link", "")
         title = a.get("title", "")
@@ -184,7 +184,11 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
             continue
         if _ai_score(title) < 1:  # 过滤完全无关文章
             continue
-        result.append({"title": title, "url": url, "source": source, "published": pub[:10]})
+        body = a.get("body") or a.get("summary") or a.get("description") or a.get("text") or ""
+        result.append({
+            "title": title, "url": url, "source": source,
+            "published": pub[:10], "summary": body[:400],
+        })
         if len(result) >= top_n:
             break
 
@@ -194,7 +198,7 @@ def fetch_ai_news(top_n: int = 10) -> list[dict]:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    articles = fetch_ai_news(10)
+    articles = fetch_ai_news(15)
     for i, a in enumerate(articles, 1):
         print(f"{i:2d}. [{a['source']}] {a['title'][:80]}")
         print(f"    {a['url'][:70]}")

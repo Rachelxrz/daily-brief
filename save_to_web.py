@@ -36,7 +36,7 @@ def _fetch_lambda_ai_news() -> list[dict]:
     """静默拉取 Lambda Finance AI 新闻，失败返回空列表。"""
     try:
         from lambda_news import fetch_ai_news
-        return fetch_ai_news(top_n=10)
+        return fetch_ai_news(top_n=15)
     except Exception as e:
         log.warning(f"⚠️ Lambda 新闻拉取失败，跳过: {e}")
         return []
@@ -152,26 +152,30 @@ def generate_news_with_insights(news_data: dict) -> tuple:
     lambda_block_en = ""
     if lambda_articles:
         n = len(lambda_articles)
-        lambda_prompt = (
-            f"Translate {n} AI news headlines to Chinese and add a brief investment insight.\n"
-            f"Output EXACTLY {n} sections, each section = 2 lines:\n"
-            "Line 1: Chinese title (≤20 chars, no quotes)\n"
-            "Line 2: one-sentence investment insight in Chinese (≤40 chars, no quotes)\n"
-            "Separate sections with ---\n"
-            "No JSON, no numbering, no extra text.\n\n"
-            "Headlines:\n" +
-            "\n".join(f"{i+1}. {a['title']}" for i, a in enumerate(lambda_articles))
+        articles_text = "\n".join(
+            f"{i+1}. {a['title']}"
+            + (f"\n   {a['summary'][:300]}" if a.get("summary") else "")
+            for i, a in enumerate(lambda_articles)
         )
-        log.info("🤖 Lambda AI 新闻中文化...")
-        lambda_raw = _call_claude(lambda_prompt, max_tokens=1000)
+        lambda_prompt = (
+            f"For each of the following {n} AI/tech news articles, write a Chinese title and a 3-5 sentence investment analysis in Chinese.\n"
+            f"Output EXACTLY {n} sections separated by ---\n"
+            "Section format:\n"
+            "Line 1: Chinese title (≤20 chars, no quotes)\n"
+            "Lines 2+: 3-5 sentences of investment analysis in Chinese (explain what happened, why it matters for investors, and any trading implications)\n"
+            "No JSON, no numbering, no extra text.\n\n"
+            f"Articles:\n{articles_text}"
+        )
+        log.info("🤖 Lambda AI 新闻中文化（3-5句综述）...")
+        lambda_raw = _call_claude(lambda_prompt, max_tokens=4000)
         lambda_parsed = []
         if lambda_raw:
             blocks = [b.strip() for b in lambda_raw.split("---") if b.strip()]
             for block in blocks:
-                parts = [l.strip() for l in block.splitlines() if l.strip()]
+                lines = [l.strip() for l in block.splitlines() if l.strip()]
                 lambda_parsed.append({
-                    "title_cn":  parts[0] if len(parts) > 0 else "",
-                    "insight_cn": parts[1] if len(parts) > 1 else "",
+                    "title_cn":    lines[0] if lines else "",
+                    "analysis_cn": "\n".join(lines[1:]) if len(lines) > 1 else "",
                 })
 
         cn_lines = ["\n## 🤖 AI前沿（Lambda Finance）\n"]
@@ -179,15 +183,17 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         for i, a in enumerate(lambda_articles):
             info     = lambda_parsed[i] if i < len(lambda_parsed) else {}
             title_cn = info.get("title_cn") or a["title"][:25]
-            insight  = info.get("insight_cn", "")
+            analysis = info.get("analysis_cn", "")
             url      = a.get("url", "")
             src      = a.get("source", "")
             pub      = a.get("published", "")
             cn_lines.append(f"**[{title_cn}]({url})**")
-            if insight:
-                cn_lines.append(f"*{insight}*")
+            if analysis:
+                cn_lines.append(f"\n{analysis}\n")
             cn_lines.append(f"*{src} · {pub}*\n")
             en_lines.append(f"**[{a['title']}]({url})**")
+            if a.get("summary"):
+                en_lines.append(f"\n{a['summary'][:350]}\n")
             en_lines.append(f"*{src} · {pub}*\n")
         lambda_block_cn = "\n".join(cn_lines)
         lambda_block_en = "\n".join(en_lines)
@@ -199,26 +205,35 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         for item in news_data.get(cat, []):
             flat_items.append((cat, item))
 
-    titles_text = "\n".join(
-        f"{i+1}. {item['title']}" for i, (_, item) in enumerate(flat_items)
+    articles_text_reg = "\n".join(
+        f"{i+1}. {item['title']}"
+        + (f"\n   {item.get('summary','')[:200]}" if item.get("summary") else "")
+        for i, (_, item) in enumerate(flat_items)
     )
 
-    # ── 调用 1：标题翻译（按行输出，完全避开 JSON 引号问题）──
+    # ── 调用 1：标题翻译 + 2-3句综述（--- 分节，避开 JSON 引号问题）──
     translate_prompt = (
-        f"Translate the following {len(flat_items)} English news headlines into concise Chinese.\n"
-        f"Output EXACTLY {len(flat_items)} lines — one Chinese translation per line, same order.\n"
-        "No numbering, no JSON, no quotes, no extra text. Just the translated lines.\n\n"
-        f"Headlines:\n{titles_text}"
+        f"For each of the following {len(flat_items)} news articles, provide a Chinese title and a 2-3 sentence Chinese summary.\n"
+        f"Output EXACTLY {len(flat_items)} sections separated by ---\n"
+        "Section format:\n"
+        "Line 1: concise Chinese title (≤25 chars, no quotes)\n"
+        "Lines 2-4: 2-3 sentences of Chinese summary and analysis\n"
+        "No JSON, no numbering, no extra text.\n\n"
+        f"Articles:\n{articles_text_reg}"
     )
-    log.info(f"🤖 调用 Claude 翻译 {len(flat_items)} 条新闻标题...")
-    trans_raw = _call_claude(translate_prompt, max_tokens=2000)
-    cn_titles = []
+    log.info(f"🤖 调用 Claude 翻译+综述 {len(flat_items)} 条新闻...")
+    trans_raw = _call_claude(translate_prompt, max_tokens=3000)
+    cn_sections = []  # list of {"title": str, "summary": str}
+    import re as _re
     if trans_raw:
-        lines = [l.strip() for l in trans_raw.splitlines() if l.strip()]
-        # strip any accidental leading numbers like "1. " or "1) "
-        import re as _re
-        cn_titles = [_re.sub(r'^\d+[\.\)]\s*', '', l) for l in lines]
-        log.info(f"   ✅ 翻译成功: {len(cn_titles)}/{len(flat_items)} 条")
+        blocks = [b.strip() for b in trans_raw.split("---") if b.strip()]
+        for block in blocks:
+            lines = [l.strip() for l in block.splitlines() if l.strip()]
+            title = _re.sub(r'^\d+[\.\)]\s*', '', lines[0]) if lines else ""
+            summary = "\n".join(lines[1:]) if len(lines) > 1 else ""
+            cn_sections.append({"title": title, "summary": summary})
+        log.info(f"   ✅ 翻译+综述成功: {len(cn_sections)}/{len(flat_items)} 条")
+    cn_titles = [s["title"] for s in cn_sections]  # backward compat fallback
 
     # ── 调用 2：全局洞察（节标记格式，完全避开 JSON）──────
     insights_prompt = (
@@ -266,8 +281,13 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             continue
         cn.append(f"\n## {CATEGORY_CN.get(cat, cat)}\n")
         for item in items:
-            title_cn = cn_titles[idx] if idx < len(cn_titles) else item["title"]
-            cn.append(f"- {title_cn}")
+            sec = cn_sections[idx] if idx < len(cn_sections) else {}
+            title_cn   = sec.get("title") or (cn_titles[idx] if idx < len(cn_titles) else item["title"])
+            summary_cn = sec.get("summary", "")
+            url = item.get("url", "")
+            cn.append(f"**{'['+title_cn+']('+url+')' if url else title_cn}**")
+            if summary_cn:
+                cn.append(f"\n{summary_cn}\n")
             idx += 1
 
     inv_cn    = insights.get("investment_cn", [])
@@ -295,9 +315,12 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             continue
         en.append(f"\n## {CATEGORY_EN.get(cat, cat)}\n")
         for item in items:
-            url = item.get("url", "")
-            title = item["title"]
-            en.append(f"- {'['+title+']('+url+')' if url else title}")
+            url     = item.get("url", "")
+            title   = item["title"]
+            summary = item.get("summary", "")
+            en.append(f"**{'['+title+']('+url+')' if url else title}**")
+            if summary:
+                en.append(f"\n{summary[:300]}\n")
 
     inv_en    = insights.get("investment_en", [])
     health_en = insights.get("health_en", [])
