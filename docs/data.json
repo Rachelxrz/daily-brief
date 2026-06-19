@@ -6845,7 +6845,7 @@
     }
   },
   "2026-06-19": {
-    "updated": "2026-06-19 10:20 CST",
+    "updated": "2026-06-19 22:51 CST",
     "wheel": {
       "date": "2026-06-19",
       "candidates": [
@@ -7161,7 +7161,7 @@
     },
     "signal_advisor": {
       "date": "2026-06-19",
-      "session": "post_market",
+      "session": "pre_market",
       "regular_account": {
         "ADI": {
           "price": 434.46,
@@ -7238,7 +7238,7 @@
           "day_chg": 3.31,
           "supertrend": {
             "direction": "UP",
-            "value": 1656.9,
+            "value": 1656.78,
             "bars_since_flip": 48,
             "near_flip": false
           },
@@ -7397,8 +7397,8 @@
           },
           "adx": {
             "adx": 18.0,
-            "di_pos": 21.2,
-            "di_neg": 23.3,
+            "di_pos": 21.1,
+            "di_neg": 23.2,
             "trend_strength": "WEAK"
           },
           "ma": {
@@ -7507,7 +7507,7 @@
           "adx": {
             "adx": 15.4,
             "di_pos": 25.1,
-            "di_neg": 23.4,
+            "di_neg": 23.3,
             "trend_strength": "WEAK"
           },
           "ma": {
@@ -7676,7 +7676,7 @@
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": 0.1556,
+            "momentum_val": 0.1555,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -8151,7 +8151,7 @@
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -1.0412,
+            "momentum_val": -1.0414,
             "momentum_dir": "DECREASING"
           },
           "adx": {
@@ -8218,13 +8218,13 @@
           "day_chg": 4.91,
           "supertrend": {
             "direction": "UP",
-            "value": 324.38,
+            "value": 324.4,
             "bars_since_flip": 0,
             "near_flip": false
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -7.3281,
+            "momentum_val": -7.3288,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -8340,7 +8340,7 @@
           },
           "adx": {
             "adx": 11.2,
-            "di_pos": 22.1,
+            "di_pos": 22.0,
             "di_neg": 22.1,
             "trend_strength": "WEAK"
           },
@@ -8413,7 +8413,7 @@
           },
           "adx": {
             "adx": 15.4,
-            "di_pos": 26.9,
+            "di_pos": 27.0,
             "di_neg": 21.7,
             "trend_strength": "WEAK"
           },
@@ -8472,7 +8472,7 @@
           "day_chg": -1.65,
           "supertrend": {
             "direction": "DOWN",
-            "value": 147.36,
+            "value": 147.38,
             "bars_since_flip": 9,
             "near_flip": false
           },
@@ -8545,13 +8545,13 @@
           "day_chg": -0.23,
           "supertrend": {
             "direction": "UP",
-            "value": 1008.75,
+            "value": 1008.65,
             "bars_since_flip": 50,
             "near_flip": false
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -5.283,
+            "momentum_val": -5.2831,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -8653,7 +8653,7 @@
           "day_chg": -0.43,
           "supertrend": {
             "direction": "UP",
-            "value": 230.64,
+            "value": 230.6,
             "bars_since_flip": 30,
             "near_flip": false
           },
@@ -8863,7 +8863,7 @@
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": 0.1556,
+            "momentum_val": 0.1555,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -9336,7 +9336,7 @@
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -1.0412,
+            "momentum_val": -1.0414,
             "momentum_dir": "DECREASING"
           },
           "adx": {
@@ -9403,13 +9403,13 @@
           "day_chg": 4.91,
           "supertrend": {
             "direction": "UP",
-            "value": 324.38,
+            "value": 324.4,
             "bars_since_flip": 0,
             "near_flip": false
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -7.3281,
+            "momentum_val": -7.3288,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -9525,7 +9525,7 @@
           },
           "adx": {
             "adx": 11.2,
-            "di_pos": 22.1,
+            "di_pos": 22.0,
             "di_neg": 22.1,
             "trend_strength": "WEAK"
           },
@@ -9598,7 +9598,7 @@
           },
           "adx": {
             "adx": 15.4,
-            "di_pos": 26.9,
+            "di_pos": 27.0,
             "di_neg": 21.7,
             "trend_strength": "WEAK"
           },
@@ -9657,7 +9657,7 @@
           "day_chg": -1.65,
           "supertrend": {
             "direction": "DOWN",
-            "value": 147.36,
+            "value": 147.38,
             "bars_since_flip": 9,
             "near_flip": false
           },
@@ -9730,13 +9730,13 @@
           "day_chg": -0.23,
           "supertrend": {
             "direction": "UP",
-            "value": 1008.75,
+            "value": 1008.65,
             "bars_since_flip": 50,
             "near_flip": false
           },
           "sqzmom": {
             "sqz_state": "NO_SQUEEZE",
-            "momentum_val": -5.283,
+            "momentum_val": -5.2831,
             "momentum_dir": "INCREASING"
           },
           "adx": {
@@ -9838,7 +9838,7 @@
           "day_chg": -0.43,
           "supertrend": {
             "direction": "UP",
-            "value": 230.64,
+            "value": 230.6,
             "bars_since_flip": 30,
             "near_flip": false
           },
