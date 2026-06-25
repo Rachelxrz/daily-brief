@@ -742,12 +742,15 @@ function escHtml(s) {
 
 // ── Single news card ──────────────────────────────────────
 function renderNewsCard(item) {
+  const displayTitle = item.title_cn || item.title;
   const titleLinked = item.url
-    ? `<a href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escHtml(item.title_cn || item.title)}</a>`
-    : escHtml(item.title_cn || item.title);
+    ? `<a href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escHtml(displayTitle)}</a>`
+    : escHtml(displayTitle);
 
   const enText = escHtml(item.analysis_en || item.title);
-  const cnText = escHtml(item.analysis_cn || item.title_cn || '');
+  const cnText = item.analysis_cn
+    ? escHtml(item.analysis_cn)
+    : (item.title_cn ? `<span style="color:var(--muted);font-size:0.9em">${escHtml(item.title_cn)}</span>` : '<span style="color:var(--muted);font-size:0.85em">（翻译生成中）</span>');
 
   return `
     <div class="news-card">
@@ -770,6 +773,7 @@ function renderNewsCard(item) {
 
 // ── Section definitions ───────────────────────────────────
 const NEWS_SECTIONS = [
+  { key: 'ai',         label: '🤖 AI科技前沿（Lambda Finance）' },
   { key: 'finance',    label: '📈 金融财经' },
   { key: 'health',     label: '🏥 健康医疗' },
   { key: 'philosophy', label: '🧠 心理·哲学' },

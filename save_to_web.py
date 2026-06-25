@@ -153,9 +153,10 @@ def generate_news_with_insights(news_data: dict) -> tuple:
     date_en = datetime.now(tz_cst).strftime("%B %d, %Y")
 
     # ── 拉取 Lambda AI 新闻并预先生成区块 ──────────────────
-    lambda_articles = _fetch_lambda_ai_news()
+    lambda_articles = _fetch_lambda_ai_news()[:10]  # 限定10条
     lambda_block_cn = ""
     lambda_block_en = ""
+    lambda_parsed: list[dict] = []
     if lambda_articles:
         n = len(lambda_articles)
         articles_text = "\n".join(
@@ -174,7 +175,6 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         )
         log.info("🤖 Lambda AI 新闻中文化（3-5句综述）...")
         lambda_raw = _call_claude(lambda_prompt, max_tokens=4000)
-        lambda_parsed = []
         if lambda_raw:
             blocks = [b.strip() for b in lambda_raw.split("---") if b.strip()]
             for block in blocks:
@@ -228,7 +228,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         f"Articles:\n{articles_text_reg}"
     )
     log.info(f"🤖 调用 Claude 翻译+综述 {len(flat_items)} 条新闻...")
-    trans_raw = _call_claude(translate_prompt, max_tokens=3000)
+    trans_raw = _call_claude(translate_prompt, max_tokens=4500)
     cn_sections = []  # list of {"title": str, "summary": str}
     import re as _re
     if trans_raw:
@@ -355,7 +355,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             section_items.append({
                 "rank":        rank,
                 "title":       item.get("title", ""),
-                "title_cn":    sec.get("title", "") or item.get("title", ""),
+                "title_cn":    sec.get("title", ""),
                 "url":         item.get("url", ""),
                 "source":      item.get("source", ""),
                 "time":        item.get("time", ""),
@@ -364,6 +364,23 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             })
             card_idx += 1
         news_cards[cat] = section_items
+
+    # Lambda AI 新闻独立卡片区（key = "ai"）
+    if lambda_articles:
+        ai_cards = []
+        for i, a in enumerate(lambda_articles, 1):
+            info = lambda_parsed[i - 1] if i - 1 < len(lambda_parsed) else {}
+            ai_cards.append({
+                "rank":        i,
+                "title":       a.get("title", ""),
+                "title_cn":    info.get("title_cn", ""),
+                "url":         a.get("url", ""),
+                "source":      a.get("source", "Lambda Finance"),
+                "time":        a.get("published", ""),
+                "analysis_cn": info.get("analysis_cn", ""),
+                "analysis_en": a.get("summary", ""),
+            })
+        news_cards["ai"] = ai_cards
 
     return "\n".join(cn), "\n".join(en), news_cards
 
