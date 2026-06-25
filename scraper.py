@@ -60,13 +60,19 @@ FEEDS = {
         {"name": "36kr",                "url": "https://36kr.com/feed"},
         {"name": "InfoQ",               "url": "https://www.infoq.com/feed/"},
     ],
-    "wellness": [
+    "health": [
+        {"name": "Harvard Health",      "url": "https://www.health.harvard.edu/blog/feed"},
+        {"name": "NYT Health",          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml"},
+        {"name": "ScienceDaily Health", "url": "https://www.sciencedaily.com/rss/health_medicine.xml"},
+        {"name": "WebMD",               "url": "https://rssfeeds.webmd.com/rss/rss.aspx?RSSSource=RSS_PUBLIC"},
+        {"name": "MedicalNewsToday",    "url": "https://www.medicalnewstoday.com/rss/content.xml"},
+    ],
+    "philosophy": [
         {"name": "ScienceDaily Mind",   "url": "https://www.sciencedaily.com/rss/mind_brain.xml"},
         {"name": "PsyPost",             "url": "https://www.psypost.org/feed"},
         {"name": "Psychology Today",    "url": "https://www.psychologytoday.com/us/front/feed"},
         {"name": "Aeon Magazine",       "url": "https://aeon.co/feed.rss"},
         {"name": "Greater Good",        "url": "https://greatergood.berkeley.edu/feeds/news"},
-        {"name": "Harvard Health",      "url": "https://www.health.harvard.edu/blog/feed"},
         {"name": "Psych Central",       "url": "https://psychcentral.com/feed/"},
         {"name": "Big Think",           "url": "https://bigthink.com/feed/"},
     ]

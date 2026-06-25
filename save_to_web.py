@@ -22,15 +22,21 @@ ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL   = "claude-sonnet-4-6"
 
 CATEGORY_CN = {
-    "finance":  "📈 金融财经",
-    "social":   "📱 自媒体精选",
-    "wellness": "🧠 健康·心理·美学",
+    "finance":    "📈 金融财经",
+    "social":     "📱 自媒体精选",
+    "health":     "🏥 健康医疗",
+    "philosophy": "🧠 心理·哲学",
+    "wellness":   "🧠 健康·心理·美学",  # 旧格式兼容
 }
 CATEGORY_EN = {
-    "finance":  "📈 Finance & Markets",
-    "social":   "📱 Tech & Media",
-    "wellness": "🧠 Health & Wellness",
+    "finance":    "📈 Finance & Markets",
+    "social":     "📱 Tech & Media",
+    "health":     "🏥 Health & Medicine",
+    "philosophy": "🧠 Psychology & Philosophy",
+    "wellness":   "🧠 Health & Wellness",
 }
+
+_ALL_CAT_ORDER = ["finance", "health", "philosophy", "social", "wellness"]
 
 def _fetch_lambda_ai_news() -> list[dict]:
     """静默拉取 Lambda Finance AI 新闻，失败返回空列表。"""
@@ -199,7 +205,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         lambda_block_en = "\n".join(en_lines)
 
     # ── 构建扁平新闻列表（按类别顺序）─────────────────────
-    cat_order = ["finance", "social", "wellness"]
+    cat_order = [c for c in _ALL_CAT_ORDER if news_data.get(c)]
     flat_items = []   # [(cat, item), ...]
     for cat in cat_order:
         for item in news_data.get(cat, []):
@@ -336,7 +342,30 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             for s in health_en[:3]:
                 en.append(f"- {s}")
 
-    return "\n".join(cn), "\n".join(en)
+    # ── 构建结构化 news_cards（供前端卡片布局使用）──────────
+    news_cards: dict = {}
+    card_idx = 0
+    for cat in cat_order:
+        items = news_data.get(cat, [])
+        if not items:
+            continue
+        section_items = []
+        for rank, item in enumerate(items, 1):
+            sec = cn_sections[card_idx] if card_idx < len(cn_sections) else {}
+            section_items.append({
+                "rank":        rank,
+                "title":       item.get("title", ""),
+                "title_cn":    sec.get("title", "") or item.get("title", ""),
+                "url":         item.get("url", ""),
+                "source":      item.get("source", ""),
+                "time":        item.get("time", ""),
+                "analysis_cn": sec.get("summary", ""),
+                "analysis_en": item.get("summary", ""),
+            })
+            card_idx += 1
+        news_cards[cat] = section_items
+
+    return "\n".join(cn), "\n".join(en), news_cards
 
 
 def translate_for_wechat(news_data: dict) -> dict:
@@ -418,8 +447,9 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
     tz_cst = timezone(timedelta(hours=8))
     today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
 
+    news_cards: dict = {}
     if news_data is not None:
-        news_cn, news_en = generate_news_with_insights(news_data)
+        news_cn, news_en, news_cards = generate_news_with_insights(news_data)
 
     data = load_data()
     if today not in data:
@@ -430,6 +460,8 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
         "cn": news_cn if news_cn else existing.get("cn", ""),
         "en": news_en if news_en else existing.get("en", ""),
     }
+    if news_cards:
+        data[today]["news_cards"] = news_cards
     save_data(data)
     log.info(f"📰 新闻简报已保存: {today}")
 

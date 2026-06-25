@@ -37,7 +37,19 @@ CATEGORY_META = {
         "subtitle": "TechCrunch · Wired · HN · MIT Review · 36kr",
         "color": COLOR_RED,
     },
-    "wellness": {
+    "health": {
+        "emoji": "🏥",
+        "title": "健康医疗",
+        "subtitle": "Harvard Health · NYT Health · ScienceDaily · WebMD",
+        "color": COLOR_GREEN,
+    },
+    "philosophy": {
+        "emoji": "🧠",
+        "title": "心理·哲学",
+        "subtitle": "ScienceDaily Mind · PsyPost · Aeon · Big Think · Psychology Today",
+        "color": COLOR_GREEN,
+    },
+    "wellness": {  # 旧格式兼容
         "emoji": "🧠",
         "title": "健康·心理·美学",
         "subtitle": "ScienceDaily · PsyPost · Aeon · Nature · Big Think",

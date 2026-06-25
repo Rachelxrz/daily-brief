@@ -412,6 +412,94 @@
   .wheel-source-note { font-size: 0.6rem; color: var(--muted); margin-top: 0.5rem;
     padding: 0.4rem; border: 1px solid var(--border); border-radius: 3px; }
 
+  /* ── News card layout (reading.html style) ─── */
+  .news-wrap { max-width: 1100px; }
+
+  .news-section { margin-bottom: 2.8rem; }
+
+  .news-section-title {
+    font-size: 1.55rem;
+    color: var(--gold);
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+    line-height: 1.25;
+  }
+  .news-section-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin: 0 0 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px 18px;
+    margin-bottom: 14px;
+  }
+
+  .news-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 7px;
+    color: var(--text);
+  }
+  .news-card-title .rank {
+    color: var(--gold-dim);
+    font-weight: 400;
+    margin-right: 5px;
+    font-size: 1rem;
+  }
+  .news-card-title a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .news-card-title a:hover { color: #a8d8ff; }
+
+  .news-card-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .news-analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+  }
+  @media (max-width: 860px) {
+    .news-analysis-grid { grid-template-columns: 1fr; }
+    .news-card-title { font-size: 1.05rem; }
+  }
+
+  .news-analysis-col {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+  }
+  .news-analysis-label {
+    color: var(--muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .news-analysis-text {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #c8c2b8;
+    white-space: normal;
+  }
+
   /* ── Footer ──────────────────────────────────── */
   footer {
     text-align: center; padding: 3rem 2rem;
@@ -643,8 +731,75 @@ function setNewsLang(lang) {
   render();
 }
 
-function renderNews(day) {
-  const el = document.getElementById('news-content');
+// ── HTML escape helper ────────────────────────────────────
+function escHtml(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Single news card ──────────────────────────────────────
+function renderNewsCard(item) {
+  const titleLinked = item.url
+    ? `<a href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escHtml(item.title_cn || item.title)}</a>`
+    : escHtml(item.title_cn || item.title);
+
+  const enText = escHtml(item.analysis_en || item.title);
+  const cnText = escHtml(item.analysis_cn || item.title_cn || '');
+
+  return `
+    <div class="news-card">
+      <div class="news-card-title">
+        <span class="rank">${item.rank}.</span>${titleLinked}
+      </div>
+      <div class="news-card-meta">${escHtml(item.source)} ｜ ${escHtml(item.time)}</div>
+      <div class="news-analysis-grid">
+        <div class="news-analysis-col">
+          <div class="news-analysis-label">中文</div>
+          <div class="news-analysis-text">${cnText}</div>
+        </div>
+        <div class="news-analysis-col">
+          <div class="news-analysis-label">English</div>
+          <div class="news-analysis-text">${enText}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── Section definitions ───────────────────────────────────
+const NEWS_SECTIONS = [
+  { key: 'finance',    label: '📈 金融财经' },
+  { key: 'health',     label: '🏥 健康医疗' },
+  { key: 'philosophy', label: '🧠 心理·哲学' },
+  { key: 'social',     label: '📱 自媒体精选' },
+  { key: 'wellness',   label: '🧠 健康·心理·美学' },  // legacy
+];
+
+// ── Card-based news rendering ─────────────────────────────
+function renderNewsCards(el, cards) {
+  let html = '';
+  for (const { key, label } of NEWS_SECTIONS) {
+    const items = cards[key];
+    if (!items || !items.length) continue;
+    html += `
+      <div class="news-section">
+        <h2 class="news-section-title">${label}</h2>
+        <p class="news-section-meta">${items.length} 条精选</p>
+        ${items.map(renderNewsCard).join('')}
+      </div>`;
+  }
+  if (!html) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无简报数据</div>';
+    return;
+  }
+  el.className = 'news-wrap';
+  el.innerHTML = html;
+}
+
+// ── Legacy markdown fallback ──────────────────────────────
+function renderNewsMarkdown(el, day) {
   const news = day.news;
   if (!news || (!news.cn && !news.en)) {
     el.className = '';
@@ -653,14 +808,11 @@ function renderNews(day) {
   }
   const cnContent = news.cn && news.cn.trim() ? news.cn : null;
   const enContent = news.en && news.en.trim() ? news.en : null;
-
-  // Pick effective lang (fall back if selected lang unavailable)
   const lang = (currentNewsLang === 'cn' && cnContent) ? 'cn'
              : (currentNewsLang === 'en' && enContent) ? 'en'
              : cnContent ? 'cn' : 'en';
   const content = lang === 'cn' ? cnContent : enContent;
   const title   = lang === 'cn' ? '📰 每日智识简报' : '📰 Daily Intelligence Brief';
-
   el.className = '';
   el.innerHTML = `
     <div class="lang-toggle-bar">
@@ -674,6 +826,16 @@ function renderNews(day) {
       </div>
       <div class="report-card-body">${renderMd(content)}</div>
     </div>`;
+}
+
+// ── Main entry: cards first, markdown fallback ────────────
+function renderNews(day) {
+  const el = document.getElementById('news-content');
+  if (day.news_cards && Object.keys(day.news_cards).length > 0) {
+    renderNewsCards(el, day.news_cards);
+  } else {
+    renderNewsMarkdown(el, day);
+  }
 }
 
 function renderScreener(day) {
