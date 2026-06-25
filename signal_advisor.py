@@ -58,6 +58,18 @@ REGULAR_HOLDINGS = {
     "MPWR": {"qty": 24,  "cost_basis": 27845.59},
     "NVDA": {"qty": 190, "cost_basis": 35526.08},
     "VRT":  {"qty": 161, "cost_basis": 36057.36},
+    # 新增持仓（待补全 qty / cost_basis）
+    "CIEN": {"qty": 0,   "cost_basis": 0},
+    "TXN":  {"qty": 0,   "cost_basis": 0},
+    "ONTO": {"qty": 0,   "cost_basis": 0},
+    "LITE": {"qty": 0,   "cost_basis": 0},
+    "PWR":  {"qty": 0,   "cost_basis": 0},
+    "GLW":  {"qty": 0,   "cost_basis": 0},
+    "DRAM": {"qty": 0,   "cost_basis": 0},
+    "INTC": {"qty": 0,   "cost_basis": 0},
+    "MU":   {"qty": 0,   "cost_basis": 0},
+    "SNDK": {"qty": 0,   "cost_basis": 0},
+    "TSEM": {"qty": 0,   "cost_basis": 0},
 }
 
 IRA_HOLDINGS = {
@@ -76,22 +88,22 @@ MACRO_WATCH = [
 # 组一：高优先级 Watchlist（每次必跑）
 PRIORITY_WATCHLIST = [
     # 存储/内存
-    "MRVL", "MU", "NVMI", "ONTO", "WDC", "STX", "SNDK",
+    "MRVL", "NVMI", "WDC", "STX",
     # 半导体设备/ETF
     "AEHR", "KLAC", "TSM", "SMH",
     # 大型半导体/科技
     "ARM", "AVGO", "AMD",
     # 光纤/网络
-    "LITE", "CIEN", "ANET",
+    "ANET",
     # 近期信号活跃
-    "NBIS", "PLTR", "PWR", "GS", "GLW", "CEG", "FTAI",
+    "NBIS", "PLTR", "GS", "CEG", "FTAI",
 ]
 
 # 组二：扩展 Watchlist（盘后单独跑）
 EXTENDED_WATCHLIST = [
     "BDRY", "COPX", "FRO", "HEWJ", "MP", "NEE", "VST", "MSFT",
-    "LNG", "TXN", "XOM", "DHT", "TNK", "DUK", "RTX", "AVAV",
-    "SE", "DOCN", "EQIX", "INTC", "RKLB", "SPCX",
+    "LNG", "XOM", "DHT", "TNK", "DUK", "RTX", "AVAV",
+    "SE", "DOCN", "EQIX", "RKLB", "SPCX",
     "XMMO", "IWM", "BNO", "UTES", "REMX", "GDX", "USD",
 ]
 
