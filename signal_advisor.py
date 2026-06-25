@@ -802,7 +802,13 @@ def save_signal_data(session: str, group: str,
                      regular: list, ira: list,
                      macro: list, priority: list, extended: list):
     tz_cst = timezone(timedelta(hours=8))
-    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    # 用美东时间（ET）确定交易日期，避免 UTC 21:30 盘后运行跨到 CST 次日
+    try:
+        import pytz
+        _et = pytz.timezone("America/New_York")
+        today = datetime.now(_et).strftime("%Y-%m-%d")
+    except Exception:
+        today = datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
 
     def _to_dict(results):
         out = {}
