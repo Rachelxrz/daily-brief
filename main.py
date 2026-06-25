@@ -114,10 +114,10 @@ def run_daily_job(dry_run: bool = False):
     log.info("   🌐 正在翻译新闻为中文...")
     try:
         wechat_data = translate_for_wechat(news_data)
+        results = push_all(wechat_data)
     except Exception as e:
-        log.warning(f"   ⚠️ 翻译异常，使用原文推送: {e}")
-        wechat_data = news_data
-    results = push_all(wechat_data)
+        log.error(f"   ❌ 翻译失败，跳过微信推送（拒绝发送英文原文）: {e}")
+        results = {}
 
     # 保存到网页（等待180秒让API速率窗口恢复，再生成洞察）
     try:
@@ -182,7 +182,11 @@ if __name__ == "__main__":
         # 使用缓存数据测试推送
         data = load_cache()
         if data:
-            push_all(data)
+            try:
+                wechat_data = translate_for_wechat(data)
+                push_all(wechat_data)
+            except Exception as e:
+                log.error(f"翻译失败，跳过微信推送（拒绝发送英文原文）: {e}")
         else:
             log.error("没有找到今日缓存，请先运行 python main.py 抓取数据")
     elif "--dry-run" in args:

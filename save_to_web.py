@@ -372,14 +372,12 @@ def translate_for_wechat(news_data: dict) -> dict:
     result = _call_claude(prompt, max_tokens=3000)
 
     if not result:
-        log.warning("⚠️ 翻译失败，微信将推送原文")
-        return news_data
+        raise RuntimeError("Claude 翻译调用失败（返回空内容），请检查 ANTHROPIC_API_KEY 是否已在 GitHub Secrets 中配置")
 
     try:
         parsed = _parse_json(result)
     except Exception as e:
-        log.warning(f"⚠️ 翻译 JSON 解析失败: {e}，微信将推送原文")
-        return news_data
+        raise RuntimeError(f"翻译结果 JSON 解析失败: {e}") from e
 
     # 把翻译后的 title/summary 合并回原始数据（保留 url/source/time 等字段）
     translated = {}
