@@ -25409,7 +25409,7 @@
     }
   },
   "2026-06-26": {
-    "updated": "2026-06-26 22:12 CST",
+    "updated": "2026-06-26 23:21 CST",
     "monitor": {
       "cn": "I'll search for the latest market data across multiple categories simultaneously to build this comprehensive report.非常感谢所有数据。现在我已经掌握了足够的信息，可以综合生成完整报告。以下是基于实时搜索数据的完整结构监控报告：\n\n---\n\n# 📌 结构监控 标准版（中文）\n### 2026年06月26日 · 美伊和平谈判推进，霍尔木兹重开进行时，原油大幅下跌，债券收益率回落\n\n---\n\n## 1) 🌪️ 波动性结构\n\n- **VIX 当前水平：18.68**\n  VIX 当前报 18.68，较前收盘价 19.49 变动 +0.05（+0.27%）。\n- **风险区判定：🟢 正常区（<20）**\n  全天波动区间为 17.72 – 19.95，52周范围为 13.38 – 35.30，本日虽小幅回升，但整体仍处正常区间。\n- **近期趋势：震荡下行，过去5日整体从 ~20 区域回落**\n  截至6月25日收盘，VIX 前收盘价为 18.63，显示市场波动预期短期呈收敛态势。\n- **WTI 原油隐含波动率：显著偏高（地缘风险溢价驱动）**\n  原油期货当日振幅较大，WTI 报 70.45 美元/桶，日内跌幅 -3.77%，波动性明显。\n\n---\n\n## 2) 🧠 信用风险结构\n\n- **高收益债利差（HY Spread / ICE BofA OAS）：约 2.63%**\n  据美联储数据，美国 ICE BofA 高收益债利差（OAS）在2026年6月录得约 2.63%，处于历史偏低水平。\n  参考：正常 <4%，警戒 4-6%，危机 >6%\n- **趋势方向：收窄/横盘**\n  截至2026年初，投资级利差处于历史性偏紧水平；高收益债利差约为 285 个基点（2.85%），全在正常区间内运行。\n- **阶段性突破：否**——利差维持在 4% 警戒线以下\n- **信用市场情绪：✅ 风险偏好**\n  大多数机构2026年展望一致认为：喜欢持有信用资产的利差收益，但认为当前利差不能提供足够的安全边际。\n\n---\n\n## 3) 💰 资金流向结构\n\n**⬇️ 主要流出方向：**\n\n- **科技/成长：**\n  QQQ（Invesco QQQ Trust）当日表现 +0.80%；SPY 报 733.79，涨 +0.08%。\n  近期科技股涨势因AI基础设施建设而推动 S&P500 和 Nasdaq 100 触及历史高位后，当前涨势开始放缓。\n- **能源板块：**\n  XLE 截至6月25日收于 53.92，前收盘 53.57；52周区间 42.05 – 63.46，因油价大幅下跌，能源股承压明显。\n\n**⬆️ 主要流入方向：**\n\n| 资产 | 今日表现（参考近日数据） | 信号 |\n|------|------|------|\n| 🛢️ 能源 XLE | ~-1.2%（受油价拖累） | ❌ 疲弱（油价下行压力主导） |\n| 🥇 黄金 GLD | +1.13%（金价报 $4,054） | ✅ 强势（避险+美元避险双驱动） |\n| 🔌 公用事业 XLU | 小幅正涨（防御需求支撑） | ⚠️ 中性偏强 |\n| 🏦 国债 TLT | 受益于收益率下行，偏正 | ✅ 强势（和平进展压低收益率） |\n| 🛡️ 国防 LMT/RTX | 受地缘降温轻微承压 | ⚠️ 中性观望 |\n\n黄金当日报 $4,054.20，涨 +1.13%（+$45.40），为明显流入资产。\n公用事业（XLU）、消费必需品（XLP）、房地产（XLRE）近一周整体录得上涨，显示资金向防御板块流入。\n\n---\n\n## 4) 💵 美元与利率结构\n\n**美元指数 DXY：**\n- **当前水平：约 101.40**\n  美元指数 DXY 当日报 101.405，涨 +0.232（+0.23%）。\n- **结构方向：短期多头，但趋于见顶**\n  截至6月22日，美元指数正在测试逾一年以来最高水平，当前美元走强与市场对\"更长时间维持高利率\"预期上升及通胀风险重新聚焦密切相关。\n- **是否突破关键位：是（近期触一年高位后回落）**\n  但值得注意的是，美国10年期和30年期国债收益率仍显著低于2026年高点，长端确认信号不足。\n\n**美国国债 10Y：**\n- **当前收益率：约 4.40%**\n  美国10年期国债收益率在周四（6月25日）徘徊于 4.4% 附近，此前一个交易日已下行约10个基点至逾六周最低，原因是美伊和平谈判进展推动油价回落至冲突前水平，通胀担忧有所缓解。\n- **方向：下降（连续两日回落）**\n  CNBC 标题确认：\"10年期国债收益率跌破4.5%，与油价回落至战前水平相呼应\"（14小时前发布）。\n- **主导逻辑：两者混合——避险需求 + 油价下跌缓解通胀压力**\n  投资者同时在评估美联储政策前景，等待关键通胀报告。美联储主席沃什（Kevin Warsh）上周明确重申其抗通胀立场，市场正在等待 PCE 通胀报告以确认利率路径。\n  目前市场对9月加息的概率定价约为 68%，较一周前的 29% 大幅上升。\n\n---\n\n## 5) 🛢️ 原油与油轮结构\n\n### 原油价格：\n\nWTI 原油周四跌破 70 美元/桶，连续第四个交易日下跌，并几乎抹去中东冲突爆发以来的全部涨幅，美伊和平进展改善了市场供应预期。\n\n- **WTI 当前价格：约 $69.70 – $70.45 / 桶**\n  WTI 期货当日交易区间为 69.65 – 73.17 美元，52周区间为 54.98 – 117.63 美元。\n- **布伦特当前价格：约 $73 – $74 / 桶**\n  布伦特原油周三（6月24日）已跌破 74 美元/桶，触及冲突爆发前最低水平。\n- **WTI/布伦特价差：约 $3.00 – $3.50**（布伦特升水）\n- **今日涨跌：约 -3.5% 至 -4.7%**\n  7月WTI原油（CLN26）今日下跌 -3.76 美元（-4.66%）；7月RBOB汽油（RBN26）跌 -0.0653（-2.22%）。\n- **关键支撑/阻力位：** 支撑位在 $65（冲突前区间下沿），阻力位在 $74（布伦特）/ $72（WTI）\n- **主导因素：地缘政治（和平进展）+ 供应复苏**\n  油价承压主要源于周一美伊双方就结束战争、重开霍尔木兹海峡达成协议的消息；特朗普表示协议将于本周五在瑞士正式签署，随后启动为期60天的核问题谈判。\n\n### OPEC+ / 库存动态：\n\n- **最新 EIA 库存数据（截至6月19日当周）：**\n  EIA数据显示，美国原油库存骤降至1984年以来最低水平，库欣（Cushing）库存已跌至最低操作线以下。\n  目前俄克拉荷马州库欣库存约为 1,900 万桶，已低于最低操作需求水平。\n\n- **OPEC+ 产量动态：**\n  OPEC 5月原油产量大幅下滑 330 万桶/日，至 40 年最低的 1,633 万桶/日。\n  若和平协议持续，海湾地区出口和产量预计将逐步恢复；伊朗出口在美国封锁解除后可完全恢复。6月初，通过霍尔木兹海峡的船只运输量已从5月低点的 960 万桶/日升至约 1,200 万桶/日。\n  高盛今日（6月24日）将布伦特Q4预测从 90 美元/桶下调至 80 美元/桶，并预计波斯湾原油出口将于7月底恢复至战前水平——比此前预期早一个月。\n\n### 油轮运价（VLCC）：\n\n波罗的海交易所 VLCC 中东湾至中国（TD3C）时间租约等价（TCE）指数在周一报 **$412,888 美元/天**，较上周五上涨 1.8%。\n\n- **波斯湾→中国（TD3C）：约 $412,888 / 天（历史极高区间，WS 约 250-280 点等价）**\n- **TD3C 4Q26 远期合约：$181,163 / 天**\n  TD3C 4Q26 远期运价协议（FFA）周一报 $181,163/天，较上周五下跌 1.6%；美湾至中国 VLCC 4Q26 FFA 仅报 $86,314/天，约为前者一半。\n- **近期趋势：⬇️ 高位震荡回落，预期将进一步下行（随霍尔木兹重开）**\n  若美伊协议实现海峡重开，过境风险大幅降低，TD3C 评估价格理应下落，因风险溢价将被削减。\n  本周海湾油轮运价约翻倍，各船东竞相抢占先机，押注霍尔木兹开放预期。\n- **运价信号：⚠️ 中性偏弱（峰值已过，未来将承压于供应恢复）**\n\n### 地缘风险对原油的影响：\n\n- **霍尔木兹海峡：🟡 逐步重开中（高度关注）**\n  船主正在开启卫星信号，放心通过该水道，已获国际海事组织（IMO）安全保证。\n  随着威胁等级已从\"高\"降至\"中等\"，油轮正积极穿越海峡，携带超过 3,500 万桶原油的油轮已陆续驶离波斯湾。\n- **红海/苏伊士：正常运行（相对稳定）**\n- **综合风险溢价判断：📉 由高转中，快速回落中**",
       "en": "# 📌 Market Structure Monitor (English)\n### June 26, 2026 · US–Iran Peace Talks Advance, Strait of Hormuz Reopening Underway, Crude Oil Plunges, Treasury Yields Pull Back\n\n---\n\n## 1) 🌪️ Volatility Structure\n\n- **VIX Current Level: 18.68**\n  VIX is currently quoted at 18.68, up +0.05 (+0.27%) from the prior close of 19.49.\n- **Risk Zone: 🟢 Normal Zone (<20)**\n  Intraday range: 17.72 – 19.95; 52-week range: 13.38 – 35.30. Despite a slight uptick today, VIX remains well within the normal zone.\n- **Recent Trend: Drifting Lower — broadly declining from the ~20 area over the past 5 sessions**\n  Prior close as of June 25 was 18.63, confirming that near-term volatility expectations are converging lower.\n- **WTI Implied Volatility: Significantly Elevated (geopolitical risk premium-driven)**\n  WTI crude posted a wide intraday range, closing near $70.45/bbl with a daily loss of -3.77%, reflecting heightened realized volatility in energy markets.\n\n---\n\n## 2) 🧠 Credit Risk Structure\n\n- **High Yield Spread (ICE BofA HY OAS): ~2.63%**\n  Per Federal Reserve data, the US ICE BofA High Yield OAS recorded approximately 2.63% in June 2026 — historically low territory.\n  *(Reference: Normal <4% | Caution 4–6% | Crisis >6%)*\n- **Trend: Narrowing / Flat**\n  Investment grade spreads remain at historically tight levels entering 2026; high yield spreads at approximately 285 bps (2.85%) are fully within the normal range.\n- **Key Level Breakout: No** — Spreads remain well below the 4% caution threshold.\n- **Credit Sentiment: ✅ Risk-On**\n  Broad institutional consensus for 2026 favors holding credit for carry income, though current spread levels are widely viewed as offering insufficient safety margin against downside scenarios.\n\n---\n\n## 3) 💰 Capital Flow Structure\n\n**Major Outflows:**\n\n- **Tech / Growth:**\n  QQQ (Invesco QQQ Trust) +0.80% on the day; SPY quoted at 733.79, up +0.08%. The AI infrastructure-driven rally that pushed the S&P 500 and Nasdaq 100 to all-time highs is showing early signs of momentum deceleration.\n- **Energy Sector:**\n  XLE closed at 53.92 on June 25 (prior close 53.57); 52-week range 42.05 – 63.46. Energy equities face visible headwinds as crude oil sells off sharply.\n\n**Major Inflows:**\n\n| Asset | Today's Performance | Signal |\n|-------|-------------------|--------|\n| 🛢️ Energy XLE | ~-1.2% (dragged by crude selloff) | ❌ Weak (oil price decline dominant) |\n| 🥇 Gold GLD | +1.13% (gold at $4,054/oz) | ✅ Strong (safe-haven + USD hedge dual driver) |\n| 🔌 Utilities XLU | Small positive gain (defensive demand support) | ⚠️ Neutral-to-Firm |\n| 🏦 Treasuries TLT | Positive bias (benefits from falling yields) | ✅ Strong (peace progress compresses yields) |\n| 🛡️ Defense LMT/RTX | Mild pressure from geopolitical de-escalation | ⚠️ Neutral / Wait-and-See |\n\nGold closed at **$4,054.20/oz**, up **+$45.40 (+1.13%)**, marking it as the day's clearest inflow destination. Utilities (XLU), Consumer Staples (XLP), and Real Estate (XLRE) all recorded gains over the past week, confirming a rotation into defensive sectors.\n\n---\n\n## 4) 💵 Dollar & Rates Structure\n\n**US Dollar Index (DXY):**\n- **Current Level: ~101.40**\n  DXY quoted at 101.405 on the day, up +0.232 (+0.23%).\n- **Structure: Short-Term Bullish, but Approaching a Potential Top**\n  As of June 22, DXY was testing its highest level in over a year. The dollar's strength is closely tied to elevated \"higher-for-longer\" rate expectations and renewed inflation risk focus.\n- **Key Level Break: Yes (recently tested a 1-year high before pulling back)**\n  Notably, US 10Y and 30Y Treasury yields remain materially below their 2026 highs, meaning long-end confirmation for sustained dollar strength is incomplete.\n\n**US 10Y Treasury:**\n- **Current Yield: ~4.40%**\n  The 10-year Treasury yield hovered near 4.40% on Thursday, June 25, after falling approximately 10 basis points the prior session to a six-week low — driven by US–Iran peace talks that pushed oil prices back toward pre-conflict levels, alleviating inflation concerns.\n- **Direction: Falling (two consecutive sessions of decline)**\n  CNBC headline confirmed: *\"10-year Treasury yield falls below 4.5%, mirroring oil's retreat to pre-war levels\"* (published 14 hours ago).\n- **Dominant Driver: Mixed — Safe-Haven Demand + Oil Price Decline Reducing Inflation Pressure**\n  Markets are simultaneously reassessing Fed policy trajectory and awaiting the key PCE inflation report. Fed Chair Kevin Warsh reaffirmed his hawkish anti-inflation stance last week. The market is now pricing an approximately **68% probability of a September rate hike**, up sharply from 29% one week ago.\n\n---\n\n## 5) 🛢️ Crude Oil & Tanker Structure\n\n### Crude Oil Prices:\n\nWTI crude broke below $70/bbl on Thursday for the fourth consecutive session of losses, nearly erasing all gains accumulated since the Middle East conflict began, as US–Iran peace progress materially improved supply outlook.\n\n- **WTI Current Price: ~$69.70 – $70.45 / bbl**\n  WTI futures intraday range: $69.65 – $73.17; 52-week range: $54.98 – $117.63.\n- **Brent Current Price: ~$73 – $74 / bbl**\n  Brent crude fell below $74/bbl on Wednesday, June 24, hitting its lowest level since before the conflict began.\n- **WTI / Brent Spread: ~$3.00 – $3.50** (Brent premium)\n- **Today's Change: approximately -3.5% to -4.7%**\n  July WTI (CLN26): -$3.76 (-4.66%); July RBOB Gasoline (RBN26): -$0.0653 (-2.22%).\n- **Key Support / Resistance:**\n  Support at **$65/bbl** (lower bound of pre-conflict trading range); Resistance at **$74** (Brent) / **$72** (WTI).\n- **Dominant Driver: Geopolitics (Peace Progress) + Supply Recovery**\n  The selloff is primarily attributable to Monday's announcement that the US and Iran reached an agreement to end the war and reopen the Strait of Hormuz. President Trump indicated the deal would be formally signed in Switzerland on Friday, followed by a 60-day nuclear negotiation window.\n\n---\n\n### OPEC+ / Inventory Update:\n\n- **Latest EIA Inventory Data (week ending June 19):**\n  EIA data showed US crude inventories plunging to their lowest level since **1984**. Cushing, Oklahoma hub stocks fell **below minimum operational levels**, with current Cushing inventory at approximately **19 million barrels** — below the minimum operational threshold.\n\n- **OPEC+ Production Dynamics:**\n  OPEC May crude output fell sharply by **3.3 million bpd**, dropping to **16.33 million bpd** — a **40-year low**.\n  If the peace agreement holds, Gulf region exports and production are expected to gradually recover. Iranian exports could fully resume following the lifting of US restrictions. As of early June, tanker flows through the Strait of Hormuz had already recovered from May's low of 9.6 million bpd to approximately **12 million bpd**.\n  Goldman Sachs on June 24 **cut its Brent Q4 forecast from $90/bbl to $80/bbl**, projecting that Persian Gulf crude exports will return to pre-war levels by end of July — one month earlier than previously estimated.\n\n---\n\n### Tanker Rates (VLCC):\n\nThe Baltic Exchange VLCC Middle East Gulf → China route (TD3C) Time Charter Equivalent (TCE) index was quoted at **$412,888/day** on Monday, up +1.8% from the prior Friday.\n\n- **Middle East Gulf → China (TD3C): ~$412,888 / day** (equivalent to approximately WS 250–280 pts)\n- **TD3C Q4 2026 Forward (FFA): $181,163 / day**\n  TD3C Q4 2026 FFA closed Monday at $181,163/day, down -1.6% from Friday. The US Gulf → China VLCC Q4 2026 FFA was quoted at just $86,314/day — roughly half the TD3C equivalent.\n- **Recent Trend: ⬇️ High-level consolidation rolling over — further downside expected as Hormuz reopens**\n  If the US–Iran agreement delivers a full reopening of the strait, transit risk will decline sharply, and the risk premium embedded in TD3C assessments should compress accordingly. This week, Gulf tanker rates approximately doubled as shipowners scrambled to position ahead of the anticipated Hormuz opening.\n- **Rate Signal: ⚠️ Neutral-to-Weak (peak likely passed; supply recovery will pressure rates lower)**\n\n---\n\n### Geopolitical Risk Impact on Oil:\n\n- **Strait of Hormuz: 🟡 Gradually Reopening (Closely Watched)**\n  Vessel owners are re-activating AIS transponders and proceeding through the waterway with IMO safety assurances in place. Threat levels have been downgraded from \"High\" to \"Medium.\" Tankers are actively transiting, and vessels carrying over **35 million barrels** of crude have departed the Persian Gulf.\n- **Red Sea / Suez: Normal Operations (Relatively Stable)**\n- **Overall Risk Premium Assessment: 📉 Rapidly Declining — from High to Medium**\n\n---\n\n## 6) 📊 Sector Rotation\n\n| Sector vs. Market | Today | Relative Strength |\n|-------------------|-------|-------------------|\n| ⚡ Energy XLE vs. SPY | ~-1.2% vs. +0.08% | ❌ Underperform (crude oil drag) |\n| 🛡️ Defense LMT/RTX vs. SPY | Mild negative vs. +0.08% | ⚠️ Neutral (geopolitical de-escalation headwind) |\n| 🥇 Gold Miners GDX vs. SPY | Positive (driven by gold +1.13%) | ✅ Outperform |\n| 🔌 Utilities XLU vs. SPY | Small positive vs. +0.08% | ⚠️ Neutral-to-Outperform (defensive rotation) |\n| 💻 Tech QQQ vs. SPY | +0.80% vs. +0.08% | ✅ Outperform (momentum slowing but still leading) |\n| 📦 Small Cap IWM vs. SPY | Tracking broadly (rate-sensitive; yield decline supportive) | ⚠️ Neutral |\n\n---\n\n## 7) 🧭 Structure Rating & Action Bias\n\n**Overall Rating: 🟡 Low Risk / Transitional**\n\n**Rationale:**\nThe macro structure has shifted meaningfully this week: geopolitical risk premium in energy is rapidly unwinding as US–Iran peace talks approach a formal agreement, pulling oil prices toward pre-conflict levels and relieving inflation pressure, which in turn is dragging Treasury yields lower. VIX at 18.68 confirms a broadly stable equity volatility backdrop, and credit spreads at ~2.63% remain well within normal territory. However, the sharp repricing of September Fed rate hike odds (from 29% to 68%) introduces a new potential friction — markets face a fork between lower oil-driven inflation relief and hawkish Fed policy concerns — making the near-term structure transitional rather than cleanly bullish.\n\n**Tactical Positioning:**\n\n| Action | Recommendation | Rationale |\n|--------|---------------|-----------|\n| Reduce Tech (QQQ) | 🟡 Watch | Momentum still positive (+0.80%) but AI-driven rally showing fatigue near all-time highs; wait for clearer reversal signal |\n| Increase Real Assets (Energy/LNG) | ❌ No (near-term) | Crude oil in structural downtrend as Hormuz reopens and OPEC+ supply recovers; energy equities under direct pressure |\n| Tanker Stocks (FRO/STNG/DHT) | ❌ No (near-term) | VLCC rates peaked; Hormuz reopening eliminates the war-risk premium that drove the spike; Q4 FFA already rolling over |\n| Add Gold (GLD) | ✅ Yes | Gold +1.13% to $4,054 with dual tailwinds: safe-haven demand + USD hedge; remains the clearest risk-adjusted long |\n| Add Defensives (XLU / Bonds) | ✅ Yes | TLT benefits from falling yields; XLU supported by defensive rotation; consistent with a \"lower oil + lower yields\" macro regime |\n| Reduce Risk Exposure | 🟡 Watch | Overall risk level is low, but the hawkish Fed repricing (68% Sep hike odds) warrants a cautious tilt; no urgent de-risking required yet |\n| USD / Cash Position | Maintain modest USD exposure; avoid heavy cash overweight | DXY at ~101.40 is near a 1-year high but lacks long-end yield confirmation; dollar strength may fade if peace dividend compresses inflation expectations further |\n\n---\n\n**🔔 Re-evaluation Triggers:**\n\n1. **US–Iran Agreement Breakdown or Delay** — If the Friday Switzerland signing does not materialize or the Hormuz reopening stalls, crude oil would reverse sharply higher and the entire risk premium unwind would need to be reassessed.\n2. **PCE Inflation Data Release** — A hotter-than-expected PCE print would validate the hawkish Fed repricing (Sep hike at 68%), potentially pushing 10Y yields back above 4.5% and creating equity headwinds — particularly for rate-sensitive sectors.\n3. **OPEC+ Emergency Response** — If oil falls sustainably below $65/bbl (WTI), an unscheduled OPEC+ production cut meeting could trigger a sharp reversal in crude and re-energize the energy trade.\n\n---\n\n⏰ June 26, 2026 · Beijing Time · 🤖 AI Auto-Generated Market Structure Report"
@@ -28544,6 +28544,175 @@
           },
           "unrealized_pnl_pct": null
         }
+      }
+    },
+    "wheel": {
+      "date": "2026-06-26",
+      "candidates": [
+        {
+          "ticker": "VST",
+          "price": 165.23,
+          "ma20": 155.62,
+          "ma50": 154.62,
+          "rsi": 59.0,
+          "adx": 20.1,
+          "iv": 0.512,
+          "strike": 150,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 3.88,
+          "premium_per_contract": 388.0,
+          "congress_signal": false
+        }
+      ],
+      "call_candidates": [
+        {
+          "ticker": "ETHA",
+          "price": 11.84,
+          "shares": 402,
+          "contracts": 4,
+          "cost_basis": 25.01,
+          "unrealized_pct": -52.7,
+          "strike": 13,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 0.3,
+          "premium_per_contract": 30.0,
+          "iv": 0.571,
+          "otm_pct": 9.8,
+          "already_covered": true
+        },
+        {
+          "ticker": "XBI",
+          "price": 155.13,
+          "shares": 292,
+          "contracts": 2,
+          "cost_basis": 231.67,
+          "unrealized_pct": -33.0,
+          "strike": 170,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 3.01,
+          "premium_per_contract": 301.0,
+          "iv": 0.435,
+          "otm_pct": 9.6,
+          "already_covered": false
+        },
+        {
+          "ticker": "GLD",
+          "price": 374.52,
+          "shares": 372,
+          "contracts": 3,
+          "cost_basis": 397.22,
+          "unrealized_pct": -5.7,
+          "strike": 400,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 4.84,
+          "premium_per_contract": 484.0,
+          "iv": 0.232,
+          "otm_pct": 6.8,
+          "already_covered": false
+        },
+        {
+          "ticker": "NVDA",
+          "price": 193.06,
+          "shares": 213,
+          "contracts": 2,
+          "cost_basis": 234.69,
+          "unrealized_pct": -17.7,
+          "strike": 210,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 3.13,
+          "premium_per_contract": 313.0,
+          "iv": 0.341,
+          "otm_pct": 8.8,
+          "already_covered": false
+        },
+        {
+          "ticker": "VRT",
+          "price": 301.57,
+          "shares": 193,
+          "contracts": 1,
+          "cost_basis": 229.35,
+          "unrealized_pct": 31.5,
+          "strike": 330,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 9.21,
+          "premium_per_contract": 921.0,
+          "iv": 0.677,
+          "otm_pct": 9.4,
+          "already_covered": false
+        },
+        {
+          "ticker": "ALB",
+          "price": 134.99,
+          "shares": 101,
+          "contracts": 1,
+          "cost_basis": 198.14,
+          "unrealized_pct": -31.9,
+          "strike": 145,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 3.64,
+          "premium_per_contract": 364.0,
+          "iv": 0.509,
+          "otm_pct": 7.4,
+          "already_covered": false
+        },
+        {
+          "ticker": "XLU",
+          "price": 46.07,
+          "shares": 101,
+          "contracts": 1,
+          "cost_basis": 46.17,
+          "unrealized_pct": -0.2,
+          "strike": 50,
+          "expiry": "2026-07-17",
+          "dte": 21,
+          "premium": 0.4,
+          "premium_per_contract": 40.0,
+          "iv": 0.18,
+          "otm_pct": 8.5,
+          "already_covered": false
+        }
+      ],
+      "positions": [
+        {
+          "ticker": "USD",
+          "type": "short_put",
+          "strike": 75.0,
+          "expiry": "2026-08-21",
+          "dte": 56,
+          "price": 93.96,
+          "dist_pct": 20.2,
+          "status": "安全",
+          "advice": "持有，继续收 Theta",
+          "premium": 0,
+          "contracts": 2,
+          "opened_date": "2026-06-14"
+        },
+        {
+          "ticker": "ETHA",
+          "type": "short_call",
+          "strike": 32.0,
+          "expiry": "2027-01-15",
+          "dte": 203,
+          "price": 11.84,
+          "dist_pct": 170.3,
+          "status": "安全",
+          "advice": "持有，继续收 Theta",
+          "premium": 0,
+          "contracts": 1,
+          "opened_date": "2026-06-14"
+        }
+      ],
+      "summary": {
+        "month": "2026-06",
+        "premium_earned": 0.0,
+        "positions_closed": 0
       }
     }
   }
