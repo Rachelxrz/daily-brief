@@ -30989,111 +30989,111 @@
     }
   },
   "2026-06-28": {
-    "updated": "2026-06-28 08:08 CST",
+    "updated": "2026-06-28 23:00 CST",
     "news": {
-      "cn": "# 📰 每日智识简报（中文）\n### 2026年06月28日\n\n\n## 🤖 AI前沿（Lambda Finance）\n\n**[科技巨头自研芯片挑战英伟达](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n\nOpenAI、SpaceX等科技巨头纷纷自研芯片，试图摆脱对英伟达的依赖，这一趋势对英伟达的长期护城河构成潜在威胁。然而短期内英伟达的CUDA生态系统仍难以替代，客户迁移成本极高。投资者应关注这一趋势是否会在未来三到五年内实质性侵蚀英伟达的市场份额。自研芯片浪潮也为芯片设计工具和代工厂（如台积电）带来额外需求，可视为间接投资机会。\n\n*techcrunch.com · 2026-06-26*\n\n**[Cerebras速度优势困于英伟达生态](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n\nCerebras虽在原始推理速度上表现惊艳，但其发展仍深陷英伟达CUDA软件生态的陷阱，开发者迁移意愿不足。软件生态系统的黏性往往比硬件性能更能决定市场胜负，这是英伟达最深的护城河之一。对投资者而言，Cerebras短期内难以对英伟达构成实质威胁，其商业化前景存在较大不确定性。在Cerebras寻求IPO的背景下，投资者需谨慎评估其能否突破生态锁定这一核心挑战。\n\n*247wallst.com · 2026-06-26*\n\n**[AI明星股再现买入良机](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n\n市场近期波动为投资者提供了以更低估值买入优质AI股票的窗口，长期AI需求基本面并未改变。该文章所指股票很可能是英伟达或其他核心AI基础设施受益者，其回调往往是布局良机。投资者应区分短期情绪驱动的下跌与基本面恶化，前者通常是买入信号。建议结合公司盈利增长轨迹和估值水平综合判断，分批建仓以降低时机选择风险。\n\n*fool.com · 2026-06-25*\n\n**[AI赋能ASML持续成长故事](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n\nASML的极紫外光刻机是AI芯片制造不可或缺的关键设备，AI算力需求的爆发直接拉动其订单增长。作为全球光刻机的垄断供应商，ASML在AI产业链中拥有无可替代的战略地位，定价权极强。AI驱动的先进制程需求持续升级，为ASML提供了长达数年的可见增长动力。尽管地缘政治风险（对华出口限制）是一大隐患，但ASML仍是布局AI半导体基础设施的优质长线标的。\n\n*zacks.com · 2026-06-26*\n\n**[AI芯片行业景气持续向上](https://seekingalpha.com/article/4918179-outlook-for-ai-chip-sector-the-party-goes-on-bigger-than-ever)**\n\n当前AI芯片行业需求强劲，各大云厂商资本开支持续创新高，行业景气周期有望延续且规模不断扩大。英伟达、AMD及相关供应链企业均从这一超级周期中受益，营收和利润增速远超传统半导体行业。投资者应重视AI芯片需求的结构性而非周期性本质，长期逻辑依然稳固。板块内部分化也在加剧，建议优选具有技术壁垒和生态优势的龙头企业，而非广泛押注整个板块。\n\n*seekingalpha.com · 2026-06-26*\n\n**[英伟达股价持续承压下行](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n\n英伟达近期股价持续下跌，市场情绪受多重因素拖累，包括估值偏高、竞争加剧及宏观环境不确定性。作为AI概念的核心标的，英伟达股价对市场情绪极为敏感，短期波动剧烈属正常现象。基本面来看，其数据中心业务订单依然强劲，H100及Blackwell系列需求旺盛，支撑长期逻辑不变。投资者可将此次回调视为观察支撑位的机会，但需警惕若市场整体风险偏好持续下降可能带来的进一步调整。\n\n*invezz.com · 2026-06-26*\n\n**[英伟达野心背后的隐藏指标](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n\n英伟达的真正壁垒不仅在于GPU硬件，更在于其软件生态、数据中心互联及AI平台的综合能力，这些隐性指标才是其估值的核心支撑。CUDA开发者数量、NVLink采用率及企业软件渗透率等指标值得投资者深度追踪，它们反映了英伟达护城河的宽度。这些隐藏指标显示英伟达正从芯片公司向AI基础设施平台公司转型，估值逻辑也应相应调整。对长期投资者而言，理解这些深层指标有助于穿越短期股价波动，坚定持有信心。\n\n*forbes.com · 2026-06-26*\n\n**[热钱撤离英伟达股价持续滑落](https://www.barrons.com/articles/nvidia-stock-price-ai-chips-0001b058)**\n\n英伟达股价持续走低，部分原因是短期投机资金转向其他热点板块，市场注意力出现分散。热钱的流动往往导致高估值成长股出现非基本面驱动的短期波动，投资者需保持冷静。从机构持仓和内部人交易数据来看，长线资金并未出现大规模撤离，这为股价提供了一定底部支撑。对于有意中长期持有的投资者，此类由资金面而非基本面驱动的回调历史上往往提供了较好的买入时机。\n\n*barrons.com · 2026-06-26*\n\n**[安森美暴跌拖累半导体板块](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n\n安森美半导体业绩或指引不及预期导致股价暴跌逾20%，引发市场对整个半导体板块的连带担忧，AMD和英特尔等个股也受到波及。这一事件提醒投资者，半导体行业个股基本面差异显著，板块内部分化不可忽视。安森美主要面向工业和汽车市场，其疲软并不直接反映AI数据中心芯片的需求状况，投资者不应过度外推。短期内恐慌性抛售可能为基本面更优的AMD和英特尔创造错杀买入机会，但需待市场情绪稳定后审慎介入。\n\n*247wallst.com · 2026-06-26*\n\n**[AMD的CPU故事被市场低估](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n\n市场目前对AMD的定价主要反映其GPU在AI领域的竞争前景，而其在数据中心和PC领域持续强劲的CPU业务却遭到低估。AMD的EPYC服务器CPU市场份额持续蚕食英特尔，这一稳健增长的业务线提供了可观的盈利确定性。若投资者仅从GPU视角审视AMD，可能忽视了其CPU业务带来的估值安全边际。作者认为当前市场定价为买入提供了不对称机会，CPU业务的稳健增长叠加GPU潜在上行空间，风险收益比具有吸引力。\n\n*seekingalpha.com · 2026-06-26*\n\n\n## 📈 金融财经\n\n**[投资者应优先考虑美国以外债券市场](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n\nAllspring Global Investments建议客户将资金转向那些央行仍在加息或通胀动态不同的国家债券市场。这一策略旨在规避美国通胀压力带来的风险，寻求更稳健的固定收益回报。\n\n**[SpaceX将快速加入纳斯达克100指数](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n\nSpaceX将通过纳斯达克新设立的快速纳入机制加入纳斯达克100指数，这将引发大规模ETF买盘需求。此举使马斯克旗下公司成为该快速通道机制的首批受益者之一。\n\n**[CFTC对预测市场Polymarket展开调查](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n\n美国商品期货交易委员会正对预测市场平台Polymarket展开调查。此前，CFTC和司法部曾于去年7月放弃对该平台的调查，此次重启调查引发市场关注。\n\n**[明尼阿波利斯联储主席预计今年将加息](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n\n明尼阿波利斯联储主席卡什卡里表示，随着美国经济持续受到通胀飙升冲击，他预计今年将有一次加息。这一表态显示美联储内部对通胀形势仍保持高度警惕。\n\n**[美伊协议一周后霍尔木兹海峡航运逐步恢复](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n\n美国与伊朗签署临时和平协议一周后，战略要地霍尔木兹海峡的航运交通正逐步恢复正常。然而市场信心仍然脆弱，航运业复苏面临不确定性。\n\n**[联合国机构暂停霍尔木兹疏散计划](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n\n一艘集装箱船在阿曼海岸附近遭到袭击后，联合国机构暂停了霍尔木兹海峡的船只疏散计划。美国官员称伊朗应为此次袭击负责，事件令和平协议前景蒙上阴影。\n\n**[美国5月核心通胀率升至3.4%创近两年新高](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n\n美联储首选通胀指标个人消费支出价格指数显示，5月核心通胀率达3.4%，为2023年10月以来最高水平。此前市场预期该指数年增幅为4.1%，实际数据引发市场对货币政策走向的关注。\n\n**[委内瑞拉发生历史性大地震特朗普承诺迅速援助](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n\n委内瑞拉发生历史性大地震造成数百人死亡，特朗普政府迅速承诺提供援助。此举反映出特朗普政府与委内瑞拉临时政府之间正在进行一定程度的外交关系调整。\n\n**[对冲基金大量买入亚马逊股票值得跟进吗](https://finance.yahoo.com/markets/stocks/articles/hedge-funds-buying-amazon-stock-233900186.html)**\n\n多家对冲基金近期大举买入亚马逊股票，引发市场对该股投资价值的广泛讨论。投资者需综合评估亚马逊当前估值、增长前景及市场风险后再做决策。\n\n**[德克萨斯最古老油田之一正在枯竭](https://finance.yahoo.com/energy/articles/one-texas-oldest-oil-plays-230000008.html)**\n\n德克萨斯州历史最悠久的油田之一产量持续下滑，面临资源耗尽困境。这一趋势折射出美国传统油气产区老龄化问题，对当地能源生产格局产生深远影响。\n\n\n## 🏥 健康医疗\n\n**[特朗普签署行政令要求减少食品中农药残留](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n\n特朗普签署行政令，要求研究食品中农药残留对健康的风险，此举令肯尼迪盟友感到不满。该行政令不涉及新的联邦资金投入，也不要求出台相关法规或立法。\n\n**[刚果埃博拉危机接触者追踪严重滞后](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n\n刚果民主共和国埃博拉疫情中，大多数阳性病例未在卫生工作者的追踪名单上，显示接触追踪工作严重落后。官员警告称，这一局面将大幅增加疫情扩散风险。\n\n**[美国疾控中心内部邮件揭示应对肯尼迪要求的压力](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n\n一批内部邮件披露了特朗普政府执政初期，新任卫生部长肯尼迪对疾控中心官员施加的巨大压力。这些邮件展示了公共卫生机构在政治压力下的艰难处境。\n\n**[医学期刊撤回癌症疗法上午给药更有效的研究](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n\n《自然医学》期刊撤回了一项声称癌症疗法在早晨给药效果更好的临床试验研究。期刊编辑在撤稿声明中表示，已对研究结果的完整性失去信心。\n\n**[安慰剂改善老年人记忆的研究令人惊讶](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\n健康老年人服用安慰剂三周后，记忆力、身体表现和压力水平均出现可测量的改善。最令人惊讶的发现是，即使受试者明知药片是假的，安慰剂效应依然显著存在。\n\n**[科学家发现衰老触发腹部脂肪积聚的机制](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n\n研究发现，衰老可能触发特殊干细胞的出现，这些干细胞会大幅增强身体产生腹部新脂肪的能力。这一发现揭示了中年体重增加的潜在生物学驱动机制，为未来干预提供了新方向。\n\n**[骨量减少正悄悄削弱数百万人的骨骼健康](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n\n骨量减少是一种常见但常被忽视的疾病，会导致骨密度降低、骨骼更加脆弱。由于病情发展悄无声息，许多人往往在骨折后才发现自己患有此病，错过了最佳干预时机。\n\n**[科学家发现帮助屏蔽干扰的古老脑细胞](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\n科学家在大脑古老区域发现了一小组神经元，它们像内置的专注过滤器一样帮助大脑忽略干扰、聚焦重点。研究人员认为这一发现有助于理解注意力控制的神经机制。\n\n\n## 🧠 心理·哲学\n\n**[安慰剂改善记忆即使受试者知道是假药](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\n健康老年人在知晓服用安慰剂的情况下，记忆力和身体表现在三周内仍出现了可测量的改善。这一研究结果挑战了传统认知，表明安慰剂效应可以在完全透明的条件下发挥作用。\n\n**[科学家发现屏蔽干扰的古老大脑神经元](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\n科学家发现大脑古老区域中一小群神经元具有过滤干扰信息的功能，帮助人们保持专注。这一发现为开发注意力缺陷相关疾病的治疗方法提供了新的研究方向。\n\n**[宇宙中可能存在我们无法想象的意识形式](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n\n哲学家施维茨格贝尔和波伯认为，意识并不局限于人类大脑，可能以多种截然不同的形式存在于各类生命体中。这一思想实验挑战了人类对意识本质的固有认知，引发关于存在与感知的深层思考。\n\n**[维生素B12缺乏可模拟正常衰老症状](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n\n维生素B12虽然需求量极微，但缺乏时会对健康和精力产生重大影响。由于其症状与正常衰老相似，许多患者的缺乏状况长期被忽视或误诊，值得公众提高警觉。\n\n**[八周缓慢呼吸训练改变退伍军人应激反应](https://www.psypost.org/eight-weeks-of-guided-slow-breathing-alters-stress-responses-in-veterans/)**\n\n每日进行设备引导的缓慢呼吸练习，有助于帮助创伤障碍退伍军人降低面对突发精神压力时的身体应激反应。这一研究为保护退伍军人心理健康提供了新的非药物干预路径。\n\n**[人生重要节点的解读方式与个性发展密切相关](https://www.psypost.org/how-people-interpret-life-milestones-is-tied-to-how-their-personalities-develop/)**\n\n进入恋爱关系或换工作等人生重要节点往往与个性变化同步发生，但新研究表明这种关联因人的年龄、性别和主观体验而高度个性化。个体如何解读这些里程碑对其性格发展具有深远影响。\n\n**[乳牙揭示早期金属暴露如何塑造青少年大脑](https://www.psypost.org/baby-teeth-reveal-how-early-metal-exposures-shape-the-adolescent-brain/)**\n\n科学家利用乳牙重建每周化学暴露记录，发现早期金属吸收的具体时机与大脑发育差异及青少年行为存在关联。这一方法为研究环境暴露对儿童神经发育的长期影响提供了新工具。\n\n**[爱情与金钱对健康都重要且不可相互替代](https://www.psypost.org/love-and-money-both-matter-for-health-but-they-dont-replace-each-other/)**\n\n新研究表明，幸福的恋爱关系和财务安全感分别独立地与更好的身心健康相关联。两个领域对健康各有独特贡献，无法相互替代，均需认真对待。\n\n**[音乐表演焦虑：如何帮助孩子克服舞台恐惧](https://www.psychologytoday.com/us/blog/mindfulness-and-music/202606/music-performance-anxiety-putting-the-child-in-the-spotlight)**\n\n通过诚实系统的自我分析来治愈内心的\"批判性父母\"，可以打破舞台恐惧的恶性循环。帮助孩子建立健康的自我评价机制是克服音乐表演焦虑的关键所在。\n\n**[有毒友谊的三种核心模式](https://www.psychologytoday.com/us/blog/head-games/202606/3-key-patterns-in-toxic-friendships)**\n\n最新研究揭示了有毒友谊中三种主要的情感体验模式。识别这些模式有助于人们更早察觉并摆脱对自身有害的友谊关系。\n\n\n## 📱 自媒体精选\n\n**[如何选择公共DNS解析器](https://evilbit.de/dns-resolver-guide.html)**\n\n本文探讨了选择公共DNS解析器时需要考虑的关键因素，包括隐私保护、速度和安全性等方面。合理选择DNS解析器对于提升网络安全性和访问速度具有重要意义。\n\n**[星形符文：基于欧拉路径的星座解谜游戏](https://starglyphs.com)**\n\n开发者受《龙腾世纪：审判》中星象仪小游戏的启发，创作了这款基于欧拉路径原理的星座解谜游戏。玩家需要通过追踪星座路径来解开谜题，融合了数学趣味与星空美学。\n\n**[密歇根州花费18亿美元仅创造602个就业岗位](https://www.msn.com/en-us/money/general/michigan-spent-1-8-billion-and-only-created-602-jobs/ar-AA26Cusu)**\n\n密歇根州斥资18亿美元的经济发展计划最终仅创造了602个工作岗位，引发外界对政府经济补贴效率的强烈质疑。这一案例再次引发关于政府产业政策投入产出比的广泛讨论。\n\n**[使用LXC增强X11应用程序安全性](https://dobrowolski.dev/article/enhancing-x11-application-security-with-lxc/)**\n\n本文介绍了如何利用Linux容器技术LXC来增强X11图形应用程序的安全隔离性。通过容器化方式运行X11应用，可以有效限制潜在恶意程序对系统资源的访问权限。\n\n**[Instagram测试更多个性化算法定制功能](https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/)**\n\nInstagram正在测试更多让用户调整内容推荐算法的功能，以提升用户体验。此举旨在给予用户对信息流内容更大的控制权，同时提高平台内容相关性。\n\n**[软银CEO并非唯一质疑马斯克轨道数据中心愿景者](https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/)**\n\n马斯克提出的轨道数据中心概念遭到包括软银CEO在内的多方质疑。业内人士对这一概念的技术可行性和商业价值持怀疑态度，认为其更多是概念炒作。\n\n**[苹果Vision Pro高管据报将跳槽OpenAI](https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/)**\n\n据报道，负责Vision Pro头显的苹果副总裁保罗·米德即将离职并加入OpenAI硬件团队。这一人事变动可能对苹果空间计算产品线的发展产生影响，同时加速OpenAI布局硬件领域。\n\n**[健身创始人患癌后用AI辅助抗癌的故事](https://techcrunch.com/2026/06/27/the-fittest-founder-in-the-room-got-cancer-heres-how-he-used-ai-to-fight-back/)**\n\n创始人康纳·克里斯托面对癌症诊断后，将血液检测结果、扫描数据、可穿戴设备输出和日记条目全部输入Claude进行分析。这一案例展示了AI在个人化医疗决策中的潜在应用价值。\n\n**[Teenage Engineering为KO II采样器带来重大更新](https://www.theverge.com/entertainment/958723/teenage-engineering-os-25-ep-133-ko-ii-sampler)**\n\nTeenage Engineering为其329美元的EP-133 KO II采样器发布了OS 2.5系统更新，新增USB音频传输、低保真模式等重要功能。这是该设备迄今为止最重要的更新之一，进一步提升了其音乐创作能力。\n\n**[玛格丽特·阿特伍德批评AI存在垃圾进垃圾出问题](https://www.theverge.com/ai-artificial-intelligence/958715/margaret-atwood-ai-problem-garbage-in-garbage-out)**\n\n《使女的故事》作者玛格丽特·阿特伍德在葡萄牙波尔图文学节上接受采访时，批评人工智能存在\"垃圾进垃圾出\"的根本性问题。她认为AI输出质量高度依赖输入数据的质量，对其文化和创意价值持审慎态度。\n\n\n---\n## 💡 今日洞察\n\n**📈 投资建议**\n- 将部分债券配置转移至利率上行或通胀动态有利的非美国市场（如部分新兴市场或欧洲国家），以对冲美联储加息预期带来的美债压力。\n- SpaceX即将纳入纳斯达克100指数，考虑提前布局追踪该指数的ETF（如QQQ），被动资金的大规模涌入将推动短期价格上涨。\n- 核心PCE通胀升至3.4%且卡什卡里预期年内加息，应减少对利率敏感的长久期成长股敞口，转向金融股、能源股及短久期债券等抗通胀资产。\n\n**🧠 健康建议**\n- 霍尔木兹海峡局势仍不稳定，全球药品原料及医疗设备供应链面临中断风险，建议医疗机构提前评估关键耗材库存并考虑多元化采购渠道。\n- 持续高通胀（核心PCE 3.4%）压缩家庭可支配收入，关注因经济压力推迟就医的风险，建议优先安排已有症状的常规体检和慢性病复诊，避免小病拖成大病。\n- 在宏观不确定性加剧（加息预期、地缘风险并存）的环境下，财务焦虑易引发慢性压力反应，建议每日进行10-15分钟正念冥想或有氧运动以主动管理心理健康。",
-      "en": "# 📰 Daily Intelligence Brief\n### June 28, 2026\n\n\n## 🤖 AI Focus (Lambda Finance)\n\n**[Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n*techcrunch.com · 2026-06-26*\n\n**[Why Cerebras' Mind-Boggling LLM Raw Speed Is Still Falling Into Nvidia's Massive Software Trap](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n*247wallst.com · 2026-06-26*\n\n**[Investors Are Getting Another Great Opportunity to Buy This Incredible Artificial Intelligence (AI) Stock Right Now](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n*fool.com · 2026-06-25*\n\n**[Here's How Artificial Intelligence Powers ASML's Growth Story](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n*zacks.com · 2026-06-26*\n\n**[Outlook For AI Chip Sector: The Party Goes On, Bigger Than Ever](https://seekingalpha.com/article/4918179-outlook-for-ai-chip-sector-the-party-goes-on-bigger-than-ever)**\n*seekingalpha.com · 2026-06-26*\n\n**[Nvidia stock continues decline on Friday: what's hurting the AI darling?](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n*invezz.com · 2026-06-26*\n\n**[The Hidden Metric Behind NVIDIA's Ambition](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n*forbes.com · 2026-06-26*\n\n**[Nvidia Stock Keeps Sliding as 'Hot Money' Heads Elsewhere](https://www.barrons.com/articles/nvidia-stock-price-ai-chips-0001b058)**\n*barrons.com · 2026-06-26*\n\n**[ON Semiconductor Tumbles 20%: Is It Dragging Down Semiconductor Names Like AMD and Intel?](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n*247wallst.com · 2026-06-26*\n\n**[AMD: The Market Is Pricing The GPU Story - I'm Buying The CPU Story](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n*seekingalpha.com · 2026-06-26*\n\n\n## 📈 Finance & Markets\n\n**[Why investors may want to prioritize bond markets outside the U.S.](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n\nAllspring Global Investments is pushing clients toward countries with central banks that are raising interest rates or have different inflation dynamics.\n\n**[SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n\nAdding SpaceX this quickly would make the Elon Musk company one of the first beneficiaries of Nasdaq's recently adopted fast-track inclusion framework.\n\n**[CFTC is conducting an investigation into Polymarket, source says](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n\nThe probe comes after the Commodity Futures Trading Commission and the Department of Justice dropped previous inquiries into Polymarket last July.\n\n**[Minneapolis Fed President Neel Kashkari says he expects a rate hike this year](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n\nKashkari said he sees a hike likely this year as the economy continues to feel the hit from spiking inflation.\n\n**[Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n\nShipping traffic through the strategically vital Strait of Hormuz is recovering one week after the U.S. and Iran signed an interim peace deal.\n\n**[UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n\nThe pause follows a container ship being struck near the coast of Oman on Thursday, with a U.S. official saying that Iran was responsible for the attack.\n\n**[Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n\nThe personal consumption expenditures price index was expected to show a 4.1% annual increase.\n\n**[Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n\nThe swift U.S. offer of assistance reflects a degree of diplomatic realignment between the Trump administration and the Venezuelan interim government.\n\n**[Hedge Funds Are Buying Up Amazon Stock. Should You Join In, Too?](https://finance.yahoo.com/markets/stocks/articles/hedge-funds-buying-amazon-stock-233900186.html)**\n**[One of Texas' Oldest Oil Plays Is Running Dry](https://finance.yahoo.com/energy/articles/one-texas-oldest-oil-plays-230000008.html)**\n\n## 🏥 Health & Medicine\n\n**[Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n\nThe order, which calls for studying the health risks of pesticides in the food supply, does not involve new federal funding, and does not call for regulations or legislation.\n\n**[Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n\nMost of the people testing positive for Ebola in the Democratic Republic of Congo are not on health workers’ radar, suggesting that contact tracing is lagging dangerously behind.\n\n**[Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n\nA cache of internal emails offers a look at the pressure the nation’s public health officials faced from the new health secretary in the early months of the Trump administration.\n\n**[Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n\nIn a notice flagging a series of problems with a clinical trial, the journal Nature Medicine said its editors “no longer have confidence in the integrity of the results.”\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover what triggers belly fat as we age](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n\nAging may trigger the appearance of specialized stem cells that supercharge the body's ability to create new belly fat. The discovery reveals a potential biological driver of middle-age weight gain and a promising target for future anti-obesity treatments.\n\n**[Osteopenia is silently weakening bones in millions of people](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n\nOsteopenia is a common but often overlooked condition that causes bones to become less dense and more fragile. Because it develops silently, many people only discover they have it after a fracture or bone scan. Aging, menopause, poor diet, and inactivity can all contribute to bon…\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n\n## 🧠 Psychology & Philosophy\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n**[The universe may be hiding conscious minds stranger than we can imagine](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n\nWhat if consciousness isn’t limited to brains like ours? Philosophers Eric Schwitzgebel and Jeremy Pober argue that consciousness could arise in many different forms of life, even in beings built from radically different materials than those found on Earth. Drawing on the vastnes…\n\n**[This common vitamin deficiency can mimic normal aging](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n\nVitamin B12 is needed in microscopic amounts, but a shortage can have major effects on health and energy. The vitamin was first linked to a lifesaving liver treatment for pernicious anemia nearly 100 years ago. Today, researchers are finding that B12 may also help keep cellular p…\n\n**[Eight weeks of guided slow breathing alters stress responses in veterans](https://www.psypost.org/eight-weeks-of-guided-slow-breathing-alters-stress-responses-in-veterans/)**\n\nA daily routine of device-guided slow breathing helps veterans with trauma disorders dial back their physical fight-or-flight response to sudden mental stress, suggesting a new path for protecting the cardiovascular health of vulnerable patients without relying on medications.\n\n**[How people interpret life milestones is tied to how their personalities develop](https://www.psypost.org/how-people-interpret-life-milestones-is-tied-to-how-their-personalities-develop/)**\n\nEntering a relationship or changing jobs often coincides with personality changes. However, new research shows these associations are highly individualized, relying on a person's age, gender, and subjective perception.\n\n**[Baby teeth reveal how early metal exposures shape the adolescent brain](https://www.psypost.org/baby-teeth-reveal-how-early-metal-exposures-shape-the-adolescent-brain/)**\n\nUsing baby teeth to reconstruct weekly chemical exposures, scientists found that the specific timing of early metal absorption is associated with differences in the developing brain and later adolescent behavior.\n\n**[Love and money both matter for health, but they don’t replace each other](https://www.psypost.org/love-and-money-both-matter-for-health-but-they-dont-replace-each-other/)**\n\nA new study reveals that a happy romantic relationship and a sense of financial security are independently linked to better physical and mental health. The findings suggest that both domains are important, but neither replaces the other.\n\n**[Music Performance Anxiety: Putting the Child in the Spotlight](https://www.psychologytoday.com/us/blog/mindfulness-and-music/202606/music-performance-anxiety-putting-the-child-in-the-spotlight)**\n\nBreak the cycle of stage fright by healing the \"critical parent\" within through honest, systematic self-analysis.\n\n**[3 Key Patterns in Toxic Friendships](https://www.psychologytoday.com/us/blog/head-games/202606/3-key-patterns-in-toxic-friendships)**\n\nWhat is it like to have a toxic friend? Recent research reveals three main emotional experiences.\n\n\n## 📱 Tech & Media\n\n**[Choosing a Public DNS Resolver](https://evilbit.de/dns-resolver-guide.html)**\n\nArticle URL: https://evilbit.de/dns-resolver-guide.html Comments URL: https://news.ycombinator.com/item?id=48702273 Points: 9 # Comments: 0\n\n**[Show HN: Starglyphs - A constellation puzzle game based on Euler paths](https://starglyphs.com)**\n\nI am a big Dragon Age fan and sunk hundreds of hours into Inquisition. It had this minigame called astrariums where you had to solve these shapes based on constellation guides by tracing stars. I'm a hobby game dev and wondered if I could procedurally generate these puzzles so th…\n\n**[Michigan spent $1.8B and only created 602 jobs](https://www.msn.com/en-us/money/general/michigan-spent-1-8-billion-and-only-created-602-jobs/ar-AA26Cusu)**\n\nArticle URL: https://www.msn.com/en-us/money/general/michigan-spent-1-8-billion-and-only-created-602-jobs/ar-AA26Cusu Comments URL: https://news.ycombinator.com/item?id=48702060 Points: 63 # Comments: 26\n\n**[Enhancing X11 Application Security with LXC](https://dobrowolski.dev/article/enhancing-x11-application-security-with-lxc/)**\n\nArticle URL: https://dobrowolski.dev/article/enhancing-x11-application-security-with-lxc/ Comments URL: https://news.ycombinator.com/item?id=48701936 Points: 18 # Comments: 3\n\n**[Instagram is testing more ways to customize ‘Your Algorithm’](https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/)**\n\nInstagram users could soon see more ways to tune their content.\n\n**[SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype](https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/)**\n\nNot everyone is buying Elon Musk’s vision for orbital data centers.\n\n**[Apple Vision Pro exec is reportedly leaving for OpenAI](https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/)**\n\nPaul Meade, the Apple vice president in charge of the Vision Pro headset, is reportedly leaving the company to join OpenAI’s hardware team.\n\n**[The fittest founder in the room got cancer. Here’s how he used AI to fight back.](https://techcrunch.com/2026/06/27/the-fittest-founder-in-the-room-got-cancer-heres-how-he-used-ai-to-fight-back/)**\n\nWhen confronted with cancer, Connor Christou fed everything tied tied to his regime — blood results, scan data, wearable output, journal entries — into Claude.\n\n**[Teenage Engineering adds lo-fi mode, USB audio, and more to its KO II sampler](https://www.theverge.com/entertainment/958723/teenage-engineering-os-25-ep-133-ko-ii-sampler)**\n\nTeenage Engineering has already issued multiple substantial updates for its surprisingly capable $329 EP-133 KO II sampler. Its latest is one of the biggest yet. OS 2.5 adds audio over USB, selectable sample rates for lo-fi fun, sample reverse, an arpeggiator, equal-length autoch…\n\n**[Margaret Atwood says the problem with AI is ‘garbage in, garbage out’](https://www.theverge.com/ai-artificial-intelligence/958715/margaret-atwood-ai-problem-garbage-in-garbage-out)**\n\nMaraget Atwood, the storied author of The Handmaid's Tale and The Blind Assassin, was interviewed as part of the Babell Literary and Cultural Festival in Porto, Portugal. As it usually does at these things, the issue of AI came up, and Atwood didn't mince words. According to Dead…\n\n\n---\n## 💡 Today's Insights\n\n**📈 Investment**\n- Shift a portion of bond allocations toward non-U.S. markets with rising rate cycles or favorable inflation dynamics (e.g., select emerging markets or European economies) to hedge against continued U.S. rate pressure.\n- Position in Nasdaq-100 tracking ETFs (e.g., QQQ) ahead of SpaceX's fast-tracked inclusion, as mandatory passive fund buying will create significant near-term price support.\n- With core PCE at 3.4% and a Fed rate hike signaled for 2026, rotate away from long-duration growth stocks toward financials, energy, and short-duration bonds as inflation-resistant assets.\n"
+      "cn": "# 📰 每日智识简报（中文）\n### 2026年06月28日\n\n\n## 🤖 AI前沿（Lambda Finance）\n\n**[科技巨头自研芯片挑战英伟达](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n\n越来越多科技公司如OpenAI和SpaceX开始自研芯片，试图降低对英伟达的依赖并削减成本。这一趋势对英伟达的长期市场份额构成潜在威胁，但短期内难以撼动其生态系统护城河。投资者应关注英伟达竞争格局的演变，同时留意自研芯片公司的商业化进展。对英伟达的多头仓位需评估长期风险，但短期基本面仍强劲。\n\n*techcrunch.com · 2026-06-26*\n\n**[Cerebras速度优势陷英伟达软件陷阱](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n\nCerebras虽然在原始推理速度上表现亮眼，但其生态系统与软件支持远落后于英伟达的CUDA平台。开发者和企业在迁移成本与兼容性方面的顾虑，使Cerebras难以真正威胁英伟达的市场地位。这一现象表明，AI芯片竞争的核心不仅是硬件性能，更是软件生态的深度绑定。投资者应认识到英伟达软件护城河的战略价值，这是其估值溢价的重要支撑。\n\n*247wallst.com · 2026-06-26*\n\n**[AI明星股再现买入良机](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n\n该文章指出某只优质AI股票因市场波动出现回调，为长期投资者提供了较好的买入窗口。强劲的基本面与AI行业长期增长逻辑未变，短期回调更多源于市场情绪而非基本面恶化。投资者可分批建仓，控制仓位风险，同时关注公司下季度业绩指引。逢低布局具有长期竞争优势的AI龙头股，历史上往往能带来较好回报。\n\n*fool.com · 2026-06-25*\n\n**[AI技术驱动ASML持续增长](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n\nASML将人工智能深度融入其光刻设备的研发与制造流程，显著提升了生产效率和产品良率。随着全球芯片需求持续扩张，ASML作为半导体设备唯一供应商的垄断地位愈发凸显其投资价值。AI技术的应用不仅降低了运营成本，也加速了下一代EUV设备的开发周期。ASML是半导体产业链中少数兼具护城河与成长性的优质标的，值得长期配置。\n\n*zacks.com · 2026-06-26*\n\n**[AI芯片行业景气度持续高涨](https://seekingalpha.com/article/4918179-outlook-for-ai-chip-sector-the-party-goes-on-bigger-than-ever)**\n\n分析人士认为AI芯片行业的需求热潮远未见顶，资本支出仍在加速扩张阶段。云计算巨头和各行业客户持续加码AI基础设施投入，为芯片供应商提供了强劲的订单支撑。行业估值虽已不低，但业绩增长速度有望消化当前溢价。投资者可继续持有核心AI芯片龙头，同时关注产业链中估值相对合理的二线标的机会。\n\n*seekingalpha.com · 2026-06-26*\n\n**[英伟达股价持续下跌原因解析](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n\n英伟达股价近期持续下行，受到获利回吐、市场资金轮动以及宏观利率预期变化等多重因素压制。尽管公司基本面依然出色，但高估值使其对负面情绪更为敏感。部分机构投资者选择在高位减持锁定收益，加剧了短期抛压。短线投资者需谨慎控制仓位，而长线投资者可将此视为逢低加仓的参考时机。\n\n*invezz.com · 2026-06-26*\n\n**[英伟达隐藏增长指标的战略意义](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n\n除营收和利润外，英伟达在数据中心渗透率、软件订阅收入及CUDA生态规模等指标上的持续扩张，是其长期竞争力的核心体现。这些隐性指标往往被市场忽视，却是判断公司护城河深度的关键依据。随着AI推理需求爆发，英伟达的软件与服务收入占比有望逐步提升，改善盈利质量。投资者应超越传统硬件销售视角，深入评估英伟达的平台化战略价值。\n\n*forbes.com · 2026-06-26*\n\n**[热钱撤离英伟达股价承压](https://www.barrons.com/articles/nvidia-stock-price-ai-chips-0001b058)**\n\n市场资金近期出现明显轮动，部分投机性热钱从英伟达流向其他板块，导致股价持续回调。这种资金行为通常与市场短期情绪和板块估值修复预期有关，并不代表英伟达基本面出现问题。长期机构投资者态度仍然稳健，筹码结构的短期变化为理性投资者提供了观察窗口。建议投资者区分短期资金流动与长期价值逻辑，避免跟随热钱盲目操作。\n\n*barrons.com · 2026-06-26*\n\n**[安森美暴跌拖累半导体板块](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n\n安森美半导体因业绩或指引不及预期大跌逾20%，引发市场对整个半导体板块的连锁担忧。AMD和英特尔等相关个股受到情绪波及，出现不同程度的联动下跌。投资者需辨别安森美下跌是否反映行业系统性问题，还是仅限于其自身的需求疲软。若为个股问题，AMD和英特尔的被动回调反而可能创造短线介入机会，需结合各自基本面独立判断。\n\n*247wallst.com · 2026-06-26*\n\n**[AMD CPU价值被市场低估](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n\n市场当前对AMD的定价主要围绕GPU竞争故事展开，而忽视了其CPU业务在数据中心和企业市场的强劲增长潜力。AMD服务器CPU凭借EPYC系列持续蚕食英特尔市场份额，这一趋势具有较强的持续性和可预测性。即便GPU业务短期面临英伟达的竞争压力，CPU业务也能为公司提供稳健的业绩底部支撑。投资者若以GPU视角买入AMD可能面临预期落差，但以CPU价值重估逻辑布局则具备更高的安全边际。\n\n*seekingalpha.com · 2026-06-26*\n\n\n## 📈 金融财经\n\n**[Why investors may want to prioritize bond markets outside the U.S.](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n**[SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n**[CFTC is conducting an investigation into Polymarket, source says](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n**[Minneapolis Fed President Neel Kashkari says he expects a rate hike this year](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n**[Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n**[UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n**[Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n**[Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n**[3 Overlooked Tech ETFs That Are Quietly Killing It This Year](https://finance.yahoo.com/markets/stocks/articles/3-overlooked-tech-etfs-quietly-131000965.html)**\n**[Amazon Stock Fans Can Thank Gen AI for a Successful Prime Day, New Data Shows](https://finance.yahoo.com/markets/stocks/articles/amazon-stock-fans-thank-gen-130002671.html)**\n\n## 🏥 健康医疗\n\n**[Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n**[Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n**[Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n**[Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n**[Scientists discover what triggers belly fat as we age](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n**[Osteopenia is silently weakening bones in millions of people](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\n## 🧠 心理·哲学\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n**[The universe may be hiding conscious minds stranger than we can imagine](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n**[This common vitamin deficiency can mimic normal aging](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n**[Teachers say they distrust AI but still accept its harsh grading mistakes, study finds](https://www.psypost.org/teachers-say-they-distrust-ai-but-still-accept-its-harsh-grading-mistakes-study-finds/)**\n**[One highly desirable trait can dominate how you choose a romantic partner](https://www.psypost.org/one-highly-desirable-trait-can-dominate-how-you-choose-a-romantic-partner/)**\n**[The science of “mommy brain”: How dopamine locks in lifelong cognitive benefits for mothers](https://www.psypost.org/the-science-of-mommy-brain-how-dopamine-locks-in-lifelong-cognitive-benefits-for-mothers/)**\n**[Study links autistic traits to how the brain processes social versus nonsocial rewards](https://www.psypost.org/how-autistic-traits-shape-the-brain-s-response-to-social-rewards/)**\n**[You Can Talk to Your Child About Anything](https://www.psychologytoday.com/us/blog/parenting-matters/202606/you-can-talk-to-your-child-about-anything)**\n**[A Dream Deferred](https://www.psychologytoday.com/us/blog/the-other-side-of-the-white-coat/202606/a-dream-deferred)**\n\n## 📱 自媒体精选\n\n**[Flock cameras track more than your license plate, and they're spreading fast](https://www.engadget.com/2203000/flock-cameras-recording-license-plate/)**\n**[Ask HN: Is there a bad employers (who have a records of not paying) list?](https://news.ycombinator.com/item?id=48707536)**\n**[EU Open Sources Ten-Year Network Development Planning Tools](https://github.com/open-energy-transition/open-tyndp)**\n**[Austria Lobbies EU to Host Anthropic After US Access Curbs](https://www.bloomberg.com/news/articles/2026-06-28/austria-lobbies-eu-to-host-anthropic-after-us-access-curbs)**\n**[Govee’s smart nugget ice maker makes every iced drink feel like a luxury](https://techcrunch.com/2026/06/28/govees-smart-nugget-ice-maker-makes-every-iced-drink-feel-like-a-luxury/)**\n**[Indian payments chief thinks AI will be heavily involved in next era of digital payment growth](https://techcrunch.com/2026/06/27/indian-payments-chief-thinks-ai-will-be-heavily-involved-in-next-era-of-digital-payment-growth/)**\n**[Instagram is testing more ways to customize ‘Your Algorithm’](https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/)**\n**[SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype](https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/)**\n**[Nest’s quest to fix your thermostat](https://www.theverge.com/podcast/958735/nest-thermostat-version-history)**\n**[Ad-free streaming is a luxury now](https://www.theverge.com/column/958379/streaming-industry-ads)**\n\n---\n## 💡 今日洞察\n\n**📈 投资建议**\n- 优先配置利率上升或通胀动态有利的非美国债券市场，如部分新兴市场及欧洲国家国债，以对冲美国加息预期带来的组合风险。\n- 纳斯达克100指数快速纳入SpaceX将触发大规模ETF被动买盘，可提前关注追踪该指数的QQQ等ETF及SpaceX相关供应链企业，捕捉短期流动性红利。\n- 霍尔木兹海峡局势仍脆弱，油轮及干散货航运保险成本料将维持高位，可关注能源运输保险板块及原油期货的对冲机会，同时警惕原油价格因地缘风险再度波动。\n\n**🧠 健康建议**\n- 核心通胀率升至3.4%，生活成本持续上涨，建议家庭提前囤备3至6个月的常用药品及医疗耗材，锁定当前价格，避免医疗通胀进一步侵蚀预算。\n- 霍尔木兹海峡航运不稳定可能波及全球药品原料药（API）供应链，建议慢性病患者与医生沟通，确保处方续药储量充足，尤其是依赖进口原料的心血管及糖尿病用药。\n- 加息预期升温将加剧财务压力，长期财务焦虑与心理",
+      "en": "# 📰 Daily Intelligence Brief\n### June 28, 2026\n\n\n## 🤖 AI Focus (Lambda Finance)\n\n**[Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n*techcrunch.com · 2026-06-26*\n\n**[Why Cerebras' Mind-Boggling LLM Raw Speed Is Still Falling Into Nvidia's Massive Software Trap](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n*247wallst.com · 2026-06-26*\n\n**[Investors Are Getting Another Great Opportunity to Buy This Incredible Artificial Intelligence (AI) Stock Right Now](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n*fool.com · 2026-06-25*\n\n**[Here's How Artificial Intelligence Powers ASML's Growth Story](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n*zacks.com · 2026-06-26*\n\n**[Outlook For AI Chip Sector: The Party Goes On, Bigger Than Ever](https://seekingalpha.com/article/4918179-outlook-for-ai-chip-sector-the-party-goes-on-bigger-than-ever)**\n*seekingalpha.com · 2026-06-26*\n\n**[Nvidia stock continues decline on Friday: what's hurting the AI darling?](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n*invezz.com · 2026-06-26*\n\n**[The Hidden Metric Behind NVIDIA's Ambition](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n*forbes.com · 2026-06-26*\n\n**[Nvidia Stock Keeps Sliding as 'Hot Money' Heads Elsewhere](https://www.barrons.com/articles/nvidia-stock-price-ai-chips-0001b058)**\n*barrons.com · 2026-06-26*\n\n**[ON Semiconductor Tumbles 20%: Is It Dragging Down Semiconductor Names Like AMD and Intel?](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n*247wallst.com · 2026-06-26*\n\n**[AMD: The Market Is Pricing The GPU Story - I'm Buying The CPU Story](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n*seekingalpha.com · 2026-06-26*\n\n\n## 📈 Finance & Markets\n\n**[Why investors may want to prioritize bond markets outside the U.S.](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n\nAllspring Global Investments is pushing clients toward countries with central banks that are raising interest rates or have different inflation dynamics.\n\n**[SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n\nAdding SpaceX this quickly would make the Elon Musk company one of the first beneficiaries of Nasdaq's recently adopted fast-track inclusion framework.\n\n**[CFTC is conducting an investigation into Polymarket, source says](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n\nThe probe comes after the Commodity Futures Trading Commission and the Department of Justice dropped previous inquiries into Polymarket last July.\n\n**[Minneapolis Fed President Neel Kashkari says he expects a rate hike this year](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n\nKashkari said he sees a hike likely this year as the economy continues to feel the hit from spiking inflation.\n\n**[Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n\nShipping traffic through the strategically vital Strait of Hormuz is recovering one week after the U.S. and Iran signed an interim peace deal.\n\n**[UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n\nThe pause follows a container ship being struck near the coast of Oman on Thursday, with a U.S. official saying that Iran was responsible for the attack.\n\n**[Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n\nThe personal consumption expenditures price index was expected to show a 4.1% annual increase.\n\n**[Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n\nThe swift U.S. offer of assistance reflects a degree of diplomatic realignment between the Trump administration and the Venezuelan interim government.\n\n**[3 Overlooked Tech ETFs That Are Quietly Killing It This Year](https://finance.yahoo.com/markets/stocks/articles/3-overlooked-tech-etfs-quietly-131000965.html)**\n**[Amazon Stock Fans Can Thank Gen AI for a Successful Prime Day, New Data Shows](https://finance.yahoo.com/markets/stocks/articles/amazon-stock-fans-thank-gen-130002671.html)**\n\n## 🏥 Health & Medicine\n\n**[Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n\nThe order, which calls for studying the health risks of pesticides in the food supply, does not involve new federal funding, and does not call for regulations or legislation.\n\n**[Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n\nMost of the people testing positive for Ebola in the Democratic Republic of Congo are not on health workers’ radar, suggesting that contact tracing is lagging dangerously behind.\n\n**[Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n\nA cache of internal emails offers a look at the pressure the nation’s public health officials faced from the new health secretary in the early months of the Trump administration.\n\n**[Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n\nIn a notice flagging a series of problems with a clinical trial, the journal Nature Medicine said its editors “no longer have confidence in the integrity of the results.”\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover what triggers belly fat as we age](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n\nAging may trigger the appearance of specialized stem cells that supercharge the body's ability to create new belly fat. The discovery reveals a potential biological driver of middle-age weight gain and a promising target for future anti-obesity treatments.\n\n**[Osteopenia is silently weakening bones in millions of people](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n\nOsteopenia is a common but often overlooked condition that causes bones to become less dense and more fragile. Because it develops silently, many people only discover they have it after a fracture or bone scan. Aging, menopause, poor diet, and inactivity can all contribute to bon…\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n\n## 🧠 Psychology & Philosophy\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n**[The universe may be hiding conscious minds stranger than we can imagine](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n\nWhat if consciousness isn’t limited to brains like ours? Philosophers Eric Schwitzgebel and Jeremy Pober argue that consciousness could arise in many different forms of life, even in beings built from radically different materials than those found on Earth. Drawing on the vastnes…\n\n**[This common vitamin deficiency can mimic normal aging](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n\nVitamin B12 is needed in microscopic amounts, but a shortage can have major effects on health and energy. The vitamin was first linked to a lifesaving liver treatment for pernicious anemia nearly 100 years ago. Today, researchers are finding that B12 may also help keep cellular p…\n\n**[Teachers say they distrust AI but still accept its harsh grading mistakes, study finds](https://www.psypost.org/teachers-say-they-distrust-ai-but-still-accept-its-harsh-grading-mistakes-study-finds/)**\n\nWhen grading student work, teachers are surprisingly quick to accept an AI's overly harsh mistakes. A recent study shows that simply keeping a human in the loop isn't enough to prevent automated systems from making unfair decisions.\n\n**[One highly desirable trait can dominate how you choose a romantic partner](https://www.psypost.org/one-highly-desirable-trait-can-dominate-how-you-choose-a-romantic-partner/)**\n\nWhen evaluating potential dates, people do not simply tally up positive and negative qualities. Research shows that a single highly attractive characteristic often outweighs other factors, heavily influencing our final romantic choices.\n\n**[The science of “mommy brain”: How dopamine locks in lifelong cognitive benefits for mothers](https://www.psypost.org/the-science-of-mommy-brain-how-dopamine-locks-in-lifelong-cognitive-benefits-for-mothers/)**\n\nA recent study published in Nature reveals that motherhood permanently remodels the brain through dopamine, enhancing learning and memory. The findings challenge the \"mommy brain\" myth, while warning that severe postpartum stress can disrupt these natural adaptations.\n\n**[Study links autistic traits to how the brain processes social versus nonsocial rewards](https://www.psypost.org/how-autistic-traits-shape-the-brain-s-response-to-social-rewards/)**\n\nNew brain imaging research reveals that individuals with higher autistic traits show weaker connections between visual and reward-processing brain regions, explaining why they may place less value on social rewards like smiles compared to nonsocial rewards.\n\n**[You Can Talk to Your Child About Anything](https://www.psychologytoday.com/us/blog/parenting-matters/202606/you-can-talk-to-your-child-about-anything)**\n\nParents avoid difficult conversations with children, but they don't have to.\n\n**[A Dream Deferred](https://www.psychologytoday.com/us/blog/the-other-side-of-the-white-coat/202606/a-dream-deferred)**\n\nPersonal Perspective: You've been putting it off for years. Here's what finally happens when you stop waiting and choose your life on purpose.\n\n\n## 📱 Tech & Media\n\n**[Flock cameras track more than your license plate, and they're spreading fast](https://www.engadget.com/2203000/flock-cameras-recording-license-plate/)**\n\nArticle URL: https://www.engadget.com/2203000/flock-cameras-recording-license-plate/ Comments URL: https://news.ycombinator.com/item?id=48707673 Points: 7 # Comments: 0\n\n**[Ask HN: Is there a bad employers (who have a records of not paying) list?](https://news.ycombinator.com/item?id=48707536)**\n\nI worked with a few employers on contracts, and there were situations where they haven't paid fees for a while. Is there a list or site that lists all the employers and if they have a record of them not fulfilling their contracts? Comments URL: https://news.ycombinator.com/item?i…\n\n**[EU Open Sources Ten-Year Network Development Planning Tools](https://github.com/open-energy-transition/open-tyndp)**\n\nArticle URL: https://github.com/open-energy-transition/open-tyndp Comments URL: https://news.ycombinator.com/item?id=48707361 Points: 23 # Comments: 3\n\n**[Austria Lobbies EU to Host Anthropic After US Access Curbs](https://www.bloomberg.com/news/articles/2026-06-28/austria-lobbies-eu-to-host-anthropic-after-us-access-curbs)**\n\nArticle URL: https://www.bloomberg.com/news/articles/2026-06-28/austria-lobbies-eu-to-host-anthropic-after-us-access-curbs Comments URL: https://news.ycombinator.com/item?id=48707146 Points: 30 # Comments: 18\n\n**[Govee’s smart nugget ice maker makes every iced drink feel like a luxury](https://techcrunch.com/2026/06/28/govees-smart-nugget-ice-maker-makes-every-iced-drink-feel-like-a-luxury/)**\n\nFor some people, the ice in a beverage is almost as important as the drink itself. That’s the audience Govee had in mind when designing its latest ice maker, the GoveeLife Smart Nugget Ice Maker Pro. This $500 premium smart home gadget is aimed at those who crave what’s called “t…\n\n**[Indian payments chief thinks AI will be heavily involved in next era of digital payment growth](https://techcrunch.com/2026/06/27/indian-payments-chief-thinks-ai-will-be-heavily-involved-in-next-era-of-digital-payment-growth/)**\n\nDilip Asbe said that newer UPI apps could be more competitive with a viable commercial model\n\n**[Instagram is testing more ways to customize ‘Your Algorithm’](https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/)**\n\nInstagram users could soon see more ways to tune their content.\n\n**[SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype](https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/)**\n\nNot everyone is buying Elon Musk’s vision for orbital data centers.\n\n**[Nest’s quest to fix your thermostat](https://www.theverge.com/podcast/958735/nest-thermostat-version-history)**\n\nThe founding story of Nest is pretty much a perfect tech myth. A legendary product maker (in this case, Tony Fadell) helps create one of the most successful products ever (the iPhone) and then rides off into the sunset to enjoy the rest of his life, only to have an experience tha…\n\n**[Ad-free streaming is a luxury now](https://www.theverge.com/column/958379/streaming-industry-ads)**\n\nThis is The Stepback, a weekly newsletter breaking down one essential story from the tech world. For more news about the streaming industry, follow Emma Roth. The Stepback arrives in our subscribers' inboxes at 8AM ET. Opt in for The Stepback here. How it started Streaming was on…\n\n\n---\n## 💡 Today's Insights\n\n**📈 Investment**\n- Rotate a portion of fixed income allocations toward non-U.S. bond markets—particularly in countries with rising rates or contained inflation dynamics—to reduce exposure to U.S. rate hike risk signaled by the Fed's 3.4% core inflation reading and Kashkari's hawkish outlook.\n- Front-run the passive buying wave triggered by SpaceX's fast-tracked Nasdaq-100 inclusion by accumulating positions in QQQ and related index ETFs now, before mandatory rebalancing drives institutional demand higher.\n- Maintain hedges on energy and shipping exposure: the fragile Hormuz peace deal and the first vessel attack under it signal persistent supply-chain risk—consider long crude oil volatility plays and short speculative shipping recovery positions until diplomatic stability is confirmed.\n"
     },
     "news_cards": {
       "finance": [
         {
           "rank": 1,
           "title": "Why investors may want to prioritize bond markets outside the U.S.",
-          "title_cn": "投资者应优先考虑美国以外债券市场",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html",
           "source": "CNBC Finance",
           "time": "Sat, 27 Jun 2026 15:00:01 GMT",
-          "analysis_cn": "Allspring Global Investments建议客户将资金转向那些央行仍在加息或通胀动态不同的国家债券市场。这一策略旨在规避美国通胀压力带来的风险，寻求更稳健的固定收益回报。",
+          "analysis_cn": "",
           "analysis_en": "Allspring Global Investments is pushing clients toward countries with central banks that are raising interest rates or have different inflation dynamics."
         },
         {
           "rank": 2,
           "title": "SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand",
-          "title_cn": "SpaceX将快速加入纳斯达克100指数",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html",
           "source": "CNBC Finance",
           "time": "Sat, 27 Jun 2026 21:34:59 GMT",
-          "analysis_cn": "SpaceX将通过纳斯达克新设立的快速纳入机制加入纳斯达克100指数，这将引发大规模ETF买盘需求。此举使马斯克旗下公司成为该快速通道机制的首批受益者之一。",
+          "analysis_cn": "",
           "analysis_en": "Adding SpaceX this quickly would make the Elon Musk company one of the first beneficiaries of Nasdaq's recently adopted fast-track inclusion framework."
         },
         {
           "rank": 3,
           "title": "CFTC is conducting an investigation into Polymarket, source says",
-          "title_cn": "CFTC对预测市场Polymarket展开调查",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html",
           "source": "CNBC Finance",
           "time": "Fri, 26 Jun 2026 18:53:17 GMT",
-          "analysis_cn": "美国商品期货交易委员会正对预测市场平台Polymarket展开调查。此前，CFTC和司法部曾于去年7月放弃对该平台的调查，此次重启调查引发市场关注。",
+          "analysis_cn": "",
           "analysis_en": "The probe comes after the Commodity Futures Trading Commission and the Department of Justice dropped previous inquiries into Polymarket last July."
         },
         {
           "rank": 4,
           "title": "Minneapolis Fed President Neel Kashkari says he expects a rate hike this year",
-          "title_cn": "明尼阿波利斯联储主席预计今年将加息",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html",
           "source": "CNBC Finance",
           "time": "Fri, 26 Jun 2026 16:04:42 GMT",
-          "analysis_cn": "明尼阿波利斯联储主席卡什卡里表示，随着美国经济持续受到通胀飙升冲击，他预计今年将有一次加息。这一表态显示美联储内部对通胀形势仍保持高度警惕。",
+          "analysis_cn": "",
           "analysis_en": "Kashkari said he sees a hike likely this year as the economy continues to feel the hit from spiking inflation."
         },
         {
           "rank": 5,
           "title": "Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery",
-          "title_cn": "美伊协议一周后霍尔木兹海峡航运逐步恢复",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html",
           "source": "CNBC World Economy",
           "time": "Fri, 26 Jun 2026 09:36:24 GMT",
-          "analysis_cn": "美国与伊朗签署临时和平协议一周后，战略要地霍尔木兹海峡的航运交通正逐步恢复正常。然而市场信心仍然脆弱，航运业复苏面临不确定性。",
+          "analysis_cn": "",
           "analysis_en": "Shipping traffic through the strategically vital Strait of Hormuz is recovering one week after the U.S. and Iran signed an interim peace deal."
         },
         {
           "rank": 6,
           "title": "UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal",
-          "title_cn": "联合国机构暂停霍尔木兹疏散计划",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html",
           "source": "CNBC World Economy",
           "time": "Fri, 26 Jun 2026 02:07:59 GMT",
-          "analysis_cn": "一艘集装箱船在阿曼海岸附近遭到袭击后，联合国机构暂停了霍尔木兹海峡的船只疏散计划。美国官员称伊朗应为此次袭击负责，事件令和平协议前景蒙上阴影。",
+          "analysis_cn": "",
           "analysis_en": "The pause follows a container ship being struck near the coast of Oman on Thursday, with a U.S. official saying that Iran was responsible for the attack."
         },
         {
           "rank": 7,
           "title": "Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows",
-          "title_cn": "美国5月核心通胀率升至3.4%创近两年新高",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html",
           "source": "CNBC World Economy",
           "time": "Thu, 25 Jun 2026 13:30:56 GMT",
-          "analysis_cn": "美联储首选通胀指标个人消费支出价格指数显示，5月核心通胀率达3.4%，为2023年10月以来最高水平。此前市场预期该指数年增幅为4.1%，实际数据引发市场对货币政策走向的关注。",
+          "analysis_cn": "",
           "analysis_en": "The personal consumption expenditures price index was expected to show a 4.1% annual increase."
         },
         {
           "rank": 8,
           "title": "Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds",
-          "title_cn": "委内瑞拉发生历史性大地震特朗普承诺迅速援助",
+          "title_cn": "",
           "url": "https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html",
           "source": "CNBC World Economy",
           "time": "Thu, 25 Jun 2026 14:41:19 GMT",
-          "analysis_cn": "委内瑞拉发生历史性大地震造成数百人死亡，特朗普政府迅速承诺提供援助。此举反映出特朗普政府与委内瑞拉临时政府之间正在进行一定程度的外交关系调整。",
+          "analysis_cn": "",
           "analysis_en": "The swift U.S. offer of assistance reflects a degree of diplomatic realignment between the Trump administration and the Venezuelan interim government."
         },
         {
           "rank": 9,
-          "title": "Hedge Funds Are Buying Up Amazon Stock. Should You Join In, Too?",
-          "title_cn": "对冲基金大量买入亚马逊股票值得跟进吗",
-          "url": "https://finance.yahoo.com/markets/stocks/articles/hedge-funds-buying-amazon-stock-233900186.html",
+          "title": "3 Overlooked Tech ETFs That Are Quietly Killing It This Year",
+          "title_cn": "",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/3-overlooked-tech-etfs-quietly-131000965.html",
           "source": "Yahoo Finance",
-          "time": "2026-06-27T23:39:00Z",
-          "analysis_cn": "多家对冲基金近期大举买入亚马逊股票，引发市场对该股投资价值的广泛讨论。投资者需综合评估亚马逊当前估值、增长前景及市场风险后再做决策。",
+          "time": "2026-06-27T13:10:00Z",
+          "analysis_cn": "",
           "analysis_en": ""
         },
         {
           "rank": 10,
-          "title": "One of Texas' Oldest Oil Plays Is Running Dry",
-          "title_cn": "德克萨斯最古老油田之一正在枯竭",
-          "url": "https://finance.yahoo.com/energy/articles/one-texas-oldest-oil-plays-230000008.html",
+          "title": "Amazon Stock Fans Can Thank Gen AI for a Successful Prime Day, New Data Shows",
+          "title_cn": "",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/amazon-stock-fans-thank-gen-130002671.html",
           "source": "Yahoo Finance",
-          "time": "2026-06-27T23:00:00Z",
-          "analysis_cn": "德克萨斯州历史最悠久的油田之一产量持续下滑，面临资源耗尽困境。这一趋势折射出美国传统油气产区老龄化问题，对当地能源生产格局产生深远影响。",
+          "time": "2026-06-27T13:00:02Z",
+          "analysis_cn": "",
           "analysis_en": ""
         }
       ],
@@ -31101,81 +31101,81 @@
         {
           "rank": 1,
           "title": "Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume",
-          "title_cn": "特朗普签署行政令要求减少食品中农药残留",
+          "title_cn": "",
           "url": "https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html",
           "source": "NYT Health",
           "time": "Fri, 26 Jun 2026 00:24:06 +0000",
-          "analysis_cn": "特朗普签署行政令，要求研究食品中农药残留对健康的风险，此举令肯尼迪盟友感到不满。该行政令不涉及新的联邦资金投入，也不要求出台相关法规或立法。",
+          "analysis_cn": "",
           "analysis_en": "The order, which calls for studying the health risks of pesticides in the food supply, does not involve new federal funding, and does not call for regulations or legislation."
         },
         {
           "rank": 2,
           "title": "Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn",
-          "title_cn": "刚果埃博拉危机接触者追踪严重滞后",
+          "title_cn": "",
           "url": "https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html",
           "source": "NYT Health",
           "time": "Thu, 25 Jun 2026 22:57:49 +0000",
-          "analysis_cn": "刚果民主共和国埃博拉疫情中，大多数阳性病例未在卫生工作者的追踪名单上，显示接触追踪工作严重落后。官员警告称，这一局面将大幅增加疫情扩散风险。",
+          "analysis_cn": "",
           "analysis_en": "Most of the people testing positive for Ebola in the Democratic Republic of Congo are not on health workers’ radar, suggesting that contact tracing is lagging dangerously behind."
         },
         {
           "rank": 3,
           "title": "Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands",
-          "title_cn": "美国疾控中心内部邮件揭示应对肯尼迪要求的压力",
+          "title_cn": "",
           "url": "https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html",
           "source": "NYT Health",
           "time": "Thu, 25 Jun 2026 21:18:20 +0000",
-          "analysis_cn": "一批内部邮件披露了特朗普政府执政初期，新任卫生部长肯尼迪对疾控中心官员施加的巨大压力。这些邮件展示了公共卫生机构在政治压力下的艰难处境。",
+          "analysis_cn": "",
           "analysis_en": "A cache of internal emails offers a look at the pressure the nation’s public health officials faced from the new health secretary in the early months of the Trump administration."
         },
         {
           "rank": 4,
           "title": "Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning",
-          "title_cn": "医学期刊撤回癌症疗法上午给药更有效的研究",
+          "title_cn": "",
           "url": "https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html",
           "source": "NYT Health",
           "time": "Fri, 26 Jun 2026 02:27:02 +0000",
-          "analysis_cn": "《自然医学》期刊撤回了一项声称癌症疗法在早晨给药效果更好的临床试验研究。期刊编辑在撤稿声明中表示，已对研究结果的完整性失去信心。",
+          "analysis_cn": "",
           "analysis_en": "In a notice flagging a series of problems with a clinical trial, the journal Nature Medicine said its editors “no longer have confidence in the integrity of the results.”"
         },
         {
           "rank": 5,
           "title": "They knew the pill was fake but their memory still improved",
-          "title_cn": "安慰剂改善老年人记忆的研究令人惊讶",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260625060159.htm",
           "source": "ScienceDaily Health",
           "time": "Thu, 25 Jun 2026 07:23:11 EDT",
-          "analysis_cn": "健康老年人服用安慰剂三周后，记忆力、身体表现和压力水平均出现可测量的改善。最令人惊讶的发现是，即使受试者明知药片是假的，安慰剂效应依然显著存在。",
+          "analysis_cn": "",
           "analysis_en": "Healthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive."
         },
         {
           "rank": 6,
           "title": "Scientists discover what triggers belly fat as we age",
-          "title_cn": "科学家发现衰老触发腹部脂肪积聚的机制",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260624115133.htm",
           "source": "ScienceDaily Health",
           "time": "Sat, 27 Jun 2026 14:54:36 EDT",
-          "analysis_cn": "研究发现，衰老可能触发特殊干细胞的出现，这些干细胞会大幅增强身体产生腹部新脂肪的能力。这一发现揭示了中年体重增加的潜在生物学驱动机制，为未来干预提供了新方向。",
+          "analysis_cn": "",
           "analysis_en": "Aging may trigger the appearance of specialized stem cells that supercharge the body's ability to create new belly fat. The discovery reveals a potential biological driver of middle-age weight gain and a promising target for future anti-obesity treatments."
         },
         {
           "rank": 7,
           "title": "Osteopenia is silently weakening bones in millions of people",
-          "title_cn": "骨量减少正悄悄削弱数百万人的骨骼健康",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260624025511.htm",
           "source": "ScienceDaily Health",
           "time": "Thu, 25 Jun 2026 00:25:26 EDT",
-          "analysis_cn": "骨量减少是一种常见但常被忽视的疾病，会导致骨密度降低、骨骼更加脆弱。由于病情发展悄无声息，许多人往往在骨折后才发现自己患有此病，错过了最佳干预时机。",
+          "analysis_cn": "",
           "analysis_en": "Osteopenia is a common but often overlooked condition that causes bones to become less dense and more fragile. Because it develops silently, many people only discover they have it after a fracture or bone scan. Aging, menopause, poor diet, and inactivity can all contribute to bon…"
         },
         {
           "rank": 8,
           "title": "Scientists discover ancient brain cells that help block distractions",
-          "title_cn": "科学家发现帮助屏蔽干扰的古老脑细胞",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260624025426.htm",
           "source": "ScienceDaily Health",
           "time": "Wed, 24 Jun 2026 09:30:09 EDT",
-          "analysis_cn": "科学家在大脑古老区域发现了一小组神经元，它们像内置的专注过滤器一样帮助大脑忽略干扰、聚焦重点。研究人员认为这一发现有助于理解注意力控制的神经机制。",
+          "analysis_cn": "",
           "analysis_en": "Scientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…"
         }
       ],
@@ -31183,204 +31183,204 @@
         {
           "rank": 1,
           "title": "They knew the pill was fake but their memory still improved",
-          "title_cn": "安慰剂改善记忆即使受试者知道是假药",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260625060159.htm",
           "source": "ScienceDaily Mind",
           "time": "Thu, 25 Jun 2026 07:23:11 EDT",
-          "analysis_cn": "健康老年人在知晓服用安慰剂的情况下，记忆力和身体表现在三周内仍出现了可测量的改善。这一研究结果挑战了传统认知，表明安慰剂效应可以在完全透明的条件下发挥作用。",
+          "analysis_cn": "",
           "analysis_en": "Healthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive."
         },
         {
           "rank": 2,
           "title": "Scientists discover ancient brain cells that help block distractions",
-          "title_cn": "科学家发现屏蔽干扰的古老大脑神经元",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260624025426.htm",
           "source": "ScienceDaily Mind",
           "time": "Wed, 24 Jun 2026 09:30:09 EDT",
-          "analysis_cn": "科学家发现大脑古老区域中一小群神经元具有过滤干扰信息的功能，帮助人们保持专注。这一发现为开发注意力缺陷相关疾病的治疗方法提供了新的研究方向。",
+          "analysis_cn": "",
           "analysis_en": "Scientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…"
         },
         {
           "rank": 3,
           "title": "The universe may be hiding conscious minds stranger than we can imagine",
-          "title_cn": "宇宙中可能存在我们无法想象的意识形式",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260623083146.htm",
           "source": "ScienceDaily Mind",
           "time": "Wed, 24 Jun 2026 10:49:57 EDT",
-          "analysis_cn": "哲学家施维茨格贝尔和波伯认为，意识并不局限于人类大脑，可能以多种截然不同的形式存在于各类生命体中。这一思想实验挑战了人类对意识本质的固有认知，引发关于存在与感知的深层思考。",
+          "analysis_cn": "",
           "analysis_en": "What if consciousness isn’t limited to brains like ours? Philosophers Eric Schwitzgebel and Jeremy Pober argue that consciousness could arise in many different forms of life, even in beings built from radically different materials than those found on Earth. Drawing on the vastnes…"
         },
         {
           "rank": 4,
           "title": "This common vitamin deficiency can mimic normal aging",
-          "title_cn": "维生素B12缺乏可模拟正常衰老症状",
+          "title_cn": "",
           "url": "https://www.sciencedaily.com/releases/2026/06/260623083116.htm",
           "source": "ScienceDaily Mind",
           "time": "Thu, 25 Jun 2026 10:57:39 EDT",
-          "analysis_cn": "维生素B12虽然需求量极微，但缺乏时会对健康和精力产生重大影响。由于其症状与正常衰老相似，许多患者的缺乏状况长期被忽视或误诊，值得公众提高警觉。",
+          "analysis_cn": "",
           "analysis_en": "Vitamin B12 is needed in microscopic amounts, but a shortage can have major effects on health and energy. The vitamin was first linked to a lifesaving liver treatment for pernicious anemia nearly 100 years ago. Today, researchers are finding that B12 may also help keep cellular p…"
         },
         {
           "rank": 5,
-          "title": "Eight weeks of guided slow breathing alters stress responses in veterans",
-          "title_cn": "八周缓慢呼吸训练改变退伍军人应激反应",
-          "url": "https://www.psypost.org/eight-weeks-of-guided-slow-breathing-alters-stress-responses-in-veterans/",
+          "title": "Teachers say they distrust AI but still accept its harsh grading mistakes, study finds",
+          "title_cn": "",
+          "url": "https://www.psypost.org/teachers-say-they-distrust-ai-but-still-accept-its-harsh-grading-mistakes-study-finds/",
           "source": "PsyPost",
-          "time": "Sat, 27 Jun 2026 22:00:50 +0000",
-          "analysis_cn": "每日进行设备引导的缓慢呼吸练习，有助于帮助创伤障碍退伍军人降低面对突发精神压力时的身体应激反应。这一研究为保护退伍军人心理健康提供了新的非药物干预路径。",
-          "analysis_en": "A daily routine of device-guided slow breathing helps veterans with trauma disorders dial back their physical fight-or-flight response to sudden mental stress, suggesting a new path for protecting the cardiovascular health of vulnerable patients without relying on medications."
+          "time": "Sun, 28 Jun 2026 14:00:11 +0000",
+          "analysis_cn": "",
+          "analysis_en": "When grading student work, teachers are surprisingly quick to accept an AI's overly harsh mistakes. A recent study shows that simply keeping a human in the loop isn't enough to prevent automated systems from making unfair decisions."
         },
         {
           "rank": 6,
-          "title": "How people interpret life milestones is tied to how their personalities develop",
-          "title_cn": "人生重要节点的解读方式与个性发展密切相关",
-          "url": "https://www.psypost.org/how-people-interpret-life-milestones-is-tied-to-how-their-personalities-develop/",
+          "title": "One highly desirable trait can dominate how you choose a romantic partner",
+          "title_cn": "",
+          "url": "https://www.psypost.org/one-highly-desirable-trait-can-dominate-how-you-choose-a-romantic-partner/",
           "source": "PsyPost",
-          "time": "Sat, 27 Jun 2026 20:00:44 +0000",
-          "analysis_cn": "进入恋爱关系或换工作等人生重要节点往往与个性变化同步发生，但新研究表明这种关联因人的年龄、性别和主观体验而高度个性化。个体如何解读这些里程碑对其性格发展具有深远影响。",
-          "analysis_en": "Entering a relationship or changing jobs often coincides with personality changes. However, new research shows these associations are highly individualized, relying on a person's age, gender, and subjective perception."
+          "time": "Sun, 28 Jun 2026 13:00:00 +0000",
+          "analysis_cn": "",
+          "analysis_en": "When evaluating potential dates, people do not simply tally up positive and negative qualities. Research shows that a single highly attractive characteristic often outweighs other factors, heavily influencing our final romantic choices."
         },
         {
           "rank": 7,
-          "title": "Baby teeth reveal how early metal exposures shape the adolescent brain",
-          "title_cn": "乳牙揭示早期金属暴露如何塑造青少年大脑",
-          "url": "https://www.psypost.org/baby-teeth-reveal-how-early-metal-exposures-shape-the-adolescent-brain/",
+          "title": "The science of “mommy brain”: How dopamine locks in lifelong cognitive benefits for mothers",
+          "title_cn": "",
+          "url": "https://www.psypost.org/the-science-of-mommy-brain-how-dopamine-locks-in-lifelong-cognitive-benefits-for-mothers/",
           "source": "PsyPost",
-          "time": "Sat, 27 Jun 2026 18:00:40 +0000",
-          "analysis_cn": "科学家利用乳牙重建每周化学暴露记录，发现早期金属吸收的具体时机与大脑发育差异及青少年行为存在关联。这一方法为研究环境暴露对儿童神经发育的长期影响提供了新工具。",
-          "analysis_en": "Using baby teeth to reconstruct weekly chemical exposures, scientists found that the specific timing of early metal absorption is associated with differences in the developing brain and later adolescent behavior."
+          "time": "Sun, 28 Jun 2026 12:00:02 +0000",
+          "analysis_cn": "",
+          "analysis_en": "A recent study published in Nature reveals that motherhood permanently remodels the brain through dopamine, enhancing learning and memory. The findings challenge the \"mommy brain\" myth, while warning that severe postpartum stress can disrupt these natural adaptations."
         },
         {
           "rank": 8,
-          "title": "Love and money both matter for health, but they don’t replace each other",
-          "title_cn": "爱情与金钱对健康都重要且不可相互替代",
-          "url": "https://www.psypost.org/love-and-money-both-matter-for-health-but-they-dont-replace-each-other/",
+          "title": "Study links autistic traits to how the brain processes social versus nonsocial rewards",
+          "title_cn": "",
+          "url": "https://www.psypost.org/how-autistic-traits-shape-the-brain-s-response-to-social-rewards/",
           "source": "PsyPost",
-          "time": "Sat, 27 Jun 2026 16:00:38 +0000",
-          "analysis_cn": "新研究表明，幸福的恋爱关系和财务安全感分别独立地与更好的身心健康相关联。两个领域对健康各有独特贡献，无法相互替代，均需认真对待。",
-          "analysis_en": "A new study reveals that a happy romantic relationship and a sense of financial security are independently linked to better physical and mental health. The findings suggest that both domains are important, but neither replaces the other."
+          "time": "Sun, 28 Jun 2026 11:00:09 +0000",
+          "analysis_cn": "",
+          "analysis_en": "New brain imaging research reveals that individuals with higher autistic traits show weaker connections between visual and reward-processing brain regions, explaining why they may place less value on social rewards like smiles compared to nonsocial rewards."
         },
         {
           "rank": 9,
-          "title": "Music Performance Anxiety: Putting the Child in the Spotlight",
-          "title_cn": "音乐表演焦虑：如何帮助孩子克服舞台恐惧",
-          "url": "https://www.psychologytoday.com/us/blog/mindfulness-and-music/202606/music-performance-anxiety-putting-the-child-in-the-spotlight",
+          "title": "You Can Talk to Your Child About Anything",
+          "title_cn": "",
+          "url": "https://www.psychologytoday.com/us/blog/parenting-matters/202606/you-can-talk-to-your-child-about-anything",
           "source": "Psychology Today",
-          "time": "Sat, 27 Jun 2026 16:15:59 -0400",
-          "analysis_cn": "通过诚实系统的自我分析来治愈内心的\"批判性父母\"，可以打破舞台恐惧的恶性循环。帮助孩子建立健康的自我评价机制是克服音乐表演焦虑的关键所在。",
-          "analysis_en": "Break the cycle of stage fright by healing the \"critical parent\" within through honest, systematic self-analysis."
+          "time": "Sun, 28 Jun 2026 10:31:58 -0400",
+          "analysis_cn": "",
+          "analysis_en": "Parents avoid difficult conversations with children, but they don't have to."
         },
         {
           "rank": 10,
-          "title": "3 Key Patterns in Toxic Friendships",
-          "title_cn": "有毒友谊的三种核心模式",
-          "url": "https://www.psychologytoday.com/us/blog/head-games/202606/3-key-patterns-in-toxic-friendships",
+          "title": "A Dream Deferred",
+          "title_cn": "",
+          "url": "https://www.psychologytoday.com/us/blog/the-other-side-of-the-white-coat/202606/a-dream-deferred",
           "source": "Psychology Today",
-          "time": "Sat, 27 Jun 2026 15:47:52 -0400",
-          "analysis_cn": "最新研究揭示了有毒友谊中三种主要的情感体验模式。识别这些模式有助于人们更早察觉并摆脱对自身有害的友谊关系。",
-          "analysis_en": "What is it like to have a toxic friend? Recent research reveals three main emotional experiences."
+          "time": "Sun, 28 Jun 2026 10:26:32 -0400",
+          "analysis_cn": "",
+          "analysis_en": "Personal Perspective: You've been putting it off for years. Here's what finally happens when you stop waiting and choose your life on purpose."
         }
       ],
       "social": [
         {
           "rank": 1,
-          "title": "Choosing a Public DNS Resolver",
-          "title_cn": "如何选择公共DNS解析器",
-          "url": "https://evilbit.de/dns-resolver-guide.html",
+          "title": "Flock cameras track more than your license plate, and they're spreading fast",
+          "title_cn": "",
+          "url": "https://www.engadget.com/2203000/flock-cameras-recording-license-plate/",
           "source": "Hacker News",
-          "time": "Sat, 27 Jun 2026 22:11:28 +0000",
-          "analysis_cn": "本文探讨了选择公共DNS解析器时需要考虑的关键因素，包括隐私保护、速度和安全性等方面。合理选择DNS解析器对于提升网络安全性和访问速度具有重要意义。",
-          "analysis_en": "Article URL: https://evilbit.de/dns-resolver-guide.html Comments URL: https://news.ycombinator.com/item?id=48702273 Points: 9 # Comments: 0"
+          "time": "Sun, 28 Jun 2026 14:35:26 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://www.engadget.com/2203000/flock-cameras-recording-license-plate/ Comments URL: https://news.ycombinator.com/item?id=48707673 Points: 7 # Comments: 0"
         },
         {
           "rank": 2,
-          "title": "Show HN: Starglyphs - A constellation puzzle game based on Euler paths",
-          "title_cn": "星形符文：基于欧拉路径的星座解谜游戏",
-          "url": "https://starglyphs.com",
+          "title": "Ask HN: Is there a bad employers (who have a records of not paying) list?",
+          "title_cn": "",
+          "url": "https://news.ycombinator.com/item?id=48707536",
           "source": "Hacker News",
-          "time": "Sat, 27 Jun 2026 21:50:32 +0000",
-          "analysis_cn": "开发者受《龙腾世纪：审判》中星象仪小游戏的启发，创作了这款基于欧拉路径原理的星座解谜游戏。玩家需要通过追踪星座路径来解开谜题，融合了数学趣味与星空美学。",
-          "analysis_en": "I am a big Dragon Age fan and sunk hundreds of hours into Inquisition. It had this minigame called astrariums where you had to solve these shapes based on constellation guides by tracing stars. I'm a hobby game dev and wondered if I could procedurally generate these puzzles so th…"
+          "time": "Sun, 28 Jun 2026 14:21:48 +0000",
+          "analysis_cn": "",
+          "analysis_en": "I worked with a few employers on contracts, and there were situations where they haven't paid fees for a while. Is there a list or site that lists all the employers and if they have a record of them not fulfilling their contracts? Comments URL: https://news.ycombinator.com/item?i…"
         },
         {
           "rank": 3,
-          "title": "Michigan spent $1.8B and only created 602 jobs",
-          "title_cn": "密歇根州花费18亿美元仅创造602个就业岗位",
-          "url": "https://www.msn.com/en-us/money/general/michigan-spent-1-8-billion-and-only-created-602-jobs/ar-AA26Cusu",
+          "title": "EU Open Sources Ten-Year Network Development Planning Tools",
+          "title_cn": "",
+          "url": "https://github.com/open-energy-transition/open-tyndp",
           "source": "Hacker News",
-          "time": "Sat, 27 Jun 2026 21:44:57 +0000",
-          "analysis_cn": "密歇根州斥资18亿美元的经济发展计划最终仅创造了602个工作岗位，引发外界对政府经济补贴效率的强烈质疑。这一案例再次引发关于政府产业政策投入产出比的广泛讨论。",
-          "analysis_en": "Article URL: https://www.msn.com/en-us/money/general/michigan-spent-1-8-billion-and-only-created-602-jobs/ar-AA26Cusu Comments URL: https://news.ycombinator.com/item?id=48702060 Points: 63 # Comments: 26"
+          "time": "Sun, 28 Jun 2026 14:05:47 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://github.com/open-energy-transition/open-tyndp Comments URL: https://news.ycombinator.com/item?id=48707361 Points: 23 # Comments: 3"
         },
         {
           "rank": 4,
-          "title": "Enhancing X11 Application Security with LXC",
-          "title_cn": "使用LXC增强X11应用程序安全性",
-          "url": "https://dobrowolski.dev/article/enhancing-x11-application-security-with-lxc/",
+          "title": "Austria Lobbies EU to Host Anthropic After US Access Curbs",
+          "title_cn": "",
+          "url": "https://www.bloomberg.com/news/articles/2026-06-28/austria-lobbies-eu-to-host-anthropic-after-us-access-curbs",
           "source": "Hacker News",
-          "time": "Sat, 27 Jun 2026 21:27:36 +0000",
-          "analysis_cn": "本文介绍了如何利用Linux容器技术LXC来增强X11图形应用程序的安全隔离性。通过容器化方式运行X11应用，可以有效限制潜在恶意程序对系统资源的访问权限。",
-          "analysis_en": "Article URL: https://dobrowolski.dev/article/enhancing-x11-application-security-with-lxc/ Comments URL: https://news.ycombinator.com/item?id=48701936 Points: 18 # Comments: 3"
+          "time": "Sun, 28 Jun 2026 13:34:14 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://www.bloomberg.com/news/articles/2026-06-28/austria-lobbies-eu-to-host-anthropic-after-us-access-curbs Comments URL: https://news.ycombinator.com/item?id=48707146 Points: 30 # Comments: 18"
         },
         {
           "rank": 5,
-          "title": "Instagram is testing more ways to customize ‘Your Algorithm’",
-          "title_cn": "Instagram测试更多个性化算法定制功能",
-          "url": "https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/",
+          "title": "Govee’s smart nugget ice maker makes every iced drink feel like a luxury",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/28/govees-smart-nugget-ice-maker-makes-every-iced-drink-feel-like-a-luxury/",
           "source": "TechCrunch",
-          "time": "Sat, 27 Jun 2026 21:27:37 +0000",
-          "analysis_cn": "Instagram正在测试更多让用户调整内容推荐算法的功能，以提升用户体验。此举旨在给予用户对信息流内容更大的控制权，同时提高平台内容相关性。",
-          "analysis_en": "Instagram users could soon see more ways to tune their content."
+          "time": "Sun, 28 Jun 2026 14:00:00 +0000",
+          "analysis_cn": "",
+          "analysis_en": "For some people, the ice in a beverage is almost as important as the drink itself. That’s the audience Govee had in mind when designing its latest ice maker, the GoveeLife Smart Nugget Ice Maker Pro. This $500 premium smart home gadget is aimed at those who crave what’s called “t…"
         },
         {
           "rank": 6,
-          "title": "SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype",
-          "title_cn": "软银CEO并非唯一质疑马斯克轨道数据中心愿景者",
-          "url": "https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/",
+          "title": "Indian payments chief thinks AI will be heavily involved in next era of digital payment growth",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/27/indian-payments-chief-thinks-ai-will-be-heavily-involved-in-next-era-of-digital-payment-growth/",
           "source": "TechCrunch",
-          "time": "Sat, 27 Jun 2026 20:42:36 +0000",
-          "analysis_cn": "马斯克提出的轨道数据中心概念遭到包括软银CEO在内的多方质疑。业内人士对这一概念的技术可行性和商业价值持怀疑态度，认为其更多是概念炒作。",
-          "analysis_en": "Not everyone is buying Elon Musk’s vision for orbital data centers."
+          "time": "Sun, 28 Jun 2026 05:00:00 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Dilip Asbe said that newer UPI apps could be more competitive with a viable commercial model"
         },
         {
           "rank": 7,
-          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
-          "title_cn": "苹果Vision Pro高管据报将跳槽OpenAI",
-          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+          "title": "Instagram is testing more ways to customize ‘Your Algorithm’",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/27/instagram-is-testing-more-ways-for-users-to-customize-your-algorithm/",
           "source": "TechCrunch",
-          "time": "Sat, 27 Jun 2026 16:45:09 +0000",
-          "analysis_cn": "据报道，负责Vision Pro头显的苹果副总裁保罗·米德即将离职并加入OpenAI硬件团队。这一人事变动可能对苹果空间计算产品线的发展产生影响，同时加速OpenAI布局硬件领域。",
-          "analysis_en": "Paul Meade, the Apple vice president in charge of the Vision Pro headset, is reportedly leaving the company to join OpenAI’s hardware team."
+          "time": "Sat, 27 Jun 2026 21:27:37 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Instagram users could soon see more ways to tune their content."
         },
         {
           "rank": 8,
-          "title": "The fittest founder in the room got cancer. Here’s how he used AI to fight back.",
-          "title_cn": "健身创始人患癌后用AI辅助抗癌的故事",
-          "url": "https://techcrunch.com/2026/06/27/the-fittest-founder-in-the-room-got-cancer-heres-how-he-used-ai-to-fight-back/",
+          "title": "SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/",
           "source": "TechCrunch",
-          "time": "Sat, 27 Jun 2026 14:00:00 +0000",
-          "analysis_cn": "创始人康纳·克里斯托面对癌症诊断后，将血液检测结果、扫描数据、可穿戴设备输出和日记条目全部输入Claude进行分析。这一案例展示了AI在个人化医疗决策中的潜在应用价值。",
-          "analysis_en": "When confronted with cancer, Connor Christou fed everything tied tied to his regime — blood results, scan data, wearable output, journal entries — into Claude."
+          "time": "Sat, 27 Jun 2026 20:42:36 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Not everyone is buying Elon Musk’s vision for orbital data centers."
         },
         {
           "rank": 9,
-          "title": "Teenage Engineering adds lo-fi mode, USB audio, and more to its KO II sampler",
-          "title_cn": "Teenage Engineering为KO II采样器带来重大更新",
-          "url": "https://www.theverge.com/entertainment/958723/teenage-engineering-os-25-ep-133-ko-ii-sampler",
+          "title": "Nest’s quest to fix your thermostat",
+          "title_cn": "",
+          "url": "https://www.theverge.com/podcast/958735/nest-thermostat-version-history",
           "source": "The Verge",
-          "time": "2026-06-27T17:20:32-04:00",
-          "analysis_cn": "Teenage Engineering为其329美元的EP-133 KO II采样器发布了OS 2.5系统更新，新增USB音频传输、低保真模式等重要功能。这是该设备迄今为止最重要的更新之一，进一步提升了其音乐创作能力。",
-          "analysis_en": "Teenage Engineering has already issued multiple substantial updates for its surprisingly capable $329 EP-133 KO II sampler. Its latest is one of the biggest yet. OS 2.5 adds audio over USB, selectable sample rates for lo-fi fun, sample reverse, an arpeggiator, equal-length autoch…"
+          "time": "2026-06-28T08:02:44-04:00",
+          "analysis_cn": "",
+          "analysis_en": "The founding story of Nest is pretty much a perfect tech myth. A legendary product maker (in this case, Tony Fadell) helps create one of the most successful products ever (the iPhone) and then rides off into the sunset to enjoy the rest of his life, only to have an experience tha…"
         },
         {
           "rank": 10,
-          "title": "Margaret Atwood says the problem with AI is ‘garbage in, garbage out’",
-          "title_cn": "玛格丽特·阿特伍德批评AI存在垃圾进垃圾出问题",
-          "url": "https://www.theverge.com/ai-artificial-intelligence/958715/margaret-atwood-ai-problem-garbage-in-garbage-out",
+          "title": "Ad-free streaming is a luxury now",
+          "title_cn": "",
+          "url": "https://www.theverge.com/column/958379/streaming-industry-ads",
           "source": "The Verge",
-          "time": "2026-06-27T14:39:32-04:00",
-          "analysis_cn": "《使女的故事》作者玛格丽特·阿特伍德在葡萄牙波尔图文学节上接受采访时，批评人工智能存在\"垃圾进垃圾出\"的根本性问题。她认为AI输出质量高度依赖输入数据的质量，对其文化和创意价值持审慎态度。",
-          "analysis_en": "Maraget Atwood, the storied author of The Handmaid's Tale and The Blind Assassin, was interviewed as part of the Babell Literary and Cultural Festival in Porto, Portugal. As it usually does at these things, the issue of AI came up, and Atwood didn't mince words. According to Dead…"
+          "time": "2026-06-28T08:00:00-04:00",
+          "analysis_cn": "",
+          "analysis_en": "This is The Stepback, a weekly newsletter breaking down one essential story from the tech world. For more news about the streaming industry, follow Emma Roth. The Stepback arrives in our subscribers' inboxes at 8AM ET. Opt in for The Stepback here. How it started Streaming was on…"
         }
       ],
       "ai": [
@@ -31391,17 +31391,17 @@
           "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
           "source": "techcrunch.com",
           "time": "2026-06-26",
-          "analysis_cn": "OpenAI、SpaceX等科技巨头纷纷自研芯片，试图摆脱对英伟达的依赖，这一趋势对英伟达的长期护城河构成潜在威胁。然而短期内英伟达的CUDA生态系统仍难以替代，客户迁移成本极高。投资者应关注这一趋势是否会在未来三到五年内实质性侵蚀英伟达的市场份额。自研芯片浪潮也为芯片设计工具和代工厂（如台积电）带来额外需求，可视为间接投资机会。",
+          "analysis_cn": "越来越多科技公司如OpenAI和SpaceX开始自研芯片，试图降低对英伟达的依赖并削减成本。这一趋势对英伟达的长期市场份额构成潜在威胁，但短期内难以撼动其生态系统护城河。投资者应关注英伟达竞争格局的演变，同时留意自研芯片公司的商业化进展。对英伟达的多头仓位需评估长期风险，但短期基本面仍强劲。",
           "analysis_en": ""
         },
         {
           "rank": 2,
           "title": "Why Cerebras' Mind-Boggling LLM Raw Speed Is Still Falling Into Nvidia's Massive Software Trap",
-          "title_cn": "Cerebras速度优势困于英伟达生态",
+          "title_cn": "Cerebras速度优势陷英伟达软件陷阱",
           "url": "https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/",
           "source": "247wallst.com",
           "time": "2026-06-26",
-          "analysis_cn": "Cerebras虽在原始推理速度上表现惊艳，但其发展仍深陷英伟达CUDA软件生态的陷阱，开发者迁移意愿不足。软件生态系统的黏性往往比硬件性能更能决定市场胜负，这是英伟达最深的护城河之一。对投资者而言，Cerebras短期内难以对英伟达构成实质威胁，其商业化前景存在较大不确定性。在Cerebras寻求IPO的背景下，投资者需谨慎评估其能否突破生态锁定这一核心挑战。",
+          "analysis_cn": "Cerebras虽然在原始推理速度上表现亮眼，但其生态系统与软件支持远落后于英伟达的CUDA平台。开发者和企业在迁移成本与兼容性方面的顾虑，使Cerebras难以真正威胁英伟达的市场地位。这一现象表明，AI芯片竞争的核心不仅是硬件性能，更是软件生态的深度绑定。投资者应认识到英伟达软件护城河的战略价值，这是其估值溢价的重要支撑。",
           "analysis_en": ""
         },
         {
@@ -31411,57 +31411,57 @@
           "url": "https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/",
           "source": "fool.com",
           "time": "2026-06-25",
-          "analysis_cn": "市场近期波动为投资者提供了以更低估值买入优质AI股票的窗口，长期AI需求基本面并未改变。该文章所指股票很可能是英伟达或其他核心AI基础设施受益者，其回调往往是布局良机。投资者应区分短期情绪驱动的下跌与基本面恶化，前者通常是买入信号。建议结合公司盈利增长轨迹和估值水平综合判断，分批建仓以降低时机选择风险。",
+          "analysis_cn": "该文章指出某只优质AI股票因市场波动出现回调，为长期投资者提供了较好的买入窗口。强劲的基本面与AI行业长期增长逻辑未变，短期回调更多源于市场情绪而非基本面恶化。投资者可分批建仓，控制仓位风险，同时关注公司下季度业绩指引。逢低布局具有长期竞争优势的AI龙头股，历史上往往能带来较好回报。",
           "analysis_en": ""
         },
         {
           "rank": 4,
           "title": "Here's How Artificial Intelligence Powers ASML's Growth Story",
-          "title_cn": "AI赋能ASML持续成长故事",
+          "title_cn": "AI技术驱动ASML持续增长",
           "url": "https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963",
           "source": "zacks.com",
           "time": "2026-06-26",
-          "analysis_cn": "ASML的极紫外光刻机是AI芯片制造不可或缺的关键设备，AI算力需求的爆发直接拉动其订单增长。作为全球光刻机的垄断供应商，ASML在AI产业链中拥有无可替代的战略地位，定价权极强。AI驱动的先进制程需求持续升级，为ASML提供了长达数年的可见增长动力。尽管地缘政治风险（对华出口限制）是一大隐患，但ASML仍是布局AI半导体基础设施的优质长线标的。",
+          "analysis_cn": "ASML将人工智能深度融入其光刻设备的研发与制造流程，显著提升了生产效率和产品良率。随着全球芯片需求持续扩张，ASML作为半导体设备唯一供应商的垄断地位愈发凸显其投资价值。AI技术的应用不仅降低了运营成本，也加速了下一代EUV设备的开发周期。ASML是半导体产业链中少数兼具护城河与成长性的优质标的，值得长期配置。",
           "analysis_en": ""
         },
         {
           "rank": 5,
           "title": "Outlook For AI Chip Sector: The Party Goes On, Bigger Than Ever",
-          "title_cn": "AI芯片行业景气持续向上",
+          "title_cn": "AI芯片行业景气度持续高涨",
           "url": "https://seekingalpha.com/article/4918179-outlook-for-ai-chip-sector-the-party-goes-on-bigger-than-ever",
           "source": "seekingalpha.com",
           "time": "2026-06-26",
-          "analysis_cn": "当前AI芯片行业需求强劲，各大云厂商资本开支持续创新高，行业景气周期有望延续且规模不断扩大。英伟达、AMD及相关供应链企业均从这一超级周期中受益，营收和利润增速远超传统半导体行业。投资者应重视AI芯片需求的结构性而非周期性本质，长期逻辑依然稳固。板块内部分化也在加剧，建议优选具有技术壁垒和生态优势的龙头企业，而非广泛押注整个板块。",
+          "analysis_cn": "分析人士认为AI芯片行业的需求热潮远未见顶，资本支出仍在加速扩张阶段。云计算巨头和各行业客户持续加码AI基础设施投入，为芯片供应商提供了强劲的订单支撑。行业估值虽已不低，但业绩增长速度有望消化当前溢价。投资者可继续持有核心AI芯片龙头，同时关注产业链中估值相对合理的二线标的机会。",
           "analysis_en": ""
         },
         {
           "rank": 6,
           "title": "Nvidia stock continues decline on Friday: what's hurting the AI darling?",
-          "title_cn": "英伟达股价持续承压下行",
+          "title_cn": "英伟达股价持续下跌原因解析",
           "url": "https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/",
           "source": "invezz.com",
           "time": "2026-06-26",
-          "analysis_cn": "英伟达近期股价持续下跌，市场情绪受多重因素拖累，包括估值偏高、竞争加剧及宏观环境不确定性。作为AI概念的核心标的，英伟达股价对市场情绪极为敏感，短期波动剧烈属正常现象。基本面来看，其数据中心业务订单依然强劲，H100及Blackwell系列需求旺盛，支撑长期逻辑不变。投资者可将此次回调视为观察支撑位的机会，但需警惕若市场整体风险偏好持续下降可能带来的进一步调整。",
+          "analysis_cn": "英伟达股价近期持续下行，受到获利回吐、市场资金轮动以及宏观利率预期变化等多重因素压制。尽管公司基本面依然出色，但高估值使其对负面情绪更为敏感。部分机构投资者选择在高位减持锁定收益，加剧了短期抛压。短线投资者需谨慎控制仓位，而长线投资者可将此视为逢低加仓的参考时机。",
           "analysis_en": ""
         },
         {
           "rank": 7,
           "title": "The Hidden Metric Behind NVIDIA's Ambition",
-          "title_cn": "英伟达野心背后的隐藏指标",
+          "title_cn": "英伟达隐藏增长指标的战略意义",
           "url": "https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/",
           "source": "forbes.com",
           "time": "2026-06-26",
-          "analysis_cn": "英伟达的真正壁垒不仅在于GPU硬件，更在于其软件生态、数据中心互联及AI平台的综合能力，这些隐性指标才是其估值的核心支撑。CUDA开发者数量、NVLink采用率及企业软件渗透率等指标值得投资者深度追踪，它们反映了英伟达护城河的宽度。这些隐藏指标显示英伟达正从芯片公司向AI基础设施平台公司转型，估值逻辑也应相应调整。对长期投资者而言，理解这些深层指标有助于穿越短期股价波动，坚定持有信心。",
+          "analysis_cn": "除营收和利润外，英伟达在数据中心渗透率、软件订阅收入及CUDA生态规模等指标上的持续扩张，是其长期竞争力的核心体现。这些隐性指标往往被市场忽视，却是判断公司护城河深度的关键依据。随着AI推理需求爆发，英伟达的软件与服务收入占比有望逐步提升，改善盈利质量。投资者应超越传统硬件销售视角，深入评估英伟达的平台化战略价值。",
           "analysis_en": ""
         },
         {
           "rank": 8,
           "title": "Nvidia Stock Keeps Sliding as 'Hot Money' Heads Elsewhere",
-          "title_cn": "热钱撤离英伟达股价持续滑落",
+          "title_cn": "热钱撤离英伟达股价承压",
           "url": "https://www.barrons.com/articles/nvidia-stock-price-ai-chips-0001b058",
           "source": "barrons.com",
           "time": "2026-06-26",
-          "analysis_cn": "英伟达股价持续走低，部分原因是短期投机资金转向其他热点板块，市场注意力出现分散。热钱的流动往往导致高估值成长股出现非基本面驱动的短期波动，投资者需保持冷静。从机构持仓和内部人交易数据来看，长线资金并未出现大规模撤离，这为股价提供了一定底部支撑。对于有意中长期持有的投资者，此类由资金面而非基本面驱动的回调历史上往往提供了较好的买入时机。",
+          "analysis_cn": "市场资金近期出现明显轮动，部分投机性热钱从英伟达流向其他板块，导致股价持续回调。这种资金行为通常与市场短期情绪和板块估值修复预期有关，并不代表英伟达基本面出现问题。长期机构投资者态度仍然稳健，筹码结构的短期变化为理性投资者提供了观察窗口。建议投资者区分短期资金流动与长期价值逻辑，避免跟随热钱盲目操作。",
           "analysis_en": ""
         },
         {
@@ -31471,17 +31471,17 @@
           "url": "https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/",
           "source": "247wallst.com",
           "time": "2026-06-26",
-          "analysis_cn": "安森美半导体业绩或指引不及预期导致股价暴跌逾20%，引发市场对整个半导体板块的连带担忧，AMD和英特尔等个股也受到波及。这一事件提醒投资者，半导体行业个股基本面差异显著，板块内部分化不可忽视。安森美主要面向工业和汽车市场，其疲软并不直接反映AI数据中心芯片的需求状况，投资者不应过度外推。短期内恐慌性抛售可能为基本面更优的AMD和英特尔创造错杀买入机会，但需待市场情绪稳定后审慎介入。",
+          "analysis_cn": "安森美半导体因业绩或指引不及预期大跌逾20%，引发市场对整个半导体板块的连锁担忧。AMD和英特尔等相关个股受到情绪波及，出现不同程度的联动下跌。投资者需辨别安森美下跌是否反映行业系统性问题，还是仅限于其自身的需求疲软。若为个股问题，AMD和英特尔的被动回调反而可能创造短线介入机会，需结合各自基本面独立判断。",
           "analysis_en": ""
         },
         {
           "rank": 10,
           "title": "AMD: The Market Is Pricing The GPU Story - I'm Buying The CPU Story",
-          "title_cn": "AMD的CPU故事被市场低估",
+          "title_cn": "AMD CPU价值被市场低估",
           "url": "https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story",
           "source": "seekingalpha.com",
           "time": "2026-06-26",
-          "analysis_cn": "市场目前对AMD的定价主要反映其GPU在AI领域的竞争前景，而其在数据中心和PC领域持续强劲的CPU业务却遭到低估。AMD的EPYC服务器CPU市场份额持续蚕食英特尔，这一稳健增长的业务线提供了可观的盈利确定性。若投资者仅从GPU视角审视AMD，可能忽视了其CPU业务带来的估值安全边际。作者认为当前市场定价为买入提供了不对称机会，CPU业务的稳健增长叠加GPU潜在上行空间，风险收益比具有吸引力。",
+          "analysis_cn": "市场当前对AMD的定价主要围绕GPU竞争故事展开，而忽视了其CPU业务在数据中心和企业市场的强劲增长潜力。AMD服务器CPU凭借EPYC系列持续蚕食英特尔市场份额，这一趋势具有较强的持续性和可预测性。即便GPU业务短期面临英伟达的竞争压力，CPU业务也能为公司提供稳健的业绩底部支撑。投资者若以GPU视角买入AMD可能面临预期落差，但以CPU价值重估逻辑布局则具备更高的安全边际。",
           "analysis_en": ""
         }
       ]
