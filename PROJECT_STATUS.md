@@ -16,11 +16,11 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-28 23:00 CST
-**data.json 今日更新**：2026-06-28 08:08 CST
+**自动刷新时间**：2026-06-29 08:19 CST
+**data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
-- 每日简报 (main.py)：✅ 今日已产出
+- 每日简报 (main.py)：⚪ 今日无产出
 - 市场结构监控 (market_monitor.py)：⚪ 今日无产出
 - 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
