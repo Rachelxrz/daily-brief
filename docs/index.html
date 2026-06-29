@@ -1297,10 +1297,22 @@ function renderWheel(day) {
 // ── Signal Advisor ────────────────────────────────────────────────────────
 function renderSignalAdvisor(day) {
   const el = document.getElementById('signals-content');
-  const sa = day.signal_advisor;
+  let sa = day.signal_advisor;
+  // If current date has no signal, auto-jump to the most recent date that does
   if (!sa) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>当日无技术信号数据</div>';
-    return;
+    const dates = Object.keys(allData).sort().reverse();
+    const fallback = dates.find(d => allData[d].signal_advisor);
+    if (fallback) {
+      currentDate = fallback;
+      document.querySelectorAll('.date-pill').forEach(p => {
+        p.classList.toggle('active', p.textContent === fallback);
+      });
+      sa = allData[fallback].signal_advisor;
+    }
+    if (!sa) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>暂无技术信号数据</div>';
+      return;
+    }
   }
 
   const sess    = sa.session === 'pre_market' ? '盘前' : '盘后';
