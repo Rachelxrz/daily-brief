@@ -16,18 +16,17 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-29 23:36 CST
-**data.json 今日更新**：2026-06-29 08:18 CST
+**自动刷新时间**：2026-06-30 00:34 CST
+**data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
-- 每日简报 (main.py)：✅ 今日已产出
+- 每日简报 (main.py)：⚪ 今日无产出
 - 市场结构监控 (market_monitor.py)：⚪ 今日无产出
 - 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `d832b4f` 2026-06-28 — fix: translate_for_wechat 动态生成所有类别，防止英文漏推微信
-- `e04c2bb` 2026-06-28 — fix: 修正 market_monitor 注释——英文版不推送微信，只保存网页
+- `e0432d3` 2026-06-29 — signal_advisor_pre 2026-06-29
 
 <!-- AUTO:END -->
 
