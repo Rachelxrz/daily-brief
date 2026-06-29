@@ -399,16 +399,18 @@ def translate_for_wechat(news_data: dict) -> dict:
                 news_lines.append(f"   摘要原文: {item['summary'][:150]}")
     news_text = "\n".join(news_lines)
 
+    categories_present = list(news_data.keys())
+    cat_example = "\n".join(
+        f'  "{c}": [{{"title": "中文标题", "summary": "中文摘要，2-3句话"}}, ...],'
+        for c in categories_present
+    ).rstrip(",")
+
     prompt = f"""将以下新闻的标题和摘要翻译成简洁专业的中文。
 
+必须为所有类别（{', '.join(categories_present)}）都输出翻译结果。
 输出格式为 JSON（仅输出 JSON，不要 markdown 代码块，不要其他文字）：
 {{
-  "finance": [
-    {{"title": "中文标题", "summary": "中文摘要，2-3句话"}},
-    ...
-  ],
-  "social": [...],
-  "wellness": [...]
+{cat_example}
 }}
 
 新闻列表：
