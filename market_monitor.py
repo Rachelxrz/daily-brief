@@ -6,7 +6,7 @@ Market Structure Monitor - Bilingual (CN + EN)
 流程：
   1. 调用 Claude API + Web Search 搜索当天数据，生成中文报告
   2. 基于中文报告数据，生成英文版（不再重复搜索）
-  3. 先推送中文，再推送英文（各自独立消息）
+  3. 只推送中文版到微信；英文版仅保存到网页，不发送微信
 """
 
 import os
