@@ -37,7 +37,7 @@ jobs:
   daily-news-brief:
     name: Daily News Brief
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     if: >-
       (github.event_name == 'schedule' && (github.event.schedule == '0 13 * * *' || github.event.schedule == '0 23 * * *')) ||
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'both' || github.event.inputs.job_type == 'news_only'))

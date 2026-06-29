@@ -90,7 +90,7 @@ def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
         try:
             resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=90)
             log.info(f"   ← HTTP {resp.status_code}")
-            if resp.status_code != 200:
+            if resp.status_code not in (200, 201):
                 log.warning(f"   ⚠️ 非200响应: {resp.text[:300]}")
             resp.raise_for_status()
             data = resp.json()
@@ -99,10 +99,15 @@ def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
                 log.info(f"   ✅ Claude 返回 {len(text)} 字符")
                 return text.strip()
             log.warning("   ⚠️ Claude 返回空内容")
+        except requests.exceptions.HTTPError as e:
+            status = e.response.status_code if e.response is not None else 0
+            log.warning(f"   ⚠️ Claude 调用第{attempt}次 HTTP {status} 错误: {e}")
         except Exception as e:
             log.warning(f"   ⚠️ Claude 调用第{attempt}次失败: {e}")
         if attempt < 3:
-            time.sleep(10)
+            wait = 60 if attempt == 1 else 90  # 速率限制需要足够等待时间
+            log.info(f"   等待 {wait}s 后重试...")
+            time.sleep(wait)
     return ""
 
 
@@ -204,6 +209,10 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         lambda_block_cn = "\n".join(cn_lines)
         lambda_block_en = "\n".join(en_lines)
 
+        # Lambda 调用完毕，等待速率窗口恢复，再翻译普通新闻
+        log.info("⏳ 等待 45s（速率限制缓冲）...")
+        time.sleep(45)
+
     # ── 构建扁平新闻列表（按类别顺序）─────────────────────
     cat_order = [c for c in _ALL_CAT_ORDER if news_data.get(c)]
     flat_items = []   # [(cat, item), ...]
@@ -240,6 +249,10 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             cn_sections.append({"title": title, "summary": summary})
         log.info(f"   ✅ 翻译+综述成功: {len(cn_sections)}/{len(flat_items)} 条")
     cn_titles = [s["title"] for s in cn_sections]  # backward compat fallback
+
+    # 翻译完毕，等待速率窗口恢复
+    log.info("⏳ 等待 30s（速率限制缓冲）...")
+    time.sleep(30)
 
     # ── 调用 2：全局洞察（节标记格式，完全避开 JSON）──────
     insights_prompt = (
