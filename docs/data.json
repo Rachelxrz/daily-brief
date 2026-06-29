@@ -31486,5 +31486,504 @@
         }
       ]
     }
+  },
+  "2026-06-29": {
+    "updated": "2026-06-29 08:18 CST",
+    "news": {
+      "cn": "# 📰 每日智识简报（中文）\n### 2026年06月29日\n\n\n## 🤖 AI前沿（Lambda Finance）\n\n**[科技巨头自研芯片冲击英伟达](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n\n越来越多科技公司包括OpenAI和SpaceX开始自研芯片，试图摆脱对英伟达的依赖。这一趋势对英伟达的长期市场份额构成潜在威胁，可能压缩其在数据中心AI芯片领域的定价权。然而短期内英伟达的生态护城河依然深厚，客户迁移成本极高。投资者应关注英伟达营收增速是否出现拐点，同时留意自研芯片公司的进展作为对冲机会。\n\n*techcrunch.com · 2026-06-26*\n\n**[Cerebras速度优势难破英伟达生态](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n\nCerebras虽在LLM推理速度上表现惊人，但仍深陷英伟达CUDA软件生态的巨大陷阱之中。英伟达多年积累的软件栈和开发者社区构成了极高的切换壁垒，单纯的硬件性能优势难以撼动其市场地位。这说明芯片竞争的核心已从算力转向软件生态，英伟达的真正护城河在于CUDA而非GPU本身。投资者应将软件生态粘性视为评估英伟达长期竞争力的核心指标。\n\n*247wallst.com · 2026-06-26*\n\n**[AI龙头股迎来绝佳买入机会](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n\n市场近期调整为投资者提供了以更低估值买入顶级AI股票的机会。该公司基本面依然强劲，AI需求驱动的营收增长逻辑并未改变，短期下跌更多源于市场情绪而非基本面恶化。对于长期投资者而言，此类回调历史上往往是建仓或加仓的良机。建议投资者分批布局，避免一次性满仓以应对市场的进一步波动风险。\n\n*fool.com · 2026-06-25*\n\n**[AI技术赋能ASML持续增长](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n\nASML将人工智能深度整合进其极紫外光刻机的研发与制造流程，显著提升了设备精度与良品率。作为全球半导体制造设备的绝对垄断者，ASML受益于AI芯片需求爆发所带来的先进制程投资浪潮。AI不仅是ASML的客户需求来源，更成为其提升自身竞争壁垒的核心工具。对于寻求AI产业链上游确定性敞口的投资者，ASML是值得长期持有的稀缺标的。\n\n*zacks.com · 2026-06-26*\n\n**[华尔街预测SpaceX估值超越英伟达](https://www.fool.com/investing/2026/06/28/wall-street-sees-spacex-passing-nvidia-valuation/)**\n\n华尔街分析师预测SpaceX凭借星链卫星互联网和火箭发射业务的长期商业化潜力，估值有望在未来超越英伟达。SpaceX目前仍为私有公司，普通投资者难以直接参与，但可通过持有相关上市公司间接获益。这一预测折射出市场对太空经济长期价值的高度认可，也暗示AI基础设施之外的下一个万亿赛道正在成形。投资者可关注与SpaceX有深度合作的上市供应链企业作为替代布局路径。\n\n*fool.com · 2026-06-28*\n\n**[英伟达股价持续下跌原因解析](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n\n英伟达股价周五延续跌势，市场担忧情绪主要来自科技股整体估值压力、潜在出口管制收紧以及宏观利率环境的不确定性。尽管公司基本面依然出色，但高估值使其对负面消息极为敏感，任何利空因素都可能引发较大幅度回调。短期内股价波动加剧，但长期AI资本支出周期并未逆转，基本面支撑依然存在。建议投资者区分短期情绪波动与长期逻辑变化，理性评估当前点位的风险收益比。\n\n*invezz.com · 2026-06-26*\n\n**[英伟达野心背后的隐藏核心指标](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n\n英伟达的真正雄心不仅体现在GPU出货量上，更隐藏在数据中心整体解决方案渗透率这一关键指标之中。通过将芯片、网络、软件和服务打包销售，英伟达正逐步从硬件供应商转型为AI基础设施平台商。这种转型将大幅提升客户粘性并拓宽营收来源，使公司估值逻辑从周期性硬件向平台型软件靠拢。投资者应重点追踪英伟达非GPU业务的营收占比增长，这或是判断其长期价值重估的前瞻信号。\n\n*forbes.com · 2026-06-26*\n\n**[安森美暴跌拖累半导体板块](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n\n安森美半导体股价单日暴跌逾20%，业绩指引不及预期引发市场对整个半导体行业需求前景的担忧。AMD和英特尔等同类公司也受到情绪传染出现不同程度下跌，板块整体承压。安森美的核心问题在于电动车和工业领域需求的持续疲软，这与AI算力芯片的强劲需求形成鲜明分化。投资者应注意区分半导体子行业差异，避免因个股暴跌而错误抛售基本面依然强健的AI芯片相关标的。\n\n*247wallst.com · 2026-06-26*\n\n**[AMD估值应聚焦CPU而非GPU](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n\n市场目前将AMD的投资逻辑主要押注于其GPU产品与英伟达的竞争，但分析人士认为AMD真正被低估的价值在于其服务器CPU业务的持续市场份额提升。EPYC处理器在数据中心市场的渗透率持续提升，为公司提供了稳定且可预期的营收增长来源。相比充满不确定性的GPU竞争，CPU业务的确定性更高且估值更为合理。投资者若看好AMD，应将数据中心CPU出货量增长作为核心跟踪指标而非仅关注GPU进展。\n\n*seekingalpha.com · 2026-06-26*\n\n**[英伟达垄断优势根本不在算力](https://247wallst.com/investing/2026/06/25/the-real-reason-nvidia-holds-an-unshakable-monopoly-over-amd-has-nothing-to-do-with-raw-computing-power/)**\n\n英伟达对AMD的压倒性优势并非源于GPU的原始算力，而是其历经十余年构建的CUDA软件生态系统所形成的深度锁定效应。全球数百万AI开发者、研究机构和企业已深度依赖CUDA工具链，切换至AMD平台所需的迁移成本极高且风险巨大。这意味着即便AMD在硬件性能上实现追赶，也极难在短期内撼动英伟达的市场主导地位。对投资者而言，英伟达的核心护城河是软件生态而非硅晶圆，这也是其高估值溢价的最坚实支撑。\n\n*247wallst.com · 2026-06-25*\n\n\n## 📈 金融财经\n\n**[Why investors may want to prioritize bond markets outside the U.S.](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n**[SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n**[CFTC is conducting an investigation into Polymarket, source says](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n**[Minneapolis Fed President Neel Kashkari says he expects a rate hike this year](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n**[Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n**[UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n**[Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n**[Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n**[Forget the AI Chipmakers. For 0.47% This Fund Owns the Companies Building the Data Centers](https://finance.yahoo.com/markets/stocks/articles/forget-ai-chipmakers-0-47-132345030.html)**\n**[Court appoints receiver for Golub, BlueFive’s Mag Mile office](https://finance.yahoo.com/real-estate/articles/court-appoints-receiver-golub-bluefive-130000780.html)**\n\n## 🏥 健康医疗\n\n**[Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n**[Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n**[Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n**[Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n**[Scientists discover what triggers belly fat as we age](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n**[Osteopenia is silently weakening bones in millions of people](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\n## 🧠 心理·哲学\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n**[The universe may be hiding conscious minds stranger than we can imagine](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n**[This common vitamin deficiency can mimic normal aging](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n**[People who experience a frequent inner void may actually possess higher levels of empathy](https://www.psypost.org/why-we-feel-empty-a-smartphone-study-explores-the-roots-of-an-enigmatic-emotion/)**\n**[Magnetic muscle implants help amputees feel coordinated prosthetic hand movements](https://www.psypost.org/magnetic-muscle-implants-help-amputees-feel-coordinated-prosthetic-hand-movements/)**\n**[Can nighttime brain bursts predict performance on intelligence tests?](https://www.psypost.org/how-age-and-biological-sex-shape-our-sleeping-brain-waves/)**\n**[Negative life events trigger different depressive symptoms in teenage girls and boys](https://www.psypost.org/negative-life-events-trigger-different-depressive-symptoms-in-teenage-girls-and-boys/)**\n**[AI Advice Is Undermining Couples](https://www.psychologytoday.com/us/blog/from-me-first-to-we-first/202606/ai-advice-is-undermining-couples)**\n**[Taking a \"Break\" From the Aging Process](https://www.psychologytoday.com/us/blog/unapparent/202606/taking-a-break-from-the-aging-process)**\n\n## 📱 自媒体精选\n\n**[Knowledge Distillation of Black-Box Large Language Models](https://arxiv.org/abs/2401.07013)**\n**[A QNX-inspired operating system with selectable kernels](https://qsoe.net)**\n**[Xonaly – Canada's Independent Search Engine](https://xonaly.com/)**\n**[POSIX Is Not a Shell](https://alganet.github.io/blog/2026-06-28-12-POSIX-Is-Not-A-Shell.html)**\n**[California law targeting loud streaming ads takes effect on July 1](https://techcrunch.com/2026/06/28/california-law-targeting-loud-streaming-ads-takes-effect-on-july-1/)**\n**[Ford rehires ‘gray beard’ engineers after AI falls short](https://techcrunch.com/2026/06/28/ford-rehires-gray-beard-engineers-after-ai-falls-short/)**\n**[Writer Ian Bogost says ‘The Small Stuff’ can help us reclaim our lives from too much convenience](https://techcrunch.com/2026/06/28/writer-ian-bogost-says-the-small-stuff-can-help-us-reclaim-our-lives-from-dematerialization/)**\n**[TechCrunch Mobility: All eyes on Tesla FSD](https://techcrunch.com/2026/06/28/techcrunch-mobility-all-eyes-on-tesla-fsd/)**\n**[China’s Z.ai claims it can match Mythos on cybersecurity](https://www.theverge.com/ai-artificial-intelligence/958804/chinas-z-ai-glm-52-mythos-cybersecurity)**\n**[Suno launches Spark incubator program to feed independent artists to its AI machine](https://www.theverge.com/ai-artificial-intelligence/958801/suno-launches-spark-incubator-program-to-feed-independent-artists-to-its-ai-machine)**\n\n---\n## 💡 今日洞察\n\n**📈 投资建议**\n- 将部分债券配置转向利率上行或通胀动态有利的非美国市场（如部分新兴市场或欧洲国家），以对冲美联储加息风险并获取更高实际收益。\n- SpaceX即将纳入纳斯达克100指数，追踪该指数的ETF（如QQQ）将被迫大量买入，可提前布局相关ETF或关注SpaceX上市后的短期溢价机会。\n- 霍尔木兹海峡局势依然脆弱，船只遭袭事件可能随时升级，建议增持能源类资产（原油期货、能源ETF）作为地缘风险对冲，同时关注航运保险板块。\n\n**🧠 健康建议**\n- 核心通胀率升至3.4%，日常生活成本持续上涨，建议家庭优先采购非易腐烂的营养食品（豆类、全谷物、冷冻蔬菜）进行适量储备，以应对食品价格进一步上涨。\n- 美联储预期年内加息，贷款和信用卡利率将上升，财务压力增加会直接影响心理健康，建议现在开始制定债务偿还计划，减少高息负债以降低长期压力。\n- 霍尔木兹局势不稳可能导致燃油和药品原材料供应链中断，建议慢性病患者提前与医生沟通，确保常用",
+      "en": "# 📰 Daily Intelligence Brief\n### June 29, 2026\n\n\n## 🤖 AI Focus (Lambda Finance)\n\n**[Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)](https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/)**\n*techcrunch.com · 2026-06-26*\n\n**[Why Cerebras' Mind-Boggling LLM Raw Speed Is Still Falling Into Nvidia's Massive Software Trap](https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/)**\n*247wallst.com · 2026-06-26*\n\n**[Investors Are Getting Another Great Opportunity to Buy This Incredible Artificial Intelligence (AI) Stock Right Now](https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/)**\n*fool.com · 2026-06-25*\n\n**[Here's How Artificial Intelligence Powers ASML's Growth Story](https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963)**\n*zacks.com · 2026-06-26*\n\n**[Wall Street Sees SpaceX Surpassing Nvidia in Long-Term Valuation](https://www.fool.com/investing/2026/06/28/wall-street-sees-spacex-passing-nvidia-valuation/)**\n*fool.com · 2026-06-28*\n\n**[Nvidia stock continues decline on Friday: what's hurting the AI darling?](https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/)**\n*invezz.com · 2026-06-26*\n\n**[The Hidden Metric Behind NVIDIA's Ambition](https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/)**\n*forbes.com · 2026-06-26*\n\n**[ON Semiconductor Tumbles 20%: Is It Dragging Down Semiconductor Names Like AMD and Intel?](https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/)**\n*247wallst.com · 2026-06-26*\n\n**[AMD: The Market Is Pricing The GPU Story - I'm Buying The CPU Story](https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story)**\n*seekingalpha.com · 2026-06-26*\n\n**[The Real Reason Nvidia Holds an Unshakable Monopoly Over AMD Has Nothing to Do with Raw Computing Power](https://247wallst.com/investing/2026/06/25/the-real-reason-nvidia-holds-an-unshakable-monopoly-over-amd-has-nothing-to-do-with-raw-computing-power/)**\n*247wallst.com · 2026-06-25*\n\n\n## 📈 Finance & Markets\n\n**[Why investors may want to prioritize bond markets outside the U.S.](https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html)**\n\nAllspring Global Investments is pushing clients toward countries with central banks that are raising interest rates or have different inflation dynamics.\n\n**[SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand](https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html)**\n\nAdding SpaceX this quickly would make the Elon Musk company one of the first beneficiaries of Nasdaq's recently adopted fast-track inclusion framework.\n\n**[CFTC is conducting an investigation into Polymarket, source says](https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html)**\n\nThe probe comes after the Commodity Futures Trading Commission and the Department of Justice dropped previous inquiries into Polymarket last July.\n\n**[Minneapolis Fed President Neel Kashkari says he expects a rate hike this year](https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html)**\n\nKashkari said he sees a hike likely this year as the economy continues to feel the hit from spiking inflation.\n\n**[Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery](https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html)**\n\nShipping traffic through the strategically vital Strait of Hormuz is recovering one week after the U.S. and Iran signed an interim peace deal.\n\n**[UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal](https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html)**\n\nThe pause follows a container ship being struck near the coast of Oman on Thursday, with a U.S. official saying that Iran was responsible for the attack.\n\n**[Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows](https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html)**\n\nThe personal consumption expenditures price index was expected to show a 4.1% annual increase.\n\n**[Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds](https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html)**\n\nThe swift U.S. offer of assistance reflects a degree of diplomatic realignment between the Trump administration and the Venezuelan interim government.\n\n**[Forget the AI Chipmakers. For 0.47% This Fund Owns the Companies Building the Data Centers](https://finance.yahoo.com/markets/stocks/articles/forget-ai-chipmakers-0-47-132345030.html)**\n**[Court appoints receiver for Golub, BlueFive’s Mag Mile office](https://finance.yahoo.com/real-estate/articles/court-appoints-receiver-golub-bluefive-130000780.html)**\n\n## 🏥 Health & Medicine\n\n**[Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume](https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html)**\n\nThe order, which calls for studying the health risks of pesticides in the food supply, does not involve new federal funding, and does not call for regulations or legislation.\n\n**[Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn](https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html)**\n\nMost of the people testing positive for Ebola in the Democratic Republic of Congo are not on health workers’ radar, suggesting that contact tracing is lagging dangerously behind.\n\n**[Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands](https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html)**\n\nA cache of internal emails offers a look at the pressure the nation’s public health officials faced from the new health secretary in the early months of the Trump administration.\n\n**[Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning](https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html)**\n\nIn a notice flagging a series of problems with a clinical trial, the journal Nature Medicine said its editors “no longer have confidence in the integrity of the results.”\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover what triggers belly fat as we age](https://www.sciencedaily.com/releases/2026/06/260624115133.htm)**\n\nAging may trigger the appearance of specialized stem cells that supercharge the body's ability to create new belly fat. The discovery reveals a potential biological driver of middle-age weight gain and a promising target for future anti-obesity treatments.\n\n**[Osteopenia is silently weakening bones in millions of people](https://www.sciencedaily.com/releases/2026/06/260624025511.htm)**\n\nOsteopenia is a common but often overlooked condition that causes bones to become less dense and more fragile. Because it develops silently, many people only discover they have it after a fracture or bone scan. Aging, menopause, poor diet, and inactivity can all contribute to bon…\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n\n## 🧠 Psychology & Philosophy\n\n**[They knew the pill was fake but their memory still improved](https://www.sciencedaily.com/releases/2026/06/260625060159.htm)**\n\nHealthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive.\n\n**[Scientists discover ancient brain cells that help block distractions](https://www.sciencedaily.com/releases/2026/06/260624025426.htm)**\n\nScientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…\n\n**[The universe may be hiding conscious minds stranger than we can imagine](https://www.sciencedaily.com/releases/2026/06/260623083146.htm)**\n\nWhat if consciousness isn’t limited to brains like ours? Philosophers Eric Schwitzgebel and Jeremy Pober argue that consciousness could arise in many different forms of life, even in beings built from radically different materials than those found on Earth. Drawing on the vastnes…\n\n**[This common vitamin deficiency can mimic normal aging](https://www.sciencedaily.com/releases/2026/06/260623083116.htm)**\n\nVitamin B12 is needed in microscopic amounts, but a shortage can have major effects on health and energy. The vitamin was first linked to a lifesaving liver treatment for pernicious anemia nearly 100 years ago. Today, researchers are finding that B12 may also help keep cellular p…\n\n**[People who experience a frequent inner void may actually possess higher levels of empathy](https://www.psypost.org/why-we-feel-empty-a-smartphone-study-explores-the-roots-of-an-enigmatic-emotion/)**\n\nPeople who frequently experience a profound inner void often struggle with maintaining a firm sense of identity and regulating their emotions. A recent smartphone-based study maps how the sensation of emptiness fluctuates from day to day.\n\n**[Magnetic muscle implants help amputees feel coordinated prosthetic hand movements](https://www.psypost.org/magnetic-muscle-implants-help-amputees-feel-coordinated-prosthetic-hand-movements/)**\n\nScientists have developed a new prosthetic interface using small, implanted magnets. By remotely vibrating these magnets, an amputee experienced natural, whole-hand movement sensations without needing the complex nerve-redirection surgeries required by previous prosthetic technol…\n\n**[Can nighttime brain bursts predict performance on intelligence tests?](https://www.psypost.org/how-age-and-biological-sex-shape-our-sleeping-brain-waves/)**\n\nA large-scale statistical review reveals how the electrical rhythms of the sleeping brain change as we age. The findings also outline differences in rest architecture between men and women, alongside unique links to waking cognitive abilities.\n\n**[Negative life events trigger different depressive symptoms in teenage girls and boys](https://www.psypost.org/negative-life-events-trigger-different-depressive-symptoms-in-teenage-girls-and-boys/)**\n\nA new study tracked teenagers over a year and found that experiencing negative life events is strongly linked to depressive symptoms. For girls, stressful events were specifically tied to a sharp increase in negative self-evaluation.\n\n**[AI Advice Is Undermining Couples](https://www.psychologytoday.com/us/blog/from-me-first-to-we-first/202606/ai-advice-is-undermining-couples)**\n\nIt feels great when an AI chatbot validates your side of a conflict. But it ignores the empathy and accountability relationships actually require.\n\n**[Taking a \"Break\" From the Aging Process](https://www.psychologytoday.com/us/blog/unapparent/202606/taking-a-break-from-the-aging-process)**\n\nMy 92-year-old friend Anne shares her brilliant plan for taking a mini-vacation from the process of aging.\n\n\n## 📱 Tech & Media\n\n**[Knowledge Distillation of Black-Box Large Language Models](https://arxiv.org/abs/2401.07013)**\n\nArticle URL: https://arxiv.org/abs/2401.07013 Comments URL: https://news.ycombinator.com/item?id=48712420 Points: 23 # Comments: 11\n\n**[A QNX-inspired operating system with selectable kernels](https://qsoe.net)**\n\nArticle URL: https://qsoe.net Comments URL: https://news.ycombinator.com/item?id=48712338 Points: 20 # Comments: 1\n\n**[Xonaly – Canada's Independent Search Engine](https://xonaly.com/)**\n\nArticle URL: https://xonaly.com/ Comments URL: https://news.ycombinator.com/item?id=48712324 Points: 34 # Comments: 15\n\n**[POSIX Is Not a Shell](https://alganet.github.io/blog/2026-06-28-12-POSIX-Is-Not-A-Shell.html)**\n\nArticle URL: https://alganet.github.io/blog/2026-06-28-12-POSIX-Is-Not-A-Shell.html Comments URL: https://news.ycombinator.com/item?id=48711403 Points: 29 # Comments: 5\n\n**[California law targeting loud streaming ads takes effect on July 1](https://techcrunch.com/2026/06/28/california-law-targeting-loud-streaming-ads-takes-effect-on-july-1/)**\n\nStreaming ads might be getting a lot quieter.\n\n**[Ford rehires ‘gray beard’ engineers after AI falls short](https://techcrunch.com/2026/06/28/ford-rehires-gray-beard-engineers-after-ai-falls-short/)**\n\n\"Mistakenly we thought that by just introducing artificial intelligence ... that would produce a high-quality product.”\n\n**[Writer Ian Bogost says ‘The Small Stuff’ can help us reclaim our lives from too much convenience](https://techcrunch.com/2026/06/28/writer-ian-bogost-says-the-small-stuff-can-help-us-reclaim-our-lives-from-dematerialization/)**\n\nHas Silicon Valley been building the wrong things?\n\n**[TechCrunch Mobility: All eyes on Tesla FSD](https://techcrunch.com/2026/06/28/techcrunch-mobility-all-eyes-on-tesla-fsd/)**\n\nWelcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, how AI is playing a part.\n\n**[China’s Z.ai claims it can match Mythos on cybersecurity](https://www.theverge.com/ai-artificial-intelligence/958804/chinas-z-ai-glm-52-mythos-cybersecurity)**\n\nChina's Zhipu AI (Z.ai) released its open-weight GLM-5.2, and some researchers have claimed that it matches Mythos in certain bug-finding and cybersecurity scenarios. While GLM lags behind models from Anthropic and OpenAI in other, more general tasks, it seems that China has dram…\n\n**[Suno launches Spark incubator program to feed independent artists to its AI machine](https://www.theverge.com/ai-artificial-intelligence/958801/suno-launches-spark-incubator-program-to-feed-independent-artists-to-its-ai-machine)**\n\nSuno has ambitions to be more than just a toy to churn out AI slop, it also wants to be a streaming destination and to break new artists. Spark is their new incubator program for independent artists that provides grants, mentorship, and marketing support. To apply, artists need t…\n\n\n---\n## 💡 Today's Insights\n\n**📈 Investment**\n- Rotate a portion of fixed-income exposure into non-U.S. bond markets—particularly countries with rising rate cycles or favorable inflation dynamics—to reduce overconcentration in U.S. Treasuries ahead of potential Fed rate hikes.\n- Position ahead of SpaceX's fast-tracked Nasdaq-100 inclusion: ETFs like QQQ will face mandatory buying pressure, creating a near-term technical tailwind; consider accumulating index-tracking ETFs before the rebalancing date.\n- Maintain an energy hedge via crude oil futures or energy sector ETFs given the fragile Hormuz situation—the ship attack attributed to Iran signals the peace deal is unstable, and any escalation could rapidly spike oil prices.\n"
+    },
+    "news_cards": {
+      "finance": [
+        {
+          "rank": 1,
+          "title": "Why investors may want to prioritize bond markets outside the U.S.",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/27/inflation-as-major-reason-to-invest-in-global-bond-markets.html",
+          "source": "CNBC Finance",
+          "time": "Sat, 27 Jun 2026 15:00:01 GMT",
+          "analysis_cn": "",
+          "analysis_en": "Allspring Global Investments is pushing clients toward countries with central banks that are raising interest rates or have different inflation dynamics."
+        },
+        {
+          "rank": 2,
+          "title": "SpaceX to join the Nasdaq-100 in a fast-tracked process that will drive huge ETF buying demand",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html",
+          "source": "CNBC Finance",
+          "time": "Sat, 27 Jun 2026 21:34:59 GMT",
+          "analysis_cn": "",
+          "analysis_en": "Adding SpaceX this quickly would make the Elon Musk company one of the first beneficiaries of Nasdaq's recently adopted fast-track inclusion framework."
+        },
+        {
+          "rank": 3,
+          "title": "CFTC is conducting an investigation into Polymarket, source says",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/26/cftc-is-conducting-an-investigation-into-polymarket-source-says.html",
+          "source": "CNBC Finance",
+          "time": "Fri, 26 Jun 2026 18:53:17 GMT",
+          "analysis_cn": "",
+          "analysis_en": "The probe comes after the Commodity Futures Trading Commission and the Department of Justice dropped previous inquiries into Polymarket last July."
+        },
+        {
+          "rank": 4,
+          "title": "Minneapolis Fed President Neel Kashkari says he expects a rate hike this year",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/26/minneapolis-fed-president-neel-kashkari-says-he-expects-a-rate-hike-this-year.html",
+          "source": "CNBC Finance",
+          "time": "Fri, 26 Jun 2026 16:04:42 GMT",
+          "analysis_cn": "",
+          "analysis_en": "Kashkari said he sees a hike likely this year as the economy continues to feel the hit from spiking inflation."
+        },
+        {
+          "rank": 5,
+          "title": "Shipping rebounds in Strait of Hormuz one week after U.S.-Iran deal – but fragile confidence threatens recovery",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/26/strait-of-hormuz-shipping-oil-us-iran.html",
+          "source": "CNBC World Economy",
+          "time": "Fri, 26 Jun 2026 09:36:24 GMT",
+          "analysis_cn": "",
+          "analysis_en": "Shipping traffic through the strategically vital Strait of Hormuz is recovering one week after the U.S. and Iran signed an interim peace deal."
+        },
+        {
+          "rank": 6,
+          "title": "UN agency pauses Hormuz ship evacuation plan after first vessel attack under peace deal",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/26/strait-of-hormuz-vessel-attack-evacuation-pauses-iran-united-states-peace-deal-negotiation-.html",
+          "source": "CNBC World Economy",
+          "time": "Fri, 26 Jun 2026 02:07:59 GMT",
+          "analysis_cn": "",
+          "analysis_en": "The pause follows a container ship being struck near the coast of Oman on Thursday, with a U.S. official saying that Iran was responsible for the attack."
+        },
+        {
+          "rank": 7,
+          "title": "Core inflation rate hit 3.4% in May, highest since October 2023, Fed’s preferred gauge shows",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/25/pce-inflation-report-may-2026-.html",
+          "source": "CNBC World Economy",
+          "time": "Thu, 25 Jun 2026 13:30:56 GMT",
+          "analysis_cn": "",
+          "analysis_en": "The personal consumption expenditures price index was expected to show a 4.1% annual increase."
+        },
+        {
+          "rank": 8,
+          "title": "Trump pledges rapid U.S. response for Venezuela after historic earthquakes kill hundreds",
+          "title_cn": "",
+          "url": "https://www.cnbc.com/2026/06/25/venezuela-earthquakes-casualties-trump-pledges-support-aids-oil-.html",
+          "source": "CNBC World Economy",
+          "time": "Thu, 25 Jun 2026 14:41:19 GMT",
+          "analysis_cn": "",
+          "analysis_en": "The swift U.S. offer of assistance reflects a degree of diplomatic realignment between the Trump administration and the Venezuelan interim government."
+        },
+        {
+          "rank": 9,
+          "title": "Forget the AI Chipmakers. For 0.47% This Fund Owns the Companies Building the Data Centers",
+          "title_cn": "",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/forget-ai-chipmakers-0-47-132345030.html",
+          "source": "Yahoo Finance",
+          "time": "2026-06-27T13:23:45Z",
+          "analysis_cn": "",
+          "analysis_en": ""
+        },
+        {
+          "rank": 10,
+          "title": "Court appoints receiver for Golub, BlueFive’s Mag Mile office",
+          "title_cn": "",
+          "url": "https://finance.yahoo.com/real-estate/articles/court-appoints-receiver-golub-bluefive-130000780.html",
+          "source": "Yahoo Finance",
+          "time": "2026-06-27T13:00:00Z",
+          "analysis_cn": "",
+          "analysis_en": ""
+        }
+      ],
+      "health": [
+        {
+          "rank": 1,
+          "title": "Trump Issues Order to Reduce Pesticides in Food as Kennedy Allies Fume",
+          "title_cn": "",
+          "url": "https://www.nytimes.com/2026/06/25/us/politics/trump-order-pesticides-rfk.html",
+          "source": "NYT Health",
+          "time": "Fri, 26 Jun 2026 00:24:06 +0000",
+          "analysis_cn": "",
+          "analysis_en": "The order, which calls for studying the health risks of pesticides in the food supply, does not involve new federal funding, and does not call for regulations or legislation."
+        },
+        {
+          "rank": 2,
+          "title": "Congo Ebola Crisis: Contact Tracing Is Dangerously Behind, Officials Warn",
+          "title_cn": "",
+          "url": "https://www.nytimes.com/2026/06/25/world/africa/africa-cdc-congo-ebola.html",
+          "source": "NYT Health",
+          "time": "Thu, 25 Jun 2026 22:57:49 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Most of the people testing positive for Ebola in the Democratic Republic of Congo are not on health workers’ radar, suggesting that contact tracing is lagging dangerously behind."
+        },
+        {
+          "rank": 3,
+          "title": "Inside the C.D.C.’s Mad Scramble to Meet Kennedy’s Demands",
+          "title_cn": "",
+          "url": "https://www.nytimes.com/2026/06/25/us/politics/kennedy-cdc-emails.html",
+          "source": "NYT Health",
+          "time": "Thu, 25 Jun 2026 21:18:20 +0000",
+          "analysis_cn": "",
+          "analysis_en": "A cache of internal emails offers a look at the pressure the nation’s public health officials faced from the new health secretary in the early months of the Trump administration."
+        },
+        {
+          "rank": 4,
+          "title": "Medical Journal Retracts Study Claiming Cancer Therapy Is More Effective When Given in the Morning",
+          "title_cn": "",
+          "url": "https://www.nytimes.com/2026/06/25/business/china-cancer-treatment-research-retraction.html",
+          "source": "NYT Health",
+          "time": "Fri, 26 Jun 2026 02:27:02 +0000",
+          "analysis_cn": "",
+          "analysis_en": "In a notice flagging a series of problems with a clinical trial, the journal Nature Medicine said its editors “no longer have confidence in the integrity of the results.”"
+        },
+        {
+          "rank": 5,
+          "title": "They knew the pill was fake but their memory still improved",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260625060159.htm",
+          "source": "ScienceDaily Health",
+          "time": "Thu, 25 Jun 2026 07:23:11 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Healthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive."
+        },
+        {
+          "rank": 6,
+          "title": "Scientists discover what triggers belly fat as we age",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260624115133.htm",
+          "source": "ScienceDaily Health",
+          "time": "Sat, 27 Jun 2026 14:54:36 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Aging may trigger the appearance of specialized stem cells that supercharge the body's ability to create new belly fat. The discovery reveals a potential biological driver of middle-age weight gain and a promising target for future anti-obesity treatments."
+        },
+        {
+          "rank": 7,
+          "title": "Osteopenia is silently weakening bones in millions of people",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260624025511.htm",
+          "source": "ScienceDaily Health",
+          "time": "Thu, 25 Jun 2026 00:25:26 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Osteopenia is a common but often overlooked condition that causes bones to become less dense and more fragile. Because it develops silently, many people only discover they have it after a fracture or bone scan. Aging, menopause, poor diet, and inactivity can all contribute to bon…"
+        },
+        {
+          "rank": 8,
+          "title": "Scientists discover ancient brain cells that help block distractions",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260624025426.htm",
+          "source": "ScienceDaily Health",
+          "time": "Wed, 24 Jun 2026 09:30:09 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Scientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…"
+        }
+      ],
+      "philosophy": [
+        {
+          "rank": 1,
+          "title": "They knew the pill was fake but their memory still improved",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260625060159.htm",
+          "source": "ScienceDaily Mind",
+          "time": "Thu, 25 Jun 2026 07:23:11 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Healthy older adults experienced measurable improvements in memory, physical performance, and stress after taking placebo pills for just three weeks. The most surprising finding was that the placebo often worked even when participants knew the pills were completely inactive."
+        },
+        {
+          "rank": 2,
+          "title": "Scientists discover ancient brain cells that help block distractions",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260624025426.htm",
+          "source": "ScienceDaily Mind",
+          "time": "Wed, 24 Jun 2026 09:30:09 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Scientists have discovered a tiny group of neurons in an ancient brain region that acts like a built-in focus filter, helping the brain ignore distractions and zero in on what matters most. When researchers temporarily switched off these neurons in mice, the animals became unusua…"
+        },
+        {
+          "rank": 3,
+          "title": "The universe may be hiding conscious minds stranger than we can imagine",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260623083146.htm",
+          "source": "ScienceDaily Mind",
+          "time": "Wed, 24 Jun 2026 10:49:57 EDT",
+          "analysis_cn": "",
+          "analysis_en": "What if consciousness isn’t limited to brains like ours? Philosophers Eric Schwitzgebel and Jeremy Pober argue that consciousness could arise in many different forms of life, even in beings built from radically different materials than those found on Earth. Drawing on the vastnes…"
+        },
+        {
+          "rank": 4,
+          "title": "This common vitamin deficiency can mimic normal aging",
+          "title_cn": "",
+          "url": "https://www.sciencedaily.com/releases/2026/06/260623083116.htm",
+          "source": "ScienceDaily Mind",
+          "time": "Thu, 25 Jun 2026 10:57:39 EDT",
+          "analysis_cn": "",
+          "analysis_en": "Vitamin B12 is needed in microscopic amounts, but a shortage can have major effects on health and energy. The vitamin was first linked to a lifesaving liver treatment for pernicious anemia nearly 100 years ago. Today, researchers are finding that B12 may also help keep cellular p…"
+        },
+        {
+          "rank": 5,
+          "title": "People who experience a frequent inner void may actually possess higher levels of empathy",
+          "title_cn": "",
+          "url": "https://www.psypost.org/why-we-feel-empty-a-smartphone-study-explores-the-roots-of-an-enigmatic-emotion/",
+          "source": "PsyPost",
+          "time": "Mon, 29 Jun 2026 00:00:11 +0000",
+          "analysis_cn": "",
+          "analysis_en": "People who frequently experience a profound inner void often struggle with maintaining a firm sense of identity and regulating their emotions. A recent smartphone-based study maps how the sensation of emptiness fluctuates from day to day."
+        },
+        {
+          "rank": 6,
+          "title": "Magnetic muscle implants help amputees feel coordinated prosthetic hand movements",
+          "title_cn": "",
+          "url": "https://www.psypost.org/magnetic-muscle-implants-help-amputees-feel-coordinated-prosthetic-hand-movements/",
+          "source": "PsyPost",
+          "time": "Sun, 28 Jun 2026 22:00:34 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Scientists have developed a new prosthetic interface using small, implanted magnets. By remotely vibrating these magnets, an amputee experienced natural, whole-hand movement sensations without needing the complex nerve-redirection surgeries required by previous prosthetic technol…"
+        },
+        {
+          "rank": 7,
+          "title": "Can nighttime brain bursts predict performance on intelligence tests?",
+          "title_cn": "",
+          "url": "https://www.psypost.org/how-age-and-biological-sex-shape-our-sleeping-brain-waves/",
+          "source": "PsyPost",
+          "time": "Sun, 28 Jun 2026 20:00:19 +0000",
+          "analysis_cn": "",
+          "analysis_en": "A large-scale statistical review reveals how the electrical rhythms of the sleeping brain change as we age. The findings also outline differences in rest architecture between men and women, alongside unique links to waking cognitive abilities."
+        },
+        {
+          "rank": 8,
+          "title": "Negative life events trigger different depressive symptoms in teenage girls and boys",
+          "title_cn": "",
+          "url": "https://www.psypost.org/negative-life-events-trigger-different-depressive-symptoms-in-teenage-girls-and-boys/",
+          "source": "PsyPost",
+          "time": "Sun, 28 Jun 2026 18:00:18 +0000",
+          "analysis_cn": "",
+          "analysis_en": "A new study tracked teenagers over a year and found that experiencing negative life events is strongly linked to depressive symptoms. For girls, stressful events were specifically tied to a sharp increase in negative self-evaluation."
+        },
+        {
+          "rank": 9,
+          "title": "AI Advice Is Undermining Couples",
+          "title_cn": "",
+          "url": "https://www.psychologytoday.com/us/blog/from-me-first-to-we-first/202606/ai-advice-is-undermining-couples",
+          "source": "Psychology Today",
+          "time": "Sun, 28 Jun 2026 17:58:39 -0400",
+          "analysis_cn": "",
+          "analysis_en": "It feels great when an AI chatbot validates your side of a conflict. But it ignores the empathy and accountability relationships actually require."
+        },
+        {
+          "rank": 10,
+          "title": "Taking a \"Break\" From the Aging Process",
+          "title_cn": "",
+          "url": "https://www.psychologytoday.com/us/blog/unapparent/202606/taking-a-break-from-the-aging-process",
+          "source": "Psychology Today",
+          "time": "Sun, 28 Jun 2026 17:51:45 -0400",
+          "analysis_cn": "",
+          "analysis_en": "My 92-year-old friend Anne shares her brilliant plan for taking a mini-vacation from the process of aging."
+        }
+      ],
+      "social": [
+        {
+          "rank": 1,
+          "title": "Knowledge Distillation of Black-Box Large Language Models",
+          "title_cn": "",
+          "url": "https://arxiv.org/abs/2401.07013",
+          "source": "Hacker News",
+          "time": "Sun, 28 Jun 2026 22:32:04 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://arxiv.org/abs/2401.07013 Comments URL: https://news.ycombinator.com/item?id=48712420 Points: 23 # Comments: 11"
+        },
+        {
+          "rank": 2,
+          "title": "A QNX-inspired operating system with selectable kernels",
+          "title_cn": "",
+          "url": "https://qsoe.net",
+          "source": "Hacker News",
+          "time": "Sun, 28 Jun 2026 22:21:51 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://qsoe.net Comments URL: https://news.ycombinator.com/item?id=48712338 Points: 20 # Comments: 1"
+        },
+        {
+          "rank": 3,
+          "title": "Xonaly – Canada's Independent Search Engine",
+          "title_cn": "",
+          "url": "https://xonaly.com/",
+          "source": "Hacker News",
+          "time": "Sun, 28 Jun 2026 22:20:56 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://xonaly.com/ Comments URL: https://news.ycombinator.com/item?id=48712324 Points: 34 # Comments: 15"
+        },
+        {
+          "rank": 4,
+          "title": "POSIX Is Not a Shell",
+          "title_cn": "",
+          "url": "https://alganet.github.io/blog/2026-06-28-12-POSIX-Is-Not-A-Shell.html",
+          "source": "Hacker News",
+          "time": "Sun, 28 Jun 2026 20:39:50 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Article URL: https://alganet.github.io/blog/2026-06-28-12-POSIX-Is-Not-A-Shell.html Comments URL: https://news.ycombinator.com/item?id=48711403 Points: 29 # Comments: 5"
+        },
+        {
+          "rank": 5,
+          "title": "California law targeting loud streaming ads takes effect on July 1",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/28/california-law-targeting-loud-streaming-ads-takes-effect-on-july-1/",
+          "source": "TechCrunch",
+          "time": "Sun, 28 Jun 2026 21:34:14 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Streaming ads might be getting a lot quieter."
+        },
+        {
+          "rank": 6,
+          "title": "Ford rehires ‘gray beard’ engineers after AI falls short",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/28/ford-rehires-gray-beard-engineers-after-ai-falls-short/",
+          "source": "TechCrunch",
+          "time": "Sun, 28 Jun 2026 19:05:39 +0000",
+          "analysis_cn": "",
+          "analysis_en": "\"Mistakenly we thought that by just introducing artificial intelligence ... that would produce a high-quality product.”"
+        },
+        {
+          "rank": 7,
+          "title": "Writer Ian Bogost says ‘The Small Stuff’ can help us reclaim our lives from too much convenience",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/28/writer-ian-bogost-says-the-small-stuff-can-help-us-reclaim-our-lives-from-dematerialization/",
+          "source": "TechCrunch",
+          "time": "Sun, 28 Jun 2026 17:03:16 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Has Silicon Valley been building the wrong things?"
+        },
+        {
+          "rank": 8,
+          "title": "TechCrunch Mobility: All eyes on Tesla FSD",
+          "title_cn": "",
+          "url": "https://techcrunch.com/2026/06/28/techcrunch-mobility-all-eyes-on-tesla-fsd/",
+          "source": "TechCrunch",
+          "time": "Sun, 28 Jun 2026 16:05:00 +0000",
+          "analysis_cn": "",
+          "analysis_en": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, how AI is playing a part."
+        },
+        {
+          "rank": 9,
+          "title": "China’s Z.ai claims it can match Mythos on cybersecurity",
+          "title_cn": "",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/958804/chinas-z-ai-glm-52-mythos-cybersecurity",
+          "source": "The Verge",
+          "time": "2026-06-28T17:42:51-04:00",
+          "analysis_cn": "",
+          "analysis_en": "China's Zhipu AI (Z.ai) released its open-weight GLM-5.2, and some researchers have claimed that it matches Mythos in certain bug-finding and cybersecurity scenarios. While GLM lags behind models from Anthropic and OpenAI in other, more general tasks, it seems that China has dram…"
+        },
+        {
+          "rank": 10,
+          "title": "Suno launches Spark incubator program to feed independent artists to its AI machine",
+          "title_cn": "",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/958801/suno-launches-spark-incubator-program-to-feed-independent-artists-to-its-ai-machine",
+          "source": "The Verge",
+          "time": "2026-06-28T16:27:36-04:00",
+          "analysis_cn": "",
+          "analysis_en": "Suno has ambitions to be more than just a toy to churn out AI slop, it also wants to be a streaming destination and to break new artists. Spark is their new incubator program for independent artists that provides grants, mentorship, and marketing support. To apply, artists need t…"
+        }
+      ],
+      "ai": [
+        {
+          "rank": 1,
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "title_cn": "科技巨头自研芯片冲击英伟达",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+          "source": "techcrunch.com",
+          "time": "2026-06-26",
+          "analysis_cn": "越来越多科技公司包括OpenAI和SpaceX开始自研芯片，试图摆脱对英伟达的依赖。这一趋势对英伟达的长期市场份额构成潜在威胁，可能压缩其在数据中心AI芯片领域的定价权。然而短期内英伟达的生态护城河依然深厚，客户迁移成本极高。投资者应关注英伟达营收增速是否出现拐点，同时留意自研芯片公司的进展作为对冲机会。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 2,
+          "title": "Why Cerebras' Mind-Boggling LLM Raw Speed Is Still Falling Into Nvidia's Massive Software Trap",
+          "title_cn": "Cerebras速度优势难破英伟达生态",
+          "url": "https://247wallst.com/investing/2026/06/26/why-cerebras-mind-boggling-llm-raw-speed-is-still-falling-into-nvidias-massive-software-trap/",
+          "source": "247wallst.com",
+          "time": "2026-06-26",
+          "analysis_cn": "Cerebras虽在LLM推理速度上表现惊人，但仍深陷英伟达CUDA软件生态的巨大陷阱之中。英伟达多年积累的软件栈和开发者社区构成了极高的切换壁垒，单纯的硬件性能优势难以撼动其市场地位。这说明芯片竞争的核心已从算力转向软件生态，英伟达的真正护城河在于CUDA而非GPU本身。投资者应将软件生态粘性视为评估英伟达长期竞争力的核心指标。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 3,
+          "title": "Investors Are Getting Another Great Opportunity to Buy This Incredible Artificial Intelligence (AI) Stock Right Now",
+          "title_cn": "AI龙头股迎来绝佳买入机会",
+          "url": "https://www.fool.com/investing/2026/06/25/investors-are-getting-another-great-opportunity-to/",
+          "source": "fool.com",
+          "time": "2026-06-25",
+          "analysis_cn": "市场近期调整为投资者提供了以更低估值买入顶级AI股票的机会。该公司基本面依然强劲，AI需求驱动的营收增长逻辑并未改变，短期下跌更多源于市场情绪而非基本面恶化。对于长期投资者而言，此类回调历史上往往是建仓或加仓的良机。建议投资者分批布局，避免一次性满仓以应对市场的进一步波动风险。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 4,
+          "title": "Here's How Artificial Intelligence Powers ASML's Growth Story",
+          "title_cn": "AI技术赋能ASML持续增长",
+          "url": "https://www.zacks.com/stock/news/2943963/here-s-how-artificial-intelligence-powers-asml-s-growth-story?cid=CS-STOCKNEWSAPI-FT-analyst_blog|quick_take-2943963",
+          "source": "zacks.com",
+          "time": "2026-06-26",
+          "analysis_cn": "ASML将人工智能深度整合进其极紫外光刻机的研发与制造流程，显著提升了设备精度与良品率。作为全球半导体制造设备的绝对垄断者，ASML受益于AI芯片需求爆发所带来的先进制程投资浪潮。AI不仅是ASML的客户需求来源，更成为其提升自身竞争壁垒的核心工具。对于寻求AI产业链上游确定性敞口的投资者，ASML是值得长期持有的稀缺标的。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 5,
+          "title": "Wall Street Sees SpaceX Surpassing Nvidia in Long-Term Valuation",
+          "title_cn": "华尔街预测SpaceX估值超越英伟达",
+          "url": "https://www.fool.com/investing/2026/06/28/wall-street-sees-spacex-passing-nvidia-valuation/",
+          "source": "fool.com",
+          "time": "2026-06-28",
+          "analysis_cn": "华尔街分析师预测SpaceX凭借星链卫星互联网和火箭发射业务的长期商业化潜力，估值有望在未来超越英伟达。SpaceX目前仍为私有公司，普通投资者难以直接参与，但可通过持有相关上市公司间接获益。这一预测折射出市场对太空经济长期价值的高度认可，也暗示AI基础设施之外的下一个万亿赛道正在成形。投资者可关注与SpaceX有深度合作的上市供应链企业作为替代布局路径。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 6,
+          "title": "Nvidia stock continues decline on Friday: what's hurting the AI darling?",
+          "title_cn": "英伟达股价持续下跌原因解析",
+          "url": "https://invezz.com/news/2026/06/26/nvidia-stock-continues-decline-on-friday-whats-hurting-the-ai-darling/",
+          "source": "invezz.com",
+          "time": "2026-06-26",
+          "analysis_cn": "英伟达股价周五延续跌势，市场担忧情绪主要来自科技股整体估值压力、潜在出口管制收紧以及宏观利率环境的不确定性。尽管公司基本面依然出色，但高估值使其对负面消息极为敏感，任何利空因素都可能引发较大幅度回调。短期内股价波动加剧，但长期AI资本支出周期并未逆转，基本面支撑依然存在。建议投资者区分短期情绪波动与长期逻辑变化，理性评估当前点位的风险收益比。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 7,
+          "title": "The Hidden Metric Behind NVIDIA's Ambition",
+          "title_cn": "英伟达野心背后的隐藏核心指标",
+          "url": "https://www.forbes.com/sites/greatspeculations/2026/06/26/the-hidden-metric-behind-nvidias-ambition/",
+          "source": "forbes.com",
+          "time": "2026-06-26",
+          "analysis_cn": "英伟达的真正雄心不仅体现在GPU出货量上，更隐藏在数据中心整体解决方案渗透率这一关键指标之中。通过将芯片、网络、软件和服务打包销售，英伟达正逐步从硬件供应商转型为AI基础设施平台商。这种转型将大幅提升客户粘性并拓宽营收来源，使公司估值逻辑从周期性硬件向平台型软件靠拢。投资者应重点追踪英伟达非GPU业务的营收占比增长，这或是判断其长期价值重估的前瞻信号。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 8,
+          "title": "ON Semiconductor Tumbles 20%: Is It Dragging Down Semiconductor Names Like AMD and Intel?",
+          "title_cn": "安森美暴跌拖累半导体板块",
+          "url": "https://247wallst.com/investing/2026/06/26/on-semiconductor-tumbles-20-is-it-dragging-down-semiconductor-names-like-amd-and-intel/",
+          "source": "247wallst.com",
+          "time": "2026-06-26",
+          "analysis_cn": "安森美半导体股价单日暴跌逾20%，业绩指引不及预期引发市场对整个半导体行业需求前景的担忧。AMD和英特尔等同类公司也受到情绪传染出现不同程度下跌，板块整体承压。安森美的核心问题在于电动车和工业领域需求的持续疲软，这与AI算力芯片的强劲需求形成鲜明分化。投资者应注意区分半导体子行业差异，避免因个股暴跌而错误抛售基本面依然强健的AI芯片相关标的。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 9,
+          "title": "AMD: The Market Is Pricing The GPU Story - I'm Buying The CPU Story",
+          "title_cn": "AMD估值应聚焦CPU而非GPU",
+          "url": "https://seekingalpha.com/article/4917964-amd-market-is-pricing-gpu-story-im-buying-cpu-story",
+          "source": "seekingalpha.com",
+          "time": "2026-06-26",
+          "analysis_cn": "市场目前将AMD的投资逻辑主要押注于其GPU产品与英伟达的竞争，但分析人士认为AMD真正被低估的价值在于其服务器CPU业务的持续市场份额提升。EPYC处理器在数据中心市场的渗透率持续提升，为公司提供了稳定且可预期的营收增长来源。相比充满不确定性的GPU竞争，CPU业务的确定性更高且估值更为合理。投资者若看好AMD，应将数据中心CPU出货量增长作为核心跟踪指标而非仅关注GPU进展。",
+          "analysis_en": ""
+        },
+        {
+          "rank": 10,
+          "title": "The Real Reason Nvidia Holds an Unshakable Monopoly Over AMD Has Nothing to Do with Raw Computing Power",
+          "title_cn": "英伟达垄断优势根本不在算力",
+          "url": "https://247wallst.com/investing/2026/06/25/the-real-reason-nvidia-holds-an-unshakable-monopoly-over-amd-has-nothing-to-do-with-raw-computing-power/",
+          "source": "247wallst.com",
+          "time": "2026-06-25",
+          "analysis_cn": "英伟达对AMD的压倒性优势并非源于GPU的原始算力，而是其历经十余年构建的CUDA软件生态系统所形成的深度锁定效应。全球数百万AI开发者、研究机构和企业已深度依赖CUDA工具链，切换至AMD平台所需的迁移成本极高且风险巨大。这意味着即便AMD在硬件性能上实现追赶，也极难在短期内撼动英伟达的市场主导地位。对投资者而言，英伟达的核心护城河是软件生态而非硅晶圆，这也是其高估值溢价的最坚实支撑。",
+          "analysis_en": ""
+        }
+      ]
+    }
   }
 }
