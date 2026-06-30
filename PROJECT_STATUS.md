@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-06-30 06:34 CST
+**自动刷新时间**：2026-06-30 08:16 CST
 **data.json 今日更新**：2026-06-30 05:51 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,7 +26,8 @@
 - Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `2e25cbd` 2026-06-29 — congress_tracker 2026-06-29
+- `12d589d` 2026-06-29 — signal_advisor_post_extended 2026-06-29
+- `b8550ef` 2026-06-29 — signal_advisor_post_priority 2026-06-29
 
 <!-- AUTO:END -->
 
