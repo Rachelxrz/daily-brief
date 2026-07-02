@@ -179,7 +179,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             f"Articles:\n{articles_text}"
         )
         log.info("🤖 Lambda AI 新闻中文化（3-5句综述）...")
-        lambda_raw = _call_claude(lambda_prompt, max_tokens=4000)
+        lambda_raw = _call_claude(lambda_prompt, max_tokens=2000)
         if lambda_raw:
             blocks = [b.strip() for b in lambda_raw.split("---") if b.strip()]
             for block in blocks:
@@ -209,9 +209,9 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         lambda_block_cn = "\n".join(cn_lines)
         lambda_block_en = "\n".join(en_lines)
 
-        # Lambda 调用完毕，等待速率窗口恢复，再翻译普通新闻
-        log.info("⏳ 等待 45s（速率限制缓冲）...")
-        time.sleep(45)
+        # Lambda 调用完毕，等待速率窗口恢复（>60s 确保 rolling window 清空），再翻译普通新闻
+        log.info("⏳ 等待 70s（速率限制缓冲，覆盖 60s rolling window）...")
+        time.sleep(70)
 
     # ── 构建扁平新闻列表（按类别顺序）─────────────────────
     cat_order = [c for c in _ALL_CAT_ORDER if news_data.get(c)]
@@ -237,7 +237,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         f"Articles:\n{articles_text_reg}"
     )
     log.info(f"🤖 调用 Claude 翻译+综述 {len(flat_items)} 条新闻...")
-    trans_raw = _call_claude(translate_prompt, max_tokens=4500)
+    trans_raw = _call_claude(translate_prompt, max_tokens=2500)
     cn_sections = []  # list of {"title": str, "summary": str}
     import re as _re
     if trans_raw:
