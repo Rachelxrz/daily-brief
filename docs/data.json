@@ -53647,7 +53647,882 @@
           "unrealized_pnl_pct": null
         }
       },
-      "extended_watchlist": {},
+      "extended_watchlist": {
+        "BDRY": {
+          "price": 12.27,
+          "day_chg": 1.81,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 12.36,
+            "bars_since_flip": 10,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.0342,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 24.7,
+            "di_pos": 30.1,
+            "di_neg": 31.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 12.03,
+            "ma50": 12.22,
+            "ma120": 11.36,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "COPX": {
+          "price": 76.65,
+          "day_chg": 1.81,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 85.03,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1553,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.6,
+            "di_pos": 24.6,
+            "di_neg": 35.9,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 81.18,
+            "ma50": 82.91,
+            "ma120": 82.94,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "FRO": {
+          "price": 36.75,
+          "day_chg": 5.91,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 40.15,
+            "bars_since_flip": 4,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1751,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 22.3,
+            "di_pos": 24.8,
+            "di_neg": 29.0,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 37.18,
+            "ma50": 35.95,
+            "ma120": 32.62,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "HEWJ": {
+          "price": 63.38,
+          "day_chg": -1.12,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 66.56,
+            "bars_since_flip": 7,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.106,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 14.2,
+            "di_pos": 31.1,
+            "di_neg": 34.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 63.27,
+            "ma50": 61.51,
+            "ma120": 58.93,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "MP": {
+          "price": 53.31,
+          "day_chg": -1.79,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 64.52,
+            "bars_since_flip": 16,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.1543,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 12.0,
+            "di_pos": 21.1,
+            "di_neg": 25.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 57.26,
+            "ma50": 61.78,
+            "ma120": 60.26,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "NEE": {
+          "price": 88.34,
+          "day_chg": 2.28,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 90.37,
+            "bars_since_flip": 31,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.541,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 19.3,
+            "di_pos": 15.5,
+            "di_neg": 19.2,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 86.4,
+            "ma50": 89.32,
+            "ma120": 89.32,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "VST": {
+          "price": 151.05,
+          "day_chg": -1.38,
+          "supertrend": {
+            "direction": "UP",
+            "value": 146.83,
+            "bars_since_flip": 9,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.0597,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.3,
+            "di_pos": 21.8,
+            "di_neg": 26.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 155.5,
+            "ma50": 154.24,
+            "ma120": 157.98,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(9根) ADX17.3 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "MSFT": {
+          "price": 390.49,
+          "day_chg": 1.62,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 394.38,
+            "bars_since_flip": 18,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 1.5508,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 21.9,
+            "di_pos": 26.8,
+            "di_neg": 29.4,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 386.96,
+            "ma50": 407.22,
+            "ma120": 407.43,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(18根) ADX21.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "LNG": {
+          "price": 245.97,
+          "day_chg": 0.84,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 247.29,
+            "bars_since_flip": 56,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": 0.4577,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 14.5,
+            "di_pos": 25.0,
+            "di_neg": 18.5,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 237.46,
+            "ma50": 243.82,
+            "ma120": 241.48,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "⚡ 突破关注",
+          "action": "等待再确认 1-2 根 K 线后操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(56根) ADX14.5 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "XOM": {
+          "price": 137.09,
+          "day_chg": 0.59,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 145.82,
+            "bars_since_flip": 25,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.3058,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 25.1,
+            "di_pos": 18.0,
+            "di_neg": 31.6,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 142.18,
+            "ma50": 147.55,
+            "ma120": 147.8,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(25根) ADX25.1 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "DHT": {
+          "price": 17.18,
+          "day_chg": 3.93,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 18.97,
+            "bars_since_flip": 3,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.0533,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 19.9,
+            "di_pos": 22.9,
+            "di_neg": 27.2,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 17.65,
+            "ma50": 17.52,
+            "ma120": 16.56,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "TNK": {
+          "price": 67.6,
+          "day_chg": 5.08,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 74.26,
+            "bars_since_flip": 4,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.001,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 20.9,
+            "di_pos": 18.5,
+            "di_neg": 28.3,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 72.0,
+            "ma50": 74.34,
+            "ma120": 70.77,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "DUK": {
+          "price": 129.6,
+          "day_chg": 3.05,
+          "supertrend": {
+            "direction": "UP",
+            "value": 122.07,
+            "bars_since_flip": 6,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.088,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 13.9,
+            "di_pos": 27.7,
+            "di_neg": 19.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 125.3,
+            "ma50": 124.73,
+            "ma120": 124.99,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(6根) ADX13.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "RTX": {
+          "price": 199.25,
+          "day_chg": 3.9,
+          "supertrend": {
+            "direction": "UP",
+            "value": 182.77,
+            "bars_since_flip": 11,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.3457,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 25.1,
+            "di_pos": 31.8,
+            "di_neg": 10.2,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 185.52,
+            "ma50": 179.44,
+            "ma120": 190.49,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(11根) ADX25.1 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "AVAV": {
+          "price": 190.89,
+          "day_chg": 10.7,
+          "supertrend": {
+            "direction": "UP",
+            "value": 143.91,
+            "bars_since_flip": 1,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1681,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 21.1,
+            "di_pos": 35.2,
+            "di_neg": 17.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 166.94,
+            "ma50": 175.68,
+            "ma120": 216.64,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟢 趋势初确认",
+          "action": "可加仓，LEAP 期权时机",
+          "option_rec": {
+            "recommendation": "LEAP",
+            "rationale": "ST刚翻UP 1根，ADX21.1 趋势初建",
+            "suggested_expiry": "2028-01-21",
+            "suggested_delta": "0.70-0.80",
+            "account": "IRA优先"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "SE": {
+          "price": 103.3,
+          "day_chg": 0.95,
+          "supertrend": {
+            "direction": "UP",
+            "value": 89.64,
+            "bars_since_flip": 54,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.7586,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 20.2,
+            "di_pos": 37.0,
+            "di_neg": 13.6,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 90.15,
+            "ma50": 89.02,
+            "ma120": 95.89,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(54根) ADX20.2 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "DOCN": {
+          "price": 130.13,
+          "day_chg": -9.99,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 177.62,
+            "bars_since_flip": 0,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -2.377,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 26.6,
+            "di_pos": 13.3,
+            "di_neg": 26.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 162.47,
+            "ma50": 149.34,
+            "ma120": 102.05,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🔴 强烈看跌",
+          "action": "不操作，等待信号改善",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST↓ SQZ负增强 ADX26.6 — 信号不支持"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "EQIX": {
+          "price": 1002.02,
+          "day_chg": -1.14,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 1102.3,
+            "bars_since_flip": 1,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -1.4011,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 17.6,
+            "di_pos": 15.4,
+            "di_neg": 29.9,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 1070.94,
+            "ma50": 1073.06,
+            "ma120": 984.71,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST↓ SQZ负增强 ADX17.6 — 信号不支持"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "RKLB": {
+          "price": 100.46,
+          "day_chg": 0.39,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 111.67,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 1.3791,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 23.9,
+            "di_pos": 21.3,
+            "di_neg": 22.5,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 102.47,
+            "ma50": 106.93,
+            "ma120": 88.08,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(18根) ADX23.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "XMMO": {
+          "price": 163.14,
+          "day_chg": -1.72,
+          "supertrend": {
+            "direction": "UP",
+            "value": 160.97,
+            "bars_since_flip": 59,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": -0.3132,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 12.9,
+            "di_pos": 17.0,
+            "di_neg": 31.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 168.18,
+            "ma50": 165.48,
+            "ma120": 154.33,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(59根) ADX12.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "IWM": {
+          "price": 297.58,
+          "day_chg": -0.58,
+          "supertrend": {
+            "direction": "UP",
+            "value": 285.08,
+            "bars_since_flip": 59,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.2064,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 8.4,
+            "di_pos": 20.9,
+            "di_neg": 22.0,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 293.04,
+            "ma50": 286.08,
+            "ma120": 269.96,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(59根) ADX8.4 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "BNO": {
+          "price": 39.67,
+          "day_chg": 0.66,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 44.22,
+            "bars_since_flip": 25,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.3247,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 28.9,
+            "di_pos": 17.5,
+            "di_neg": 42.3,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 45.05,
+            "ma50": 50.97,
+            "ma120": 44.66,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "UTES": {
+          "price": 81.04,
+          "day_chg": 1.41,
+          "supertrend": {
+            "direction": "UP",
+            "value": 79.33,
+            "bars_since_flip": 9,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.1407,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 18.8,
+            "di_pos": 24.0,
+            "di_neg": 28.6,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 80.58,
+            "ma50": 80.72,
+            "ma120": 80.46,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "REMX": {
+          "price": 86.72,
+          "day_chg": -1.07,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 95.84,
+            "bars_since_flip": 32,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.4695,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 16.7,
+            "di_pos": 22.3,
+            "di_neg": 37.0,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 91.23,
+            "ma50": 97.16,
+            "ma120": 94.01,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "GDX": {
+          "price": 78.43,
+          "day_chg": 4.48,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 85.33,
+            "bars_since_flip": 6,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.5799,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.7,
+            "di_pos": 25.0,
+            "di_neg": 29.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 79.17,
+            "ma50": 85.37,
+            "ma120": 93.27,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "USD": {
+          "price": 87.51,
+          "day_chg": -7.69,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 116.73,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": 0.0781,
+            "momentum_dir": "FLIPPING"
+          },
+          "adx": {
+            "adx": 17.2,
+            "di_pos": 20.9,
+            "di_neg": 34.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 97.85,
+            "ma50": 94.2,
+            "ma120": 71.79,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        }
+      },
       "option_recommendations": [
         {
           "ticker": "ASML",
@@ -54581,6 +55456,880 @@
             "recommendation": "NO_ACTION",
             "rationale": "ST+(39根) ADX13.0 — 等待信号确认"
           },
+          "unrealized_pnl_pct": null
+        },
+        "BDRY": {
+          "price": 12.27,
+          "day_chg": 1.81,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 12.36,
+            "bars_since_flip": 10,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.0342,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 24.7,
+            "di_pos": 30.1,
+            "di_neg": 31.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 12.03,
+            "ma50": 12.22,
+            "ma120": 11.36,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "COPX": {
+          "price": 76.65,
+          "day_chg": 1.81,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 85.03,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1553,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.6,
+            "di_pos": 24.6,
+            "di_neg": 35.9,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 81.18,
+            "ma50": 82.91,
+            "ma120": 82.94,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "FRO": {
+          "price": 36.75,
+          "day_chg": 5.91,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 40.15,
+            "bars_since_flip": 4,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1751,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 22.3,
+            "di_pos": 24.8,
+            "di_neg": 29.0,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 37.18,
+            "ma50": 35.95,
+            "ma120": 32.62,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "HEWJ": {
+          "price": 63.38,
+          "day_chg": -1.12,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 66.56,
+            "bars_since_flip": 7,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.106,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 14.2,
+            "di_pos": 31.1,
+            "di_neg": 34.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 63.27,
+            "ma50": 61.51,
+            "ma120": 58.93,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "MP": {
+          "price": 53.31,
+          "day_chg": -1.79,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 64.52,
+            "bars_since_flip": 16,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.1543,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 12.0,
+            "di_pos": 21.1,
+            "di_neg": 25.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 57.26,
+            "ma50": 61.78,
+            "ma120": 60.26,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "NEE": {
+          "price": 88.34,
+          "day_chg": 2.28,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 90.37,
+            "bars_since_flip": 31,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.541,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 19.3,
+            "di_pos": 15.5,
+            "di_neg": 19.2,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 86.4,
+            "ma50": 89.32,
+            "ma120": 89.32,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "VST": {
+          "price": 151.05,
+          "day_chg": -1.38,
+          "supertrend": {
+            "direction": "UP",
+            "value": 146.83,
+            "bars_since_flip": 9,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.0597,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.3,
+            "di_pos": 21.8,
+            "di_neg": 26.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 155.5,
+            "ma50": 154.24,
+            "ma120": 157.98,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(9根) ADX17.3 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "MSFT": {
+          "price": 390.49,
+          "day_chg": 1.62,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 394.38,
+            "bars_since_flip": 18,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 1.5508,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 21.9,
+            "di_pos": 26.8,
+            "di_neg": 29.4,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 386.96,
+            "ma50": 407.22,
+            "ma120": 407.43,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(18根) ADX21.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "LNG": {
+          "price": 245.97,
+          "day_chg": 0.84,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 247.29,
+            "bars_since_flip": 56,
+            "near_flip": true
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": 0.4577,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 14.5,
+            "di_pos": 25.0,
+            "di_neg": 18.5,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 237.46,
+            "ma50": 243.82,
+            "ma120": 241.48,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "⚡ 突破关注",
+          "action": "等待再确认 1-2 根 K 线后操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(56根) ADX14.5 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "XOM": {
+          "price": 137.09,
+          "day_chg": 0.59,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 145.82,
+            "bars_since_flip": 25,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.3058,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 25.1,
+            "di_pos": 18.0,
+            "di_neg": 31.6,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 142.18,
+            "ma50": 147.55,
+            "ma120": 147.8,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(25根) ADX25.1 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "DHT": {
+          "price": 17.18,
+          "day_chg": 3.93,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 18.97,
+            "bars_since_flip": 3,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.0533,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 19.9,
+            "di_pos": 22.9,
+            "di_neg": 27.2,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 17.65,
+            "ma50": 17.52,
+            "ma120": 16.56,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "TNK": {
+          "price": 67.6,
+          "day_chg": 5.08,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 74.26,
+            "bars_since_flip": 4,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.001,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 20.9,
+            "di_pos": 18.5,
+            "di_neg": 28.3,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 72.0,
+            "ma50": 74.34,
+            "ma120": 70.77,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "DUK": {
+          "price": 129.6,
+          "day_chg": 3.05,
+          "supertrend": {
+            "direction": "UP",
+            "value": 122.07,
+            "bars_since_flip": 6,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.088,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 13.9,
+            "di_pos": 27.7,
+            "di_neg": 19.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 125.3,
+            "ma50": 124.73,
+            "ma120": 124.99,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(6根) ADX13.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "RTX": {
+          "price": 199.25,
+          "day_chg": 3.9,
+          "supertrend": {
+            "direction": "UP",
+            "value": 182.77,
+            "bars_since_flip": 11,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.3457,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 25.1,
+            "di_pos": 31.8,
+            "di_neg": 10.2,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 185.52,
+            "ma50": 179.44,
+            "ma120": 190.49,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(11根) ADX25.1 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "AVAV": {
+          "price": 190.89,
+          "day_chg": 10.7,
+          "supertrend": {
+            "direction": "UP",
+            "value": 143.91,
+            "bars_since_flip": 1,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.1681,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 21.1,
+            "di_pos": 35.2,
+            "di_neg": 17.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 166.94,
+            "ma50": 175.68,
+            "ma120": 216.64,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟢 趋势初确认",
+          "action": "可加仓，LEAP 期权时机",
+          "option_rec": {
+            "recommendation": "LEAP",
+            "rationale": "ST刚翻UP 1根，ADX21.1 趋势初建",
+            "suggested_expiry": "2028-01-21",
+            "suggested_delta": "0.70-0.80",
+            "account": "IRA优先"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "SE": {
+          "price": 103.3,
+          "day_chg": 0.95,
+          "supertrend": {
+            "direction": "UP",
+            "value": 89.64,
+            "bars_since_flip": 54,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.7586,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 20.2,
+            "di_pos": 37.0,
+            "di_neg": 13.6,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 90.15,
+            "ma50": 89.02,
+            "ma120": 95.89,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(54根) ADX20.2 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "DOCN": {
+          "price": 130.13,
+          "day_chg": -9.99,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 177.62,
+            "bars_since_flip": 0,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -2.377,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 26.6,
+            "di_pos": 13.3,
+            "di_neg": 26.1,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 162.47,
+            "ma50": 149.34,
+            "ma120": 102.05,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🔴 强烈看跌",
+          "action": "不操作，等待信号改善",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST↓ SQZ负增强 ADX26.6 — 信号不支持"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "EQIX": {
+          "price": 1002.02,
+          "day_chg": -1.14,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 1102.3,
+            "bars_since_flip": 1,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -1.4011,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 17.6,
+            "di_pos": 15.4,
+            "di_neg": 29.9,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 1070.94,
+            "ma50": 1073.06,
+            "ma120": 984.71,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST↓ SQZ负增强 ADX17.6 — 信号不支持"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "RKLB": {
+          "price": 100.46,
+          "day_chg": 0.39,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 111.67,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 1.3791,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 23.9,
+            "di_pos": 21.3,
+            "di_neg": 22.5,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 102.47,
+            "ma50": 106.93,
+            "ma120": 88.08,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST-(18根) ADX23.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "XMMO": {
+          "price": 163.14,
+          "day_chg": -1.72,
+          "supertrend": {
+            "direction": "UP",
+            "value": 160.97,
+            "bars_since_flip": 59,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": -0.3132,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 12.9,
+            "di_pos": 17.0,
+            "di_neg": 31.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 168.18,
+            "ma50": 165.48,
+            "ma120": 154.33,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(59根) ADX12.9 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "IWM": {
+          "price": 297.58,
+          "day_chg": -0.58,
+          "supertrend": {
+            "direction": "UP",
+            "value": 285.08,
+            "bars_since_flip": 59,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": -0.2064,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 8.4,
+            "di_pos": 20.9,
+            "di_neg": 22.0,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 293.04,
+            "ma50": 286.08,
+            "ma120": 269.96,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": {
+            "recommendation": "NO_ACTION",
+            "rationale": "ST+(59根) ADX8.4 — 等待信号确认"
+          },
+          "unrealized_pnl_pct": null
+        },
+        "BNO": {
+          "price": 39.67,
+          "day_chg": 0.66,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 44.22,
+            "bars_since_flip": 25,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.3247,
+            "momentum_dir": "INCREASING"
+          },
+          "adx": {
+            "adx": 28.9,
+            "di_pos": 17.5,
+            "di_neg": 42.3,
+            "trend_strength": "MODERATE"
+          },
+          "ma": {
+            "ma20": 45.05,
+            "ma50": 50.97,
+            "ma120": 44.66,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "UTES": {
+          "price": 81.04,
+          "day_chg": 1.41,
+          "supertrend": {
+            "direction": "UP",
+            "value": 79.33,
+            "bars_since_flip": 9,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.1407,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 18.8,
+            "di_pos": 24.0,
+            "di_neg": 28.6,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 80.58,
+            "ma50": 80.72,
+            "ma120": 80.46,
+            "price_vs_ma20": "ABOVE",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "REMX": {
+          "price": 86.72,
+          "day_chg": -1.07,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 95.84,
+            "bars_since_flip": 32,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.4695,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 16.7,
+            "di_pos": 22.3,
+            "di_neg": 37.0,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 91.23,
+            "ma50": 97.16,
+            "ma120": 94.01,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "MIXED"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "GDX": {
+          "price": 78.43,
+          "day_chg": 4.48,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 85.33,
+            "bars_since_flip": 6,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "NO_SQUEEZE",
+            "momentum_val": 0.5799,
+            "momentum_dir": "DECREASING"
+          },
+          "adx": {
+            "adx": 17.7,
+            "di_pos": 25.0,
+            "di_neg": 29.7,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 79.17,
+            "ma50": 85.37,
+            "ma120": 93.27,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BEARISH"
+          },
+          "signal": "🟠 走弱观察",
+          "action": "不加仓，关注走弱趋势",
+          "option_rec": null,
+          "unrealized_pnl_pct": null
+        },
+        "USD": {
+          "price": 87.51,
+          "day_chg": -7.69,
+          "supertrend": {
+            "direction": "DOWN",
+            "value": 116.73,
+            "bars_since_flip": 18,
+            "near_flip": false
+          },
+          "sqzmom": {
+            "sqz_state": "SQUEEZE",
+            "momentum_val": 0.0781,
+            "momentum_dir": "FLIPPING"
+          },
+          "adx": {
+            "adx": 17.2,
+            "di_pos": 20.9,
+            "di_neg": 34.3,
+            "trend_strength": "WEAK"
+          },
+          "ma": {
+            "ma20": 97.85,
+            "ma50": 94.2,
+            "ma120": 71.79,
+            "price_vs_ma20": "BELOW",
+            "ma_alignment": "BULLISH"
+          },
+          "signal": "🟡 震荡整理",
+          "action": "等待突破方向确认，暂不操作",
+          "option_rec": null,
           "unrealized_pnl_pct": null
         }
       }
