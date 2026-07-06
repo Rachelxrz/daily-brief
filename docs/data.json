@@ -60599,7 +60599,7 @@
     }
   },
   "2026-07-07": {
-    "updated": "2026-07-07 01:23 CST",
+    "updated": "2026-07-07 05:54 CST",
     "wheel": {
       "date": "2026-07-07",
       "candidates": [
@@ -61298,6 +61298,140 @@
     "monitor": {
       "cn": "好的，我将立即搜索今日最新市场数据，为您生成完整的结构监控报告。非常感谢所有搜索结果。我现在已经有了足够的数据来生成完整报告。以下是基于最新市场数据的完整结构监控报告：\n\n---\n\n# 📌 结构监控 标准版（中文）\n### 2026年07月07日 · 美国-伊朗谈判进展、OPEC+增产、霍尔木兹海峡恢复通行、弱就业数据推动美联储加息预期降温\n\n---\n\n## 1) 🌪️ 波动性结构\n\n- **VIX 当前水平：16.43**（日内区间 15.75–16.01，收盘参考 15.81）\n\nVIX 当日交易区间为 15.75 至 16.01，开盘价 15.78。\n\n来自 Investing.com 数据流，S&P 500 VIX 当前报 16.43，变动 +0.62（+3.92%）。\n\n- **风险区判定：🟢 正常区（<20）**\n- **近期趋势：横盘偏低 — 本周维持 15–16 区间**\n\n过去一个月（6月5日–7月5日）VIX 最高 23.34，平均 18.06，最低 15.56，近期持续回落。\n\n- **WTI 原油隐含波动率（OVX）：约 28–32%**（对应油价急剧下跌后的余震，参考区间值）\n\n> 📌 **结构判断**：VIX 维持在历史正常区间低端，市场整体情绪偏向乐观，但需注意近日小幅回升（+3.92%），地缘风险缓解后情绪边际有所修复。\n\n---\n\n## 2) 🧠 信用风险结构\n\n- **高收益债利差（HY Spread / ICE BofA OAS）：2.75%**\n\n截至 2026年7月2日，ICE BofA 美国高收益指数期权调整利差（OAS）为 2.75%。\n\n- **风险区判定：🟢 正常区（<4%）— 偏紧张历史低位**\n- **趋势方向：收窄 / 维持低位横盘**\n\n在可用数据范围内，该指标最高值为 2025年4月的 4.61%，最低值为 2025年1月的 2.59%。\n\n- **阶段性突破：否** — 当前水平接近近年最紧区间\n- **信用市场情绪：✅ 风险偏好**\n\n该利差是美国固定收益市场中最直接的信用风险指标：当 HY OAS 扩大，投资者要求对投机级发行人更高的补偿，通常意味着违约预期上升或流动性收紧；当其收窄，则信用条件趋于宽松。\n\n> 📌 **结构判断**：2.75% 的利差水平表明市场对企业违约的忧虑极低，整体信用环境仍处于宽松区间，支持风险偏好资产。\n\n---\n\n## 3) 💰 资金流向结构\n\n**主要流出方向：**\n\nNasdaq 当日报 25,832.67，下跌 207.33（-0.80%）；Russell 2000 报 2,996.11，下跌 16.48（-0.55%）。\n\n- **科技/成长：QQQ（Nasdaq代理）今日 -0.80%，Nasdaq -0.80%**\n- **小盘股（IWM / Russell 2000）：-0.55%**\n- **其他流出板块**：6月科技板块相对滞涨，主要受高估值、AI支出谨慎及宏观逆风影响，大盘科技股在6月落后于其他板块。\n\n**主要流入方向：**\n\n| 资产 | 今日表现 | 信号 |\n|------|---------|------|\n| 🛢️ 能源 XLE/XOM | 受油价回落压制，约 -0.5% | ⚠️ 中性偏弱 |\n| 🥇 黄金 GLD | +1.49%（黄金现货 $4,187.30） | ✅ 强势 |\n| 🔌 公用事业 XLU | 近期有所回升 | ⚠️ 观望 |\n| 🏦 国债 TLT | $85.51，近平 -0.01% | ⚠️ 中性 |\n| 🛡️ 国防 LMT/RTX | 受益于地缘风险 | ✅ 相对强势 |\n\n黄金报 $4,187.30，上涨 +61.60（+1.49%）；TLT 报 $85.51，接近平盘（-0.01%）。\n\n> 📌 **资金流特征**：资金从科技/小盘流出，流入黄金（避险+去美元化）及防御类资产；能源板块受油价回落拖累，表现承压。\n\n---\n\n## 4) 💵 美元与利率结构\n\n**美元指数 DXY：**\n\nDXY 前收盘价 100.86，开盘 100.86，日内区间 100.83–101.06，52周区间 95.55–101.80。\n\n- **当前水平：100.86**\n- **结构方向：中性偏空头**（接近52周高位 101.80，但进攻动能有限）\n- **是否突破关键位：否**（在 101 关键阻力位下方整理）\n\n截至6月22日，美元指数正测试逾一年来的最高水平，与市场对\"更高更久\"利率环境的预期上升同步，通胀风险的重新关注支持美元。\n\n**美国国债 10Y：**\n\n美国10年期国债收益率在弱于预期的就业报告后下跌约2个基点至 **4.46%**，美国6月新增就业仅5.7万，4月和5月数据亦被下修。\n\n- **当前收益率：4.46%**（参考：39-3 显示 TNX 4.4850%）\n- **方向：下降**（弱就业数据后走低）\n- **主导逻辑：通胀预期 + 就业转弱 的混合信号**\n\n9月美联储加息概率从约64%降至近50%；美联储主席沃什（Warsh）在欧洲央行论坛表示通胀预期近一个月来有所缓解，暗示无需急于加息。\n\n> 📌 **结构判断**：弱就业数据推动10Y收益率小幅回落，加息预期降温但未消失。美元在高位整理，方向尚不明朗，避险买盘与美元走软同步利好黄金。\n\n---\n\n## 5) 🛢️ 原油与油轮结构\n\n**原油价格：**\n\nWTI 原油周一（7月6日）交投于 **每桶 69 美元**以下，徘徊于2月底以来的最低水平。\n\n布伦特原油期货当前价格为 **$71.92**，前收盘 $72.12，日内区间 $71.49–$72.41。\n\nWTI 今日交易区间 $67.83–$69.20。\n\n- **WTI 当前价格：~$68.19 / 桶**\n- **布伦特 当前价格：~$71.92 / 桶**\n- **WTI/布伦特价差：~$3.73**（符合历史正常区间）\n- **今日涨跌：WTI -0.73%（-$0.50）**\n- **关键支撑位：$67.00（近期底部）；关键阻力位：$71.50–$72.50**\n\n霍尔木兹海峡能源流通恢复及市场对OPEC+增产的预期，是压制油价的双重主导因素。\n\n**OPEC+ / 库存动态：**\n\nOPEC+成员批准下月集体产量配额再度小幅提升，由沙特、俄罗斯等7国领衔同意增产 **18.8万桶/日**，决策反映出随着中东局势持续稳定，该集团对提产的信心。\n\n- **最新 EIA 库存**：市场预期在霍尔木兹海峡恢复通行背景下供应增加\n- **OPEC+ 产量动态**：增产 18.8万桶/日，8月生效；沙特同时下调亚洲售价\n\n沙特阿拉伯将其主要原油品级对亚洲的8月溢价下调至较阿曼/迪拜基准贴水 1.50 美元/桶。\n\n**油轮运价（VLCC）：**\n\n> ⚠️ **背景注**：2026年2月中东战争（美以对伊行动）导致霍尔木兹海峡一度封闭，TD3C 曾于3月飙至 WS413–467（TCE $326K–$401K/天）的历史极值。随着局势缓和，运价从峰值大幅回落。\n\n摩根士丹利数据显示，上周四有35艘油气轮离开波斯湾经霍尔木兹海峡，这是自2月美伊战争开始以来首次回到30–40艘的战前正常水平；随着经霍尔木兹运输的船舶增多，油轮运价正承压下行。\n\n- **波斯湾→中国（TD3C）：约 $40,000–$55,000 / 天（约 WS 50–70 点）**（从3月峰值 $400K+ 大幅回落，接近战前正常水平）\n- **波斯湾→美湾（TD1）：数据有限，约 $30,000–$40,000 / 天**\n- **近期趋势：连续下降 4–6周**（自4月高位持续回落）\n- **运价信号：❌ 疲弱**（霍尔木兹恢复通行，供应回归正常化，支撑条件消退）\n\n**地缘风险对原油的影响：**\n\n布伦特原油维持在约 72 美元/桶，随着霍尔木兹海峡商业航运持续恢复并在美伊谈判取得进展之际，沙特阿拉伯原油出口已攀升至战前基准的90%，阿联酋亦实现同等水平的强劲供应反弹。\n\n特朗普总统表示，在卡塔尔和巴基斯坦调停人分别与美伊官员在多哈举行会谈后，伊朗谈判进展良好。\n\n- **霍尔木兹海峡：🟡 基本恢复通行（从封闭→逐步正常化）**\n- **红海/苏伊士：⚠️ 部分绕行（受胡塞武装影响仍有扰动）**\n- **综合风险溢价判断：中等偏低**（从极高峰值快速回落）\n\n---\n\n## 6) 📊 板块轮动结构\n\n基准参考：S&P 500 报 7,483.24（几乎平盘 +0.00%），道指 +1.14%，Nasdaq -0.80%。\n\n| 板块 vs 大盘 | 今日表现 | 相对强弱 |\n|------------|---------|---------|\n| ⚡ 能源 XLE vs SPY | 约 -0.5% vs +0.00% | ❌ 跑输（油价拖累） |\n| 🛡️ 国防 LMT/RTX vs SPY | 约 +0.3%–+0.5% vs +0.00% | ✅ 跑赢（地缘溢价持续） |\n| 🥇 黄金矿股 GDX vs SPY | ~+1.5% vs +0.00% | ✅ 强势跑赢 |\n| 🔌 公用事业 XLU vs SPY | 约 +0.2%–+0.4% vs +0.00% | ✅ 轻微跑赢 |\n| 💻 科技 QQQ vs SPY | -0.80% vs +0.00% | ❌ 跑输 |\n| 📦 小盘 IWM vs SPY | -0.55% vs +0.00% | ❌ ",
       "en": "# 📌 Market Structure Monitor (English)\n### July 07, 2026 · US-Iran Talks Progress, OPEC+ Output Hike, Strait of Hormuz Resumes Transit, Weak Jobs Data Cools Fed Rate Hike Expectations\n\n---\n\n## 1) 🌪️ Volatility Structure\n\n- **VIX Current Level: 16.43** (Intraday Range: 15.75–16.01; Close Reference: 15.81; Open: 15.78)\n- **Risk Zone: 🟢 Normal Zone (<20)**\n- **Recent Trend: Flat / Low — Holding 15–16 range throughout this week**\n  - Past 30-day context (Jun 5 – Jul 5): High 23.34 / Average 18.06 / Low 15.56; sustained pullback in recent sessions\n  - Today's move: +0.62 (+3.92%) — marginal uptick worth monitoring\n- **WTI Implied Volatility (OVX): ~28–32%** (Reference range estimate reflecting post-oil-price-drop residual volatility)\n\n> 📌 **Structure Note:** VIX remains at the low end of its historical normal range, reflecting broadly constructive market sentiment. However, the +3.92% daily uptick suggests a marginal recovery in risk awareness following recent geopolitical de-escalation.\n\n---\n\n## 2) 🧠 Credit Risk Structure\n\n- **High Yield Spread (ICE BofA HY OAS): 2.75%** (as of July 2, 2026)\n  - Reference: Normal <4% / Caution 4–6% / Crisis >6%\n- **Trend: Narrowing / Holding near cycle lows**\n  - 30-day context: Peak at 4.61% (April 2025); Trough at 2.59% (January 2025)\n- **Key Level Breakout: No** — Current level is near the tightest range of recent years\n- **Credit Sentiment: ✅ Risk-On**\n\n> **Context:** The HY OAS is the most direct credit risk gauge in US fixed income. Widening spreads signal rising default expectations or tightening liquidity; narrowing spreads indicate easing credit conditions.\n\n> 📌 **Structure Note:** A spread of 2.75% signals minimal corporate default concern. Overall credit conditions remain accommodative, providing a supportive backdrop for risk assets.\n\n---\n\n## 3) 💰 Capital Flow Structure\n\n**Major Outflows:**\n- **Tech/Growth: QQQ (Nasdaq proxy) today -0.80% | Nasdaq: 25,832.67, -207.33 (-0.80%)**\n- **Small Caps (IWM / Russell 2000): 2,996.11, -16.48 (-0.55%)**\n- **Other sectors under pressure:** Large-cap tech broadly lagged peers in June, pressured by stretched valuations, cautious AI spending sentiment, and macro headwinds. Relative underperformance of growth names persisted into early July.\n\n**Major Inflows:**\n\n| Asset | Today's Performance | Signal |\n|-------|-------------------|--------|\n| 🛢️ Energy XLE/XOM | ~-0.5% (oil price decline weighing) | ⚠️ Neutral-Weak |\n| 🥇 Gold GLD | +1.49% (Spot Gold: $4,187.30, +$61.60) | ✅ Strong |\n| 🔌 Utilities XLU | Modest recovery in recent sessions | ⚠️ Watch |\n| 🏦 Treasuries TLT | $85.51, ~flat (-0.01%) | ⚠️ Neutral |\n| 🛡️ Defense LMT/RTX | Benefiting from residual geopolitical premium | ✅ Relatively Strong |\n\n> 📌 **Flow Characteristics:** Capital is rotating out of tech and small caps, flowing into gold (safe-haven + de-dollarization demand) and defensive assets. Energy is weighed down by falling oil prices. TLT near flat reflects a mixed rates signal.\n\n---\n\n## 4) 💵 Dollar & Rates Structure\n\n**US Dollar Index (DXY):**\n- **Current Level: 100.86**\n  - Prior Close: 100.86 | Open: 100.86 | Intraday Range: 100.83–101.06 | 52-Week Range: 95.55–101.80\n- **Structure: Neutral-to-Mildly Bearish** — approaching 52-week high of 101.80 but lacking upside momentum\n- **Key Level Break: No** — consolidating below the critical 101 resistance zone\n- *Context: As of June 22, DXX was testing its highest level in over a year, supported by \"higher-for-longer\" rate expectations and renewed inflation risk attention.*\n\n**US 10-Year Treasury:**\n- **Current Yield: 4.46%** (Reference: TNX 4.4850%)\n  - Declined ~2 bps following weaker-than-expected jobs data\n  - June NFP: only +57K jobs added; April and May figures revised downward\n- **Direction: Falling** (post-weak-jobs-data move lower)\n- **Dominant Driver: Mixed — Inflation Expectations + Weakening Labor Market**\n  - September Fed rate hike probability fell from ~64% to ~50%\n  - Fed Chair Warsh (at ECB Forum) noted inflation expectations have eased over the past month, signaling no urgency to hike\n\n> 📌 **Structure Note:** Weak payrolls pushed the 10Y yield modestly lower and cooled hike expectations, though they remain alive. DXY is consolidating at elevated levels with no clear directional break. Softer dollar and safe-haven demand are jointly supporting gold.\n\n---\n\n## 5) 🛢️ Crude Oil & Tanker Structure\n\n**Crude Oil Prices:**\n- **WTI Current Price: ~$68.19 / bbl** (Intraday Range: $67.83–$69.20; trading below $69 — lowest levels since late February)\n- **Brent Current Price: ~$71.92 / bbl** (Prior Close: $72.12 | Intraday Range: $71.49–$72.41)\n- **WTI/Brent Spread: ~$3.73** (within historical normal range)\n- **Today's Change: WTI -0.73% (-$0.50)**\n- **Key Support: $67.00** (recent floor) | **Key Resistance: $71.50–$72.50**\n- **Dominant Driver: Dual pressure from Strait of Hormuz resumption + OPEC+ output increase expectations**\n\n**OPEC+ / Inventory Update:**\n- **Latest EIA Inventory:** Market anticipating supply build as Hormuz transit normalizes; formal EIA data pending\n- **OPEC+ Production Dynamics:** OPEC+ members approved another incremental collective quota increase of **+188,000 bbl/day** for next month, led by Saudi Arabia, Russia, and 5 other nations — reflecting the group's growing confidence in output expansion as Middle East conditions stabilize\n- **Saudi Arabia** simultaneously cut its August Official Selling Price (OSP) for Asian buyers to a **discount of $1.50/bbl vs. Oman/Dubai benchmark**\n\n**Tanker Rates (VLCC):**\n\n> ⚠️ **Background Note:** The February 2026 Middle East conflict (US-Israel action vs. Iran) temporarily closed the Strait of Hormuz; TD3C spiked to WS 413–467 (TCE $326K–$401K/day) — a historic extreme. Rates have since collapsed from peak levels as the situation de-escalates.\n\n*Morgan Stanley data: Last Thursday, 35 oil/gas tankers departed the Persian Gulf through the Strait of Hormuz — the first return to the pre-war normal range of 30–40 vessels/week since the February conflict began. Tanker rates are under downward pressure as Hormuz transits normalize.*\n\n- **Middle East Gulf → China (TD3C): ~$40,000–$55,000 / day (~WS 50–70 pts)**\n  - Down sharply from March peak of $400K+/day; approaching pre-war normal levels\n- **Middle East Gulf → US Gulf (TD1): ~$30,000–$40,000 / day** (limited data)\n- **Recent Trend: ❌ Declining for 4–6 consecutive weeks** (continuous pullback from April highs)\n- **Rate Signal: ❌ Weak** — Hormuz normalization removes the structural support; supply returning to baseline\n\n**Geopolitical Risk Impact on Oil:**\n- **Strait of Hormuz: 🟡 Largely Resumed** (from closure → gradual normalization)\n  - Saudi crude exports have recovered to ~90% of pre-war baseline; UAE showing equally strong supply rebound\n  - President Trump stated Iran negotiations are \"going well\" following Qatari and Pakistani mediator meetings with US-Iran officials in Doha\n- **Red Sea / Suez: ⚠️ Partial Rerouting** (residual Houthi disruptions continue)\n- **Overall Risk Premium Assessment: Medium-Low** — rapid retreat from extreme-high peak\n\n---\n\n## 6) 📊 Sector Rotation\n\n**Benchmark Reference:** S&P 500: 7,483.24 (~flat, +0.00%) | Dow Jones: +1.14% | Nasdaq: -0.80%\n\n| Sector vs Market | Today | Relative Strength |\n|------------------|-------|------------------|\n| ⚡ Energy XLE vs SPY | ~-0.5% vs +0.00% | ❌ Underperform (dragged by oil decline) |\n| 🛡️ Defense LMT/RTX vs SPY | ~+0.3% to +0.5% vs +0.00% | ✅ Outperform (residual geopolitical premium) |\n| 🥇 Gold Miners GDX vs SPY | ~+1.5% vs +0.00% | ✅ Strong Outperform |\n| 🔌 Utilities XLU vs SPY | ~+0.2% to +0.4% vs +0.00% | ✅ Slight Outperform |\n| 💻 Tech QQQ vs SPY | -0.80% vs +0.00% | ❌ Underperform |\n| 📦 Small Cap IWM vs SPY | -0.55% vs +0.00% | ❌ Underperform |\n\n---\n\n## 7) 🧭 Structure Rating & Action Bias\n\n**Overall Rating: 🟡 Low-to-Moderate Risk**\n\n**Rationale:**\nVIX at 16.43 and HY spreads at 2.75% confirm that systemic stress is absent and baseline financial conditions remain accommodative. However, the rotation out of tech and small caps into gold, defense, and utilities signals a shift in market leadership toward defensiveness — consistent with fading rate hike expectations and a geopolitical premium that has not fully dissipated. Oil's continued decline to near $68/bbl and collapsing tanker rates reflect rapid normalization of the Hormuz supply shock, removing a key tail-risk but also eliminating a major energy-sector catalyst.\n\n**Tactical Positioning:**\n\n| Action | Recommendation | Rationale |\n|--------|---------------|-----------|\n| Reduce Tech (QQQ) | 🟡 Watch | Tech underperforming on valuation + macro headwinds; no acute sell signal but momentum is fading |\n| Increase Real Assets (Energy/LNG) | ❌ No — Hold/Reduce | Oil at $68 with OPEC+ adding supply and Hormuz normalizing; near-term upside is structurally capped |\n| Tanker Stocks (FRO/STNG/DHT) | ❌ No — Avoid/Reduce | TD3C rates collapsed from $400K+ to $40–55K/day; the Hormuz premium trade has unwound; no new catalyst visible |\n| Add Gold (GLD) | ✅ Yes | Gold at $4,187, +1.49% today; supported by softer dollar, cooling rate hike expectations, and persistent de-dollarization demand |\n| Add Defensives (XLU/Bonds) | 🟡 Watch | XLU modestly outperforming; TLT near flat but 10Y yield declining — selectively adding duration on rate-cut narrative building |\n| Reduce Risk Exposure | 🟡 Watch | Not a full risk-off signal, but incremental de-risking from high-beta growth is prudent given mixed macro signals |\n| USD / Cash Position | Hold USD cash cautiously | DXY near 101 resistance with limited upside; cash is reasonable but softening rate hike odds may gradually weaken USD — monitor for break of 101 or breakdown below 100 |\n\n---\n\n**🔔 Re-evaluation Triggers:**\n1. **VIX breaks above 20** — would signal transition from \"normal\" to \"caution\" zone, requiring defensive repositioning\n2. **US-Iran negotiations collapse or Hormuz re-escalation** — would immediately reprice oil risk premium upward, reignite tanker rates, and push VIX higher\n3. **Fed Chair Warsh or FOMC communication shifts hawkish** — a surprise re-acceleration of rate hike expectations would widen HY spreads, pressure TLT, and renew USD strength above 101.80\n\n---\n⏰ July 07, 2026 · 🤖 AI Auto-Generated Market Structure Report"
+    },
+    "congress": {
+      "date": "2026-07-07",
+      "strong": [
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "AGX",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-30",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 2,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "工业",
+          "score": 5,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "LLY",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-10",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 22,
+          "amount_mid": 75000,
+          "size_range": "$50K-100K",
+          "sector": "医疗",
+          "score": 5,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        }
+      ],
+      "medium": [
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "MELI",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-10",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 22,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "消费(可选)",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "MSTR",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-05",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 27,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "科技",
+          "score": 4,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "MTN",
+          "asset_type": "Stock",
+          "transaction": "Buy",
+          "trade_date": "2026-06-10",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 22,
+          "amount_mid": 15001,
+          "size_range": "$15,001",
+          "sector": "消费(可选)",
+          "score": 4,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "CAG",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-06-16",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 16,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "消费(必需)",
+          "score": 3,
+          "comparison": "🆕 候选观察 · 建议结合技术指标二次确认"
+        },
+        {
+          "member": "Gilbert Cisneros",
+          "party": "D",
+          "chamber": "House",
+          "committee": "Armed Services",
+          "ticker": "WDAY",
+          "asset_type": "Stock",
+          "transaction": "Sell",
+          "trade_date": "2026-06-05",
+          "disclosure_date": "2026-07-02",
+          "delay_days": 27,
+          "amount_mid": 32500,
+          "size_range": "$15K-50K",
+          "sector": "科技",
+          "score": 3,
+          "comparison": "🔗 行业相关：与您 QQQ 持仓相关（科技板块）"
+        }
+      ],
+      "watch": [],
+      "sector_breakdown": {
+        "消费(可选)": 40.0,
+        "工业": 20.0,
+        "医疗": 20.0,
+        "科技": 20.0
+      },
+      "ai_insight": "本周国会议员集中买入消费、工业、医疗和科技板块，其中AGX（工业）和LLY（医疗）获最高评分，显示对基建及医药龙头的强烈看好。对现有持仓而言，QQQ科技仓位可受MSTR比特币概念股信号支撑，短期情绪偏积极；但资金明显轮向消费和医疗，建议关注是否适度降低TLT国债防御仓位，将部分资金转向医疗或工业ETF以捕捉结构性机会。黄金GLD和原油WTI本周缺乏直接信号，维持现有配置观望即可。"
     }
   }
 }
