@@ -984,8 +984,8 @@ def run_advisor(session: str = "post", group: str = "all", dry_run: bool = False
     log.info("─" * 60)
 
     if not dry_run:
-        _push_wxpusher(msg, title)
-        _push_serverchan(msg, title)
+        # 微信推送已停用（微信只推送新闻简报），信号仅保存到网页
+        log.info("⏭️ 微信推送已停用（微信只推送新闻简报），信号仅保存到网页")
 
     total = regular + ira + macro + priority + extended
     ok  = sum(1 for r in total if "error" not in r)

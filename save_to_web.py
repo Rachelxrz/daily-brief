@@ -38,6 +38,16 @@ CATEGORY_EN = {
 
 _ALL_CAT_ORDER = ["finance", "health", "philosophy", "social", "wellness"]
 
+
+def _today_et() -> str:
+    """用美东时间（ET）确定数据日期键，与 signal_advisor 保持一致。
+    避免 UTC 16:00 后运行的 job 按 CST 跨到次日，产生只有部分数据的新日期键。"""
+    try:
+        import pytz
+        return datetime.now(pytz.timezone("America/New_York")).strftime("%Y-%m-%d")
+    except Exception:
+        return datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
+
 def _fetch_lambda_ai_news() -> list[dict]:
     """静默拉取 Lambda Finance AI 新闻，失败返回空列表。"""
     try:
@@ -477,7 +487,7 @@ def _format_plain_en(news_data: dict, date_en: str) -> str:
 
 def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
     tz_cst = timezone(timedelta(hours=8))
-    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    today  = _today_et()
 
     news_cards: dict = {}
     if news_data is not None:
@@ -500,7 +510,7 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
 
 def save_monitor(monitor_cn: str, monitor_en: str):
     tz_cst = timezone(timedelta(hours=8))
-    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    today  = _today_et()
     data = load_data()
     if today not in data:
         data[today] = {}
@@ -512,7 +522,7 @@ def save_monitor(monitor_cn: str, monitor_en: str):
 
 def save_congress(congress_data: dict):
     tz_cst = timezone(timedelta(hours=8))
-    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    today  = _today_et()
     data = load_data()
     if today not in data:
         data[today] = {}
@@ -524,7 +534,7 @@ def save_congress(congress_data: dict):
 
 def save_wheel(wheel_data: dict):
     tz_cst = timezone(timedelta(hours=8))
-    today  = datetime.now(tz_cst).strftime("%Y-%m-%d")
+    today  = _today_et()
     data = load_data()
     if today not in data:
         data[today] = {}

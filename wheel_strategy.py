@@ -560,13 +560,8 @@ def run_wheel_strategy(dry_run: bool = False) -> dict:
                  + json.dumps(wheel_data, ensure_ascii=False, indent=2))
         return {"message": message, "data": wheel_data}
 
-    log.info("\n📲 推送 Wheel Strategy 日报...")
-    if Config.SERVERCHAN_SENDKEY:
-        push_serverchan(f"🎡 Wheel Strategy {today_str}", message)
-    if Config.WECOM_WEBHOOK_URL:
-        push_wecom(message)
-    if Config.WXPUSHER_APP_TOKEN:
-        push_wxpusher(f"🎡 Wheel Strategy {today_str}", message)
+    # 微信推送已停用（微信只推送新闻简报），日报仅保存到网页
+    log.info("\n⏭️ 微信推送已停用（微信只推送新闻简报），日报仅保存到网页")
 
     try:
         save_wheel(wheel_data)

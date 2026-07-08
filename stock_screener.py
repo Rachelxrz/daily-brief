@@ -693,9 +693,8 @@ if __name__ == "__main__":
     report = run_all()
     if report:
         save_json(report)
-        msg = build_message(report)
-        push_serverchan(msg)
-        push_wxpusher(msg)
+        # 微信推送已停用（微信只推送新闻简报），结果仅保存到网页
+        print("⏭️ 微信推送已停用（微信只推送新闻简报），结果仅保存到网页")
         print("\n✅ 全部完成！")
     else:
         print("\n⏭️ 今日跳过")

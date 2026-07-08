@@ -730,16 +730,11 @@ def run_congress_tracker(dry_run: bool = False) -> dict:
         log.info("\n🔍 [Dry Run] JSON 数据预览：\n" + json.dumps(congress_data, ensure_ascii=False, indent=2))
         return {"message": message, "data": congress_data, "new_count": len(new_items)}
 
+    # 微信推送已停用（微信只推送新闻简报），信号仅保存到网页
     if new_items:
-        log.info("\n📲 推送国会交易信号...")
-        if Config.SERVERCHAN_SENDKEY:
-            push_serverchan(f"🏛 国会交易信号 {today_str}", message)
-        if Config.WECOM_WEBHOOK_URL:
-            push_wecom(message)
-        if Config.WXPUSHER_APP_TOKEN:
-            push_wxpusher(f"🏛 国会交易信号 {today_str}", message)
+        log.info("\n⏭️ 微信推送已停用（微信只推送新闻简报），信号仅保存到网页")
     else:
-        log.info("   ⏭️ 无新增信号，跳过推送")
+        log.info("   ⏭️ 无新增信号")
 
     try:
         save_congress(congress_data)

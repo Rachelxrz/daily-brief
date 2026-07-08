@@ -682,7 +682,12 @@ function init() {
   const dates = Object.keys(allData).sort().reverse();
   if (!dates.length) { showEmpty(); return; }
 
-  currentDate = dates[0];
+  // 默认选中最近一个有新闻数据的日期（避免只有 monitor 等部分数据的新日期键导致新闻页空白）
+  currentDate = dates.find(d => {
+    const day = allData[d] || {};
+    return (day.news_cards && Object.keys(day.news_cards).length > 0) ||
+           (day.news && ((day.news.cn && day.news.cn.trim()) || (day.news.en && day.news.en.trim())));
+  }) || dates[0];
 
   // Last updated
   document.getElementById('last-updated').textContent =
