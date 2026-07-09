@@ -236,28 +236,52 @@ def generate_news_with_insights(news_data: dict) -> tuple:
         for i, (_, item) in enumerate(flat_items)
     )
 
-    # ── 调用 1：标题翻译 + 2-3句综述（--- 分节，避开 JSON 引号问题）──
-    translate_prompt = (
-        f"For each of the following {len(flat_items)} news articles, provide a Chinese title and a 2-3 sentence Chinese summary.\n"
-        f"Output EXACTLY {len(flat_items)} sections separated by ---\n"
-        "Section format:\n"
-        "Line 1: concise Chinese title (≤25 chars, no quotes)\n"
-        "Lines 2-4: 2-3 sentences of Chinese summary and analysis\n"
-        "No JSON, no numbering, no extra text.\n\n"
-        f"Articles:\n{articles_text_reg}"
-    )
-    log.info(f"🤖 调用 Claude 翻译+综述 {len(flat_items)} 条新闻...")
-    trans_raw = _call_claude(translate_prompt, max_tokens=2500)
-    cn_sections = []  # list of {"title": str, "summary": str}
+    # ── 调用 1：标题翻译 + 2-3句综述 ──────────────────────────
+    # 按分类分批调用：单次只翻译一个分类（≤10 条），确保 max_tokens 充足。
+    # 这样即使某个分类被截断，也只影响该分类，不会像“一次翻译全部”那样
+    # 在 token 用尽后把后续所有分类的中文全部丢失。
     import re as _re
-    if trans_raw:
-        blocks = [b.strip() for b in trans_raw.split("---") if b.strip()]
-        for block in blocks:
-            lines = [l.strip() for l in block.splitlines() if l.strip()]
-            title = _re.sub(r'^\d+[\.\)]\s*', '', lines[0]) if lines else ""
-            summary = "\n".join(lines[1:]) if len(lines) > 1 else ""
-            cn_sections.append({"title": title, "summary": summary})
-        log.info(f"   ✅ 翻译+综述成功: {len(cn_sections)}/{len(flat_items)} 条")
+
+    def _translate_batch(items: list) -> list:
+        """翻译一批新闻，返回与 items 等长的 [{"title","summary"}, ...]。"""
+        if not items:
+            return []
+        body = "\n".join(
+            f"{i+1}. {it['title']}"
+            + (f"\n   {it.get('summary','')[:200]}" if it.get("summary") else "")
+            for i, it in enumerate(items)
+        )
+        prompt = (
+            f"For each of the following {len(items)} news articles, provide a Chinese title and a 2-3 sentence Chinese summary.\n"
+            f"Output EXACTLY {len(items)} sections separated by ---\n"
+            "Section format:\n"
+            "Line 1: concise Chinese title (≤25 chars, no quotes)\n"
+            "Lines 2-4: 2-3 sentences of Chinese summary and analysis\n"
+            "No JSON, no numbering, no extra text.\n\n"
+            f"Articles:\n{body}"
+        )
+        raw = _call_claude(prompt, max_tokens=3000)
+        parsed = []
+        if raw:
+            for block in [b.strip() for b in raw.split("---") if b.strip()]:
+                lines = [l.strip() for l in block.splitlines() if l.strip()]
+                title = _re.sub(r'^\d+[\.\)]\s*', '', lines[0]) if lines else ""
+                summary = "\n".join(lines[1:]) if len(lines) > 1 else ""
+                parsed.append({"title": title, "summary": summary})
+        # 对齐 items 长度：不足补空、超出截断，保证下游按序号索引不错位
+        while len(parsed) < len(items):
+            parsed.append({"title": "", "summary": ""})
+        return parsed[:len(items)]
+
+    cn_sections = []  # 扁平，与 flat_items 顺序对齐
+    for ci, cat in enumerate(cat_order):
+        items = news_data.get(cat, [])
+        log.info(f"🤖 翻译分类 {cat}（{len(items)} 条）...")
+        cn_sections.extend(_translate_batch(items))
+        if ci < len(cat_order) - 1:
+            time.sleep(20)  # 分类之间留间隔，缓冲 API 速率限制
+    got = sum(1 for s in cn_sections if s["title"] or s["summary"])
+    log.info(f"   ✅ 翻译+综述完成: {got}/{len(flat_items)} 条")
     cn_titles = [s["title"] for s in cn_sections]  # backward compat fallback
 
     # 翻译完毕，等待速率窗口恢复
