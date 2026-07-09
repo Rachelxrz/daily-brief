@@ -72430,7 +72430,7 @@
     }
   },
   "2026-07-09": {
-    "updated": "2026-07-09 22:44 CST",
+    "updated": "2026-07-09 23:53 CST",
     "signal_advisor": {
       "date": "2026-07-09",
       "session": "pre_market",
@@ -75001,6 +75001,190 @@
           },
           "unrealized_pnl_pct": null
         }
+      }
+    },
+    "wheel": {
+      "date": "2026-07-09",
+      "candidates": [
+        {
+          "ticker": "RVTY",
+          "price": 112.49,
+          "ma20": 106.45,
+          "ma50": 100.32,
+          "rsi": 62.3,
+          "adx": 28.3,
+          "iv": 0.525,
+          "strike": 105,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 4.76,
+          "premium_per_contract": 476.0,
+          "congress_signal": true
+        },
+        {
+          "ticker": "MPC",
+          "price": 282.42,
+          "ma20": 258.55,
+          "ma50": 254.99,
+          "rsi": 69.0,
+          "adx": 20.8,
+          "iv": 0.4,
+          "strike": 260,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 8.22,
+          "premium_per_contract": 822.0,
+          "congress_signal": false
+        }
+      ],
+      "call_candidates": [
+        {
+          "ticker": "ETHA",
+          "price": 13.12,
+          "shares": 402,
+          "contracts": 4,
+          "cost_basis": 25.01,
+          "unrealized_pct": -47.5,
+          "strike": 14,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 0.55,
+          "premium_per_contract": 55.0,
+          "iv": 0.525,
+          "otm_pct": 6.7,
+          "already_covered": true
+        },
+        {
+          "ticker": "VRT",
+          "price": 329.55,
+          "shares": 193,
+          "contracts": 1,
+          "cost_basis": 229.35,
+          "unrealized_pct": 43.7,
+          "strike": 360,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 17.82,
+          "premium_per_contract": 1782.0,
+          "iv": 0.825,
+          "otm_pct": 9.2,
+          "already_covered": false
+        },
+        {
+          "ticker": "NVDA",
+          "price": 202.06,
+          "shares": 213,
+          "contracts": 2,
+          "cost_basis": 234.69,
+          "unrealized_pct": -13.9,
+          "strike": 220,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 5.56,
+          "premium_per_contract": 556.0,
+          "iv": 0.408,
+          "otm_pct": 8.9,
+          "already_covered": false
+        },
+        {
+          "ticker": "GLD",
+          "price": 378.83,
+          "shares": 372,
+          "contracts": 3,
+          "cost_basis": 397.22,
+          "unrealized_pct": -4.6,
+          "strike": 410,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 5.98,
+          "premium_per_contract": 598.0,
+          "iv": 0.222,
+          "otm_pct": 8.2,
+          "already_covered": false
+        },
+        {
+          "ticker": "XBI",
+          "price": 163.49,
+          "shares": 292,
+          "contracts": 2,
+          "cost_basis": 231.67,
+          "unrealized_pct": -29.4,
+          "strike": 175,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 4.14,
+          "premium_per_contract": 414.0,
+          "iv": 0.324,
+          "otm_pct": 7.0,
+          "already_covered": false
+        },
+        {
+          "ticker": "ALB",
+          "price": 128.84,
+          "shares": 101,
+          "contracts": 1,
+          "cost_basis": 198.14,
+          "unrealized_pct": -35.0,
+          "strike": 140,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 4.95,
+          "premium_per_contract": 495.0,
+          "iv": 0.56,
+          "otm_pct": 8.7,
+          "already_covered": false
+        },
+        {
+          "ticker": "XLU",
+          "price": 45.35,
+          "shares": 101,
+          "contracts": 1,
+          "cost_basis": 46.17,
+          "unrealized_pct": -1.8,
+          "strike": 49,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "premium": 0.53,
+          "premium_per_contract": 53.0,
+          "iv": 0.162,
+          "otm_pct": 8.0,
+          "already_covered": false
+        }
+      ],
+      "positions": [
+        {
+          "ticker": "USD",
+          "type": "short_put",
+          "strike": 75.0,
+          "expiry": "2026-08-21",
+          "dte": 43,
+          "price": 95.45,
+          "dist_pct": 21.4,
+          "status": "安全",
+          "advice": "持有，继续收 Theta",
+          "premium": 0,
+          "contracts": 2,
+          "opened_date": "2026-06-14"
+        },
+        {
+          "ticker": "ETHA",
+          "type": "short_call",
+          "strike": 32.0,
+          "expiry": "2027-01-15",
+          "dte": 190,
+          "price": 13.12,
+          "dist_pct": 143.8,
+          "status": "安全",
+          "advice": "持有，继续收 Theta",
+          "premium": 0,
+          "contracts": 1,
+          "opened_date": "2026-06-14"
+        }
+      ],
+      "summary": {
+        "month": "2026-07",
+        "premium_earned": 0.0,
+        "positions_closed": 0
       }
     }
   }
