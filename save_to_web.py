@@ -436,56 +436,71 @@ def translate_for_wechat(news_data: dict) -> dict:
     """
     调用 Claude 把新闻标题和摘要翻译成中文，返回结构化数据供微信推送使用。
     格式与原始 news_data 相同，但 title/summary 替换为中文。
+
+    按分类分批调用，并改用 --- 分节文本（不再用一次性 JSON）：
+    旧实现把全部 ~40 条打包进一次 max_tokens=3000 的 JSON 调用，token 一旦用尽
+    JSON 就被截断 → 解析整体失败 → main.py 捕获后跳过“整个”微信新闻推送。
+    分批 + 分节文本后，单批 ≤10 条不会截断，且即使某段缺失也只影响该条，
+    不会让整条新闻推送流程失败。
     """
-    news_lines = []
-    for cat, items in news_data.items():
-        news_lines.append(f"\n[{cat}]")
-        for i, item in enumerate(items, 1):
-            news_lines.append(f"{i}. [{item['source']}] {item['title']}")
-            if item.get('summary'):
-                news_lines.append(f"   摘要原文: {item['summary'][:150]}")
-    news_text = "\n".join(news_lines)
+    import re as _re
 
-    categories_present = list(news_data.keys())
-    cat_example = "\n".join(
-        f'  "{c}": [{{"title": "中文标题", "summary": "中文摘要，2-3句话"}}, ...],'
-        for c in categories_present
-    ).rstrip(",")
+    def _translate_cat(items: list) -> list:
+        """翻译一个分类，返回与 items 等长的 [{"title","summary"}, ...]。"""
+        if not items:
+            return []
+        body = "\n".join(
+            f"{i+1}. [{it.get('source','')}] {it['title']}"
+            + (f"\n   摘要原文: {it['summary'][:150]}" if it.get('summary') else "")
+            for i, it in enumerate(items)
+        )
+        prompt = (
+            f"将以下 {len(items)} 条新闻翻译成简洁专业的中文。\n"
+            f"严格输出 {len(items)} 段，用 --- 分隔，顺序与输入完全一致。\n"
+            "每段格式：\n"
+            "第一行：中文标题（不加引号、不加编号）\n"
+            "后续行：中文摘要，2-3句话\n"
+            "只输出翻译，不要 JSON、不要编号、不要多余说明。\n\n"
+            f"新闻列表：\n{body}"
+        )
+        raw = _call_claude(prompt, max_tokens=3000)
+        out = []
+        if raw:
+            for block in [b.strip() for b in raw.split("---") if b.strip()]:
+                lines = [l.strip() for l in block.splitlines() if l.strip()]
+                title = _re.sub(r'^\d+[\.\)]\s*', '', lines[0]) if lines else ""
+                summary = "\n".join(lines[1:]) if len(lines) > 1 else ""
+                out.append({"title": title, "summary": summary})
+        # 对齐长度，保证按序号合并回原数据时不错位
+        while len(out) < len(items):
+            out.append({"title": "", "summary": ""})
+        return out[:len(items)]
 
-    prompt = f"""将以下新闻的标题和摘要翻译成简洁专业的中文。
-
-必须为所有类别（{', '.join(categories_present)}）都输出翻译结果。
-输出格式为 JSON（仅输出 JSON，不要 markdown 代码块，不要其他文字）：
-{{
-{cat_example}
-}}
-
-新闻列表：
-{news_text}"""
-
-    log.info("🤖 调用 Claude 翻译微信推送新闻...")
-    result = _call_claude(prompt, max_tokens=3000)
-
-    if not result:
-        raise RuntimeError("Claude 翻译调用失败（返回空内容），请检查 ANTHROPIC_API_KEY 是否已在 GitHub Secrets 中配置")
-
-    try:
-        parsed = _parse_json(result)
-    except Exception as e:
-        raise RuntimeError(f"翻译结果 JSON 解析失败: {e}") from e
-
-    # 把翻译后的 title/summary 合并回原始数据（保留 url/source/time 等字段）
+    cats = list(news_data.keys())
     translated = {}
-    for cat, orig_items in news_data.items():
-        translated_items = parsed.get(cat, [])
+    any_cn = False
+    for ci, cat in enumerate(cats):
+        orig_items = news_data.get(cat, [])
+        log.info(f"🤖 翻译微信推送分类 {cat}（{len(orig_items)} 条）...")
+        tr = _translate_cat(orig_items)
         merged = []
         for i, orig in enumerate(orig_items):
             item = orig.copy()
-            if i < len(translated_items):
-                item['title']   = translated_items[i].get('title', orig['title'])
-                item['summary'] = translated_items[i].get('summary', orig.get('summary', ''))
+            t = tr[i] if i < len(tr) else {}
+            if t.get("title"):
+                item['title'] = t['title']
+                any_cn = True
+            if t.get("summary"):
+                item['summary'] = t['summary']
             merged.append(item)
         translated[cat] = merged
+        if ci < len(cats) - 1:
+            time.sleep(20)  # 分类之间留间隔，缓冲 API 速率限制
+
+    # 只有当“全部”分类都翻译失败时才报错（拒绝发送纯英文原文）；
+    # 正常情况下分批后每条都能拿到中文，微信推送不会再被整体跳过。
+    if not any_cn:
+        raise RuntimeError("Claude 翻译全部失败（返回空内容），请检查 ANTHROPIC_API_KEY 是否已在 GitHub Secrets 中配置")
 
     log.info("✅ 微信推送新闻翻译完成")
     return translated
