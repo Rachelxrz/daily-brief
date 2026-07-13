@@ -30,7 +30,7 @@ from pathlib import Path
 import yfinance as yf
 
 # ─── 配置 ──────────────────────────────────────────────────
-TICKERS = ["QQQ", "SPY", "IGV", "IJR", "MDY", "MAGS", "RSP"]
+TICKERS = ["QQQ", "SPY", "IGV", "IJR", "MDY", "MAGS", "RSP", "XBI", "XMMO", "XLF", "XLE"]
 BASELINE_DATE = "2025-12-31"          # 作为 "Jan 1" 基准，用当日 Adjusted Close
 BASELINE_LABEL = "Jan 1"
 # 首次运行回填的月度快照目标日（2026 上半年），使曲线从第一天起就完整
