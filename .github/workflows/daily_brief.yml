@@ -400,7 +400,7 @@ jobs:
     timeout-minutes: 12
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '30 21 1 * *') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'prediction')
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'prediction' || github.event.inputs.job_type == 'both'))
     steps:
       - uses: actions/checkout@v4
         with: { token: "${{ secrets.GITHUB_TOKEN }}" }
