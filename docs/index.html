@@ -534,6 +534,7 @@
     <button class="tab-btn" onclick="switchTab('congress')">🏛 国会信号</button>
     <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel</button>
     <button class="tab-btn" onclick="switchTab('signals')">📊 技术信号</button>
+    <button class="tab-btn" onclick="switchTab('prediction')">📈 轮动观察</button>
   </div>
 
   <!-- Date bar -->
@@ -583,6 +584,13 @@
   <div id="panel-signals" class="panel">
     <div id="signals-content">
       <div class="empty"><div class="empty-icon">📊</div>加载中...</div>
+    </div>
+  </div>
+
+  <!-- Prediction / 轮动观察 panel -->
+  <div id="panel-prediction" class="panel">
+    <div id="prediction-content">
+      <div class="empty"><div class="empty-icon">📈</div>加载中...</div>
     </div>
   </div>
 
@@ -713,7 +721,7 @@ function selectDate(date) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals','prediction'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -729,6 +737,7 @@ function render() {
   else if (currentTab === 'screener') renderScreener(day);
   else if (currentTab === 'wheel')    renderWheel(day);
   else if (currentTab === 'signals')  renderSignalAdvisor(day);
+  else if (currentTab === 'prediction') renderPrediction(day);
 }
 
 function setNewsLang(lang) {
@@ -904,6 +913,23 @@ function renderMonitor(day) {
       <div class="report-card-body">${renderMd(mon.en)}</div>
     </div>
   `;
+}
+
+function renderPrediction(day) {
+  const el = document.getElementById('prediction-content');
+  let p = day.prediction;
+  // Fallback: 每月 1 号才更新，当前日期无数据时回退到最近一个有数据的日期
+  if (!p || !p.md) {
+    const allDates = Object.keys(allData).sort().reverse();
+    for (const d of allDates) {
+      if (allData[d].prediction && allData[d].prediction.md) { p = allData[d].prediction; break; }
+    }
+  }
+  if (!p || !p.md) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📈</div>暂无轮动观察数据（每月 1 号更新）</div>';
+    return;
+  }
+  el.innerHTML = `<div class="report-card"><div class="report-card-body">${renderMd(p.md)}</div></div>`;
 }
 
 function renderCongress(day) {
