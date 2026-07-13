@@ -6,6 +6,12 @@ on:
     - cron: '30 21 * * 1-5'
   workflow_dispatch:  # 允许手动触发
 
+# 与 daily_brief.yml 共用同一 concurrency group（组名相同 → 全仓库串行），
+# 避免两个工作流在 21:30 同时 push main 撞车（[remote rejected] cannot lock ref）。
+concurrency:
+  group: daily-brief-main-push
+  cancel-in-progress: false
+
 jobs:
   stock-screener:
     runs-on: ubuntu-latest

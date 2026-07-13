@@ -33,6 +33,13 @@ env:
   ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
   LAMBDA_FINANCE_TOKEN:   ${{ secrets.LAMBDA_FINANCE_TOKEN }}
 
+# 所有 run 串行化：同一时间只跑一个，其余排队，避免多个 job 并发 push 同一分支
+# 时相互挤掉（[remote rejected] cannot lock ref）。cancel-in-progress:false = 排队等待，
+# 不取消正在跑的。
+concurrency:
+  group: daily-brief-main-push
+  cancel-in-progress: false
+
 jobs:
 
   daily-news-brief:
