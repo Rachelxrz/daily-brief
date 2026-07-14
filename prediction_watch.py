@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 """
-Prediction / 轮动观察 — 月度快照与表格生成
+Prediction / 轮动观察 — 每周快照与表格生成
 =================================================
 
-- 每月 1 号（或之前最近交易日）记录一组 ETF 的 Adjusted Close 快照，
+- 每周（每周五收盘，或之前最近交易日）记录一组 ETF 的 Adjusted Close 快照，
   持久化到 prediction_snapshots.jsonl（每行 {date, ticker, adj_close}）。
-- 以 2025-12-31 收盘价作为 "Jan 1" 基准，计算：
+- 以 2025-12-31 收盘价作为基准，计算：
     (a) 自基准日的累计涨幅 cum_return
     (b) 相对 QQQ 的超额 = cum_return - QQQ 的 cum_return
-    (c) 环比上月快照的"当月涨幅"
+    (c) 环比上一周快照的"本周涨幅"
 - 输出 markdown 表格（行=ticker，QQQ 置顶作基准；超额为正的行在数字后加 ✓）。
-- 页面顶部原样嵌入 prediction_views.md（观点整理表，用户提供）。
+  表格显示基准 + 最近 DISPLAY_WEEKS 周（完整历史仍存 jsonl）。
+- 页面顶部原样嵌入 docs/prediction_views.md（观点整理表，前端常驻显示）。
 
 依赖：Python 标准库 + yfinance（yfinance 自带 pandas，用于读取其返回的行情表）。
 
 用法：
-  python prediction_watch.py --backfill   # 回填基准 + 2026 各月度快照，打印表格（不推送）
-  python prediction_watch.py --dry-run     # 生成当月快照并打印，不写网页、不推送
-  python prediction_watch.py               # 当月快照 + 写入网页 data.json + 推送微信
+  python prediction_watch.py --backfill   # 全量回填基准 + 每周快照，打印表格（不推送）
+  python prediction_watch.py --dry-run     # 生成本周快照并打印，不写网页、不推送
+  python prediction_watch.py               # 本周快照 + 写入网页 data.json + 推送微信
 """
 
 import argparse
@@ -30,17 +31,13 @@ from pathlib import Path
 import yfinance as yf
 
 # ─── 配置 ──────────────────────────────────────────────────
-TICKERS = ["QQQ", "SPY", "IGV", "IJR", "MDY", "MAGS", "RSP", "XBI", "XMMO", "XLF", "XLE"]
-BASELINE_DATE = "2025-12-31"          # 作为 "Jan 1" 基准，用当日 Adjusted Close
-BASELINE_LABEL = "Jan 1"
-# 首次运行回填的月度快照目标日（2026 上半年），使曲线从第一天起就完整
-BACKFILL_DATES = [
-    "2026-02-01", "2026-03-01", "2026-04-01",
-    "2026-05-01", "2026-06-01", "2026-07-01",
-]
-
-MONTH_ABBR = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+TICKERS = ["QQQ", "SPY", "IGV", "IJR", "MDY", "MAGS", "RSP", "XBI", "XMMO",
+           "XLF", "XLE", "SMH", "BDRY", "BWET", "UTES"]
+BASELINE_DATE = "2025-12-31"          # 基准，用当日 Adjusted Close
+BASELINE_LABEL = "基准"
+# 每周监测：以每周五收盘为锚点。回填从 2026 年首个周五起，使曲线从年初就完整。
+WEEKLY_START = "2026-01-02"           # 2026 首个周五
+DISPLAY_WEEKS = 12                    # 表格显示：基准 + 最近 N 周（完整历史仍存 jsonl）
 
 BASE_DIR   = Path(__file__).parent
 SNAP_FILE  = BASE_DIR / "prediction_snapshots.jsonl"
@@ -62,12 +59,28 @@ def _now_et() -> datetime:
         return datetime.now(timezone(timedelta(hours=-4)))
 
 
-def _month_label(date_str: str) -> str:
-    """快照日期 → 列标签。基准日显示为 'Jan 1'，月度快照显示为 '<Mon> 1'。"""
+def _recent_friday(d: date) -> date:
+    """返回 d（含）或之前最近的周五。"""
+    return d - timedelta(days=(d.weekday() - 4) % 7)
+
+
+def _weekly_anchors() -> list:
+    """从 WEEKLY_START 起到最近一个周五（含）的所有周五日期字符串。"""
+    start = datetime.strptime(WEEKLY_START, "%Y-%m-%d").date()
+    end = _recent_friday(_now_et().date())
+    out, cur = [], start
+    while cur <= end:
+        out.append(cur.isoformat())
+        cur += timedelta(days=7)
+    return out
+
+
+def _col_label(date_str: str) -> str:
+    """快照日期 → 列标签。基准显示为 '基准'，每周快照显示为 'M/D'。"""
     if date_str == BASELINE_DATE:
         return BASELINE_LABEL
-    _, m, _ = date_str.split("-")
-    return f"{MONTH_ABBR[int(m)]} 1"
+    _, m, d = date_str.split("-")
+    return f"{int(m)}/{int(d)}"
 
 
 # ─── 行情抓取（yfinance，Adjusted Close，取目标日或之前最近交易日）──────
@@ -153,7 +166,7 @@ def save_snapshots(snaps: dict) -> None:
                     {"date": d, "ticker": t, "adj_close": snaps[d][t]},
                     ensure_ascii=False))
     SNAP_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    log.info(f"💾 已写入 {SNAP_FILE.name}（{len(lines)} 行，{len(snaps)} 个月度快照）")
+    log.info(f"💾 已写入 {SNAP_FILE.name}（{len(lines)} 行，{len(snaps)} 个周度快照）")
 
 
 def upsert_snapshot(snaps: dict, date_str: str, day_prices: dict) -> None:
@@ -189,7 +202,7 @@ def build_table(snaps: dict) -> str:
         v = snaps[latest].get(t)
         return (v / b - 1) if (b and v) else None
 
-    def mom(t):
+    def wow(t):
         p = snaps[prev].get(t)
         v = snaps[latest].get(t)
         return (v / p - 1) if (p and v) else None
@@ -202,9 +215,14 @@ def build_table(snaps: dict) -> str:
 
     ordered = ["QQQ"] + [t for t in TICKERS if t != "QQQ"]
 
-    # 表头：Ticker | 各快照日价格… | 累计涨幅 | vs QQQ超额 | 当月涨幅
-    price_cols = [_month_label(d) for d in dates]
-    header = ["Ticker"] + price_cols + ["累计涨幅", "vs QQQ超额", "当月涨幅"]
+    # 只显示：基准 + 最近 DISPLAY_WEEKS 周（完整历史仍存 jsonl；累计涨幅仍从基准算起）
+    weekly_dates = [d for d in dates if d != BASELINE_DATE]
+    shown_weeks  = weekly_dates[-DISPLAY_WEEKS:]
+    display_dates = [BASELINE_DATE] + shown_weeks
+
+    # 表头：Ticker | 基准 + 各周价格… | 累计涨幅 | vs QQQ超额 | 本周涨幅
+    price_cols = [_col_label(d) for d in display_dates]
+    header = ["Ticker"] + price_cols + ["累计涨幅", "vs QQQ超额", "本周涨幅"]
     sep = ["---"] * len(header)
 
     lines = ["| " + " | ".join(header) + " |",
@@ -212,15 +230,16 @@ def build_table(snaps: dict) -> str:
 
     for t in ordered:
         row = [f"**{t}**" if t == "QQQ" else t]
-        row += [_fmt_price(snaps[d].get(t)) for d in dates]
+        row += [_fmt_price(snaps[d].get(t)) for d in display_dates]
         row.append(_fmt_pct(cum(t)))
         # QQQ 自身超额恒为 0，不打 ✓
         row.append(_fmt_pct(excess(t), tick=(t != "QQQ")))
-        row.append(_fmt_pct(mom(t)))
+        row.append(_fmt_pct(wow(t)))
         lines.append("| " + " | ".join(row) + " |")
 
-    note = (f"\n> 基准 {BASELINE_LABEL}（{BASELINE_DATE} 收盘）· 最新 {_month_label(latest)}"
-            f"（{latest}）· 当月涨幅 = 最新 vs {_month_label(prev)} · ✓ = 跑赢 QQQ")
+    note = (f"\n> 基准（{BASELINE_DATE} 收盘）· 最新 {_col_label(latest)}"
+            f"（{latest}）· 本周涨幅 = 最新 vs 上一周（{_col_label(prev)}）· ✓ = 跑赢 QQQ"
+            f" · 表格显示基准 + 最近 {DISPLAY_WEEKS} 周，累计涨幅按全程计算")
     return "\n".join(lines) + "\n" + note
 
 
@@ -232,13 +251,18 @@ def _read_views() -> str:
     return "> 📝 观点整理表尚未填写（编辑 `prediction_views.md` 后本区域将原样显示）。"
 
 
+def _subtitle(snaps: dict) -> str:
+    dates = sorted(snaps)
+    latest = dates[-1] if dates else _recent_friday(_now_et().date()).isoformat()
+    return f"截至 {latest}（每周更新）"
+
+
 def build_page(snaps: dict) -> str:
     """完整页面 markdown：标题 + 观点整理（原样）+ 分隔线 + 表格。
     用于微信推送（一条消息包含观点与数据）。"""
-    ym = _now_et().strftime("%Y年%m月")
     return (
         f"# 📈 Prediction | 轮动观察\n"
-        f"### {ym}\n\n"
+        f"### {_subtitle(snaps)}\n\n"
         f"{_read_views()}\n\n"
         f"---\n\n"
         f"{build_table(snaps)}\n"
@@ -246,10 +270,9 @@ def build_page(snaps: dict) -> str:
 
 
 def build_web(snaps: dict) -> str:
-    """网页数据表 markdown（仅月份 + 表格，不含观点）。
+    """网页数据表 markdown（仅副标题 + 表格，不含观点）。
     观点由前端直接读取 docs/prediction_views.md 常驻显示，避免重复。"""
-    ym = _now_et().strftime("%Y年%m月")
-    return f"### {ym}\n\n{build_table(snaps)}\n"
+    return f"### {_subtitle(snaps)}\n\n{build_table(snaps)}\n"
 
 
 # ─── 写入网页 + 推送 ───────────────────────────────────────
@@ -271,8 +294,7 @@ def save_to_web(page: str) -> None:
 
 def push(page: str) -> None:
     """复用 WxPusher / ServerChan 推送通道。"""
-    ym = _now_et().strftime("%Y年%m月")
-    title = f"📈 轮动观察 · {ym}"
+    title = f"📈 轮动观察 · 截至 {_recent_friday(_now_et().date()).isoformat()}"
     try:
         from config import Config
         from market_monitor import push_serverchan, push_wxpusher
@@ -290,27 +312,28 @@ def push(page: str) -> None:
 
 # ─── 主流程 ────────────────────────────────────────────────
 def do_backfill(snaps: dict) -> dict:
-    prices = fetch_snapshot_prices([BASELINE_DATE] + BACKFILL_DATES)
-    for d in [BASELINE_DATE] + BACKFILL_DATES:
+    anchors = _weekly_anchors()
+    prices = fetch_snapshot_prices([BASELINE_DATE] + anchors)
+    for d in [BASELINE_DATE] + anchors:
         upsert_snapshot(snaps, d, prices.get(d, {}))
     return snaps
 
 
 def run(backfill: bool = False, dry_run: bool = False) -> int:
-    snaps = load_snapshots()
-
     if backfill:
-        log.info("🔁 回填基准 + 2026 月度快照…")
+        # 全量重建为每周序列（丢弃旧的月度点），保证曲线干净
+        log.info("🔁 回填基准 + 每周快照（每周五）…")
+        snaps = {}
         do_backfill(snaps)
         save_snapshots(snaps)
     else:
-        now = _now_et()
-        target = date(now.year, now.month, 1).isoformat()
+        snaps = load_snapshots()
+        target = _recent_friday(_now_et().date()).isoformat()
         # 首次运行（无基准）：自动回填历史，保证曲线完整
         if BASELINE_DATE not in snaps:
             log.info("🔁 首次运行，自动回填历史快照…")
             do_backfill(snaps)
-        # 当月快照（同月幂等覆盖）
+        # 本周快照（同一周五幂等覆盖）
         prices = fetch_snapshot_prices([target])
         upsert_snapshot(snaps, target, prices.get(target, {}))
         save_snapshots(snaps)
@@ -330,8 +353,8 @@ def run(backfill: bool = False, dry_run: bool = False) -> int:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Prediction / 轮动观察 月度快照")
-    parser.add_argument("--backfill", action="store_true", help="回填基准+2026月度快照，只写快照与打印")
+    parser = argparse.ArgumentParser(description="Prediction / 轮动观察 每周快照")
+    parser.add_argument("--backfill", action="store_true", help="全量回填基准+每周快照，只写快照与打印")
     parser.add_argument("--dry-run",  action="store_true", help="生成并打印，不写网页、不推送")
     args = parser.parse_args()
     sys.exit(run(backfill=args.backfill, dry_run=args.dry_run))

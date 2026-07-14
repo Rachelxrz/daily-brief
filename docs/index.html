@@ -944,7 +944,7 @@ function renderPrediction(day) {
     if (tbl && tbl.md) {
       html += `<div class="report-card"><div class="report-card-body">${renderMd(tbl.md)}</div></div>`;
     } else {
-      html += '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📈</div>本月数据将于每月 1 号自动生成（观点见上方）</div>';
+      html += '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📈</div>本周数据将在每周五收盘后自动生成（观点见上方）</div>';
     }
     el.innerHTML = html;
   });

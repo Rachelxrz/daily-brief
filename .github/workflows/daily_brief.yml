@@ -10,7 +10,7 @@ on:
     - cron: '0 13 * * 1-5'     # 08:00 ET - Wheel Strategy scan (weekdays, pre-market)
     - cron: '0 12 * * 1-5'     # 08:00 ET - Signal Advisor pre-market (weekdays)
     - cron: '30 21 * * 1-5'    # 17:30 ET - Signal Advisor post-market (weekdays)
-    - cron: '30 21 1 * *'      # 每月1号 17:30 ET - Prediction 轮动观察（月度）
+    - cron: '30 21 * * 5'      # 每周五 17:30 ET（收盘后）- Prediction 轮动观察（每周）
   workflow_dispatch:
     inputs:
       job_type:
@@ -395,11 +395,11 @@ jobs:
           retention-days: 7
 
   prediction-watch:
-    name: 📈 Prediction 轮动观察（月度）
+    name: 📈 Prediction 轮动观察（每周）
     runs-on: ubuntu-latest
     timeout-minutes: 12
     if: >-
-      (github.event_name == 'schedule' && github.event.schedule == '30 21 1 * *') ||
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 5') ||
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.job_type == 'prediction' || github.event.inputs.job_type == 'both'))
     steps:
       - uses: actions/checkout@v4
