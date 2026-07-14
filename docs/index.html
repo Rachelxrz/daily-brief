@@ -915,21 +915,39 @@ function renderMonitor(day) {
   `;
 }
 
+let predictionViewsCache = null;
+async function fetchPredictionViews() {
+  if (predictionViewsCache !== null) return predictionViewsCache;
+  try {
+    const r = await fetch('prediction_views.md?t=' + Date.now());
+    predictionViewsCache = r.ok ? await r.text() : '';
+  } catch (e) { predictionViewsCache = ''; }
+  return predictionViewsCache;
+}
+
 function renderPrediction(day) {
   const el = document.getElementById('prediction-content');
-  let p = day.prediction;
-  // Fallback: 每月 1 号才更新，当前日期无数据时回退到最近一个有数据的日期
-  if (!p || !p.md) {
+  // 数据表：每月 1 号才更新，当前日期无数据时回退到最近一个有数据的日期
+  let tbl = day.prediction;
+  if (!tbl || !tbl.md) {
     const allDates = Object.keys(allData).sort().reverse();
     for (const d of allDates) {
-      if (allData[d].prediction && allData[d].prediction.md) { p = allData[d].prediction; break; }
+      if (allData[d].prediction && allData[d].prediction.md) { tbl = allData[d].prediction; break; }
     }
   }
-  if (!p || !p.md) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">📈</div>暂无轮动观察数据（每月 1 号更新）</div>';
-    return;
-  }
-  el.innerHTML = `<div class="report-card"><div class="report-card-body">${renderMd(p.md)}</div></div>`;
+  // 观点始终从静态文件读取并常驻显示，让人一眼看懂这一页是干什么的（不依赖月度数据是否已生成）
+  fetchPredictionViews().then(views => {
+    let html = '';
+    if (views && views.trim()) {
+      html += `<div class="report-card"><div class="report-card-body">${renderMd('# 📈 Prediction | 轮动观察\n\n' + views)}</div></div>`;
+    }
+    if (tbl && tbl.md) {
+      html += `<div class="report-card"><div class="report-card-body">${renderMd(tbl.md)}</div></div>`;
+    } else {
+      html += '<div class="empty" style="padding:1.5rem"><div class="empty-icon">📈</div>本月数据将于每月 1 号自动生成（观点见上方）</div>';
+    }
+    el.innerHTML = html;
+  });
 }
 
 function renderCongress(day) {

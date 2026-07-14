@@ -44,7 +44,9 @@ MONTH_ABBR = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 BASE_DIR   = Path(__file__).parent
 SNAP_FILE  = BASE_DIR / "prediction_snapshots.jsonl"
-VIEWS_FILE = BASE_DIR / "prediction_views.md"
+# 放在 docs/ 下，让 GitHub Pages 能直接托管、前端可 fetch，观点内容始终可见
+# （不依赖月度 job 是否已生成 data.json）。
+VIEWS_FILE = BASE_DIR / "docs" / "prediction_views.md"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("prediction_watch")
@@ -231,7 +233,8 @@ def _read_views() -> str:
 
 
 def build_page(snaps: dict) -> str:
-    """完整页面 markdown：标题 + 观点整理（原样）+ 分隔线 + 表格。"""
+    """完整页面 markdown：标题 + 观点整理（原样）+ 分隔线 + 表格。
+    用于微信推送（一条消息包含观点与数据）。"""
     ym = _now_et().strftime("%Y年%m月")
     return (
         f"# 📈 Prediction | 轮动观察\n"
@@ -240,6 +243,13 @@ def build_page(snaps: dict) -> str:
         f"---\n\n"
         f"{build_table(snaps)}\n"
     )
+
+
+def build_web(snaps: dict) -> str:
+    """网页数据表 markdown（仅月份 + 表格，不含观点）。
+    观点由前端直接读取 docs/prediction_views.md 常驻显示，避免重复。"""
+    ym = _now_et().strftime("%Y年%m月")
+    return f"### {ym}\n\n{build_table(snaps)}\n"
 
 
 # ─── 写入网页 + 推送 ───────────────────────────────────────
@@ -309,12 +319,13 @@ def run(backfill: bool = False, dry_run: bool = False) -> int:
         log.error("❌ 基准日快照缺失（可能是行情抓取失败），终止。")
         return 1
 
-    page = build_page(snaps)
-    print("\n" + page)
+    push_md = build_page(snaps)   # 微信：观点 + 数据表
+    web_md  = build_web(snaps)    # 网页：仅数据表（观点由前端常驻显示）
+    print("\n" + push_md)
 
     if not dry_run and not backfill:
-        save_to_web(page)
-        push(page)
+        save_to_web(web_md)
+        push(push_md)
     return 0
 
 
