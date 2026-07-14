@@ -22,7 +22,7 @@ from pathlib import Path
 from scraper     import scrape_all
 from pusher      import push_all
 from config      import Config
-from save_to_web import save_news, translate_for_wechat, translate_for_wechat
+from save_to_web import save_news, translate_for_wechat, filter_recent_duplicates
 
 # ─── 日志设置 ──────────────────────────────────────────────
 os.makedirs(Config.LOG_DIR, exist_ok=True)
@@ -91,9 +91,12 @@ def run_daily_job(dry_run: bool = False):
     # Step 1: 抓取新闻
     log.info("\n📡 Step 1/3: 抓取新闻...")
     news_data = scrape_all(items_per_category=Config.ITEMS_PER_CATEGORY)
-    
+
+    # 近三天去重：剔除前 3 天已出现过的新闻（RSS 会连续多天返回同一篇）
+    news_data = filter_recent_duplicates(news_data, days=3)
+
     total = sum(len(v) for v in news_data.values())
-    log.info(f"   ✅ 共抓取 {total} 条新闻")
+    log.info(f"   ✅ 去重后共 {total} 条新闻")
     for cat, items in news_data.items():
         log.info(f"      {cat}: {len(items)} 条")
     

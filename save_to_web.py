@@ -80,6 +80,74 @@ def save_data(data: dict):
     log.info(f"✅ 已写入 {DATA_FILE}，共 {len(data)} 天数据")
 
 
+# ─── 近 N 天去重 ───────────────────────────────────────────
+import re as _re_dd
+
+
+def _norm_url(u: str) -> str:
+    """URL 归一化：去掉 query/fragment/末尾斜杠，小写。"""
+    u = (u or "").strip()
+    if not u:
+        return ""
+    u = u.split("#")[0].split("?")[0].rstrip("/")
+    return u.lower()
+
+
+def _norm_title(t: str) -> str:
+    """标题归一化：仅保留字母数字和中日韩字符，小写，取前 80 字符。"""
+    return _re_dd.sub(r"[^0-9a-z一-鿿]", "", (t or "").lower())[:80]
+
+
+def _recent_seen_keys(days: int = 3) -> set:
+    """收集之前 days 天（严格早于今天 ET）已出现过的新闻 key（url + 标题）。"""
+    data = load_data()
+    try:
+        today = _today_et()
+    except Exception:
+        today = datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
+    prev_dates = [d for d in sorted(data.keys(), reverse=True) if d < today][:days]
+    seen = set()
+    for d in prev_dates:
+        for cat, items in (data[d].get("news_cards", {}) or {}).items():
+            for it in (items or []):
+                nu = _norm_url(it.get("url"))
+                if nu:
+                    seen.add("u:" + nu)
+                nt = _norm_title(it.get("title") or it.get("title_cn"))
+                if nt:
+                    seen.add("t:" + nt)
+    log.info(f"🧹 近{days}天去重：参考日期 {prev_dates}，已知 {len(seen)} 个 key")
+    return seen
+
+
+def filter_recent_duplicates(news_data: dict, days: int = 3) -> dict:
+    """剔除今天抓取中、在之前 days 天已出现过的新闻（url 或标题命中即视为重复）。
+    同时去掉本次抓取内部的跨类别重复。"""
+    seen = _recent_seen_keys(days)
+    run_seen: set = set()
+    out: dict = {}
+    removed = 0
+    for cat, items in news_data.items():
+        kept = []
+        for it in (items or []):
+            keys = set()
+            nu = _norm_url(it.get("url"))
+            if nu:
+                keys.add("u:" + nu)
+            nt = _norm_title(it.get("title"))
+            if nt:
+                keys.add("t:" + nt)
+            if (keys & seen) or (keys & run_seen):
+                removed += 1
+                continue
+            run_seen |= keys
+            kept.append(it)
+        out[cat] = kept
+    total = sum(len(v) for v in out.values())
+    log.info(f"🧹 近{days}天去重完成：移除 {removed} 条重复，保留 {total} 条")
+    return out
+
+
 def _call_claude(prompt: str, max_tokens: int = 3000) -> str:
     api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
