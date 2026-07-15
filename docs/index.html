@@ -535,6 +535,7 @@
     <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel</button>
     <button class="tab-btn" onclick="switchTab('signals')">📊 技术信号</button>
     <button class="tab-btn" onclick="switchTab('prediction')">📈 轮动观察</button>
+    <button class="tab-btn" onclick="switchTab('analysts')">🎯 分析师观点</button>
   </div>
 
   <!-- Date bar -->
@@ -591,6 +592,13 @@
   <div id="panel-prediction" class="panel">
     <div id="prediction-content">
       <div class="empty"><div class="empty-icon">📈</div>加载中...</div>
+    </div>
+  </div>
+
+  <!-- Analysts / 分析师观点 panel -->
+  <div id="panel-analysts" class="panel">
+    <div id="analysts-content">
+      <div class="empty"><div class="empty-icon">🎯</div>加载中...</div>
     </div>
   </div>
 
@@ -721,7 +729,7 @@ function selectDate(date) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals','prediction'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals','prediction','analysts'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -738,6 +746,7 @@ function render() {
   else if (currentTab === 'wheel')    renderWheel(day);
   else if (currentTab === 'signals')  renderSignalAdvisor(day);
   else if (currentTab === 'prediction') renderPrediction(day);
+  else if (currentTab === 'analysts')   renderAnalysts(day);
 }
 
 function setNewsLang(lang) {
@@ -948,6 +957,39 @@ function renderPrediction(day) {
     }
     el.innerHTML = html;
   });
+}
+
+function renderAnalysts(day) {
+  const el = document.getElementById('analysts-content');
+  let a = day.analysts;
+  // 每天更新；当前日期无数据时回退到最近一个有数据的日期
+  if (!a || !a.groups) {
+    const allDates = Object.keys(allData).sort().reverse();
+    for (const d of allDates) {
+      if (allData[d].analysts && allData[d].analysts.groups) { a = allData[d].analysts; break; }
+    }
+  }
+  if (!a || !a.groups || !a.groups.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🎯</div>暂无分析师观点数据</div>';
+    return;
+  }
+  let html = '<div class="report-card"><div class="report-card-body"><div class="md">';
+  html += '<h1>🎯 分析师观点</h1>';
+  html += `<p style="color:var(--muted)">追踪首席策略师近 30 天被媒体引用的观点 · ${escHtml(a.updated || '')}</p>`;
+  for (const g of a.groups) {
+    if (!g.items || !g.items.length) continue;
+    html += `<h2>${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span></h2>`;
+    html += '<ul>';
+    for (const it of g.items) {
+      const title = escHtml(it.title_cn || it.title || '');
+      const linked = it.url ? `<a href="${escHtml(it.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title;
+      const meta = [it.source, it.time].filter(Boolean).map(escHtml).join(' · ');
+      html += `<li>${linked}${meta ? ` <span style="color:var(--muted);font-size:0.85em">（${meta}）</span>` : ''}</li>`;
+    }
+    html += '</ul>';
+  }
+  html += '</div></div></div>';
+  el.innerHTML = html;
 }
 
 function renderCongress(day) {

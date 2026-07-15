@@ -75,6 +75,11 @@ jobs:
             python main.py
           fi
 
+      - name: Run analyst watch
+        if: github.event.inputs.dry_run != 'true'
+        run: python analyst_watch.py
+        continue-on-error: true
+
       - name: Commit & push web data
         if: github.event.inputs.dry_run != 'true'
         run: |
