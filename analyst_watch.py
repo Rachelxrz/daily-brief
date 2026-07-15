@@ -102,51 +102,54 @@ def fetch_analyst_items(query: str) -> list:
     return out
 
 
-def _translate_titles(titles: list) -> list:
-    """把英文标题批量翻译成中文；失败或缺失则回退英文原文。"""
-    if not titles:
-        return []
+def _synthesize_views(groups: list) -> None:
+    """为每位有观点的分析师，基于其近期真实标题合成 3-5 句中文核心观点，写入 g['view_cn']。
+    多条真实标题作约束，避免凭空杜撰；下方仍保留来源标题链接供核对。"""
+    active = [g for g in groups if g["items"]]
+    if not active:
+        return
     try:
         from save_to_web import _call_claude
     except Exception as e:
-        log.warning(f"⚠️ 无法导入翻译模块，用英文原文: {e}")
-        return list(titles)
-    body = "\n".join(f"{i+1}. {t}" for i, t in enumerate(titles))
+        log.warning(f"⚠️ 无法导入 Claude，跳过观点合成: {e}")
+        return
+    blocks = []
+    for i, g in enumerate(active, 1):
+        heads = "\n".join(f"- {it['title']}" for it in g["items"])
+        blocks.append(f"Analyst {i}: {g['name']} ({g['firm']})\nRecent headlines:\n{heads}")
+    body = "\n\n".join(blocks)
     prompt = (
-        f"Translate each of the following {len(titles)} news headlines into concise Chinese.\n"
-        f"Output EXACTLY {len(titles)} lines, one Chinese translation per line, in order.\n"
-        "No numbering, no quotes, no extra text.\n\n"
-        f"Headlines:\n{body}"
+        f"For each of the {len(active)} analysts below, based ONLY on their recent news headlines, "
+        "write a 3-5 sentence Chinese summary of their CURRENT core market view: their stance, the "
+        "reasoning it implies, and what it means for investors.\n"
+        "Rules: Do NOT invent specific numbers, price targets, dates, or quotes not present in the "
+        "headlines. If the headlines are sparse or conflicting, summarize conservatively. Natural "
+        "Chinese, 3-5 full sentences per analyst (not one line).\n"
+        f"Output EXACTLY {len(active)} sections separated by a line containing only ---, in the same "
+        "order, each section containing ONLY the Chinese summary (no name, no numbering, no heading).\n\n"
+        f"{body}"
     )
     raw = _call_claude(prompt, max_tokens=4000)
     if not raw:
-        return list(titles)
-    lines = [re.sub(r"^\d+[\.\)]\s*", "", l.strip()) for l in raw.splitlines() if l.strip()]
-    # 对齐长度：不足用英文补
-    out = []
-    for i, en in enumerate(titles):
-        out.append(lines[i] if i < len(lines) and lines[i] else en)
-    return out
+        return
+    parts = [p.strip() for p in raw.split("---") if p.strip()]
+    for i, g in enumerate(active):
+        if i < len(parts):
+            txt = re.sub(r"^Analyst\s*\d+[^\n]*\n?", "", parts[i]).strip()
+            g["view_cn"] = txt or parts[i]
 
 
 def build_groups() -> list:
-    """抓取所有分析师并翻译，返回分组结构。"""
+    """抓取所有分析师，合成各自 3-5 句核心观点，返回分组结构。"""
     groups = []
-    flat_titles, index = [], []   # index: (group_idx, item_idx)
     for name, firm, query in ANALYSTS:
         log.info(f"🔎 {name}（{firm}）...")
         items = fetch_analyst_items(query)
-        g = {"name": name, "firm": firm, "items": items}
-        for j, it in enumerate(items):
-            index.append((len(groups), j))
-            flat_titles.append(it["title"])
-        groups.append(g)
+        groups.append({"name": name, "firm": firm, "items": items, "view_cn": ""})
         log.info(f"   → {len(items)} 条")
 
-    log.info(f"🤖 翻译 {len(flat_titles)} 条标题...")
-    cn = _translate_titles(flat_titles)
-    for k, (gi, ji) in enumerate(index):
-        groups[gi]["items"][ji]["title_cn"] = cn[k] if k < len(cn) else groups[gi]["items"][ji]["title"]
+    log.info("🤖 合成各分析师 3-5 句核心观点...")
+    _synthesize_views(groups)
     return groups
 
 
@@ -177,9 +180,12 @@ def run(dry_run: bool = False) -> int:
     log.info(f"✅ 共 {total} 条观点，{sum(1 for g in groups if g['items'])}/{len(groups)} 位分析师有更新")
     if dry_run:
         for g in groups:
+            if not g["items"]:
+                continue
             print(f"\n【{g['name']} · {g['firm']}】")
+            print(f"  观点: {g.get('view_cn', '（无）')}")
             for it in g["items"]:
-                print(f"  - {it.get('title_cn', it['title'])}  [{it['source']} · {it['time']}]")
+                print(f"    来源: {it['title'][:70]}  [{it['source']} · {it['time']}]")
     else:
         save_to_web(groups)
     return 0

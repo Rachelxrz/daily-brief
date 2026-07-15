@@ -979,12 +979,15 @@ function renderAnalysts(day) {
   for (const g of a.groups) {
     if (!g.items || !g.items.length) continue;
     html += `<h2>${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span></h2>`;
-    html += '<ul>';
+    if (g.view_cn && g.view_cn.trim()) {
+      html += `<p>${escHtml(g.view_cn)}</p>`;
+    }
+    html += '<p style="color:var(--muted);font-size:0.8em;margin-bottom:0.2rem">来源：</p><ul>';
     for (const it of g.items) {
-      const title = escHtml(it.title_cn || it.title || '');
+      const title = escHtml(it.title || '');
       const linked = it.url ? `<a href="${escHtml(it.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title;
       const meta = [it.source, it.time].filter(Boolean).map(escHtml).join(' · ');
-      html += `<li>${linked}${meta ? ` <span style="color:var(--muted);font-size:0.85em">（${meta}）</span>` : ''}</li>`;
+      html += `<li style="font-size:0.85em">${linked}${meta ? ` <span style="color:var(--muted)">（${meta}）</span>` : ''}</li>`;
     }
     html += '</ul>';
   }
