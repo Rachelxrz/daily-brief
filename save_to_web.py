@@ -22,6 +22,7 @@ ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL   = "claude-sonnet-4-6"
 
 CATEGORY_CN = {
+    "ai":         "🤖 AI科技前沿",
     "finance":    "📈 金融财经",
     "social":     "📱 自媒体精选",
     "health":     "🏥 健康医疗",
@@ -29,6 +30,7 @@ CATEGORY_CN = {
     "wellness":   "🧠 健康·心理·美学",  # 旧格式兼容
 }
 CATEGORY_EN = {
+    "ai":         "🤖 AI & Tech Frontier",
     "finance":    "📈 Finance & Markets",
     "social":     "📱 Tech & Media",
     "health":     "🏥 Health & Medicine",
@@ -36,7 +38,8 @@ CATEGORY_EN = {
     "wellness":   "🧠 Health & Wellness",
 }
 
-_ALL_CAT_ORDER = ["finance", "health", "philosophy", "social", "wellness"]
+# ai 置顶：AI 科技前沿改用免费 RSS（scraper.py 的 "ai" 分类），像普通分类一样走翻译
+_ALL_CAT_ORDER = ["ai", "finance", "health", "philosophy", "social", "wellness"]
 
 
 def _today_et() -> str:
@@ -48,14 +51,6 @@ def _today_et() -> str:
     except Exception:
         return datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
 
-def _fetch_lambda_ai_news() -> list[dict]:
-    """静默拉取 Lambda Finance AI 新闻，失败返回空列表。"""
-    try:
-        from lambda_news import fetch_ai_news
-        return fetch_ai_news(top_n=15)
-    except Exception as e:
-        log.warning(f"⚠️ Lambda 新闻拉取失败，跳过: {e}")
-        return []
 
 
 def load_data() -> dict:
@@ -235,62 +230,7 @@ def generate_news_with_insights(news_data: dict) -> tuple:
     date_cn = datetime.now(tz_cst).strftime("%Y年%m月%d日")
     date_en = datetime.now(tz_cst).strftime("%B %d, %Y")
 
-    # ── 拉取 Lambda AI 新闻并预先生成区块 ──────────────────
-    lambda_articles = _fetch_lambda_ai_news()[:10]  # 限定10条
-    lambda_block_cn = ""
-    lambda_block_en = ""
-    lambda_parsed: list[dict] = []
-    if lambda_articles:
-        n = len(lambda_articles)
-        articles_text = "\n".join(
-            f"{i+1}. {a['title']}"
-            + (f"\n   {a['summary'][:300]}" if a.get("summary") else "")
-            for i, a in enumerate(lambda_articles)
-        )
-        lambda_prompt = (
-            f"For each of the following {n} AI/tech news articles, write a Chinese title and a 3-5 sentence investment analysis in Chinese.\n"
-            f"Output EXACTLY {n} sections separated by ---\n"
-            "Section format:\n"
-            "Line 1: Chinese title (≤20 chars, no quotes)\n"
-            "Lines 2+: 3-5 sentences of investment analysis in Chinese (explain what happened, why it matters for investors, and any trading implications)\n"
-            "No JSON, no numbering, no extra text.\n\n"
-            f"Articles:\n{articles_text}"
-        )
-        log.info("🤖 Lambda AI 新闻中文化（3-5句综述）...")
-        lambda_raw = _call_claude(lambda_prompt, max_tokens=2000)
-        if lambda_raw:
-            blocks = [b.strip() for b in lambda_raw.split("---") if b.strip()]
-            for block in blocks:
-                lines = [l.strip() for l in block.splitlines() if l.strip()]
-                lambda_parsed.append({
-                    "title_cn":    lines[0] if lines else "",
-                    "analysis_cn": "\n".join(lines[1:]) if len(lines) > 1 else "",
-                })
-
-        cn_lines = ["\n## 🤖 AI前沿（Lambda Finance）\n"]
-        en_lines = ["\n## 🤖 AI Focus (Lambda Finance)\n"]
-        for i, a in enumerate(lambda_articles):
-            info     = lambda_parsed[i] if i < len(lambda_parsed) else {}
-            title_cn = info.get("title_cn") or a["title"][:25]
-            analysis = info.get("analysis_cn", "")
-            url      = a.get("url", "")
-            src      = a.get("source", "")
-            pub      = a.get("published", "")
-            cn_lines.append(f"**[{title_cn}]({url})**")
-            if analysis:
-                cn_lines.append(f"\n{analysis}\n")
-            cn_lines.append(f"*{src} · {pub}*\n")
-            en_lines.append(f"**[{a['title']}]({url})**")
-            if a.get("summary"):
-                en_lines.append(f"\n{a['summary'][:350]}\n")
-            en_lines.append(f"*{src} · {pub}*\n")
-        lambda_block_cn = "\n".join(cn_lines)
-        lambda_block_en = "\n".join(en_lines)
-
-        # Lambda 调用完毕，等待速率窗口恢复（>60s 确保 rolling window 清空），再翻译普通新闻
-        log.info("⏳ 等待 70s（速率限制缓冲，覆盖 60s rolling window）...")
-        time.sleep(70)
-
+    # AI 科技前沿现在是普通 RSS 分类（"ai"），和其它分类一样走下面的翻译流程
     # ── 构建扁平新闻列表（按类别顺序）─────────────────────
     cat_order = [c for c in _ALL_CAT_ORDER if news_data.get(c)]
     flat_items = []   # [(cat, item), ...]
@@ -392,8 +332,6 @@ def generate_news_with_insights(news_data: dict) -> tuple:
 
     # ── 生成中文版 ──────────────────────────────────────────
     cn = [f"# 📰 每日智识简报（中文）", f"### {date_cn}\n"]
-    if lambda_block_cn:
-        cn.append(lambda_block_cn)
 
     idx = 0
     for cat in cat_order:
@@ -427,8 +365,6 @@ def generate_news_with_insights(news_data: dict) -> tuple:
 
     # ── 生成英文版 ──────────────────────────────────────────
     en = [f"# 📰 Daily Intelligence Brief", f"### {date_en}\n"]
-    if lambda_block_en:
-        en.append(lambda_block_en)
 
     for cat in cat_order:
         items = news_data.get(cat, [])
@@ -479,23 +415,6 @@ def generate_news_with_insights(news_data: dict) -> tuple:
             })
             card_idx += 1
         news_cards[cat] = section_items
-
-    # Lambda AI 新闻独立卡片区（key = "ai"）
-    if lambda_articles:
-        ai_cards = []
-        for i, a in enumerate(lambda_articles, 1):
-            info = lambda_parsed[i - 1] if i - 1 < len(lambda_parsed) else {}
-            ai_cards.append({
-                "rank":        i,
-                "title":       a.get("title", ""),
-                "title_cn":    info.get("title_cn", ""),
-                "url":         a.get("url", ""),
-                "source":      a.get("source", "Lambda Finance"),
-                "time":        a.get("published", ""),
-                "analysis_cn": info.get("analysis_cn", ""),
-                "analysis_en": a.get("summary", ""),
-            })
-        news_cards["ai"] = ai_cards
 
     return "\n".join(cn), "\n".join(en), news_cards
 

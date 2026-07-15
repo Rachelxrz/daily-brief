@@ -31,6 +31,16 @@ log = logging.getLogger(__name__)
 
 # ─── RSS Feed 配置 ─────────────────────────────────────────
 FEEDS = {
+    "ai": [
+        # ── AI / 半导体前沿（免费 RSS，替代已下线的 Lambda MCP）──
+        {"name": "TechCrunch AI",   "url": "https://techcrunch.com/category/artificial-intelligence/feed/"},
+        {"name": "VentureBeat AI",  "url": "https://venturebeat.com/category/ai/feed/"},
+        {"name": "The Decoder",     "url": "https://the-decoder.com/feed/"},
+        {"name": "Ars Technica AI", "url": "https://arstechnica.com/tag/artificial-intelligence/feed/"},
+        {"name": "MIT Tech Review", "url": "https://www.technologyreview.com/feed/"},
+        {"name": "Synced",          "url": "https://syncedreview.com/feed/"},
+        {"name": "Google AI Blog",  "url": "https://blog.google/technology/ai/rss/"},
+    ],
     "finance": [
         # ── 通讯社 / 综合财经 ──────────────────────────────
         {"name": "Reuters Business",    "url": "https://feeds.reuters.com/reuters/businessNews"},
