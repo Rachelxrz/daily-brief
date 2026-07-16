@@ -135,11 +135,13 @@
 3. **Wheel v1.2**：月度收益统计完善（胜率、P&L 明细）
 4. **signal_advisor v2.0**：接入真实 IV 数据（Unusual Whales）
 5. **congress_tracker v2.0**：参议院覆盖（依赖第2项）
+6. **Linux300 数据库**（待 Rachel 换到 Linux300 后动手）：建表 DDL + 入库脚本，详见 `LINUX300_DB_PLAN.md`
 
 ---
 
 ## 8. 变更日志
 
+- **2026-07-16**：确认新闻**无限期保留**（61天/947卡片/5.1MB，`MAX_DAYS=30` 只裁本地，`merge_data.py` 不删远端）；Rachel 选择「先不动」。讨论并记录 **Linux300 数据库计划** → `LINUX300_DB_PLAN.md`（拉取式入库、先不与 Investment_OS 合库、待 Rachel 换到 Linux300 后动手）。
 - **2026-06-15**：`signal_advisor.py` v1.1 上线；四指标（Supertrend/SQZ Momentum/ADX+DI/MA）+ 六种信号 + LEAP/MID_TERM 期权建议；网页新增第6个 tab（技术信号）；daily_brief.yml 新增盘前(08:00 ET) + 盘后(17:30 ET) 两个 job。
 - **2026-06-14**：`watchlist_manager.py` v1.1、`congress_tracker.py` v1.2（AI 解读）、`wheel_strategy.py` v1.1（候选筛选+持仓追踪）全部上线；网页新增第5个 tab（Wheel）；PROJECT_STATUS 全面更新。
 - **2026-06-13**：congress_tracker.py v1.0/v1.1 完成，干运行通过。`update_status.py` + AUTO 区块加入仓库。
