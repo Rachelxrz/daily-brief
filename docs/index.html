@@ -234,6 +234,27 @@
   .md blockquote { border-left: 2px solid var(--gold-dim); padding-left: 0.8rem; margin: 0.2rem 0 0.6rem 1rem; color: var(--amber); font-style: normal; font-size: 0.95rem; line-height: 1.75; }
 
   /* Tables */
+  /* ── 分析师观点：左=观点 右=测试规格 ───────────────── */
+  .analyst-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    padding: 12px 0; border-top: 1px solid var(--border);
+  }
+  @media (max-width: 860px) { .analyst-row { grid-template-columns: 1fr; } }
+  .analyst-view { font-size: 1.05rem; line-height: 1.85; color: #c8c2b8; }
+  .analyst-said { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em;
+                  text-transform: uppercase; margin-bottom: 6px; }
+  .analyst-test {
+    background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; align-self: start;
+  }
+  .analyst-test-label { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.12em;
+                        text-transform: uppercase; margin-bottom: 8px; }
+  .analyst-test-item { font-size: 0.9rem; line-height: 1.7; color: #c8c2b8; }
+  .analyst-test-item b { color: var(--gold); font-weight: 500; }
+  .analyst-src { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
+  .analyst-src a { color: #79c0ff; text-decoration: none; }
+  .analyst-src a:hover { text-decoration: underline; }
+
   .md table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.92rem; }
   .md th { background: rgba(201,168,76,0.08); color: var(--gold); font-weight: 500; padding: 0.5rem 0.75rem; text-align: left; border: 1px solid var(--border); letter-spacing: 0.05em; }
   .md td { padding: 0.45rem 0.75rem; border: 1px solid var(--border); color: #c8c2b8; vertical-align: top; }
@@ -973,23 +994,38 @@ function renderAnalysts(day) {
     el.innerHTML = '<div class="empty"><div class="empty-icon">🎯</div>暂无分析师观点数据</div>';
     return;
   }
+  const today = new Date().toISOString().slice(0, 10);
   let html = '<div class="report-card"><div class="report-card-body"><div class="md">';
   html += '<h1>🎯 分析师观点</h1>';
-  html += `<p style="color:var(--muted)">追踪首席策略师近 30 天被媒体引用的观点 · ${escHtml(a.updated || '')}</p>`;
+  html += `<p style="color:var(--muted)">首席策略师观点 + 可验证检查点 · 留存近三个月 · ${escHtml(a.updated || '')}</p>`;
   for (const g of a.groups) {
-    if (!g.items || !g.items.length) continue;
+    const recs = g.records || [];
+    if (!recs.length) continue;
     html += `<h2>${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span></h2>`;
-    if (g.view_cn && g.view_cn.trim()) {
-      html += `<p>${escHtml(g.view_cn)}</p>`;
+    for (const r of recs) {
+      const due = r.check_date && r.check_date <= today;
+      html += '<div class="analyst-row">';
+      // 左：观点
+      html += '<div>';
+      html += `<div class="analyst-said">发言日 ${escHtml(r.stated_at || '')}</div>`;
+      html += `<div class="analyst-view">${escHtml(r.view_cn || '')}</div>`;
+      if (r.sources && r.sources.length) {
+        html += '<div class="analyst-src">来源：';
+        html += r.sources.map(s => s.url
+          ? `<a href="${escHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escHtml(s.source || '原文')}</a>`
+          : escHtml(s.source || '')).join(' · ');
+        html += '</div>';
+      }
+      html += '</div>';
+      // 右：测试规格
+      html += '<div class="analyst-test">';
+      html += `<div class="analyst-test-label">${due ? '⏰ 检查点已到' : '待验证'}</div>`;
+      html += `<div class="analyst-test-item">⏱ 测试时间：<b>${escHtml(r.check_date || '—')}</b></div>`;
+      html += `<div class="analyst-test-item">🎯 测试标的：<b>${escHtml(r.ticker || '—')}</b></div>`;
+      html += `<div class="analyst-test-item">✔ 测试内容：<b>${escHtml(r.check || '—')}</b></div>`;
+      html += '</div>';
+      html += '</div>';
     }
-    html += '<p style="color:var(--muted);font-size:0.8em;margin-bottom:0.2rem">来源：</p><ul>';
-    for (const it of g.items) {
-      const title = escHtml(it.title || '');
-      const linked = it.url ? `<a href="${escHtml(it.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title;
-      const meta = [it.source, it.time].filter(Boolean).map(escHtml).join(' · ');
-      html += `<li style="font-size:0.85em">${linked}${meta ? ` <span style="color:var(--muted)">（${meta}）</span>` : ''}</li>`;
-    }
-    html += '</ul>';
   }
   html += '</div></div></div>';
   el.innerHTML = html;

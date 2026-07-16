@@ -86,10 +86,13 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp docs/data.json /tmp/new_data.json
+          # 分析师历史（三个月留存）必须一起提交，否则下次 checkout 会丢失
+          [ -f analyst_history.jsonl ] && cp analyst_history.jsonl /tmp/analyst_history.jsonl || true
           git fetch origin main
           git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
-          git add docs/data.json
+          [ -f /tmp/analyst_history.jsonl ] && cp /tmp/analyst_history.jsonl analyst_history.jsonl || true
+          git add docs/data.json analyst_history.jsonl
           git diff --staged --quiet || git commit -m "Daily news brief $(date +'%Y-%m-%d')"
           git push
 
