@@ -1,0 +1,338 @@
+{
+  "GLD": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 371.59,
+        "ma20": 372.27,
+        "ma50": 393.62,
+        "st_value": 395.44
+      }
+    ]
+  },
+  "WTI": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 3.54,
+        "ma20": 3.33,
+        "ma50": 3.73,
+        "st_value": 3.97
+      }
+    ]
+  },
+  "QQQ": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 706.65,
+        "ma20": 714.55,
+        "ma50": 718.79,
+        "st_value": 755.56
+      }
+    ]
+  },
+  "TLT": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "ALB": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 119.24,
+        "ma20": 130.63,
+        "ma50": 155.7,
+        "st_value": 141.98
+      }
+    ]
+  },
+  "ANET": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 173.51,
+        "ma20": 170.78,
+        "ma50": 161.74,
+        "st_value": 144.95
+      }
+    ]
+  },
+  "AVGO": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 389.66,
+        "ma20": 380.06,
+        "ma50": 401.16,
+        "st_value": 433.94
+      }
+    ]
+  },
+  "BDRY": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "CEG": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 258.86,
+        "ma20": 253.76,
+        "ma50": 265.05,
+        "st_value": 281.1
+      }
+    ]
+  },
+  "CIEN": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 399.59,
+        "ma20": 440.56,
+        "ma50": 493.21,
+        "st_value": 501.83
+      }
+    ]
+  },
+  "COHR": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 309.39,
+        "ma20": 336.74,
+        "ma50": 364.06,
+        "st_value": 386.33
+      }
+    ]
+  },
+  "COPX": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 76.52,
+        "ma20": 75.91,
+        "ma50": 81.76,
+        "st_value": 84.91
+      }
+    ]
+  },
+  "ETHA": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "FRO": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "GEV": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 1128.17,
+        "ma20": 1084.02,
+        "ma50": 1036.9,
+        "st_value": 933.91
+      }
+    ]
+  },
+  "GS": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 1073.14,
+        "ma20": 1059.71,
+        "ma50": 1032.57,
+        "st_value": 991.26
+      }
+    ]
+  },
+  "HEWJ": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "LITE": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 822.36,
+        "ma20": 783.76,
+        "ma50": 864.39,
+        "st_value": 973.09
+      }
+    ]
+  },
+  "MP": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 47.15,
+        "ma20": 51.85,
+        "ma50": 57.86,
+        "st_value": 57.97
+      }
+    ]
+  },
+  "NEE": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "NVDA": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 208.3,
+        "ma20": 201.74,
+        "ma50": 209.67,
+        "st_value": 221.2
+      }
+    ]
+  },
+  "PLTR": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 133.89,
+        "ma20": 126.29,
+        "ma50": 132.44,
+        "st_value": 135.31
+      }
+    ]
+  },
+  "PWR": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 643.98,
+        "ma20": 671.03,
+        "ma50": 701.81,
+        "st_value": 730.44
+      }
+    ]
+  },
+  "VRT": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 302.23,
+        "ma20": 309.71,
+        "ma50": 319.86,
+        "st_value": 363.31
+      }
+    ]
+  },
+  "VST": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 161.49,
+        "ma20": 158.53,
+        "ma50": 153.97,
+        "st_value": 139.55
+      }
+    ]
+  },
+  "MPWR": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 1385.3,
+        "ma20": 1346.42,
+        "ma50": 1481.93,
+        "st_value": 1658.52
+      }
+    ]
+  },
+  "ADI": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 386.36,
+        "ma20": 390.37,
+        "ma50": 405.39,
+        "st_value": 437.91
+      }
+    ]
+  },
+  "GOOG": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 349.19,
+        "ma20": 353.19,
+        "ma50": 366.08,
+        "st_value": 385.74
+      }
+    ]
+  },
+  "NBIS": {
+    "last_state": "SELL",
+    "signals": [
+      {
+        "type": "SELL",
+        "date": "2026-07-21",
+        "price": 194.78,
+        "ma20": 220.27,
+        "ma50": 224.78,
+        "st_value": 273.31
+      }
+    ]
+  },
+  "MPC": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 317.0,
+        "ma20": 279.1,
+        "ma50": 264.44,
+        "st_value": 285.53
+      }
+    ]
+  }
+}

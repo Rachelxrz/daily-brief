@@ -351,14 +351,20 @@ jobs:
       - run: pip install -r requirements.txt
       - run: mkdir -p logs docs
       - run: python signal_advisor.py --session post --group priority
+      - name: Run MA×Supertrend 均线信号
+        run: python ma_cross_signal.py
+        continue-on-error: true
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp docs/data.json /tmp/new_data.json
+          # 均线信号历史（每票留最近 2 条）必须一起提交，否则下次 checkout 会丢
+          [ -f ma_signal_history.json ] && cp ma_signal_history.json /tmp/ma_signal_history.json || true
           git fetch origin main && git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
-          git add docs/data.json
+          [ -f /tmp/ma_signal_history.json ] && cp /tmp/ma_signal_history.json ma_signal_history.json || true
+          git add docs/data.json ma_signal_history.json
           git diff --staged --quiet || git commit -m "signal_advisor_post_priority $(date +'%Y-%m-%d')"
           git push
       - if: always()
