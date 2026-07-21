@@ -16,8 +16,8 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-07-21 21:24 CST
-**data.json 今日更新**：—
+**自动刷新时间**：2026-07-21 22:57 CST
+**data.json 今日更新**：2026-07-21 21:25 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
 - 每日简报 (main.py)：⚪ 今日无产出
@@ -26,7 +26,8 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- （自上次刷新以来无新 commit）
+- `2c9e3b7` 2026-07-21 — feat: add MA20/50 × Supertrend(10,4) buy/sell signal tab
+- `4cabdbf` 2026-07-21 — signal_advisor_pre 2026-07-21
 
 <!-- AUTO:END -->
 
