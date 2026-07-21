@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-07-22 05:37 CST
+**自动刷新时间**：2026-07-22 06:25 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,7 +26,7 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- （自上次刷新以来无新 commit）
+- `665cdbc` 2026-07-21 — congress_tracker 2026-07-21
 
 <!-- AUTO:END -->
 
@@ -45,7 +45,6 @@
 | **国会交易信号** (`congress_tracker.py`) | ✅ **v1.2 已上线** | ✅ 国会信号 tab | ✅ | ✅ `congress` |
 | **Wheel Strategy** (`wheel_strategy.py`) | ✅ **v1.1 已上线** | ✅ Wheel tab | ✅ | ✅ `wheel` |
 | **技术信号+期权建议** (`signal_advisor.py`) | ✅ **v1.1 已上线** | ✅ 技术信号 tab | ✅ | ✅ `signal_advisor` |
-| **均线信号** (`ma_cross_signal.py`) | ✅ **v1.0 已上线** | ✅ 均线信号 tab | — | ✅ `ma_signal` |
 
 ---
 
@@ -80,21 +79,11 @@
 - Premium 为简化估算，非实时期权链报价
 - IV 从 yfinance 期权链近月 ATM Put 取值，无期权时退回默认 0.35
 
-### ✅ 均线信号（ma_cross_signal.py v1.0）
-- **规则**：BUY = MA20 > MA50 且 Supertrend(10,4) 多头；SELL = MA20 < MA50 且 Supertrend(10,4) 空头；其余 NEUTRAL
-- **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取，当前 30 只）
-- **信号历史**：仅在状态翻转进入 BUY/SELL 当天记录，每票留最近 2 条，存 `ma_signal_history.json`（工作流跨 checkout 保留并提交）
-- **触发时间**：随盘后核心信号 job（工作日 17:30 ET，`signal_post`）；复用 `calc_supertrend`（multiplier=4.0），**只写网页、不推微信**
-- **网页**：均线信号 tab，表格含现价/日涨跌/MA20/MA50/均线差/Supertrend/最近两次信号
-
-**已知限制**：
-- `WTI` 在 yfinance 是 W&T Offshore（小盘油气股），非原油——如需原油代理应改用 `USO`/`CL=F` 或剔除（待用户拍板）
-
 ---
 
 ## 3. 输出渠道现状
 
-- **网页 tab（8个）**：每日简报 ✅ ｜ 结构监控 ✅ ｜ 强势股筛选 ✅ ｜ 国会信号 ✅ ｜ Wheel ✅ ｜ 技术信号 ✅ ｜ 轮动观察 ✅ ｜ 均线信号 ✅
+- **网页 tab（6个）**：每日简报 ✅ ｜ 结构监控 ✅ ｜ 强势股筛选 ✅ ｜ 国会信号 ✅ ｜ Wheel ✅ ｜ 技术信号 ✅
 - **企业微信**：WxPusher + ServerChan + WeCom，中英双语。
 - **data.json**：结构 `data[YYYY-MM-DD] = {updated, news, monitor, congress, wheel, signal_advisor}`，保留最近 30 天。
 
@@ -152,7 +141,6 @@
 
 ## 8. 变更日志
 
-- **2026-07-21**：新增 **均线信号**（`ma_cross_signal.py` v1.0）：20/50 均线 × Supertrend(10,4) 买卖信号，30 只标的（core_holdings + long_term），每票留最近 2 次信号历史（`ma_signal_history.json`）；网页新增第 8 个 tab（🔀 均线信号）；接入盘后核心信号 job，只写网页不推微信。
 - **2026-07-16**：确认新闻**无限期保留**（61天/947卡片/5.1MB，`MAX_DAYS=30` 只裁本地，`merge_data.py` 不删远端）；Rachel 选择「先不动」。讨论并记录 **Linux300 数据库计划** → `LINUX300_DB_PLAN.md`（拉取式入库、先不与 Investment_OS 合库、待 Rachel 换到 Linux300 后动手）。
 - **2026-06-15**：`signal_advisor.py` v1.1 上线；四指标（Supertrend/SQZ Momentum/ADX+DI/MA）+ 六种信号 + LEAP/MID_TERM 期权建议；网页新增第6个 tab（技术信号）；daily_brief.yml 新增盘前(08:00 ET) + 盘后(17:30 ET) 两个 job。
 - **2026-06-14**：`watchlist_manager.py` v1.1、`congress_tracker.py` v1.2（AI 解读）、`wheel_strategy.py` v1.1（候选筛选+持仓追踪）全部上线；网页新增第5个 tab（Wheel）；PROJECT_STATUS 全面更新。
