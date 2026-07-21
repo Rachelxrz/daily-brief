@@ -1113,7 +1113,9 @@ function renderMaSignal(day) {
   }
   html += '</tbody></table></div>';
   html += '<p style="color:var(--muted);font-size:0.8rem;margin-top:0.6rem">'
-        + '「最近两次信号」左新右旧；仅在状态翻转进入买入/卖出当天记录，回到无信号不记录。⚠️ 仅供参考，不构成投资建议。</p>';
+        + 'Supertrend 括号内为线值，「N根」= 当前方向已持续的交易日数（自上次翻转以来，非信号次数）。'
+        + '「最近两次信号」左新右旧、为历史上真正满足「均线+Supertrend 同时成立」而翻转进入买入/卖出的日期；'
+        + '状态保持不变或回到无信号都不记录。⚠️ 仅供参考，不构成投资建议。</p>';
   html += '</div></div>';
   el.innerHTML = html;
 }

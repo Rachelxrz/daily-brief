@@ -133,6 +133,126 @@ def analyze(ticker: str) -> dict:
     }
 
 
+def _supertrend_series(df, period: int = ST_PERIOD, multiplier: float = ST_MULTIPLIER):
+    """
+    逐日 Supertrend：返回 (trend, line) 两个数组，与 signal_advisor.calc_supertrend
+    完全同算法（同样的 Wilder ATR、final band 递推、翻转规则），保证最后一根与在线信号一致。
+    trend[i] ∈ {0=warmup, 1=多头, -1=空头}；line[i] 为当根 Supertrend 线值（NaN=未定）。
+    """
+    high  = df["High"].values.astype(float)
+    low   = df["Low"].values.astype(float)
+    close = df["Close"].values.astype(float)
+    n = len(close)
+    trend = np.zeros(n, dtype=int)
+    line  = np.full(n, np.nan)
+    if n < period * 2 + 5:
+        return trend, line
+
+    tr = np.zeros(n)
+    for i in range(1, n):
+        tr[i] = max(high[i] - low[i], abs(high[i] - close[i - 1]), abs(low[i] - close[i - 1]))
+
+    atr = np.full(n, np.nan)
+    atr[period] = tr[1:period + 1].mean()
+    for i in range(period + 1, n):
+        atr[i] = (atr[i - 1] * (period - 1) + tr[i]) / period
+
+    hl2     = (high + low) / 2.0
+    up_band = hl2 + multiplier * atr
+    dn_band = hl2 - multiplier * atr
+
+    final_up = np.full(n, np.nan)
+    final_dn = np.full(n, np.nan)
+    for i in range(1, n):
+        if np.isnan(up_band[i]):
+            continue
+        fu_prev = final_up[i - 1]
+        fd_prev = final_dn[i - 1]
+        final_up[i] = (up_band[i] if (np.isnan(fu_prev) or up_band[i] < fu_prev or close[i - 1] > fu_prev) else fu_prev)
+        final_dn[i] = (dn_band[i] if (np.isnan(fd_prev) or dn_band[i] > fd_prev or close[i - 1] < fd_prev) else fd_prev)
+
+        prev = trend[i - 1]
+        if prev == 0:
+            trend[i] = 1 if close[i] > final_dn[i] else -1
+        elif prev == 1:
+            trend[i] = -1 if close[i] < final_dn[i] else 1
+        else:
+            trend[i] = 1 if close[i] > final_up[i] else -1
+
+        line[i] = final_dn[i] if trend[i] == 1 else final_up[i]
+
+    return trend, line
+
+
+def signal_events(df, keep: int = KEEP_SIGNALS) -> list:
+    """
+    回溯历史 K 线，逐日判定 BUY/SELL/NEUTRAL，找出真正「翻转进入 BUY/SELL」的日期。
+    翻转 = 当日为 BUY/SELL 且不同于前一日状态。返回最近 keep 条事件（最新在前）。
+    """
+    close = df["Close"].values.astype(float)
+    n = len(close)
+    if n < MA_SLOW + 1:
+        return []
+
+    cs = df["Close"]
+    ma20_s = cs.rolling(MA_FAST).mean().values
+    ma50_s = cs.rolling(MA_SLOW).mean().values
+    trend, line = _supertrend_series(df)
+    dates = [d.strftime("%Y-%m-%d") for d in df.index]
+
+    events = []
+    prev_state = None
+    for i in range(n):
+        if np.isnan(ma20_s[i]) or np.isnan(ma50_s[i]) or trend[i] == 0:
+            continue
+        if ma20_s[i] > ma50_s[i] and trend[i] == 1:
+            state = "BUY"
+        elif ma20_s[i] < ma50_s[i] and trend[i] == -1:
+            state = "SELL"
+        else:
+            state = "NEUTRAL"
+
+        if state in ("BUY", "SELL") and state != prev_state:
+            events.append({
+                "type":  state,
+                "date":  dates[i],
+                "price": round(float(close[i]), 2),
+                "ma20":  round(float(ma20_s[i]), 2),
+                "ma50":  round(float(ma50_s[i]), 2),
+                "st_value": None if np.isnan(line[i]) else round(float(line[i]), 2),
+            })
+        prev_state = state
+
+    return events[-keep:]
+
+
+def backfill():
+    """
+    用历史数据重建 ma_signal_history.json：每只标的回查最近 2 次真实信号翻转日期，
+    并把 last_state 设为最新一根的状态，供后续每日增量接续。
+    """
+    tickers = load_tickers()
+    log.info("=" * 60)
+    log.info(f"🔁 回查历史信号 · 重建 {HIST_FILE.name}（{len(tickers)} 只，约 2 年历史）")
+    log.info("=" * 60)
+    hist = {}
+    for t in tickers:
+        df = get_ohlcv(t, period="2y")
+        if df.empty or len(df) < MA_SLOW + 1:
+            log.warning(f"  {t:<6} ⚠️ 历史不足，跳过")
+            continue
+        evs = signal_events(df)              # 最近 2 条，最新在前？——按时间正序，末尾最新
+        res = analyze(t)                     # 当前状态（与在线一致）
+        last_state = res.get("signal")
+        if last_state == "NO_DATA":
+            last_state = None
+        hist[t] = {"last_state": last_state, "signals": evs}
+        shown = "；".join(f"{e['type']}@{e['date']}" for e in evs) or "无"
+        log.info(f"  {t:<6} last={last_state:<7} 最近两次[{shown}]")
+    save_history(hist)
+    log.info(f"✅ 已重建 {HIST_FILE.name}：{len(hist)} 只")
+
+
 def load_history() -> dict:
     if HIST_FILE.exists():
         try:
@@ -248,6 +368,10 @@ def run(dry_run: bool = False):
 if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser(description="20/50 均线 × Supertrend(10,4) 买卖信号")
-    p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--dry-run",  action="store_true", help="不写文件，仅打印")
+    p.add_argument("--backfill", action="store_true", help="回查历史，重建 ma_signal_history.json 的最近两次信号日期")
     args = p.parse_args()
-    run(args.dry_run)
+    if args.backfill:
+        backfill()
+    else:
+        run(args.dry_run)
