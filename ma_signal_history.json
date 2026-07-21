@@ -12,19 +12,6 @@
       }
     ]
   },
-  "WTI": {
-    "last_state": "SELL",
-    "signals": [
-      {
-        "type": "SELL",
-        "date": "2026-07-21",
-        "price": 3.54,
-        "ma20": 3.33,
-        "ma50": 3.73,
-        "st_value": 3.97
-      }
-    ]
-  },
   "QQQ": {
     "last_state": "SELL",
     "signals": [

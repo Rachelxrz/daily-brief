@@ -11,7 +11,7 @@ ma_cross_signal.py — 20/50 均线 × Supertrend(10,4) 买卖信号 v1.0
 每只标的保留最近 **2** 条历史（类型 + 日期 + 当时价格/均线）。
 状态保持不变则不重复记录；回到 NEUTRAL 也不记录（NEUTRAL 不是信号）。
 
-标的：docs/watchlist.json 的 core_holdings + long_term（动态读取，当前 30 只）
+标的：docs/watchlist.json 的 core_holdings + long_term（动态读取），排除 EXCLUDE（当前 29 只）
 输出：docs/data.json 的 "ma_signal" key（供网页「🔀 均线信号」tab）
 持久化：ma_signal_history.json（跨 GitHub Actions checkout 必须一起提交，否则历史会丢）
 不推送微信（遵循「微信只推新闻」规则）。
@@ -47,6 +47,10 @@ MA_FAST = 20
 MA_SLOW = 50
 KEEP_SIGNALS = 2   # 每只标的保留最近 2 条信号历史
 
+# 从均线信号中排除（不影响 watchlist.json 里的真实持仓/其他模块）。
+# WTI：yfinance 的 WTI 是 W&T Offshore（小盘油气股）而非原油，信号会误导，故剔除。
+EXCLUDE = {"WTI"}
+
 
 def _today_et() -> str:
     """交易日期用美东时间，与 save_to_web / signal_advisor 一致，避免盘后跨到 CST 次日。"""
@@ -76,10 +80,10 @@ def load_tickers() -> list:
     for t in wl.get("long_term", []):
         if t:
             tickers.append(str(t).upper())
-    # 去重保序
+    # 去重保序 + 排除
     seen, out = set(), []
     for t in tickers:
-        if t not in seen:
+        if t not in seen and t not in EXCLUDE:
             seen.add(t)
             out.append(t)
     return out
