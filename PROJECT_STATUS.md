@@ -82,7 +82,7 @@
 
 ### ✅ 均线信号（ma_cross_signal.py v1.0）
 - **规则**：BUY = MA20 > MA50 且 Supertrend(10,4) 多头；SELL = MA20 < MA50 且 Supertrend(10,4) 空头；其余 NEUTRAL
-- **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取），减 `EXCLUDE`，当前 **29 只**
+- **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取），减 `EXCLUDE`，当前 **86 只**
 - **信号历史**：仅在状态翻转进入 BUY/SELL 当天记录，每票留最近 2 条，存 `ma_signal_history.json`（工作流跨 checkout 保留并提交）
 - **触发时间**：随盘后核心信号 job（工作日 17:30 ET，`signal_post`）；复用 `calc_supertrend`（multiplier=4.0），**只写网页、不推微信**
 - **网页**：均线信号 tab，表格含现价/日涨跌/MA20/MA50/均线差/Supertrend/最近两次信号
@@ -104,7 +104,7 @@
 
 **核心持仓**：GLD 30% · QQQ 25% · WTI 20% · TLT 20%（均 long）
 
-**Watchlist（26）**：ALB, ANET, AVGO, BDRY, CEG, CIEN, COHR, COPX, ETHA, FRO, GEV, GS, HEWJ, LITE, MP, NEE, NVDA, PLTR, PWR, VRT, VST, MPWR, ADI, GOOG, NBIS, MPC
+**Watchlist（long_term 83，2026-07-22 扩充）**：完整清单见 `docs/watchlist.json`。原 26 只 + 从 Rachel TradingView 自选表新增 57 只（AGX, AMD, ASML, ETN, FPX, GLW, INTC, KLAC, MRVL, MU, ONTO, SNDK, TSM, UTES, XBI, XLF, XMMO, BWET, AEHR, ALAB, AMZN, APP, ARM, COIN, DELL, DOCN, EQIX, FTAI, GDX, JEPQ, LLY, LNG, NVMI, TSLA, TXN, WDC, XLE, VNO, VFH, CRAK, DRAM, FLJH, IJR, ITA, MDY, QQQA, SMH, SPMO, USD, MAGS, RSP, SOXL, SOXX, XLU, HYG, LQD, SPY）。待确认：SPCX（疑为 SPXC）、CBRS（无数据，暂缓）。
 
 数据文件：`docs/watchlist.json`（三层结构 + wheel_positions）
 
@@ -152,6 +152,7 @@
 
 ## 8. 变更日志
 
+- **2026-07-22**：`watchlist.json` long_term **26 → 83**（从 Rachel TradingView 自选表新增 57 只）；均线信号覆盖面同步扩到 **86 只**，并 `--backfill` 回填全部真实信号日期。2 个代码待确认：SPCX（疑为 SPXC）、CBRS（无 yfinance 数据）。
 - **2026-07-21**：新增 **均线信号**（`ma_cross_signal.py` v1.0）：20/50 均线 × Supertrend(10,4) 买卖信号，watchlist.json core_holdings + long_term 减 `EXCLUDE`（当前 29 只，已剔除 WTI），每票留最近 2 次信号历史（`ma_signal_history.json`）；网页新增第 8 个 tab（🔀 均线信号）；接入盘后核心信号 job，只写网页不推微信。
 - **2026-07-16**：确认新闻**无限期保留**（61天/947卡片/5.1MB，`MAX_DAYS=30` 只裁本地，`merge_data.py` 不删远端）；Rachel 选择「先不动」。讨论并记录 **Linux300 数据库计划** → `LINUX300_DB_PLAN.md`（拉取式入库、先不与 Investment_OS 合库、待 Rachel 换到 Linux300 后动手）。
 - **2026-06-15**：`signal_advisor.py` v1.1 上线；四指标（Supertrend/SQZ Momentum/ADX+DI/MA）+ 六种信号 + LEAP/MID_TERM 期权建议；网页新增第6个 tab（技术信号）；daily_brief.yml 新增盘前(08:00 ET) + 盘后(17:30 ET) 两个 job。
