@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-07-22 06:25 CST
+**自动刷新时间**：2026-07-22 08:05 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,7 +26,7 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `665cdbc` 2026-07-21 — congress_tracker 2026-07-21
+- `7eaa591` 2026-07-21 — feat(ma_signal): backfill real signal dates from price history
 
 <!-- AUTO:END -->
 
