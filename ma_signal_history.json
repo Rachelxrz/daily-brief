@@ -1050,16 +1050,8 @@
     ]
   },
   "APP": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL",
     "signals": [
-      {
-        "type": "BUY",
-        "date": "2026-04-30",
-        "price": 446.35,
-        "ma20": 438.98,
-        "ma50": 438.28,
-        "st_value": 373.37
-      },
       {
         "type": "BUY",
         "date": "2026-07-01",
@@ -1067,6 +1059,14 @@
         "ma20": 506.4,
         "ma50": 499.56,
         "st_value": 408.99
+      },
+      {
+        "type": "SELL",
+        "date": "2026-07-23",
+        "price": 398.86,
+        "ma20": 475.91,
+        "ma50": 500.17,
+        "st_value": 514.69
       }
     ]
   },
@@ -1567,7 +1567,7 @@
     ]
   },
   "SMH": {
-    "last_state": "BUY",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL",
