@@ -693,16 +693,8 @@
     ]
   },
   "FPX": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL",
     "signals": [
-      {
-        "type": "SELL",
-        "date": "2026-02-06",
-        "price": 162.67,
-        "ma20": 165.59,
-        "ma50": 165.87,
-        "st_value": 172.12
-      },
       {
         "type": "BUY",
         "date": "2026-04-14",
@@ -710,6 +702,14 @@
         "ma20": 164.03,
         "ma50": 163.96,
         "st_value": 159.74
+      },
+      {
+        "type": "SELL",
+        "date": "2026-07-27",
+        "price": 181.57,
+        "ma20": 191.26,
+        "ma50": 191.56,
+        "st_value": 202.62
       }
     ]
   },
@@ -819,7 +819,7 @@
     ]
   },
   "ONTO": {
-    "last_state": "BUY",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "BUY",
@@ -1575,16 +1575,8 @@
     ]
   },
   "SMH": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL",
     "signals": [
-      {
-        "type": "SELL",
-        "date": "2026-03-20",
-        "price": 384.74,
-        "ma20": 399.07,
-        "ma50": 400.23,
-        "st_value": 434.21
-      },
       {
         "type": "BUY",
         "date": "2026-04-15",
@@ -1592,6 +1584,14 @@
         "ma20": 403.9,
         "ma50": 402.67,
         "st_value": 398.8
+      },
+      {
+        "type": "SELL",
+        "date": "2026-07-27",
+        "price": 548.55,
+        "ma20": 591.0,
+        "ma50": 598.4,
+        "st_value": 656.24
       }
     ]
   },
@@ -1701,16 +1701,8 @@
     ]
   },
   "SOXX": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL",
     "signals": [
-      {
-        "type": "SELL",
-        "date": "2026-03-19",
-        "price": 340.04,
-        "ma20": 343.67,
-        "ma50": 343.96,
-        "st_value": 375.09
-      },
       {
         "type": "BUY",
         "date": "2026-04-14",
@@ -1718,6 +1710,14 @@
         "ma20": 348.09,
         "ma50": 347.17,
         "st_value": 350.18
+      },
+      {
+        "type": "SELL",
+        "date": "2026-07-27",
+        "price": 516.23,
+        "ma20": 561.77,
+        "ma50": 568.86,
+        "st_value": 635.81
       }
     ]
   },
