@@ -893,12 +893,35 @@ function renderNewsMarkdown(el, day) {
 }
 
 // ── Main entry: cards first, markdown fallback ────────────
+function _hasNews(d) {
+  return d && ((d.news_cards && Object.keys(d.news_cards).length > 0) ||
+               (d.news && ((d.news.cn && d.news.cn.trim()) || (d.news.en && d.news.en.trim()))));
+}
+
 function renderNews(day) {
   const el = document.getElementById('news-content');
-  if (day.news_cards && Object.keys(day.news_cards).length > 0) {
-    renderNewsCards(el, day.news_cards);
+  // 所选日期无新闻（如「今天」新闻尚未产出）时，回退到最近一期并给出提示
+  let src = day, note = '';
+  if (!_hasNews(src)) {
+    for (const dd of Object.keys(allData).sort().reverse()) {
+      if (_hasNews(allData[dd])) { src = allData[dd]; note = dd; break; }
+    }
+  }
+  if (!_hasNews(src)) {
+    el.className = '';
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>暂无简报数据</div>';
+    return;
+  }
+  if (src.news_cards && Object.keys(src.news_cards).length > 0) {
+    renderNewsCards(el, src.news_cards);
   } else {
-    renderNewsMarkdown(el, day);
+    renderNewsMarkdown(el, src);
+  }
+  if (note) {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'font-size:0.72rem;color:var(--muted);margin-bottom:0.8rem;padding:0.4rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)';
+    banner.textContent = `📭 当日新闻尚未产出，显示最近一期（${note}）`;
+    el.insertBefore(banner, el.firstChild);
   }
 }
 

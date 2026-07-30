@@ -105,7 +105,9 @@
     "XLU",
     "HYG",
     "LQD",
-    "SPY"
+    "SPY",
+    "SPCX",
+    "CBRS"
   ],
   "congress_signals": [
     {
