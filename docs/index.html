@@ -1049,13 +1049,11 @@ function renderAnalysts(day) {
 
 function renderMaSignal(day) {
   const el = document.getElementById('masignal-content');
-  let m = day.ma_signal;
-  // 每个交易日盘后更新；当前日期无数据时回退到最近一个有数据的日期
-  if (!m || !m.tickers) {
-    const allDates = Object.keys(allData).sort().reverse();
-    for (const d of allDates) {
-      if (allData[d].ma_signal && allData[d].ma_signal.tickers) { m = allData[d].ma_signal; break; }
-    }
+  // 「当前信号」视图：始终展示最新一次的均线信号，不随日期 pill 回看（避免旧格式数据）
+  let m = null;
+  const allDates = Object.keys(allData).sort().reverse();
+  for (const d of allDates) {
+    if (allData[d].ma_signal && allData[d].ma_signal.tickers) { m = allData[d].ma_signal; break; }
   }
   if (!m || !m.tickers || !m.tickers.length) {
     el.innerHTML = '<div class="empty"><div class="empty-icon">🔀</div>本数据在每个交易日盘后自动生成</div>';
@@ -1073,18 +1071,39 @@ function renderMaSignal(day) {
         + `<span style="color:var(--green)">买入 ${c.buy||0}</span> · `
         + `<span style="color:var(--red)">卖出 ${c.sell||0}</span> · `
         + `无信号 ${c.neutral||0}${c.no_data ? ' · 数据不足 '+c.no_data : ''}</p>`;
+
+  // 📢 近一周买卖信号
+  const recent = m.recent || [];
+  const rdays = m.recent_days || 7;
+  html += `<h2 style="margin-top:0.4rem">📢 近${rdays}天买卖信号（${recent.length}）</h2>`;
+  if (recent.length) {
+    html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0.4rem 0 0.2rem">';
+    for (const x of recent) {
+      const col = x.type === 'BUY' ? 'var(--green)' : 'var(--red)';
+      const lab = x.type === 'BUY' ? '🟢 买入' : '🔴 卖出';
+      html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
+            + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
+            + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
+            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(x.tf||'')}</span></span>`;
+    }
+    html += '</div>';
+  } else {
+    html += '<p style="color:var(--muted)">近一周无新的买入/卖出翻转。</p>';
+  }
   html += '</div>';
 
   html += '<div style="overflow-x:auto">';
   html += '<table class="ma-tbl"><thead><tr>'
-        + '<th>标的</th><th>当前信号</th><th>现价</th><th>日涨跌</th>'
+        + '<th>标的</th><th>周期</th><th>当前信号</th><th>现价</th><th>日涨跌</th>'
         + '<th>MA20</th><th>MA50</th><th>均线差</th><th>Supertrend(10,4)</th>'
         + '<th>最近两次信号</th></tr></thead><tbody>';
 
   for (const r of m.tickers) {
     const sig = r.signal || 'NO_DATA';
+    const tf = r.tf || '';
     if (sig === 'NO_DATA') {
       html += `<tr><td><b>${escHtml(r.ticker)}</b></td>`
+            + `<td style="color:var(--muted)">${escHtml(tf)}</td>`
             + `<td style="color:var(--muted)">${sigCn[sig]}</td>`
             + '<td colspan="7" style="color:var(--muted)">数据不足</td></tr>';
       continue;
@@ -1101,6 +1120,7 @@ function renderMaSignal(day) {
 
     html += '<tr>'
           + `<td><b>${escHtml(r.ticker)}</b></td>`
+          + `<td style="color:var(--muted)">${escHtml(tf)}</td>`
           + `<td style="color:${sigColor[sig]};font-weight:600">${sigCn[sig]}</td>`
           + `<td>$${(r.price ?? 0).toFixed(2)}</td>`
           + `<td style="color:${r.day_chg >= 0 ? 'var(--green)' : 'var(--red)'}">${dayChg}</td>`
@@ -1113,7 +1133,8 @@ function renderMaSignal(day) {
   }
   html += '</tbody></table></div>';
   html += '<p style="color:var(--muted);font-size:0.8rem;margin-top:0.6rem">'
-        + 'Supertrend 括号内为线值，「N根」= 当前方向已持续的交易日数（自上次翻转以来，非信号次数）。'
+        + '周期：ETF 用<b>周线</b>（MA20/50=20/50 周、Supertrend 用周 K），个股与杠杆 ETF（USD/SOXL）用<b>日线</b>。'
+        + 'Supertrend 括号内为线值，「N根」= 当前方向已持续的 K 线数（周线即周数，非信号次数）。'
         + '「最近两次信号」左新右旧、为历史上真正满足「均线+Supertrend 同时成立」而翻转进入买入/卖出的日期；'
         + '状态保持不变或回到无信号都不记录。⚠️ 仅供参考，不构成投资建议。</p>';
   html += '</div></div>';

@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 """
-ma_cross_signal.py — 20/50 均线 × Supertrend(10,4) 买卖信号 v1.0
+ma_cross_signal.py — 20/50 均线 × Supertrend(10,4) 买卖信号 v1.1
 
 规则（用户 2026-07-21 指定）：
   BUY  = MA20 > MA50  且  Supertrend(10, 4) 方向为 UP
   SELL = MA20 < MA50  且  Supertrend(10, 4) 方向为 DOWN
   其余 = NEUTRAL（无信号）
 
-信号事件在「状态翻转进入 BUY / SELL」的当天记录一次，
+时间框架（2026-07-25 指定）：
+  个股 → 日线；ETF → 周线（MA20/MA50 = 20/50 周，Supertrend 用周线 K）；
+  杠杆 ETF（DAILY_OVERRIDE：USD 2×、SOXL 3×）→ 仍按日线。
+  ETF/个股用 yfinance quoteType 自动判定并缓存于 etf_flags.json。
+
+信号事件在「状态翻转进入 BUY / SELL」的当根 K 收盘记录一次（周线记为周五、日线记为当日），
 每只标的保留最近 **2** 条历史（类型 + 日期 + 当时价格/均线）。
 状态保持不变则不重复记录；回到 NEUTRAL 也不记录（NEUTRAL 不是信号）。
 
-标的：docs/watchlist.json 的 core_holdings + long_term（动态读取），排除 EXCLUDE（当前 29 只）
-输出：docs/data.json 的 "ma_signal" key（供网页「🔀 均线信号」tab）
-持久化：ma_signal_history.json（跨 GitHub Actions checkout 必须一起提交，否则历史会丢）
+标的：docs/watchlist.json 的 core_holdings + long_term（动态读取），排除 EXCLUDE
+输出：docs/data.json 的 "ma_signal" key（供网页「🔀 均线信号」tab），含「近一周买卖」清单
+持久化：ma_signal_history.json + etf_flags.json（跨 GitHub Actions checkout 必须一起提交）
 不推送微信（遵循「微信只推新闻」规则）。
 
 复用 signal_advisor.py 的 get_ohlcv / calc_supertrend，避免重复实现指标。
@@ -25,6 +30,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
+import yfinance as yf
 
 from signal_advisor import get_ohlcv, calc_supertrend
 
@@ -40,16 +47,22 @@ DOCS_DIR  = BASE_DIR / "docs"
 DATA_FILE = DOCS_DIR / "data.json"
 WATCHLIST_FILE = DOCS_DIR / "watchlist.json"
 HIST_FILE = BASE_DIR / "ma_signal_history.json"
+ETF_CACHE_FILE = BASE_DIR / "etf_flags.json"
 
 ST_PERIOD     = 10
 ST_MULTIPLIER = 4.0
 MA_FAST = 20
 MA_SLOW = 50
 KEEP_SIGNALS = 2   # 每只标的保留最近 2 条信号历史
+RECENT_DAYS  = 7   # 「近一周买卖」窗口
 
 # 从均线信号中排除（不影响 watchlist.json 里的真实持仓/其他模块）。
 # WTI：yfinance 的 WTI 是 W&T Offshore（小盘油气股）而非原油，信号会误导，故剔除。
 EXCLUDE = {"WTI"}
+
+# 杠杆 ETF：虽是 ETF，但仍按日线计算（Rachel 2026-07-25）。
+# USD = ProShares Ultra Semiconductors(2×)，SOXL = Direxion Daily Semiconductor Bull(3×)。
+DAILY_OVERRIDE = {"USD", "SOXL"}
 
 
 def _today_et() -> str:
@@ -89,24 +102,97 @@ def load_tickers() -> list:
     return out
 
 
-def analyze(ticker: str) -> dict:
-    """返回单只标的的 MA/Supertrend 状态与当前信号。"""
-    df = get_ohlcv(ticker, period="8mo")
-    if df.empty or len(df) < MA_SLOW:
-        return {"ticker": ticker, "signal": "NO_DATA"}
+# ── ETF/个股分类（yfinance quoteType，缓存到 etf_flags.json）────────────────
+def load_etf_cache() -> dict:
+    if ETF_CACHE_FILE.exists():
+        try:
+            return json.loads(ETF_CACHE_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
 
-    close = df["Close"].values.astype(float)
-    price   = round(float(close[-1]), 2)
-    prev_c  = float(close[-2]) if len(close) >= 2 else price
-    day_chg = round((price - prev_c) / prev_c * 100, 2) if prev_c else 0.0
+
+def save_etf_cache(cache: dict):
+    ETF_CACHE_FILE.write_text(
+        json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+
+
+def is_etf(ticker: str, cache: dict) -> bool:
+    """是否 ETF；缓存未命中时查一次 yfinance quoteType 并写入缓存。"""
+    if ticker in cache:
+        return bool(cache[ticker])
+    try:
+        qt = (yf.Ticker(ticker).get_info() or {}).get("quoteType", "")
+        cache[ticker] = (qt == "ETF")
+        log.info(f"  分类 {ticker}: quoteType={qt} → {'ETF' if cache[ticker] else '个股'}")
+    except Exception as e:
+        log.warning(f"  {ticker} quoteType 查询失败，暂按个股：{e}")
+        cache[ticker] = False
+    return cache[ticker]
+
+
+def timeframe_of(ticker: str, cache: dict) -> str:
+    """'W' = 周线（ETF，非杠杆）；'D' = 日线（个股 + 杠杆 ETF）。"""
+    if ticker in DAILY_OVERRIDE:
+        return "D"
+    return "W" if is_etf(ticker, cache) else "D"
+
+
+def _to_weekly(df):
+    """日线 OHLCV → 周线（以周五为界，当前未完成周也生成一根 forming bar）。"""
+    agg = {
+        "Open":  df["Open"].resample("W-FRI").first(),
+        "High":  df["High"].resample("W-FRI").max(),
+        "Low":   df["Low"].resample("W-FRI").min(),
+        "Close": df["Close"].resample("W-FRI").last(),
+    }
+    if "Volume" in df:
+        agg["Volume"] = df["Volume"].resample("W-FRI").sum()
+    w = pd.DataFrame(agg).dropna(subset=["Open", "High", "Low", "Close"])
+    return w
+
+
+def load_bars(ticker: str, cache: dict):
+    """
+    取足够历史，按标的时间框架返回用于计算的 df。
+    price / day_chg 始终取「最新日线」（真实最新价与当日涨跌），
+    指标（MA/Supertrend）用 calc（周线 ETF 为周线 K，其余为日线 K）。
+    """
+    tf = timeframe_of(ticker, cache)
+    period = "5y" if tf == "W" else "2y"
+    dfd = get_ohlcv(ticker, period=period)
+    if dfd.empty:
+        return None
+    close_d = dfd["Close"].values.astype(float)
+    price   = round(float(close_d[-1]), 2)
+    prev_d  = float(close_d[-2]) if len(close_d) >= 2 else price
+    day_chg = round((price - prev_d) / prev_d * 100, 2) if prev_d else 0.0
+    calc = _to_weekly(dfd) if tf == "W" else dfd
+    if calc.empty:
+        return None
+    asof = calc.index[-1].strftime("%Y-%m-%d")
+    return {"tf": tf, "calc": calc, "price": price, "day_chg": day_chg, "asof": asof}
+
+
+def _tf_cn(tf: str) -> str:
+    return "周线" if tf == "W" else "日线"
+
+
+def _compute(ticker: str, bars: dict) -> dict:
+    """由已取好的 bars 计算当前 MA/Supertrend 状态与信号（不再联网）。"""
+    tf_cn = _tf_cn(bars["tf"])
+    calc  = bars["calc"]
+    close = calc["Close"].values.astype(float)
+    if len(close) < MA_SLOW:
+        return {"ticker": ticker, "tf": tf_cn, "signal": "NO_DATA"}
 
     ma20 = round(float(np.mean(close[-MA_FAST:])), 2)
     ma50 = round(float(np.mean(close[-MA_SLOW:])), 2)
     ma_gap_pct = round((ma20 / ma50 - 1) * 100, 2) if ma50 else 0.0
 
-    st = calc_supertrend(df, period=ST_PERIOD, multiplier=ST_MULTIPLIER)
+    st = calc_supertrend(calc, period=ST_PERIOD, multiplier=ST_MULTIPLIER)
     if not st:
-        return {"ticker": ticker, "signal": "NO_DATA"}
+        return {"ticker": ticker, "tf": tf_cn, "signal": "NO_DATA"}
 
     st_dir   = st.get("direction", "")
     st_value = st.get("value")
@@ -121,8 +207,10 @@ def analyze(ticker: str) -> dict:
 
     return {
         "ticker":     ticker,
-        "price":      price,
-        "day_chg":    day_chg,
+        "tf":         tf_cn,
+        "price":      bars["price"],
+        "day_chg":    bars["day_chg"],
+        "asof":       bars["asof"],
         "ma20":       ma20,
         "ma50":       ma50,
         "ma_gap_pct": ma_gap_pct,
@@ -131,6 +219,14 @@ def analyze(ticker: str) -> dict:
         "st_bars":    st_bars,
         "signal":     signal,
     }
+
+
+def analyze(ticker: str, cache: dict) -> dict:
+    """返回单只标的的 MA/Supertrend 状态与当前信号（按其时间框架）。"""
+    bars = load_bars(ticker, cache)
+    if bars is None:
+        return {"ticker": ticker, "signal": "NO_DATA"}
+    return _compute(ticker, bars)
 
 
 def _supertrend_series(df, period: int = ST_PERIOD, multiplier: float = ST_MULTIPLIER):
@@ -228,29 +324,32 @@ def signal_events(df, keep: int = KEEP_SIGNALS) -> list:
 
 def backfill():
     """
-    用历史数据重建 ma_signal_history.json：每只标的回查最近 2 次真实信号翻转日期，
-    并把 last_state 设为最新一根的状态，供后续每日增量接续。
+    用历史数据重建 ma_signal_history.json：每只标的按其时间框架（周线 ETF / 日线）
+    回查最近 2 次真实信号翻转日期，并把 last_state 设为最新一根的状态，供后续每日增量接续。
+    同时刷新 etf_flags.json 分类缓存。
     """
+    cache = load_etf_cache()
     tickers = load_tickers()
     log.info("=" * 60)
-    log.info(f"🔁 回查历史信号 · 重建 {HIST_FILE.name}（{len(tickers)} 只，约 2 年历史）")
+    log.info(f"🔁 回查历史信号 · 重建 {HIST_FILE.name}（{len(tickers)} 只）")
     log.info("=" * 60)
     hist = {}
     for t in tickers:
-        df = get_ohlcv(t, period="2y")
-        if df.empty or len(df) < MA_SLOW + 1:
+        bars = load_bars(t, cache)
+        if bars is None or len(bars["calc"]) < MA_SLOW + 1:
             log.warning(f"  {t:<6} ⚠️ 历史不足，跳过")
             continue
-        evs = signal_events(df)              # 最近 2 条，最新在前？——按时间正序，末尾最新
-        res = analyze(t)                     # 当前状态（与在线一致）
+        evs = signal_events(bars["calc"])    # 按时间正序，末尾最新
+        res = _compute(t, bars)              # 当前状态（与在线一致，同一份 bars）
         last_state = res.get("signal")
         if last_state == "NO_DATA":
             last_state = None
         hist[t] = {"last_state": last_state, "signals": evs}
         shown = "；".join(f"{e['type']}@{e['date']}" for e in evs) or "无"
-        log.info(f"  {t:<6} last={last_state:<7} 最近两次[{shown}]")
+        log.info(f"  {t:<6} [{_tf_cn(bars['tf'])}] last={str(last_state):<7} 最近两次[{shown}]")
+    save_etf_cache(cache)
     save_history(hist)
-    log.info(f"✅ 已重建 {HIST_FILE.name}：{len(hist)} 只")
+    log.info(f"✅ 已重建 {HIST_FILE.name}：{len(hist)} 只（分类缓存 {ETF_CACHE_FILE.name}）")
 
 
 def load_history() -> dict:
@@ -266,21 +365,23 @@ def save_history(hist: dict):
     HIST_FILE.write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def update_history(hist: dict, res: dict, today: str) -> dict:
+def update_history(hist: dict, res: dict) -> dict:
     """
-    根据今日状态更新某只标的的历史。
-    只有当状态「翻转进入 BUY/SELL」（今日 BUY/SELL 且不同于上一次记录的状态）时，
-    才追加一条信号事件，并裁剪到最近 KEEP_SIGNALS 条。
+    根据当根 K 状态更新某只标的的历史。
+    只有当状态「翻转进入 BUY/SELL」（当前 BUY/SELL 且不同于上一次记录的状态）时，
+    才追加一条信号事件（日期用当根 K 收盘 asof：周线=周五、日线=当日），
+    并裁剪到最近 KEEP_SIGNALS 条。
     """
     ticker = res["ticker"]
     state  = res["signal"]
+    asof   = res.get("asof")
     rec = hist.get(ticker) or {"last_state": None, "signals": []}
     prev_state = rec.get("last_state")
 
-    if state in ("BUY", "SELL") and state != prev_state:
+    if state in ("BUY", "SELL") and state != prev_state and asof:
         rec.setdefault("signals", []).append({
             "type":  state,
-            "date":  today,
+            "date":  asof,
             "price": res.get("price"),
             "ma20":  res.get("ma20"),
             "ma50":  res.get("ma50"),
@@ -300,7 +401,39 @@ def update_history(hist: dict, res: dict, today: str) -> dict:
 _SIG_ORDER = {"BUY": 0, "SELL": 1, "NEUTRAL": 2, "NO_DATA": 3}
 
 
-def save_web(rows: list, today: str):
+def _days_between(d_from: str, d_to: str):
+    try:
+        a = datetime.strptime(d_from, "%Y-%m-%d").date()
+        b = datetime.strptime(d_to, "%Y-%m-%d").date()
+        return (b - a).days
+    except Exception:
+        return None
+
+
+def build_recent(rows: list, today: str, days: int = RECENT_DAYS) -> list:
+    """近一周内发生过买入/卖出翻转的标的（取最近一次事件在窗口内的）。"""
+    recent = []
+    for r in rows:
+        hist = r.get("history") or []
+        if not hist:
+            continue
+        last = hist[0]                       # 最新在前
+        gap = _days_between(last.get("date", ""), today)
+        if gap is not None and 0 <= gap <= days:
+            recent.append({
+                "ticker": r["ticker"],
+                "type":   last["type"],
+                "date":   last["date"],
+                "tf":     r.get("tf", ""),
+                "price":  r.get("price"),
+                "signal": r.get("signal"),   # 当前状态（可能已回到无信号）
+            })
+    recent.sort(key=lambda x: (x["type"] != "BUY", x["date"]), reverse=False)
+    recent.sort(key=lambda x: x["date"], reverse=True)
+    return recent
+
+
+def save_web(rows: list, today: str, recent: list):
     data = {}
     if DATA_FILE.exists():
         try:
@@ -315,8 +448,10 @@ def save_web(rows: list, today: str):
     payload = {
         "date":    today,
         "updated": _now_cst(),
-        "rule":    "BUY = MA20>MA50 且 Supertrend(10,4)↑ ；SELL = MA20<MA50 且 Supertrend(10,4)↓",
+        "rule":    "BUY = MA20>MA50 且 Supertrend(10,4)↑ ；SELL = MA20<MA50 且 Supertrend(10,4)↓（ETF 周线，个股/杠杆ETF 日线）",
         "counts":  counts,
+        "recent":  recent,
+        "recent_days": RECENT_DAYS,
         "tickers": rows,
     }
 
@@ -333,6 +468,7 @@ def save_web(rows: list, today: str):
 
 def run(dry_run: bool = False):
     today = _today_et()
+    cache = load_etf_cache()
     tickers = load_tickers()
     log.info("=" * 60)
     log.info(f"🔀 均线×Supertrend 信号  {today}  ({len(tickers)} 只)")
@@ -341,28 +477,30 @@ def run(dry_run: bool = False):
     hist = load_history()
     rows = []
     for t in tickers:
-        res = analyze(t)
-        rec = update_history(hist, res, today)
+        res = analyze(t, cache)
+        rec = update_history(hist, res)
         res["history"] = list(reversed(rec.get("signals", [])))  # 最新在前
         rows.append(res)
         if res["signal"] == "NO_DATA":
             log.warning(f"  {t:<6} ⚠️ 数据不足")
         else:
-            log.info(f"  {t:<6} {res['signal']:<8} ${res['price']}  MA20 {res['ma20']} / MA50 {res['ma50']}  ST{res['st_dir']}")
+            log.info(f"  {t:<6} [{res.get('tf','')}] {res['signal']:<8} ${res['price']}  "
+                     f"MA20 {res['ma20']} / MA50 {res['ma50']}  ST{res['st_dir']}")
 
     rows.sort(key=lambda r: (_SIG_ORDER.get(r["signal"], 9), -(r.get("ma_gap_pct") or -999)))
+    recent = build_recent(rows, today)
 
     if dry_run:
-        log.info("🧪 dry-run：不写 data.json / 不落历史")
-        for r in rows:
-            if r["signal"] in ("BUY", "SELL"):
-                h = "；".join(f"{s['type']}@{s['date']}" for s in r.get("history", []))
-                log.info(f"    {r['ticker']:<6} {r['signal']}  历史[{h}]")
+        log.info("🧪 dry-run：不写文件")
+        log.info(f"📢 近一周买卖（{len(recent)}）：")
+        for x in recent:
+            log.info(f"    {x['ticker']:<6} {x['type']}@{x['date']}  [{x['tf']}]")
         return
 
+    save_etf_cache(cache)
     save_history(hist)
-    save_web(rows, today)
-    log.info("✅ 完成")
+    save_web(rows, today, recent)
+    log.info(f"✅ 完成（近一周买卖 {len(recent)} 只）")
 
 
 if __name__ == "__main__":

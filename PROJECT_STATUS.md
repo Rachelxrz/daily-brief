@@ -80,15 +80,18 @@
 - Premium 为简化估算，非实时期权链报价
 - IV 从 yfinance 期权链近月 ATM Put 取值，无期权时退回默认 0.35
 
-### ✅ 均线信号（ma_cross_signal.py v1.0）
+### ✅ 均线信号（ma_cross_signal.py v1.1）
 - **规则**：BUY = MA20 > MA50 且 Supertrend(10,4) 多头；SELL = MA20 < MA50 且 Supertrend(10,4) 空头；其余 NEUTRAL
+- **时间框架**：个股→日线；ETF→**周线**（MA20/50=20/50 周、Supertrend 用周 K）；杠杆 ETF（`DAILY_OVERRIDE`：USD、SOXL）→日线。ETF/个股用 yfinance `quoteType` 自动判定，缓存于 `etf_flags.json`
 - **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取），减 `EXCLUDE`，当前 **86 只**
-- **信号历史**：仅在状态翻转进入 BUY/SELL 当天记录，每票留最近 2 条，存 `ma_signal_history.json`（工作流跨 checkout 保留并提交）
+- **近一周买卖**：网页顶部单列近 7 天内发生买入/卖出翻转的标的（`data.json` → `ma_signal.recent`）
+- **信号历史**：仅在状态翻转进入 BUY/SELL 的当根 K 收盘记录（周线记周五、日线记当日），每票留最近 2 条，存 `ma_signal_history.json`（工作流跨 checkout 保留并提交）
 - **触发时间**：随盘后核心信号 job（工作日 17:30 ET，`signal_post`）；复用 `calc_supertrend`（multiplier=4.0），**只写网页、不推微信**
-- **网页**：均线信号 tab，表格含现价/日涨跌/MA20/MA50/均线差/Supertrend/最近两次信号
+- **网页**：均线信号 tab（「当前信号」视图，始终展示最新一次），表格含周期/现价/日涨跌/MA20/MA50/均线差/Supertrend/最近两次信号
 
 **已知限制/说明**：
 - `WTI` 已从本模块 `EXCLUDE` 剔除（yfinance 的 WTI 是 W&T Offshore 小盘油气股，非原油，信号会误导）；WTI 仍保留在 `watchlist.json` core_holdings 作为真实持仓，不影响其他模块
+- `DRAM`（Roundhill Memory ETF，较新）周线历史不足 50 周 → 暂显示「数据不足」，待周线攒够自动出现
 
 ---
 
@@ -152,6 +155,7 @@
 
 ## 8. 变更日志
 
+- **2026-07-25**：均线信号 **v1.1**：ETF 改按**周线**计算（MA20/50=20/50 周、Supertrend 用周 K），个股仍日线，杠杆 ETF（USD/SOXL）按日线；ETF/个股用 yfinance `quoteType` 自动判定并缓存 `etf_flags.json`。网页新增「📢 近一周买卖信号」清单 + 表格「周期」列 + 均线信号 tab 改为始终展示最新一次。已 `--backfill` 按各自周期回填历史。
 - **2026-07-22**：`watchlist.json` long_term **26 → 83**（从 Rachel TradingView 自选表新增 57 只）；均线信号覆盖面同步扩到 **86 只**，并 `--backfill` 回填全部真实信号日期。2 个代码待确认：SPCX（疑为 SPXC）、CBRS（无 yfinance 数据）。
 - **2026-07-21**：新增 **均线信号**（`ma_cross_signal.py` v1.0）：20/50 均线 × Supertrend(10,4) 买卖信号，watchlist.json core_holdings + long_term 减 `EXCLUDE`（当前 29 只，已剔除 WTI），每票留最近 2 次信号历史（`ma_signal_history.json`）；网页新增第 8 个 tab（🔀 均线信号）；接入盘后核心信号 job，只写网页不推微信。
 - **2026-07-16**：确认新闻**无限期保留**（61天/947卡片/5.1MB，`MAX_DAYS=30` 只裁本地，`merge_data.py` 不删远端）；Rachel 选择「先不动」。讨论并记录 **Linux300 数据库计划** → `LINUX300_DB_PLAN.md`（拉取式入库、先不与 Investment_OS 合库、待 Rachel 换到 Linux300 后动手）。

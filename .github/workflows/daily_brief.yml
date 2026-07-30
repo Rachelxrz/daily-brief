@@ -359,12 +359,14 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp docs/data.json /tmp/new_data.json
-          # 均线信号历史（每票留最近 2 条）必须一起提交，否则下次 checkout 会丢
+          # 均线信号历史（每票留最近 2 条）+ ETF 分类缓存 必须一起提交，否则下次 checkout 会丢
           [ -f ma_signal_history.json ] && cp ma_signal_history.json /tmp/ma_signal_history.json || true
+          [ -f etf_flags.json ]         && cp etf_flags.json         /tmp/etf_flags.json         || true
           git fetch origin main && git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
           [ -f /tmp/ma_signal_history.json ] && cp /tmp/ma_signal_history.json ma_signal_history.json || true
-          git add docs/data.json ma_signal_history.json
+          [ -f /tmp/etf_flags.json ]         && cp /tmp/etf_flags.json         etf_flags.json         || true
+          git add docs/data.json ma_signal_history.json etf_flags.json
           git diff --staged --quiet || git commit -m "signal_advisor_post_priority $(date +'%Y-%m-%d')"
           git push
       - if: always()
