@@ -16,17 +16,17 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-07-30 23:04 CST
-**data.json 今日更新**：2026-07-30 21:44 CST
+**自动刷新时间**：2026-07-30 23:21 CST
+**data.json 今日更新**：2026-07-30 23:04 CST
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
 - 每日简报 (main.py)：⚪ 今日无产出
 - 市场结构监控 (market_monitor.py)：⚪ 今日无产出
 - 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
-- Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
+- Wheel Strategy (wheel_strategy.py)：✅ 今日已产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- （自上次刷新以来无新 commit）
+- `ca7f5a6` 2026-07-30 — wheel_strategy 2026-07-30
 
 <!-- AUTO:END -->
 
@@ -83,7 +83,7 @@
 ### ✅ 均线信号（ma_cross_signal.py v1.1）
 - **规则**：BUY = MA20 > MA50 且 Supertrend(10,4) 多头；SELL = MA20 < MA50 且 Supertrend(10,4) 空头；其余 NEUTRAL
 - **时间框架**：个股→日线；ETF→**周线**（MA20/50=20/50 周、Supertrend 用周 K）；杠杆 ETF（`DAILY_OVERRIDE`：USD、SOXL）→日线。ETF/个股用 yfinance `quoteType` 自动判定，缓存于 `etf_flags.json`
-- **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取），减 `EXCLUDE`，当前 **88 只**
+- **标的**：`docs/watchlist.json` 的 core_holdings + long_term（动态读取），减 `EXCLUDE`，当前 **86 只**
 - **近一周买卖**：网页顶部单列近 7 天内发生买入/卖出翻转的标的（`data.json` → `ma_signal.recent`）
 - **信号历史**：仅在状态翻转进入 BUY/SELL 的当根 K 收盘记录（周线记周五、日线记当日），每票留最近 2 条，存 `ma_signal_history.json`（工作流跨 checkout 保留并提交）
 - **触发时间**：随盘后核心信号 job（工作日 17:30 ET，`signal_post`）；复用 `calc_supertrend`（multiplier=4.0），**只写网页、不推微信**
@@ -107,7 +107,7 @@
 
 **核心持仓**：GLD 30% · QQQ 25% · WTI 20% · TLT 20%（均 long）
 
-**Watchlist（long_term 85，2026-07-30 更新）**：完整清单见 `docs/watchlist.json`。2026-07-22 从 Rachel TradingView 自选表新增 57 只；2026-07-30 补入 **SPCX（Space Exploration Technologies）** 与 **CBRS（Cerebras Systems）**——均为近期 IPO 个股，故此前 yfinance 无数据（SPCX 现有 <50 日线，暂「数据不足」）。
+**Watchlist（long_term 83，2026-07-22 扩充）**：完整清单见 `docs/watchlist.json`。原 26 只 + 从 Rachel TradingView 自选表新增 57 只（AGX, AMD, ASML, ETN, FPX, GLW, INTC, KLAC, MRVL, MU, ONTO, SNDK, TSM, UTES, XBI, XLF, XMMO, BWET, AEHR, ALAB, AMZN, APP, ARM, COIN, DELL, DOCN, EQIX, FTAI, GDX, JEPQ, LLY, LNG, NVMI, TSLA, TXN, WDC, XLE, VNO, VFH, CRAK, DRAM, FLJH, IJR, ITA, MDY, QQQA, SMH, SPMO, USD, MAGS, RSP, SOXL, SOXX, XLU, HYG, LQD, SPY）。待确认：SPCX（疑为 SPXC）、CBRS（无数据，暂缓）。
 
 数据文件：`docs/watchlist.json`（三层结构 + wheel_positions）
 
