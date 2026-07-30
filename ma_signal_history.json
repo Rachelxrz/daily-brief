@@ -1787,5 +1787,13 @@
   "CBRS": {
     "last_state": "NEUTRAL",
     "signals": []
+  },
+  "DRAM": {
+    "last_state": null,
+    "signals": []
+  },
+  "SPCX": {
+    "last_state": null,
+    "signals": []
   }
 }
