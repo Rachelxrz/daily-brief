@@ -977,7 +977,17 @@ function renderMacroGate(g) {
     + `（≥${g.vote_threshold} 且连续 ${g.persist_days} 交易日 = 崩盘体制→清仓）· 建议 QQQ 仓位 <b style="color:${col}">${g.weight_pct}%</b> `
     + `· 目标波动 ${g.target_vol_pct}% / 实现波动 ${g.realized_vol_pct}%</div></div>`
     + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:8px 0">${rows}</div>`
-    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:2px">${escHtml(g.note || '')}<br>更新：${escHtml(g.updated || '')}</p>`
+    + `<details style="margin-top:4px"><summary style="cursor:pointer;color:var(--muted);font-size:0.82rem">ⓘ 六因子含义与区间说明</summary>`
+    + `<div style="font-size:0.8rem;color:var(--muted);line-height:1.75;margin-top:6px">`
+    + `<b>波动 VIX</b>：标普500未来30天隐含波动（“恐慌指数”）。&lt;20 正常 · 20–28 警戒 · <span style="color:var(--red)">&gt;28 危险</span> · &gt;40 极度恐慌。<br>`
+    + `<b>收益率曲线 10Y-3M</b>：10年−3月国债利差，最经典的<b>衰退领先</b>信号（提前12–18月）。&gt;0 正常 · <span style="color:var(--red)">&lt;0 倒挂</span>。<br>`
+    + `<b>信用 Baa-10Y 利差</b>：投资级公司债相对国债的风险溢价（用3年 z 分衡量走阔）。z&lt;0 宽松 · 0–1 正常 · <span style="color:var(--red)">z&gt;1 异常走阔</span>。绝对值参考：1.5–2.5% 正常，&gt;3% 警戒。<br>`
+    + `<b>宏观·Sahm 衰退</b>：失业率3月均 − 前12月最低；历史上 ≥0.5 几乎必然=衰退已开始（实时触发器）。&lt;0.5 正常 · <span style="color:var(--red)">≥0.5 衰退</span>。<br>`
+    + `<b>宏观·CFNAI 增长</b>：芝加哥联储85项指标合成的活动指数（3月均），0=趋势增速。&gt;0 强 · −0.7~0 温和放缓 · <span style="color:var(--red)">&lt;−0.7 衰退级放缓</span>。<br>`
+    + `<b>趋势 QQQ vs 200日线</b>：QQQ 收盘 vs 200日均线且线的斜率。上方=多头 · <span style="color:var(--red)">跌破且斜率向下=空头</span>。<br>`
+    + `<div style="margin-top:6px">🚦 <b>闸门规则</b>：每条满足红色条件计 1 票；<b>≥2 票且连续≥2周（10交易日）</b>=崩盘体制→建议清仓 QQQ（仓位 0）。票数&lt;2 时按 <b>20%波动率目标</b> 定仓位 = min(100%, 20%÷实现波动)。</div>`
+    + `</div></details>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml(g.note || '')}<br>更新：${escHtml(g.updated || '')}</p>`
     + `</div></div></div>`;
 }
 
