@@ -354,6 +354,9 @@ jobs:
       - name: Run MA×Supertrend 均线信号
         run: python ma_cross_signal.py
         continue-on-error: true
+      - name: Run QQQ 六因子宏观闸门
+        run: python macro_gate.py
+        continue-on-error: true
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"

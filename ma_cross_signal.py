@@ -2,10 +2,13 @@
 """
 ma_cross_signal.py — 20/50 均线 × Supertrend(10,4) 买卖信号 v1.1
 
-规则（用户 2026-07-21 指定）：
-  BUY  = MA20 > MA50  且  Supertrend(10, 4) 方向为 UP
-  SELL = MA20 < MA50  且  Supertrend(10, 4) 方向为 DOWN
+规则（用户 2026-07-21 指定；2026-07-30 按「策略1」加入 MA150 分级卖出）：
+  BUY       = MA20 > MA50  且  Supertrend(10, 4) 方向为 UP        → 全仓买入
+  SELL_HALF = MA20 < MA50  且  Supertrend(10, 4) 方向为 DOWN      → 减半（死叉）
+  SELL_ALL  = 收盘价 < MA150                                       → 清仓（跌破150均线地板）
   其余 = NEUTRAL（无信号）
+  优先级（风险优先）：SELL_ALL > SELL_HALF > BUY > NEUTRAL
+  MA150 与 MA20/MA50 同一时间框架（ETF=150周、个股/杠杆ETF=150日）；历史不足150根则不触发 SELL_ALL。
 
 时间框架（2026-07-25 指定）：
   个股 → 日线；ETF → 周线（MA20/MA50 = 20/50 周，Supertrend 用周线 K）；
@@ -53,6 +56,7 @@ ST_PERIOD     = 10
 ST_MULTIPLIER = 4.0
 MA_FAST = 20
 MA_SLOW = 50
+MA_LONG = 150      # 150 均线地板（策略1：跌破即清仓）
 KEEP_SIGNALS = 2   # 每只标的保留最近 2 条信号历史
 RECENT_DAYS  = 7   # 「近一周买卖」窗口
 
@@ -189,6 +193,9 @@ def _compute(ticker: str, bars: dict) -> dict:
     ma20 = round(float(np.mean(close[-MA_FAST:])), 2)
     ma50 = round(float(np.mean(close[-MA_SLOW:])), 2)
     ma_gap_pct = round((ma20 / ma50 - 1) * 100, 2) if ma50 else 0.0
+    # MA150 地板（历史不足 150 根则为 None，不触发清仓）
+    ma150 = round(float(np.mean(close[-MA_LONG:])), 2) if len(close) >= MA_LONG else None
+    last_close = float(close[-1])
 
     st = calc_supertrend(calc, period=ST_PERIOD, multiplier=ST_MULTIPLIER)
     if not st:
@@ -198,10 +205,13 @@ def _compute(ticker: str, bars: dict) -> dict:
     st_value = st.get("value")
     st_bars  = st.get("bars_since_flip")
 
-    if ma20 > ma50 and st_dir == "UP":
-        signal = "BUY"
+    # 优先级（风险优先）：SELL_ALL > SELL_HALF > BUY > NEUTRAL
+    if ma150 is not None and last_close < ma150:
+        signal = "SELL_ALL"                                   # 跌破150均线 → 清仓
     elif ma20 < ma50 and st_dir == "DOWN":
-        signal = "SELL"
+        signal = "SELL_HALF"                                  # 死叉 → 减半
+    elif ma20 > ma50 and st_dir == "UP":
+        signal = "BUY"                                        # 全仓买入
     else:
         signal = "NEUTRAL"
 
@@ -213,6 +223,8 @@ def _compute(ticker: str, bars: dict) -> dict:
         "asof":       bars["asof"],
         "ma20":       ma20,
         "ma50":       ma50,
+        "ma150":      ma150,
+        "below_ma150": (ma150 is not None and last_close < ma150),
         "ma_gap_pct": ma_gap_pct,
         "st_dir":     st_dir,
         "st_value":   st_value,
@@ -293,6 +305,7 @@ def signal_events(df, keep: int = KEEP_SIGNALS) -> list:
     cs = df["Close"]
     ma20_s = cs.rolling(MA_FAST).mean().values
     ma50_s = cs.rolling(MA_SLOW).mean().values
+    ma150_s = cs.rolling(MA_LONG).mean().values
     trend, line = _supertrend_series(df)
     dates = [d.strftime("%Y-%m-%d") for d in df.index]
 
@@ -301,20 +314,24 @@ def signal_events(df, keep: int = KEEP_SIGNALS) -> list:
     for i in range(n):
         if np.isnan(ma20_s[i]) or np.isnan(ma50_s[i]) or trend[i] == 0:
             continue
-        if ma20_s[i] > ma50_s[i] and trend[i] == 1:
-            state = "BUY"
+        # 与 _compute 同优先级：SELL_ALL > SELL_HALF > BUY > NEUTRAL
+        if not np.isnan(ma150_s[i]) and close[i] < ma150_s[i]:
+            state = "SELL_ALL"
         elif ma20_s[i] < ma50_s[i] and trend[i] == -1:
-            state = "SELL"
+            state = "SELL_HALF"
+        elif ma20_s[i] > ma50_s[i] and trend[i] == 1:
+            state = "BUY"
         else:
             state = "NEUTRAL"
 
-        if state in ("BUY", "SELL") and state != prev_state:
+        if state in ("BUY", "SELL_HALF", "SELL_ALL") and state != prev_state:
             events.append({
                 "type":  state,
                 "date":  dates[i],
                 "price": round(float(close[i]), 2),
                 "ma20":  round(float(ma20_s[i]), 2),
                 "ma50":  round(float(ma50_s[i]), 2),
+                "ma150": None if np.isnan(ma150_s[i]) else round(float(ma150_s[i]), 2),
                 "st_value": None if np.isnan(line[i]) else round(float(line[i]), 2),
             })
         prev_state = state
@@ -378,13 +395,14 @@ def update_history(hist: dict, res: dict) -> dict:
     rec = hist.get(ticker) or {"last_state": None, "signals": []}
     prev_state = rec.get("last_state")
 
-    if state in ("BUY", "SELL") and state != prev_state and asof:
+    if state in ("BUY", "SELL_HALF", "SELL_ALL") and state != prev_state and asof:
         rec.setdefault("signals", []).append({
             "type":  state,
             "date":  asof,
             "price": res.get("price"),
             "ma20":  res.get("ma20"),
             "ma50":  res.get("ma50"),
+            "ma150": res.get("ma150"),
             "st_value": res.get("st_value"),
         })
         rec["signals"] = rec["signals"][-KEEP_SIGNALS:]
@@ -397,8 +415,8 @@ def update_history(hist: dict, res: dict) -> dict:
     return rec
 
 
-# 排序：BUY → SELL → NEUTRAL → NO_DATA；组内按均线差降序
-_SIG_ORDER = {"BUY": 0, "SELL": 1, "NEUTRAL": 2, "NO_DATA": 3}
+# 排序：BUY → SELL_ALL → SELL_HALF → NEUTRAL → NO_DATA；组内按均线差降序
+_SIG_ORDER = {"BUY": 0, "SELL_ALL": 1, "SELL_HALF": 2, "NEUTRAL": 3, "NO_DATA": 4}
 
 
 def _days_between(d_from: str, d_to: str):
@@ -441,14 +459,17 @@ def save_web(rows: list, today: str, recent: list):
         except Exception:
             data = {}
 
-    counts = {"buy": 0, "sell": 0, "neutral": 0, "no_data": 0}
+    counts = {"buy": 0, "sell_half": 0, "sell_all": 0, "neutral": 0, "no_data": 0}
+    _cmap = {"BUY": "buy", "SELL_HALF": "sell_half", "SELL_ALL": "sell_all",
+             "NEUTRAL": "neutral", "NO_DATA": "no_data"}
     for r in rows:
-        counts[{"BUY": "buy", "SELL": "sell", "NEUTRAL": "neutral", "NO_DATA": "no_data"}[r["signal"]]] += 1
+        counts[_cmap.get(r["signal"], "no_data")] += 1
 
     payload = {
         "date":    today,
         "updated": _now_cst(),
-        "rule":    "BUY = MA20>MA50 且 Supertrend(10,4)↑ ；SELL = MA20<MA50 且 Supertrend(10,4)↓（ETF 周线，个股/杠杆ETF 日线）",
+        "rule":    "BUY = MA20>MA50 且 ST(10,4)↑（全仓）；SELL_HALF = MA20<MA50 且 ST↓（死叉减半）；"
+                   "SELL_ALL = 收盘<MA150（跌破150均线清仓）。ETF 周线，个股/杠杆ETF 日线。",
         "counts":  counts,
         "recent":  recent,
         "recent_days": RECENT_DAYS,

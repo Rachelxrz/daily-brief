@@ -3,12 +3,13 @@
     "last_state": "NEUTRAL",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2022-08-19",
         "price": 162.72,
         "ma20": 170.53,
         "ma50": 170.8,
-        "st_value": 179.02
+        "ma150": null,
+        "st_value": 179.01
       },
       {
         "type": "BUY",
@@ -16,6 +17,7 @@
         "price": 172.49,
         "ma20": 168.11,
         "ma50": 167.8,
+        "ma150": null,
         "st_value": 162.25
       }
     ]
@@ -29,6 +31,7 @@
         "price": 330.28,
         "ma20": 299.76,
         "ma50": 288.98,
+        "ma150": null,
         "st_value": 276.37
       },
       {
@@ -37,49 +40,54 @@
         "price": 553.55,
         "ma20": 495.13,
         "ma50": 493.97,
+        "ma150": 402.63,
         "st_value": 459.55
       }
     ]
   },
   "TLT": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-01-31",
-        "price": 82.16,
-        "ma20": 84.94,
-        "ma50": 85.27,
-        "st_value": 90.1
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-03",
         "price": 85.51,
         "ma20": 85.65,
         "ma50": 85.74,
+        "ma150": 84.66,
+        "st_value": 89.58
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-10",
+        "price": 84.47,
+        "ma20": 85.49,
+        "ma50": 85.78,
+        "ma150": 84.66,
         "st_value": 89.58
       }
     ]
   },
   "ALB": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-16",
-        "price": 215.07,
-        "ma20": 177.52,
-        "ma50": 172.18,
-        "st_value": 158.2
+        "type": "SELL_HALF",
+        "date": "2026-06-12",
+        "price": 170.42,
+        "ma20": 167.26,
+        "ma50": 181.54,
+        "ma150": 162.73,
+        "st_value": 180.96
       },
       {
-        "type": "SELL",
-        "date": "2026-06-05",
-        "price": 155.04,
-        "ma20": 178.8,
-        "ma50": 183.73,
-        "st_value": 191.35
+        "type": "SELL_ALL",
+        "date": "2026-06-18",
+        "price": 160.35,
+        "ma20": 165.68,
+        "ma50": 180.77,
+        "ma150": 164.52,
+        "st_value": 180.96
       }
     ]
   },
@@ -92,6 +100,7 @@
         "price": 156.4,
         "ma20": 153.0,
         "ma50": 152.95,
+        "ma150": 139.71,
         "st_value": 144.69
       },
       {
@@ -100,28 +109,31 @@
         "price": 156.4,
         "ma20": 155.03,
         "ma50": 154.97,
+        "ma150": 139.65,
         "st_value": 144.69
       }
     ]
   },
   "AVGO": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-15",
-        "price": 396.09,
-        "ma20": 330.86,
-        "ma50": 328.92,
-        "st_value": 338.9
+        "type": "SELL_ALL",
+        "date": "2026-07-02",
+        "price": 360.45,
+        "ma20": 383.98,
+        "ma50": 408.89,
+        "ma150": 364.79,
+        "st_value": 433.94
       },
       {
-        "type": "SELL",
-        "date": "2026-06-23",
-        "price": 380.15,
-        "ma20": 410.33,
-        "ma50": 411.96,
-        "st_value": 468.37
+        "type": "SELL_HALF",
+        "date": "2026-07-06",
+        "price": 373.9,
+        "ma20": 381.76,
+        "ma50": 407.93,
+        "ma150": 364.73,
+        "st_value": 433.94
       }
     ]
   },
@@ -129,83 +141,91 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2024-10-11",
-        "price": 9.41,
-        "ma20": 11.06,
-        "ma50": 11.44,
-        "st_value": 12.91
+        "type": "SELL_ALL",
+        "date": "2024-06-14",
+        "price": 11.77,
+        "ma20": 13.43,
+        "ma50": 9.51,
+        "ma150": 14.49,
+        "st_value": 10.18
       },
       {
         "type": "BUY",
-        "date": "2025-09-19",
-        "price": 8.16,
-        "ma20": 6.79,
-        "ma50": 6.67,
-        "st_value": 5.96
+        "date": "2025-11-14",
+        "price": 8.6,
+        "ma20": 7.85,
+        "ma50": 6.7,
+        "ma150": 8.42,
+        "st_value": 6.15
       }
     ]
   },
   "CEG": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-05-08",
-        "price": 303.16,
-        "ma20": 302.28,
-        "ma50": 301.43,
-        "st_value": 270.54
+        "type": "SELL_HALF",
+        "date": "2026-01-15",
+        "price": 340.21,
+        "ma20": 348.5,
+        "ma50": 352.11,
+        "ma150": 339.11,
+        "st_value": 389.02
       },
       {
-        "type": "SELL",
-        "date": "2026-05-29",
-        "price": 287.75,
-        "ma20": 292.05,
-        "ma50": 292.15,
-        "st_value": 309.68
+        "type": "SELL_ALL",
+        "date": "2026-01-16",
+        "price": 306.82,
+        "ma20": 346.84,
+        "ma50": 351.02,
+        "ma150": 339.16,
+        "st_value": 380.61
       }
     ]
   },
   "CIEN": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2025-07-18",
-        "price": 84.98,
-        "ma20": 80.35,
-        "ma50": 78.76,
-        "st_value": 75.63
+        "type": "SELL_HALF",
+        "date": "2026-07-21",
+        "price": 408.73,
+        "ma20": 441.01,
+        "ma50": 493.39,
+        "ma150": 394.64,
+        "st_value": 501.83
       },
       {
-        "type": "SELL",
-        "date": "2026-06-18",
-        "price": 428.22,
-        "ma20": 516.86,
-        "ma50": 521.2,
-        "st_value": 581.49
+        "type": "SELL_ALL",
+        "date": "2026-07-24",
+        "price": 390.96,
+        "ma20": 430.39,
+        "ma50": 483.17,
+        "ma150": 398.32,
+        "st_value": 501.83
       }
     ]
   },
   "COHR": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2025-09-24",
-        "price": 106.52,
-        "ma20": 100.79,
-        "ma50": 100.76,
-        "st_value": 92.89
+        "type": "SELL_HALF",
+        "date": "2026-07-20",
+        "price": 285.4,
+        "ma20": 342.54,
+        "ma50": 364.26,
+        "ma150": 283.77,
+        "st_value": 386.33
       },
       {
-        "type": "SELL",
-        "date": "2026-07-15",
-        "price": 299.38,
-        "ma20": 358.11,
-        "ma50": 367.67,
-        "st_value": 415.67
+        "type": "SELL_ALL",
+        "date": "2026-07-24",
+        "price": 282.39,
+        "ma20": 323.47,
+        "ma50": 360.6,
+        "ma150": 287.07,
+        "st_value": 386.33
       }
     ]
   },
@@ -213,12 +233,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-01-10",
-        "price": 37.93,
-        "ma20": 40.85,
-        "ma50": 41.1,
-        "st_value": 46.58
+        "type": "SELL_HALF",
+        "date": "2025-04-25",
+        "price": 37.95,
+        "ma20": 37.8,
+        "ma50": 40.61,
+        "ma150": 36.18,
+        "st_value": 45.53
       },
       {
         "type": "BUY",
@@ -226,12 +247,13 @@
         "price": 45.91,
         "ma20": 40.46,
         "ma50": 40.24,
+        "ma150": 37.7,
         "st_value": 34.78
       }
     ]
   },
   "ETHA": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -239,14 +261,16 @@
         "price": 32.82,
         "ma20": 22.35,
         "ma50": 21.66,
+        "ma150": null,
         "st_value": 21.27
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-02-27",
         "price": 14.52,
         "ma20": 22.34,
         "ma50": 22.9,
+        "ma150": null,
         "st_value": 26.53
       }
     ]
@@ -260,6 +284,7 @@
         "price": 35.07,
         "ma20": 31.9,
         "ma50": 30.34,
+        "ma150": 24.59,
         "st_value": 28.03
       },
       {
@@ -268,6 +293,7 @@
         "price": 39.43,
         "ma20": 35.02,
         "ma50": 34.92,
+        "ma150": 29.08,
         "st_value": 33.01
       }
     ]
@@ -276,20 +302,22 @@
     "last_state": "NEUTRAL",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-06-09",
-        "price": 919.68,
-        "ma20": 1004.62,
-        "ma50": 1009.66,
-        "st_value": 1086.95
-      },
-      {
         "type": "BUY",
         "date": "2026-07-08",
         "price": 1070.99,
         "ma20": 1046.41,
         "ma50": 1039.21,
+        "ma150": 870.78,
         "st_value": 933.91
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 900.28,
+        "ma20": 1050.08,
+        "ma50": 1025.65,
+        "ma150": 909.48,
+        "st_value": 1184.17
       }
     ]
   },
@@ -297,12 +325,13 @@
     "last_state": "NEUTRAL",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-02-27",
-        "price": 851.32,
-        "ma20": 910.83,
-        "ma50": 912.92,
-        "st_value": 998.21
+        "type": "SELL_HALF",
+        "date": "2026-03-31",
+        "price": 842.28,
+        "ma20": 816.49,
+        "ma50": 873.99,
+        "ma150": 830.77,
+        "st_value": 912.28
       },
       {
         "type": "BUY",
@@ -310,6 +339,7 @@
         "price": 937.61,
         "ma20": 867.49,
         "ma50": 865.41,
+        "ma150": 843.82,
         "st_value": 826.17
       }
     ]
@@ -323,6 +353,7 @@
         "price": 25.83,
         "ma20": 24.43,
         "ma50": 24.05,
+        "ma150": null,
         "st_value": 23.01
       },
       {
@@ -331,259 +362,284 @@
         "price": 41.34,
         "ma20": 39.59,
         "ma50": 39.16,
+        "ma150": 32.96,
         "st_value": 34.49
       }
     ]
   },
   "LITE": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2025-05-14",
-        "price": 78.29,
-        "ma20": 61.61,
-        "ma50": 61.46,
-        "st_value": 59.49
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-07",
         "price": 698.91,
         "ma20": 842.33,
         "ma50": 892.27,
+        "ma150": 665.38,
         "st_value": 992.66
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-28",
+        "price": 651.93,
+        "ma20": 764.0,
+        "ma50": 840.87,
+        "ma150": 708.58,
+        "st_value": 941.76
       }
     ]
   },
   "MP": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-28",
-        "price": 61.7,
-        "ma20": 57.97,
-        "ma50": 57.48,
-        "st_value": 53.11
+        "type": "SELL_HALF",
+        "date": "2026-06-17",
+        "price": 60.84,
+        "ma20": 61.87,
+        "ma50": 62.34,
+        "ma150": 59.76,
+        "st_value": 72.67
       },
       {
-        "type": "SELL",
-        "date": "2026-06-12",
-        "price": 57.55,
-        "ma20": 61.7,
-        "ma50": 61.83,
+        "type": "SELL_ALL",
+        "date": "2026-06-23",
+        "price": 58.9,
+        "ma20": 61.74,
+        "ma50": 62.67,
+        "ma150": 59.76,
         "st_value": 72.67
       }
     ]
   },
   "NEE": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-01-28",
-        "price": 86.34,
-        "ma20": 81.34,
-        "ma50": 81.32,
-        "st_value": 79.53
+        "type": "SELL_ALL",
+        "date": "2026-07-21",
+        "price": 87.93,
+        "ma20": 88.05,
+        "ma50": 87.83,
+        "ma150": 88.04,
+        "st_value": 92.43
       },
       {
-        "type": "SELL",
-        "date": "2026-05-28",
-        "price": 86.62,
-        "ma20": 91.82,
-        "ma50": 91.86,
-        "st_value": 95.98
+        "type": "SELL_ALL",
+        "date": "2026-07-30",
+        "price": 87.93,
+        "ma20": 88.57,
+        "ma50": 87.28,
+        "ma150": 88.48,
+        "st_value": 92.43
       }
     ]
   },
   "NVDA": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-22",
-        "price": 202.26,
-        "ma20": 185.27,
-        "ma50": 184.22,
-        "st_value": 181.88
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-06-24",
         "price": 199.0,
         "ma20": 209.62,
         "ma50": 210.05,
+        "ma150": 191.78,
         "st_value": 228.24
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 190.01,
+        "ma20": 203.13,
+        "ma50": 207.06,
+        "ma150": 195.27,
+        "st_value": 221.2
       }
     ]
   },
   "PLTR": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-04-21",
-        "price": 145.97,
-        "ma20": 143.38,
-        "ma50": 143.97,
-        "st_value": 158.96
+        "type": "SELL_ALL",
+        "date": "2026-01-20",
+        "price": 168.53,
+        "ma20": 180.91,
+        "ma50": 177.82,
+        "ma150": 169.76,
+        "st_value": 195.84
       },
       {
-        "type": "SELL",
-        "date": "2026-06-09",
-        "price": 132.07,
-        "ma20": 139.27,
-        "ma50": 140.46,
-        "st_value": 161.32
+        "type": "SELL_ALL",
+        "date": "2026-06-02",
+        "price": 152.17,
+        "ma20": 138.94,
+        "ma50": 141.92,
+        "ma150": 158.11,
+        "st_value": 132.28
       }
     ]
   },
   "PWR": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-01-26",
-        "price": 470.61,
-        "ma20": 443.54,
-        "ma50": 443.46,
-        "st_value": 409.49
+        "type": "SELL_ALL",
+        "date": "2026-07-28",
+        "price": 588.36,
+        "ma20": 651.14,
+        "ma50": 687.43,
+        "ma150": 596.8,
+        "st_value": 697.68
       },
       {
-        "type": "SELL",
-        "date": "2026-06-26",
-        "price": 687.76,
-        "ma20": 703.61,
-        "ma50": 703.65,
-        "st_value": 789.0
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 657.98,
+        "ma20": 641.53,
+        "ma50": 681.96,
+        "ma150": 599.2,
+        "st_value": 687.32
       }
     ]
   },
   "VRT": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-01-28",
-        "price": 193.67,
-        "ma20": 174.64,
-        "ma50": 171.76,
-        "st_value": 158.27
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-06-15",
         "price": 311.93,
         "ma20": 314.94,
         "ma50": 318.51,
+        "ma150": 241.91,
         "st_value": 363.31
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 223.04,
+        "ma20": 298.31,
+        "ma50": 309.58,
+        "ma150": 268.8,
+        "st_value": 324.15
       }
     ]
   },
   "VST": {
-    "last_state": "BUY",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-05-13",
-        "price": 142.41,
-        "ma20": 156.67,
-        "ma50": 156.98,
-        "st_value": 171.61
+        "type": "BUY",
+        "date": "2026-07-21",
+        "price": 162.33,
+        "ma20": 158.57,
+        "ma50": 153.98,
+        "ma150": 158.5,
+        "st_value": 139.55
       },
       {
-        "type": "BUY",
-        "date": "2026-06-22",
-        "price": 167.26,
-        "ma20": 154.72,
-        "ma50": 154.23,
-        "st_value": 137.85
+        "type": "SELL_ALL",
+        "date": "2026-07-27",
+        "price": 157.08,
+        "ma20": 158.56,
+        "ma50": 155.34,
+        "ma150": 158.41,
+        "st_value": 139.94
       }
     ]
   },
   "MPWR": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-13",
-        "price": 1370.14,
-        "ma20": 1140.43,
-        "ma50": 1138.75,
-        "st_value": 1134.61
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 1248.76,
+        "ma20": 1331.53,
+        "ma50": 1448.65,
+        "ma150": 1283.36,
+        "st_value": 1611.2
       },
       {
-        "type": "SELL",
-        "date": "2026-06-26",
-        "price": 1311.32,
-        "ma20": 1527.64,
-        "ma50": 1551.49,
-        "st_value": 1757.1
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 1316.18,
+        "ma20": 1330.75,
+        "ma50": 1445.29,
+        "ma150": 1285.87,
+        "st_value": 1611.2
       }
     ]
   },
   "ADI": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-20",
-        "price": 380.01,
-        "ma20": 333.71,
-        "ma50": 331.46,
-        "st_value": 333.84
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 353.37,
+        "ma20": 380.97,
+        "ma50": 399.34,
+        "ma150": 355.66,
+        "st_value": 419.08
       },
       {
-        "type": "SELL",
-        "date": "2026-07-06",
-        "price": 388.83,
-        "ma20": 406.98,
-        "ma50": 408.28,
-        "st_value": 459.83
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 366.67,
+        "ma20": 379.86,
+        "ma50": 398.33,
+        "ma150": 356.27,
+        "st_value": 419.08
       }
     ]
   },
   "GOOG": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-21",
-        "price": 330.27,
-        "ma20": 307.48,
-        "ma50": 307.03,
-        "st_value": 306.57
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-06-23",
         "price": 346.08,
         "ma20": 365.3,
         "ma50": 365.71,
+        "ma150": 329.72,
         "st_value": 393.19
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-23",
+        "price": 318.34,
+        "ma20": 351.5,
+        "ma50": 363.56,
+        "ma150": 335.69,
+        "st_value": 369.76
       }
     ]
   },
   "NBIS": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-03-11",
-        "price": 112.0,
-        "ma20": 97.53,
-        "ma50": 95.44,
-        "st_value": 74.76
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 148.22,
+        "ma20": 199.56,
+        "ma50": 224.07,
+        "ma150": 153.17,
+        "st_value": 256.6
       },
       {
-        "type": "SELL",
-        "date": "2026-07-21",
-        "price": 216.92,
-        "ma20": 221.38,
-        "ma50": 225.23,
-        "st_value": 273.31
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 188.43,
+        "ma20": 197.52,
+        "ma50": 223.84,
+        "ma150": 153.8,
+        "st_value": 256.6
       }
     ]
   },
@@ -596,6 +652,7 @@
         "price": 201.22,
         "ma20": 178.07,
         "ma50": 177.55,
+        "ma150": 178.64,
         "st_value": 172.09
       },
       {
@@ -604,28 +661,31 @@
         "price": 251.58,
         "ma20": 228.43,
         "ma50": 226.33,
+        "ma150": 198.25,
         "st_value": 215.03
       }
     ]
   },
   "AGX": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-06-30",
-        "price": 797.9,
-        "ma20": 700.78,
-        "ma50": 682.28,
-        "st_value": 603.75
+        "type": "SELL_ALL",
+        "date": "2026-07-28",
+        "price": 522.7,
+        "ma20": 630.77,
+        "ma50": 662.42,
+        "ma150": 536.3,
+        "st_value": 692.34
       },
       {
-        "type": "SELL",
-        "date": "2026-07-22",
-        "price": 609.85,
-        "ma20": 670.94,
-        "ma50": 674.15,
-        "st_value": 727.41
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 579.87,
+        "ma20": 606.29,
+        "ma50": 656.14,
+        "ma150": 539.04,
+        "st_value": 688.29
       }
     ]
   },
@@ -633,12 +693,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-02-24",
-        "price": 213.84,
-        "ma20": 217.84,
-        "ma50": 219.17,
-        "st_value": 239.94
+        "type": "SELL_HALF",
+        "date": "2026-04-01",
+        "price": 210.21,
+        "ma20": 201.82,
+        "ma50": 212.28,
+        "ma150": 209.65,
+        "st_value": 231.41
       },
       {
         "type": "BUY",
@@ -646,48 +707,53 @@
         "price": 245.04,
         "ma20": 210.44,
         "ma50": 209.35,
+        "ma150": 212.24,
         "st_value": 203.15
       }
     ]
   },
   "ASML": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
         "date": "2026-04-24",
-        "price": 1452.63,
-        "ma20": 1402.02,
-        "ma50": 1398.3,
-        "st_value": 1290.82
+        "price": 1452.64,
+        "ma20": 1402.03,
+        "ma50": 1398.32,
+        "ma150": 1209.48,
+        "st_value": 1290.83
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-30",
-        "price": 1655.0,
-        "ma20": 1743.43,
-        "ma50": 1745.65,
-        "st_value": 1916.85
+        "price": 1651.44,
+        "ma20": 1743.26,
+        "ma50": 1745.6,
+        "ma150": 1498.97,
+        "st_value": 1916.86
       }
     ]
   },
   "ETN": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-06-23",
-        "price": 405.28,
-        "ma20": 405.9,
-        "ma50": 405.42,
-        "st_value": 366.88
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_ALL",
         "date": "2026-07-29",
         "price": 361.88,
         "ma20": 401.87,
         "ma50": 402.46,
+        "ma150": 378.98,
+        "st_value": 445.11
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 386.89,
+        "ma20": 400.6,
+        "ma50": 402.57,
+        "ma150": 379.43,
         "st_value": 445.11
       }
     ]
@@ -697,11 +763,12 @@
     "signals": [
       {
         "type": "BUY",
-        "date": "2023-12-15",
-        "price": 94.92,
-        "ma20": 84.87,
-        "ma50": 83.94,
-        "st_value": 77.45
+        "date": "2024-08-09",
+        "price": 95.99,
+        "ma20": 99.6,
+        "ma50": 94.27,
+        "ma150": 93.37,
+        "st_value": 89.76
       },
       {
         "type": "BUY",
@@ -709,12 +776,13 @@
         "price": 148.0,
         "ma20": 126.21,
         "ma50": 121.32,
+        "ma150": 99.52,
         "st_value": 118.81
       }
     ]
   },
   "GLW": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
         "type": "BUY",
@@ -722,20 +790,22 @@
         "price": 164.85,
         "ma20": 137.12,
         "ma50": 132.8,
+        "ma150": 100.64,
         "st_value": 120.29
       },
       {
-        "type": "SELL",
+        "type": "SELL_ALL",
         "date": "2026-07-24",
         "price": 146.65,
         "ma20": 186.38,
         "ma50": 188.3,
+        "ma150": 149.88,
         "st_value": 208.13
       }
     ]
   },
   "INTC": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -743,41 +813,45 @@
         "price": 58.95,
         "ma20": 46.64,
         "ma50": 46.58,
+        "ma150": 40.21,
         "st_value": 44.07
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-21",
         "price": 105.45,
         "ma20": 115.87,
         "ma50": 116.86,
+        "ma150": 73.76,
         "st_value": 129.87
       }
     ]
   },
   "KLAC": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-08",
-        "price": 167.02,
-        "ma20": 149.18,
-        "ma50": 147.67,
-        "st_value": 136.59
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_ALL",
         "date": "2026-07-29",
         "price": 170.19,
         "ma20": 218.82,
         "ma50": 220.97,
+        "ma150": 176.42,
+        "st_value": 245.3
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 180.33,
+        "ma20": 214.53,
+        "ma50": 221.07,
+        "ma150": 176.78,
         "st_value": 245.3
       }
     ]
   },
   "MRVL": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -785,20 +859,22 @@
         "price": 87.79,
         "ma20": 82.31,
         "ma50": 81.94,
+        "ma150": 82.0,
         "st_value": 72.75
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-22",
         "price": 210.99,
         "ma20": 237.24,
         "ma50": 237.73,
+        "ma150": 146.08,
         "st_value": 272.21
       }
     ]
   },
   "MU": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -806,78 +882,86 @@
         "price": 496.64,
         "ma20": 418.91,
         "ma50": 414.63,
+        "ma150": 314.75,
         "st_value": 394.47
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-28",
         "price": 820.53,
         "ma20": 947.94,
         "ma50": 958.11,
+        "ma150": 602.89,
         "st_value": 1149.83
       }
     ]
   },
   "ONTO": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-06-17",
-        "price": 318.92,
-        "ma20": 279.87,
-        "ma50": 279.21,
-        "st_value": 255.32
+        "type": "SELL_ALL",
+        "date": "2026-07-28",
+        "price": 241.89,
+        "ma20": 299.09,
+        "ma50": 293.86,
+        "ma150": 246.08,
+        "st_value": 340.41
       },
       {
-        "type": "SELL",
-        "date": "2026-07-29",
-        "price": 218.31,
-        "ma20": 291.08,
-        "ma50": 292.79,
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 250.52,
+        "ma20": 286.04,
+        "ma50": 292.71,
+        "ma150": 247.1,
         "st_value": 327.76
       }
     ]
   },
   "SNDK": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2025-08-27",
-        "price": 48.44,
-        "ma20": 44.66,
-        "ma50": 44.58,
-        "st_value": 40.43
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 1015.89,
+        "ma20": 1573.51,
+        "ma50": 1713.65,
+        "ma150": 1040.94,
+        "st_value": 1824.07
       },
       {
-        "type": "SELL",
-        "date": "2026-07-24",
-        "price": 1436.56,
-        "ma20": 1724.74,
-        "ma50": 1730.59,
-        "st_value": 2226.0
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 1279.96,
+        "ma20": 1535.89,
+        "ma50": 1712.58,
+        "ma150": 1047.86,
+        "st_value": 1824.07
       }
     ]
   },
   "TSM": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-23",
-        "price": 381.77,
-        "ma20": 356.15,
-        "ma50": 355.13,
-        "st_value": 332.86
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 374.67,
+        "ma20": 418.68,
+        "ma50": 424.62,
+        "ma150": 376.45,
+        "st_value": 451.62
       },
       {
-        "type": "SELL",
-        "date": "2026-07-28",
-        "price": 392.31,
-        "ma20": 423.82,
-        "ma50": 425.2,
-        "st_value": 457.0
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 403.31,
+        "ma20": 416.63,
+        "ma50": 424.79,
+        "ma150": 377.19,
+        "st_value": 451.62
       }
     ]
   },
@@ -885,11 +969,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2023-09-29",
         "price": 39.71,
         "ma20": 42.73,
         "ma50": 42.96,
+        "ma150": null,
         "st_value": 46.67
       },
       {
@@ -898,6 +983,7 @@
         "price": 45.83,
         "ma20": 42.69,
         "ma50": 42.53,
+        "ma150": null,
         "st_value": 39.69
       }
     ]
@@ -906,12 +992,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-04-04",
-        "price": 73.32,
-        "ma20": 90.01,
-        "ma50": 93.05,
-        "st_value": 97.75
+        "type": "SELL_HALF",
+        "date": "2025-08-15",
+        "price": 90.27,
+        "ma20": 81.76,
+        "ma50": 88.86,
+        "ma150": 85.83,
+        "st_value": 93.27
       },
       {
         "type": "BUY",
@@ -919,6 +1006,7 @@
         "price": 104.54,
         "ma20": 89.25,
         "ma50": 88.5,
+        "ma150": 86.67,
         "st_value": 87.68
       }
     ]
@@ -932,14 +1020,16 @@
         "price": 52.62,
         "ma20": 49.09,
         "ma50": 47.88,
+        "ma150": 39.0,
         "st_value": 45.3
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-05-08",
         "price": 51.06,
         "ma20": 51.68,
         "ma50": 51.85,
+        "ma150": 44.54,
         "st_value": 55.68
       }
     ]
@@ -948,11 +1038,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-05-16",
         "price": 124.85,
         "ma20": 118.85,
         "ma50": 118.92,
+        "ma150": 94.79,
         "st_value": 132.67
       },
       {
@@ -961,6 +1052,7 @@
         "price": 132.78,
         "ma20": 126.0,
         "ma50": 123.45,
+        "ma150": 100.57,
         "st_value": 114.9
       }
     ]
@@ -969,11 +1061,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2024-11-01",
         "price": 12.83,
         "ma20": 15.41,
         "ma50": 17.02,
+        "ma150": null,
         "st_value": 18.09
       },
       {
@@ -982,33 +1075,36 @@
         "price": 15.12,
         "ma20": 11.81,
         "ma50": 11.77,
+        "ma150": null,
         "st_value": 10.34
       }
     ]
   },
   "AEHR": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
-        "date": "2026-01-15",
-        "price": 26.53,
-        "ma20": 23.19,
-        "ma50": 23.04,
-        "st_value": 19.61
+        "date": "2026-02-06",
+        "price": 26.39,
+        "ma20": 26.97,
+        "ma50": 24.57,
+        "ma150": 23.64,
+        "st_value": 21.11
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-08",
         "price": 67.89,
         "ma20": 95.08,
         "ma50": 95.63,
+        "ma150": 56.55,
         "st_value": 109.96
       }
     ]
   },
   "ALAB": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -1016,41 +1112,45 @@
         "price": 174.05,
         "ma20": 131.84,
         "ma50": 131.16,
+        "ma150": 160.17,
         "st_value": 128.21
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-29",
         "price": 249.74,
         "ma20": 347.26,
         "ma50": 352.18,
+        "ma150": 221.81,
         "st_value": 395.04
       }
     ]
   },
   "AMZN": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-13",
-        "price": 239.89,
-        "ma20": 213.81,
-        "ma50": 213.37,
-        "st_value": 211.12
+        "type": "SELL_HALF",
+        "date": "2026-06-29",
+        "price": 240.14,
+        "ma20": 242.5,
+        "ma50": 255.94,
+        "ma150": 234.36,
+        "st_value": 261.65
       },
       {
-        "type": "SELL",
-        "date": "2026-06-16",
-        "price": 246.0,
-        "ma20": 255.4,
-        "ma50": 256.16,
-        "st_value": 268.26
+        "type": "SELL_ALL",
+        "date": "2026-07-23",
+        "price": 233.66,
+        "ma20": 243.58,
+        "ma50": 249.9,
+        "ma150": 236.3,
+        "st_value": 261.65
       }
     ]
   },
   "APP": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
         "type": "BUY",
@@ -1058,57 +1158,63 @@
         "price": 564.61,
         "ma20": 506.4,
         "ma50": 499.56,
+        "ma150": 516.58,
         "st_value": 408.99
       },
       {
-        "type": "SELL",
-        "date": "2026-07-23",
-        "price": 398.86,
-        "ma20": 475.91,
-        "ma50": 500.17,
-        "st_value": 514.68
+        "type": "SELL_ALL",
+        "date": "2026-07-10",
+        "price": 506.98,
+        "ma20": 500.6,
+        "ma50": 507.16,
+        "ma150": 513.72,
+        "st_value": 408.99
       }
     ]
   },
   "ARM": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
-        "date": "2026-02-19",
-        "price": 126.93,
-        "ma20": 117.2,
-        "ma50": 116.85,
-        "st_value": 101.8
+        "date": "2026-03-23",
+        "price": 136.89,
+        "ma20": 124.37,
+        "ma50": 118.97,
+        "ma150": 134.83,
+        "st_value": 110.85
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-21",
         "price": 289.73,
         "ma20": 313.91,
         "ma50": 318.39,
+        "ma150": 197.05,
         "st_value": 377.04
       }
     ]
   },
   "COIN": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-28",
-        "price": 194.1,
-        "ma20": 187.21,
-        "ma50": 186.25,
-        "st_value": 162.18
+        "type": "SELL_HALF",
+        "date": "2025-11-10",
+        "price": 317.93,
+        "ma20": 332.05,
+        "ma50": 334.2,
+        "ma150": 302.26,
+        "st_value": 381.47
       },
       {
-        "type": "SELL",
-        "date": "2026-06-08",
-        "price": 162.11,
-        "ma20": 185.49,
-        "ma50": 186.59,
-        "st_value": 200.07
+        "type": "SELL_ALL",
+        "date": "2025-11-12",
+        "price": 304.0,
+        "ma20": 328.56,
+        "ma50": 334.24,
+        "ma150": 304.12,
+        "st_value": 381.47
       }
     ]
   },
@@ -1116,11 +1222,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-11-24",
-        "price": 126.07,
-        "ma20": 140.52,
-        "ma50": 142.09,
+        "type": "SELL_ALL",
+        "date": "2025-12-17",
+        "price": 126.73,
+        "ma20": 130.73,
+        "ma50": 141.38,
+        "ma150": 129.91,
         "st_value": 147.36
       },
       {
@@ -1129,33 +1236,36 @@
         "price": 152.82,
         "ma20": 122.21,
         "ma50": 121.16,
+        "ma150": 131.21,
         "st_value": 117.79
       }
     ]
   },
   "DOCN": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
-        "date": "2025-08-05",
-        "price": 34.81,
-        "ma20": 28.83,
-        "ma50": 28.57,
-        "st_value": 24.71
+        "date": "2025-09-05",
+        "price": 32.76,
+        "ma20": 31.46,
+        "ma50": 30.11,
+        "ma150": 32.5,
+        "st_value": 28.17
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-13",
         "price": 123.32,
         "ma20": 150.94,
         "ma50": 153.87,
+        "ma150": 94.81,
         "st_value": 175.72
       }
     ]
   },
   "EQIX": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -1163,20 +1273,22 @@
         "price": 1087.61,
         "ma20": 1076.07,
         "ma50": 1076.05,
+        "ma150": 927.28,
         "st_value": 1026.57
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-01",
         "price": 1013.62,
         "ma20": 1074.69,
         "ma50": 1074.79,
+        "ma150": 935.39,
         "st_value": 1130.56
       }
     ]
   },
   "FTAI": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
         "type": "BUY",
@@ -1184,15 +1296,17 @@
         "price": 276.11,
         "ma20": 250.45,
         "ma50": 249.52,
+        "ma150": 237.17,
         "st_value": 214.12
       },
       {
-        "type": "SELL",
-        "date": "2026-07-15",
-        "price": 213.8,
-        "ma20": 248.56,
-        "ma50": 249.45,
-        "st_value": 272.89
+        "type": "SELL_ALL",
+        "date": "2026-07-06",
+        "price": 241.54,
+        "ma20": 255.66,
+        "ma50": 251.15,
+        "ma150": 244.14,
+        "st_value": 214.12
       }
     ]
   },
@@ -1205,6 +1319,7 @@
         "price": 26.26,
         "ma20": 27.77,
         "ma50": 27.7,
+        "ma150": null,
         "st_value": 23.64
       },
       {
@@ -1213,6 +1328,7 @@
         "price": 33.13,
         "ma20": 29.09,
         "ma50": 28.93,
+        "ma150": null,
         "st_value": 25.87
       }
     ]
@@ -1221,11 +1337,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-07-04",
         "price": 48.63,
         "ma20": 45.75,
         "ma50": 45.86,
+        "ma150": 38.65,
         "st_value": 49.8
       },
       {
@@ -1234,6 +1351,7 @@
         "price": 50.39,
         "ma20": 47.16,
         "ma50": 46.86,
+        "ma150": 39.62,
         "st_value": 45.75
       }
     ]
@@ -1242,12 +1360,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-03-05",
-        "price": 981.57,
-        "ma20": 1025.1,
-        "ma50": 1045.79,
-        "st_value": 1114.01
+        "type": "SELL_ALL",
+        "date": "2026-05-08",
+        "price": 946.82,
+        "ma20": 923.05,
+        "ma50": 940.16,
+        "ma150": 973.61,
+        "st_value": 864.99
       },
       {
         "type": "BUY",
@@ -1255,6 +1374,7 @@
         "price": 1004.97,
         "ma20": 938.93,
         "ma50": 938.13,
+        "ma150": 977.71,
         "st_value": 880.53
       }
     ]
@@ -1263,12 +1383,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2026-05-05",
-        "price": 268.9,
-        "ma20": 262.6,
-        "ma50": 262.69,
-        "st_value": 289.37
+        "type": "SELL_HALF",
+        "date": "2026-06-25",
+        "price": 235.1,
+        "ma20": 234.42,
+        "ma50": 245.08,
+        "ma150": 231.18,
+        "st_value": 254.28
       },
       {
         "type": "BUY",
@@ -1276,54 +1397,59 @@
         "price": 265.03,
         "ma20": 244.02,
         "ma50": 243.24,
+        "ma150": 234.78,
         "st_value": 234.02
       }
     ]
   },
   "NVMI": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-13",
-        "price": 507.03,
-        "ma20": 460.42,
-        "ma50": 449.66,
-        "st_value": 409.07
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-14",
         "price": 473.54,
         "ma20": 510.95,
         "ma50": 511.51,
+        "ma150": 458.91,
+        "st_value": 591.47
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-16",
+        "price": 451.13,
+        "ma20": 499.32,
+        "ma50": 510.25,
+        "ma150": 460.69,
         "st_value": 591.47
       }
     ]
   },
   "TSLA": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-05-08",
-        "price": 428.35,
-        "ma20": 386.76,
-        "ma50": 383.19,
-        "st_value": 363.38
+        "type": "SELL_HALF",
+        "date": "2026-07-06",
+        "price": 419.77,
+        "ma20": 399.22,
+        "ma50": 407.07,
+        "ma150": 413.57,
+        "st_value": 441.13
       },
       {
-        "type": "SELL",
-        "date": "2026-06-25",
-        "price": 375.12,
-        "ma20": 404.67,
-        "ma50": 405.01,
+        "type": "SELL_ALL",
+        "date": "2026-07-07",
+        "price": 402.9,
+        "ma20": 399.82,
+        "ma50": 407.65,
+        "ma150": 413.42,
         "st_value": 441.13
       }
     ]
   },
   "TXN": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -1331,35 +1457,39 @@
         "price": 231.97,
         "ma20": 206.76,
         "ma50": 206.01,
+        "ma150": 186.72,
         "st_value": 208.59
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-29",
         "price": 271.3,
         "ma20": 292.6,
         "ma50": 299.12,
+        "ma150": 243.4,
         "st_value": 327.13
       }
     ]
   },
   "WDC": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
-        "date": "2025-05-12",
-        "price": 46.36,
-        "ma20": 40.7,
-        "ma50": 40.61,
-        "st_value": 39.62
+        "date": "2025-05-13",
+        "price": 48.79,
+        "ma20": 41.36,
+        "ma50": 40.65,
+        "ma150": 46.75,
+        "st_value": 40.34
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-24",
         "price": 519.8,
         "ma20": 554.11,
         "ma50": 558.82,
+        "ma150": 380.18,
         "st_value": 684.87
       }
     ]
@@ -1368,11 +1498,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-04-11",
-        "price": 37.94,
-        "ma20": 42.3,
-        "ma50": 42.53,
+        "type": "SELL_HALF",
+        "date": "2025-06-06",
+        "price": 40.12,
+        "ma20": 41.21,
+        "ma50": 42.06,
+        "ma150": 39.91,
         "st_value": 47.1
       },
       {
@@ -1381,6 +1512,7 @@
         "price": 48.52,
         "ma20": 44.19,
         "ma50": 42.59,
+        "ma150": 41.25,
         "st_value": 40.91
       }
     ]
@@ -1389,20 +1521,22 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-10-28",
-        "price": 38.43,
-        "ma20": 38.89,
-        "ma50": 38.95,
-        "st_value": 41.81
+        "type": "SELL_ALL",
+        "date": "2026-05-11",
+        "price": 31.04,
+        "ma20": 29.83,
+        "ma50": 27.75,
+        "ma150": 31.92,
+        "st_value": 28.33
       },
       {
         "type": "BUY",
-        "date": "2026-04-27",
-        "price": 29.86,
-        "ma20": 27.62,
-        "ma50": 27.39,
-        "st_value": 26.08
+        "date": "2026-05-20",
+        "price": 31.6,
+        "ma20": 30.58,
+        "ma50": 28.25,
+        "ma150": 31.55,
+        "st_value": 28.33
       }
     ]
   },
@@ -1410,19 +1544,21 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-05-15",
         "price": 124.49,
         "ma20": 125.86,
         "ma50": 126.43,
+        "ma150": 108.24,
         "st_value": 135.7
       },
       {
         "type": "BUY",
         "date": "2026-07-31",
-        "price": 137.76,
-        "ma20": 128.38,
-        "ma50": 128.32,
+        "price": 139.42,
+        "ma20": 128.46,
+        "ma50": 128.36,
+        "ma150": 112.17,
         "st_value": 124.16
       }
     ]
@@ -1431,12 +1567,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2024-09-27",
-        "price": 31.8,
-        "ma20": 32.64,
-        "ma50": 32.69,
-        "st_value": 35.48
+        "type": "SELL_ALL",
+        "date": "2024-12-06",
+        "price": 28.73,
+        "ma20": 30.98,
+        "ma50": 32.51,
+        "ma150": 29.26,
+        "st_value": 32.67
       },
       {
         "type": "BUY",
@@ -1444,6 +1581,7 @@
         "price": 33.73,
         "ma20": 29.58,
         "ma50": 29.53,
+        "ma150": 29.89,
         "st_value": 29.17
       }
     ]
@@ -1457,6 +1595,7 @@
         "price": 18.15,
         "ma20": 17.95,
         "ma50": 17.92,
+        "ma150": null,
         "st_value": 16.66
       },
       {
@@ -1465,6 +1604,7 @@
         "price": 31.61,
         "ma20": 29.54,
         "ma50": 29.31,
+        "ma150": 25.0,
         "st_value": 26.85
       }
     ]
@@ -1473,11 +1613,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-04-18",
-        "price": 94.71,
-        "ma20": 109.35,
-        "ma50": 109.78,
+        "type": "SELL_HALF",
+        "date": "2025-05-02",
+        "price": 101.33,
+        "ma20": 107.31,
+        "ma50": 109.54,
+        "ma150": 99.5,
         "st_value": 116.57
       },
       {
@@ -1486,6 +1627,7 @@
         "price": 117.38,
         "ma20": 110.69,
         "ma50": 110.43,
+        "ma150": 102.32,
         "st_value": 101.02
       }
     ]
@@ -1499,6 +1641,7 @@
         "price": 123.87,
         "ma20": 111.67,
         "ma50": 111.5,
+        "ma150": null,
         "st_value": 109.17
       },
       {
@@ -1507,6 +1650,7 @@
         "price": 162.35,
         "ma20": 150.95,
         "ma50": 145.87,
+        "ma150": 123.16,
         "st_value": 126.95
       }
     ]
@@ -1515,11 +1659,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-04-25",
         "price": 510.07,
         "ma20": 546.76,
         "ma50": 547.97,
+        "ma150": 484.34,
         "st_value": 593.63
       },
       {
@@ -1528,6 +1673,7 @@
         "price": 596.16,
         "ma20": 558.92,
         "ma50": 558.58,
+        "ma150": 503.19,
         "st_value": 513.53
       }
     ]
@@ -1536,11 +1682,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-05-30",
         "price": 43.69,
         "ma20": 44.31,
         "ma50": 44.33,
+        "ma150": 38.42,
         "st_value": 51.03
       },
       {
@@ -1549,6 +1696,7 @@
         "price": 49.47,
         "ma20": 45.49,
         "ma50": 45.21,
+        "ma150": 40.29,
         "st_value": 42.46
       }
     ]
@@ -1557,11 +1705,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-04-04",
         "price": 180.24,
         "ma20": 238.4,
         "ma50": 240.75,
+        "ma150": 172.5,
         "st_value": 270.7
       },
       {
@@ -1570,6 +1719,7 @@
         "price": 292.62,
         "ma20": 246.21,
         "ma50": 244.25,
+        "ma150": 189.76,
         "st_value": 225.32
       }
     ]
@@ -1583,6 +1733,7 @@
         "price": 57.72,
         "ma20": 54.7,
         "ma50": 53.94,
+        "ma150": null,
         "st_value": 52.33
       },
       {
@@ -1591,28 +1742,31 @@
         "price": 110.91,
         "ma20": 97.62,
         "ma50": 94.03,
+        "ma150": 72.16,
         "st_value": 90.13
       }
     ]
   },
   "USD": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-17",
-        "price": 71.1,
-        "ma20": 55.27,
-        "ma50": 55.0,
-        "st_value": 58.06
+        "type": "SELL_ALL",
+        "date": "2026-07-29",
+        "price": 68.78,
+        "ma20": 87.57,
+        "ma50": 94.66,
+        "ma150": 72.2,
+        "st_value": 103.57
       },
       {
-        "type": "SELL",
-        "date": "2026-07-15",
-        "price": 92.3,
-        "ma20": 96.01,
-        "ma50": 96.43,
-        "st_value": 115.23
+        "type": "SELL_HALF",
+        "date": "2026-07-30",
+        "price": 77.57,
+        "ma20": 86.71,
+        "ma50": 94.37,
+        "ma150": 72.38,
+        "st_value": 103.57
       }
     ]
   },
@@ -1625,6 +1779,7 @@
         "price": 55.91,
         "ma20": 50.19,
         "ma50": 50.05,
+        "ma150": null,
         "st_value": 47.23
       },
       {
@@ -1633,6 +1788,7 @@
         "price": 69.62,
         "ma20": 63.36,
         "ma50": 61.44,
+        "ma150": 47.66,
         "st_value": 55.17
       }
     ]
@@ -1641,11 +1797,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-06-06",
         "price": 175.06,
         "ma20": 170.23,
         "ma50": 170.46,
+        "ma150": 151.47,
         "st_value": 182.66
       },
       {
@@ -1654,28 +1811,31 @@
         "price": 186.4,
         "ma20": 174.88,
         "ma50": 174.13,
+        "ma150": 155.02,
         "st_value": 164.1
       }
     ]
   },
   "SOXL": {
-    "last_state": "SELL",
+    "last_state": "SELL_ALL",
     "signals": [
       {
-        "type": "BUY",
-        "date": "2026-04-16",
-        "price": 88.37,
-        "ma20": 61.38,
-        "ma50": 60.39,
-        "st_value": 62.65
-      },
-      {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-20",
         "price": 136.81,
         "ma20": 198.7,
         "ma50": 204.45,
+        "ma150": 112.06,
         "st_value": 263.9
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-07-28",
+        "price": 109.54,
+        "ma20": 167.95,
+        "ma50": 200.23,
+        "ma150": 116.09,
+        "st_value": 219.48
       }
     ]
   },
@@ -1683,12 +1843,13 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
-        "date": "2025-01-03",
-        "price": 220.67,
-        "ma20": 221.26,
-        "ma50": 222.01,
-        "st_value": 257.6
+        "type": "SELL_HALF",
+        "date": "2025-04-25",
+        "price": 183.55,
+        "ma20": 204.66,
+        "ma50": 218.44,
+        "ma150": 174.82,
+        "st_value": 237.93
       },
       {
         "type": "BUY",
@@ -1696,6 +1857,7 @@
         "price": 247.93,
         "ma20": 218.06,
         "ma50": 216.49,
+        "ma150": 186.88,
         "st_value": 191.55
       }
     ]
@@ -1704,11 +1866,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2022-12-30",
         "price": 31.72,
         "ma20": 31.26,
         "ma50": 31.34,
+        "ma150": null,
         "st_value": 34.54
       },
       {
@@ -1717,6 +1880,7 @@
         "price": 31.03,
         "ma20": 29.45,
         "ma50": 29.21,
+        "ma150": null,
         "st_value": 26.98
       }
     ]
@@ -1730,7 +1894,8 @@
         "price": 74.2,
         "ma20": 72.93,
         "ma50": 71.7,
-        "st_value": 70.41
+        "ma150": 65.81,
+        "st_value": 70.4
       },
       {
         "type": "BUY",
@@ -1738,12 +1903,13 @@
         "price": 79.45,
         "ma20": 78.39,
         "ma50": 77.03,
+        "ma150": 71.1,
         "st_value": 76.17
       }
     ]
   },
   "LQD": {
-    "last_state": "SELL",
+    "last_state": "SELL_HALF",
     "signals": [
       {
         "type": "BUY",
@@ -1751,14 +1917,16 @@
         "price": 105.24,
         "ma20": 102.46,
         "ma50": 101.98,
+        "ma150": 96.79,
         "st_value": 99.51
       },
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2026-07-24",
         "price": 106.23,
         "ma20": 107.77,
         "ma50": 107.8,
+        "ma150": 102.04,
         "st_value": 110.13
       }
     ]
@@ -1767,11 +1935,12 @@
     "last_state": "BUY",
     "signals": [
       {
-        "type": "SELL",
+        "type": "SELL_HALF",
         "date": "2025-06-27",
         "price": 608.17,
         "ma20": 565.66,
         "ma50": 565.9,
+        "ma150": 474.2,
         "st_value": 613.88
       },
       {
@@ -1780,6 +1949,7 @@
         "price": 614.91,
         "ma20": 576.06,
         "ma50": 574.9,
+        "ma150": 482.15,
         "st_value": 553.91
       }
     ]
