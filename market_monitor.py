@@ -338,7 +338,8 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
     for attempt in range(1, max_retries + 1):
         try:
             log.info(f"   🔍 API 调用 第 {attempt} 次...")
-            resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=120)
+            # 带 web_search(8次) + 8192 tokens 的报告单次可能 2-4 分钟,120s 会误杀 → 300s
+            resp = requests.post(ANTHROPIC_API_URL, json=payload, headers=headers, timeout=300)
             resp.raise_for_status()
             data = resp.json()
             full_text = "".join(
@@ -361,7 +362,7 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
             log.error(f"   ❌ 第 {attempt} 次：{e}")
 
         if attempt < max_retries:
-            wait = 2 ** attempt * 30
+            wait = 30                    # 300s 超时已给足时间,重试间隔缩短以留住 job 预算
             log.info(f"   等待 {wait}s 后重试...")
             time.sleep(wait)
 
