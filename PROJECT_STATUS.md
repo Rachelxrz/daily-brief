@@ -16,19 +16,17 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-07-31 21:18 CST
-**data.json 今日更新**：—
+**自动刷新时间**：2026-07-31 21:50 CST
+**data.json 今日更新**：2026-07-31 09:18 ET
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
-- 每日简报 (main.py)：⚪ 今日无产出
+- 每日简报 (main.py)：✅ 今日已产出
 - 市场结构监控 (market_monitor.py)：⚪ 今日无产出
-- 国会交易信号 (congress_tracker.py)：⚪ 今日无产出
+- 国会交易信号 (congress_tracker.py)：✅ 今日已产出
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `79fa10f` 2026-07-31 — feat(monitor): 板块轮动扩到11大GICS板块 + 结构评级锚定六因子闸门 + 修截断
-- `2143766` 2026-07-30 — docs: QQQ 闸门面板加「六因子含义与区间」可展开说明
-- `2e491d2` 2026-07-30 — feat: MA150 分级卖出(策略1) + QQQ 六因子宏观闸门
+- （自上次刷新以来无新 commit）
 
 <!-- AUTO:END -->
 
