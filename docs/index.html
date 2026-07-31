@@ -130,6 +130,36 @@
     border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08);
   }
   .date-pill:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+  .date-select {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); border-radius: 4px;
+    padding: 0.35rem 0.7rem; font-size: 0.72rem;
+    font-family: 'DM Mono', monospace; cursor: pointer;
+    letter-spacing: 0.05em; min-width: 150px;
+  }
+  .date-select:hover { border-color: var(--gold); }
+  .date-select:focus { outline: none; border-color: var(--gold); }
+
+  /* ── News topic menu bar ────────────────────── */
+  .news-topics {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;
+  }
+  .news-topic-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); border-radius: 20px;
+    padding: 0.4rem 1rem; font-size: 0.82rem;
+    font-family: 'Noto Serif SC', serif; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .news-topic-btn .cnt {
+    font-size: 0.72rem; opacity: 0.7; margin-left: 0.25rem;
+  }
+  .news-topic-btn.active {
+    background: var(--gold); color: #0a0b0d; border-color: var(--gold); font-weight: 500;
+  }
+  .news-topic-btn:hover:not(.active) { border-color: var(--muted); color: var(--text); }
 
   /* ── Content panels ─────────────────────────── */
   .panel { display: none; }
@@ -558,13 +588,13 @@
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('news')">📰 每日简报</button>
     <button class="tab-btn" onclick="switchTab('monitor')">📌 结构监控</button>
+    <button class="tab-btn" onclick="switchTab('analysts')">🎯 分析师观点</button>
+    <button class="tab-btn" onclick="switchTab('masignal')">🔀 均线信号</button>
     <button class="tab-btn" onclick="switchTab('screener')">📈 强势股筛选</button>
     <button class="tab-btn" onclick="switchTab('congress')">🏛 国会信号</button>
     <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel</button>
     <button class="tab-btn" onclick="switchTab('signals')">📊 技术信号</button>
     <button class="tab-btn" onclick="switchTab('prediction')">📈 轮动观察</button>
-    <button class="tab-btn" onclick="switchTab('analysts')">🎯 分析师观点</button>
-    <button class="tab-btn" onclick="switchTab('masignal')">🔀 均线信号</button>
   </div>
 
   <!-- Date bar -->
@@ -715,6 +745,7 @@ let allData = {};
 let currentTab = 'news';
 let currentDate = null;
 let currentNewsLang = 'cn';
+let currentNewsTopic = null;   // 新闻主题 menu bar 当前选中(null = 第一个可用)
 
 // ── Load data.json ─────────────────────────────────────────
 async function loadData() {
@@ -745,27 +776,24 @@ function init() {
   document.getElementById('last-updated').textContent =
     '最后更新: ' + (allData[currentDate]?.updated || currentDate);
 
-  // Date pills
+  // Date dropdown（30 天历史）
   const pills = document.getElementById('date-pills');
-  pills.innerHTML = dates.map(d =>
-    `<button class="date-pill ${d===currentDate?'active':''}" onclick="selectDate('${d}')">${d}</button>`
-  ).join('');
+  pills.innerHTML = `<select class="date-select" onchange="selectDate(this.value)">`
+    + dates.map(d => `<option value="${d}" ${d===currentDate?'selected':''}>${d}</option>`).join('')
+    + `</select>`;
 
   render();
 }
 
 function selectDate(date) {
   currentDate = date;
-  document.querySelectorAll('.date-pill').forEach(p => {
-    p.classList.toggle('active', p.textContent === date);
-  });
   render();
 }
 
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['news','monitor','screener','congress','wheel','signals','prediction','analysts','masignal'][i] === tab);
+    b.classList.toggle('active', ['news','monitor','analysts','masignal','screener','congress','wheel','signals','prediction'][i] === tab);
   });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -841,25 +869,41 @@ const NEWS_SECTIONS = [
   { key: 'wellness',   label: '🧠 健康·心理·美学' },  // legacy
 ];
 
-// ── Card-based news rendering ─────────────────────────────
+function setNewsTopic(key) {
+  currentNewsTopic = key;
+  render();
+}
+
+// ── Card-based news rendering（主题 menu bar，点进去看单个主题）──
 function renderNewsCards(el, cards) {
-  let html = '';
-  for (const { key, label } of NEWS_SECTIONS) {
-    const items = cards[key];
-    if (!items || !items.length) continue;
-    html += `
-      <div class="news-section">
-        <h2 class="news-section-title">${label}</h2>
-        <p class="news-section-meta">${items.length} 条精选</p>
-        ${items.map(renderNewsCard).join('')}
-      </div>`;
-  }
-  if (!html) {
+  // 有内容的主题
+  const avail = NEWS_SECTIONS.filter(s => cards[s.key] && cards[s.key].length);
+  if (!avail.length) {
+    el.className = '';
     el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>当日无简报数据</div>';
     return;
   }
+  // 当前主题：无效或未选则取第一个可用
+  let topic = currentNewsTopic;
+  if (!topic || !avail.some(s => s.key === topic)) topic = avail[0].key;
+
+  const menu = `<div class="news-topics">`
+    + avail.map(s =>
+        `<button class="news-topic-btn ${s.key===topic?'active':''}" onclick="setNewsTopic('${s.key}')">`
+        + `${s.label}<span class="cnt">${cards[s.key].length}</span></button>`
+      ).join('')
+    + `</div>`;
+
+  const sec = avail.find(s => s.key === topic);
+  const body = `
+    <div class="news-section">
+      <h2 class="news-section-title">${sec.label}</h2>
+      <p class="news-section-meta">${cards[topic].length} 条精选</p>
+      ${cards[topic].map(renderNewsCard).join('')}
+    </div>`;
+
   el.className = 'news-wrap';
-  el.innerHTML = html;
+  el.innerHTML = menu + body;
 }
 
 // ── Legacy markdown fallback ──────────────────────────────
