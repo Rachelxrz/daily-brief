@@ -1007,11 +1007,11 @@ function renderMacroGate(g) {
   const colMap = { red: 'var(--red)', green: 'var(--green)', amber: 'var(--amber)' };
   const col = colMap[g.color] || 'var(--muted)';
   const rows = (g.factors || []).map(f =>
-    `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;`
+    `<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;`
     + `padding:6px 10px;border-radius:8px;border:1px solid var(--border);`
-    + `border-left:3px solid ${f.risk_off ? 'var(--red)' : 'var(--green)'};background:rgba(255,255,255,0.02)">`
-    + `<span>${f.risk_off ? '🔴' : '🟢'} ${escHtml(f.name)}</span>`
-    + `<span style="color:var(--muted);font-size:0.86rem">${escHtml(f.value)}</span></div>`
+    + `border-left:3px solid ${f.risk_off ? 'var(--red)' : 'var(--green)'};background:var(--surface)">`
+    + `<span style="white-space:nowrap">${f.risk_off ? '🔴' : '🟢'} ${escHtml(f.name)}</span>`
+    + `<span style="color:var(--muted);font-size:0.85rem;text-align:right">${escHtml(f.value)}</span></div>`
   ).join('');
   return `<div class="report-card"><div class="report-card-body"><div class="md">`
     + `<h1>🚦 QQQ 体制闸门 <span style="font-size:0.8rem;color:var(--muted);font-weight:400">六因子宏观/金融 + 波动率目标</span></h1>`
@@ -1020,7 +1020,7 @@ function renderMacroGate(g) {
     + `<div style="color:var(--muted);margin-top:5px;font-size:0.9rem">崩盘票数 <b style="color:${g.votes >= g.vote_threshold ? 'var(--red)' : 'var(--text)'}">${g.votes}/6</b> `
     + `（≥${g.vote_threshold} 且连续 ${g.persist_days} 交易日 = 崩盘体制→清仓）· 建议 QQQ 仓位 <b style="color:${col}">${g.weight_pct}%</b> `
     + `· 目标波动 ${g.target_vol_pct}% / 实现波动 ${g.realized_vol_pct}%</div></div>`
-    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:8px 0">${rows}</div>`
+    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px;margin:8px 0">${rows}</div>`
     + `<details style="margin-top:4px"><summary style="cursor:pointer;color:var(--muted);font-size:0.82rem">ⓘ 六因子含义与区间说明</summary>`
     + `<div style="font-size:0.8rem;color:var(--muted);line-height:1.75;margin-top:6px">`
     + `<b>波动 VIX</b>：标普500未来30天隐含波动（“恐慌指数”）。&lt;20 正常 · 20–28 警戒 · <span style="color:var(--red)">&gt;28 危险</span> · &gt;40 极度恐慌。<br>`

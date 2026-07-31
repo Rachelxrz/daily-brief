@@ -21,6 +21,7 @@ macro_gate.py — QQQ 六因子宏观/金融体制闸门 + 波动率目标 (2026
 import io
 import json
 import logging
+import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -56,17 +57,27 @@ def _now_cst() -> str:
     return datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M CST")
 
 
-def fred(series_id: str) -> pd.Series:
-    """FRED CSV(requests,无需额外依赖)→ 日期索引的浮点序列。"""
+def fred(series_id: str, retries: int = 3) -> pd.Series:
+    """FRED CSV(requests,无需额外依赖)→ 日期索引的浮点序列。
+    带重试 + 60s 超时,容忍 FRED 偶发的读超时/抖动(否则任一序列失败会拖垮整块闸门)。"""
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-    r = requests.get(url, timeout=30)
-    r.raise_for_status()
-    df = pd.read_csv(io.StringIO(r.text))
-    df.columns = ["date", "val"]
-    df["date"] = pd.to_datetime(df["date"])
-    df = df[df["val"] != "."]
-    df["val"] = df["val"].astype(float)
-    return df.set_index("date")["val"]
+    last = None
+    for attempt in range(1, retries + 1):
+        try:
+            r = requests.get(url, timeout=60)
+            r.raise_for_status()
+            df = pd.read_csv(io.StringIO(r.text))
+            df.columns = ["date", "val"]
+            df["date"] = pd.to_datetime(df["date"])
+            df = df[df["val"] != "."]
+            df["val"] = df["val"].astype(float)
+            return df.set_index("date")["val"]
+        except Exception as e:
+            last = e
+            log.warning(f"  FRED {series_id} 第 {attempt}/{retries} 次失败: {str(e)[:60]}")
+            if attempt < retries:
+                time.sleep(3 * attempt)
+    raise last
 
 
 def _yf_close(ticker: str, period: str = "2y") -> pd.Series:
@@ -121,7 +132,7 @@ def compute() -> dict:
     factors = [
         f("波动 VIX", f"{float(vix.iloc[-1]):.1f}", g_vol.iloc[-1], f">{VIX_TH:.0f} 亮红"),
         f("收益率曲线 10Y-3M", f"{float(curve.iloc[-1]):+.2f}%", g_curve.iloc[-1], "倒挂<0 亮红"),
-        f("信用 Baa-10Y 利差", f"{float(baa.iloc[-1]):.2f}% (z={float(baa_z.iloc[-1]):+.1f})", g_credit.iloc[-1], "z>1 亮红"),
+        f("信用 Baa-10Y", f"{float(baa.iloc[-1]):.2f}% · z={float(baa_z.iloc[-1]):+.1f}", g_credit.iloc[-1], "z>1 亮红"),
         f("宏观·Sahm 衰退", f"{float(sahm.iloc[-1]):+.2f}", g_sahm.iloc[-1], ">=0.5 亮红"),
         f("宏观·CFNAI 增长", f"{float(cfnai3.iloc[-1]):+.2f}", g_cfnai.iloc[-1], "<-0.7 亮红"),
         f("趋势 QQQ vs 200日线", ("下方" if bool(g_trend.iloc[-1]) else "上方"), g_trend.iloc[-1],
