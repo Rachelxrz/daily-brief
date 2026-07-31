@@ -112,25 +112,39 @@ PROMPT_CN = """你是一位专业的宏观市场结构分析师。请使用 web_
 
 ---
 
-## 6) 📊 板块轮动结构
+## 6) 📊 板块轮动结构（11 大 GICS 板块 vs 大盘 SPY）
 
-| 板块 vs 大盘 | 今日表现 | 相对强弱 |
+请列出全部 11 个 GICS 板块 ETF 今日相对 SPY 的表现，并**按相对强弱从强到弱排序**：
+
+| 板块 vs 大盘 | 今日表现 vs SPY | 相对强弱 |
 |------------|---------|---------|
-| ⚡ 能源 vs SPY | +/-X% vs +/-X% | [跑赢/跑输/持平] |
-| 🛡️ 国防 vs SPY | [数据] | [判断] |
-| 🥇 黄金矿股 GDX vs SPY | [数据] | [判断] |
-| 🔌 公用事业 XLU vs SPY | [数据] | [判断] |
-| 💻 科技 QQQ vs SPY | [数据] | [判断] |
-| 📦 小盘 IWM vs SPY | [数据] | [判断] |
+| 💻 科技 XLK | [%] vs [SPY%] | [跑赢/跑输/持平 +/-X%] |
+| 📡 通信服务 XLC | [数据] | [判断] |
+| 🛍️ 非必需消费 XLY | [数据] | [判断] |
+| 🏦 金融 XLF | [数据] | [判断] |
+| 💊 医疗保健 XLV | [数据] | [判断] |
+| 🏭 工业 XLI | [数据] | [判断] |
+| 🧴 必需消费 XLP | [数据] | [判断] |
+| ⚡ 能源 XLE | [数据] | [判断] |
+| 🔌 公用事业 XLU | [数据] | [判断] |
+| 🏠 房地产 XLRE | [数据] | [判断] |
+| 🧱 材料 XLB | [数据] | [判断] |
+
+**补充参考（非 GICS）：** 🥇 黄金矿股 GDX、📦 小盘 IWM、🛡️ 国防 ITA、💿 半导体 SMH 相对 SPY 的表现（各一行）。
 
 ---
 
 ## 7) 🧭 结构等级判定
 
+{gate}
+
+**综合判定必须与上面「六因子体制闸门」的计算结果一致，不得仅凭当日情绪打分。** 对照规则：
+0 票 → 🟢 稳定；1 票 → 🟡 轻度风险；2 票 → 🟠 中等风险；≥3 票或闸门已触发 → 🔴 系统性风险。
+
 **综合判定：[🟢 稳定 / 🟡 轻度风险 / 🟠 中等风险 / 🔴 系统性风险]**
 
 **判定理由：**
-[2-3句话说明核心逻辑]
+[2-3句话，必须引用六因子的实际读数（票数/VIX/信用/曲线/Sahm/CFNAI/趋势）来支撑评级]
 
 **操作倾向建议：**
 | 操作方向 | 建议 | 理由 |
@@ -246,25 +260,36 @@ Output the English report in this exact format:
 
 ---
 
-## 6) 📊 Sector Rotation
+## 6) 📊 Sector Rotation (11 GICS Sectors vs SPY)
 
-| Sector vs Market | Today | Relative Strength |
+List all 11 GICS sector ETFs vs SPY today, **sorted by relative strength (strongest first)**:
+
+| Sector vs Market | Today vs SPY | Relative Strength |
 |------------------|-------|------------------|
-| ⚡ Energy vs SPY | +/-X% vs +/-X% | [Outperform / Underperform / Neutral] |
-| 🛡️ Defense vs SPY | [data] | [judgment] |
-| 🥇 Gold Miners GDX vs SPY | [data] | [judgment] |
-| 🔌 Utilities XLU vs SPY | [data] | [judgment] |
-| 💻 Tech QQQ vs SPY | [data] | [judgment] |
-| 📦 Small Cap IWM vs SPY | [data] | [judgment] |
+| 💻 Tech XLK | [%] vs [SPY%] | [Outperform / Underperform +/-X%] |
+| 📡 Communication XLC | [data] | [judgment] |
+| 🛍️ Consumer Discretionary XLY | [data] | [judgment] |
+| 🏦 Financials XLF | [data] | [judgment] |
+| 💊 Health Care XLV | [data] | [judgment] |
+| 🏭 Industrials XLI | [data] | [judgment] |
+| 🧴 Consumer Staples XLP | [data] | [judgment] |
+| ⚡ Energy XLE | [data] | [judgment] |
+| 🔌 Utilities XLU | [data] | [judgment] |
+| 🏠 Real Estate XLRE | [data] | [judgment] |
+| 🧱 Materials XLB | [data] | [judgment] |
+
+**Extra (non-GICS):** 🥇 Gold Miners GDX, 📦 Small Cap IWM, 🛡️ Defense ITA, 💿 Semis SMH vs SPY (one row each).
 
 ---
 
 ## 7) 🧭 Structure Rating & Action Bias
 
+**The Overall Rating MUST match the six-factor regime gate in the Chinese report** (0 votes → 🟢 Stable; 1 → 🟡 Low Risk; 2 → 🟠 Moderate Risk; ≥3 or gate triggered → 🔴 Systemic Risk). Keep the exact same rating as the Chinese version.
+
 **Overall Rating: [🟢 Stable / 🟡 Low Risk / 🟠 Moderate Risk / 🔴 Systemic Risk]**
 
 **Rationale:**
-[2-3 sentences explaining the core logic]
+[2-3 sentences citing the actual six-factor readings]
 
 **Tactical Positioning:**
 | Action | Recommendation | Rationale |
@@ -297,7 +322,7 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
 
     payload = {
         "model": ANTHROPIC_MODEL,
-        "max_tokens": 4096,
+        "max_tokens": 8192,          # 4096 会截断 7 段报告(尤其第7节),提高到 8192
         "messages": messages,
     }
     if use_search:
@@ -343,10 +368,26 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
     raise RuntimeError(f"Claude API 调用失败，已重试 {max_retries} 次")
 
 
-def generate_cn_report(date_str: str) -> str:
+def build_gate_hint() -> str:
+    """计算六因子体制闸门实时读数,注入结构评级(权威锚点),失败则空串回退 LLM 自判。"""
+    try:
+        import macro_gate
+        g = macro_gate.compute()
+        onoff = "已触发 → 建议清仓 QQQ" if g["gate_on"] else "未触发"
+        factors = "；".join(
+            f"{f['name']}={f['value']}（{'🔴' if f['risk_off'] else '🟢'}）" for f in g["factors"])
+        return (f"> 📊 **六因子体制闸门实时读数（计算所得，作为评级权威锚点）**：崩盘票数 "
+                f"**{g['votes']}/6**，闸门 {onoff}，建议 QQQ 仓位 {g['weight_pct']}%。\n>\n"
+                f"> 各因子：{factors}。")
+    except Exception as e:
+        log.warning(f"⚠️ 六因子闸门读数失败，结构评级回退 LLM 自判：{e}")
+        return "> （六因子闸门读数暂不可用，请依据本报告 VIX/信用/资金流等数据自行判定评级。）"
+
+
+def generate_cn_report(date_str: str, gate_hint: str = "") -> str:
     log.info("🇨🇳 生成中文报告（带实时搜索）...")
     return call_claude(
-        messages=[{"role": "user", "content": PROMPT_CN.format(date=date_str)}],
+        messages=[{"role": "user", "content": PROMPT_CN.format(date=date_str, gate=gate_hint)}],
         use_search=True
     )
 
@@ -466,9 +507,11 @@ def run_market_monitor(dry_run: bool = False) -> dict:
     log.info(f"   时间: {now.strftime('%Y-%m-%d %H:%M:%S %Z')}")
     log.info("=" * 60)
 
-    # Step 1: 中文报告（带 Web Search）
+    # Step 1: 中文报告（带 Web Search）——先算六因子闸门作为结构评级的权威锚点
+    log.info("\n🚦 计算六因子体制闸门(结构评级锚点)...")
+    gate_hint = build_gate_hint()
     log.info("\n🤖 Step 1/3: 生成中文报告（实时搜索）...")
-    cn_report = generate_cn_report(date_cn)
+    cn_report = generate_cn_report(date_cn, gate_hint)
     log.info(f"   预览: {cn_report[:200]}...\n")
 
     # Step 2: 英文报告（基于中文翻译，不再搜索）
