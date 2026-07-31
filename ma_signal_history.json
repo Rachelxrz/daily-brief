@@ -437,17 +437,8 @@
     ]
   },
   "NVDA": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-06-24",
-        "price": 199.0,
-        "ma20": 209.62,
-        "ma50": 210.05,
-        "ma150": 191.78,
-        "st_value": 228.24
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-29",
@@ -455,6 +446,15 @@
         "ma20": 203.13,
         "ma50": 207.06,
         "ma150": 195.27,
+        "st_value": 221.2
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-07-31",
+        "price": 200.75,
+        "ma20": 203.3,
+        "ma50": 206.12,
+        "ma150": 195.42,
         "st_value": 221.2
       }
     ]
@@ -598,17 +598,8 @@
     ]
   },
   "GOOG": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-06-23",
-        "price": 346.08,
-        "ma20": 365.3,
-        "ma50": 365.71,
-        "ma150": 329.72,
-        "st_value": 393.19
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-23",
@@ -617,6 +608,15 @@
         "ma50": 363.56,
         "ma150": 335.69,
         "st_value": 369.76
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-07-31",
+        "price": 356.65,
+        "ma20": 346.94,
+        "ma50": 356.65,
+        "ma150": 336.77,
+        "st_value": 368.41
       }
     ]
   },
@@ -1127,7 +1127,7 @@
     ]
   },
   "AMZN": {
-    "last_state": "SELL_ALL",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL_HALF",
