@@ -1037,19 +1037,26 @@ function renderMacroGate(g) {
 
 function renderMonitor(day) {
   const el = document.getElementById('monitor-content');
-  const mon = day.monitor;
+  const allDates = Object.keys(allData).sort().reverse();
   // QQQ 六因子体制闸门：取最新一个有 macro_gate 的日期（每交易日盘后生成）
   let gate = day.macro_gate;
   if (!gate) {
-    const allDates = Object.keys(allData).sort().reverse();
     for (const d of allDates) { if (allData[d].macro_gate) { gate = allData[d].macro_gate; break; } }
   }
   const gateHtml = gate ? renderMacroGate(gate) : '';
+  // 结构监控报告：当日未生成（如 CI 失败）时回退到最近一期，避免整块内容消失
+  let mon = day.monitor, monNote = '';
+  if (!mon) {
+    for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
+  }
   if (!mon) {
     el.innerHTML = gateHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
-  el.innerHTML = gateHtml + `
+  const monBanner = monNote
+    ? `<div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.8rem;padding:0.4rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)">📭 当日结构监控报告尚未生成，显示最近一期（${monNote}）</div>`
+    : '';
+  el.innerHTML = gateHtml + monBanner + `
     <div class="report-card">
       <div class="report-card-header">
         <span class="report-card-title">📌 结构监控</span>
