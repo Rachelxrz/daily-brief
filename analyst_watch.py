@@ -46,6 +46,16 @@ ANALYSTS = [
     ("Marko Papic",         "BCA Research",    '"Marko Papic" BCA'),
     ("Sam Stovall",         "CFRA",            '"Sam Stovall" CFRA'),
     ("Michael Kantrowitz",  "Piper Sandler",   '"Michael Kantrowitz" Piper Sandler'),
+    # ── 宏观经济学家 / 宏观策略(2026-07 增补)──
+    ("Torsten Slok",        "Apollo",          '"Torsten Slok" Apollo'),
+    ("Mohamed El-Erian",    "Allianz",         '"Mohamed El-Erian"'),
+    ("Ed Yardeni",          "Yardeni Research",'"Ed Yardeni"'),
+    ("David Rosenberg",     "Rosenberg Research",'"David Rosenberg" Rosenberg'),
+    ("Claudia Sahm",        "New Century",     '"Claudia Sahm"'),
+    # ── AI / 科技产业分析师(2026-07 增补)──
+    ("Dan Ives",            "Wedbush",         '"Dan Ives" Wedbush'),
+    ("Stacy Rasgon",        "Bernstein",       '"Stacy Rasgon" Bernstein'),
+    ("Gene Munster",        "Deepwater",       '"Gene Munster"'),
 ]
 
 ITEMS_PER_ANALYST = 3      # 每条记录引用几个来源标题

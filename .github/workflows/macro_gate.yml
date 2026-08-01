@@ -1,0 +1,44 @@
+name: QQQ 体制闸门·盘中高频刷新
+
+# macro_gate.py 平时随「盘后技术信号」job 一天跑一次;此 workflow 在美东盘中
+# 每小时再刷新一次(VIX / 波动 / 趋势是盘中变化的),让结构监控页的闸门面板更及时。
+on:
+  schedule:
+    - cron: '0 14-21 * * 1-5'      # 每周一~五 UTC 14:00-21:00 整点(≈ 美东 09/10:00-16/17:00 盘中)
+  workflow_dispatch:
+
+concurrency:
+  group: macro-gate                # 同一时刻只跑一个,避免并发提交打架
+  cancel-in-progress: false
+
+jobs:
+  macro-gate:
+    name: QQQ 六因子闸门刷新
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - run: mkdir -p logs docs
+      - name: Run macro_gate（写 docs/data.json 的 macro_gate）
+        run: python macro_gate.py
+        continue-on-error: true
+      - name: Commit & push（merge_data 合并,不覆盖其它 job 的数据）
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/new_data.json
+          git fetch origin main && git reset --hard origin/main
+          python merge_data.py /tmp/new_data.json docs/data.json
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "macro_gate intraday refresh $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macro-gate-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 3

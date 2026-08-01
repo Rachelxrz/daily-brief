@@ -54,20 +54,27 @@ PROMPT_CN = """你是一位专业的宏观市场结构分析师。请使用 web_
 
 ---
 
-## 3) 💰 资金流向结构
+## 3) 💰 资金流向结构（覆盖 ≥10 个板块的流入/流出）
 
-**主要流出方向：**
-- 科技/成长：QQQ [今日涨跌%]，Nasdaq [今日涨跌%]
-- 其他流出板块：[说明]
+请逐一判断以下板块/资产今日资金是**流入**还是**流出**（结合今日涨跌 + 相对大盘强弱），至少覆盖 10 个：
 
-**主要流入方向：**
-| 资产 | 今日表现 | 信号 |
-|------|---------|------|
-| 🛢️ 能源 XLE/XOM | [%] | [✅/⚠️/❌] |
-| 🥇 黄金 GLD | [%] | [✅/⚠️/❌] |
-| 🔌 公用事业 XLU | [%] | [✅/⚠️/❌] |
-| 🏦 国债 TLT | [%] | [✅/⚠️/❌] |
-| 🛡️ 国防 LMT/RTX | [%] | [✅/⚠️/❌] |
+| 板块/资产 | 今日表现 | 资金方向 | 信号 |
+|---|---|---|---|
+| 💻 科技 XLK/QQQ | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 💿 半导体 SMH | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🛍️ 非必需消费 XLY | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🏦 金融 XLF | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 💊 医疗 XLV | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🏭 工业 XLI | [%] | [流入/流出] | [✅/⚠️/❌] |
+| ⚡ 能源 XLE | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🧴 必需消费 XLP | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🔌 公用事业 XLU | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🥇 黄金 GLD | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🏦 长债 TLT | [%] | [流入/流出] | [✅/⚠️/❌] |
+| 🏠 房地产 XLRE | [%] | [流入/流出] | [✅/⚠️/❌] |
+
+**💧 资金流入前三：** [列出今日最吸金的 3 个板块]
+**🩸 资金流出前三：** [列出今日最失血的 3 个板块]
 
 ---
 
@@ -202,20 +209,27 @@ Output the English report in this exact format:
 
 ---
 
-## 3) 💰 Capital Flow Structure
+## 3) 💰 Capital Flow Structure (≥10 sectors, inflow/outflow)
 
-**Major Outflows:**
-- Tech/Growth: QQQ [today %], Nasdaq [today %]
-- Other sectors under pressure: [details]
+For each sector/asset below, judge whether money is flowing IN or OUT today (using today's move + relative strength vs market); cover at least 10:
 
-**Major Inflows:**
-| Asset | Today's Performance | Signal |
-|-------|-------------------|--------|
-| 🛢️ Energy XLE/XOM | [%] | [✅/⚠️/❌] |
-| 🥇 Gold GLD | [%] | [✅/⚠️/❌] |
-| 🔌 Utilities XLU | [%] | [✅/⚠️/❌] |
-| 🏦 Treasuries TLT | [%] | [✅/⚠️/❌] |
-| 🛡️ Defense LMT/RTX | [%] | [✅/⚠️/❌] |
+| Sector/Asset | Today | Flow | Signal |
+|---|---|---|---|
+| 💻 Tech XLK/QQQ | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 💿 Semis SMH | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🛍️ Cons. Disc. XLY | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🏦 Financials XLF | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 💊 Health XLV | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🏭 Industrials XLI | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| ⚡ Energy XLE | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🧴 Cons. Staples XLP | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🔌 Utilities XLU | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🥇 Gold GLD | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🏦 Long Bonds TLT | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+| 🏠 Real Estate XLRE | [%] | [Inflow/Outflow] | [✅/⚠️/❌] |
+
+**💧 Top 3 Inflows:** [today's biggest money magnets]
+**🩸 Top 3 Outflows:** [today's biggest bleeders]
 
 ---
 
