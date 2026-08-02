@@ -139,6 +139,15 @@
   }
   .date-select:hover { border-color: var(--gold); }
   .date-select:focus { outline: none; border-color: var(--gold); }
+  .site-lang-toggle { margin-left: auto; display: flex; gap: 0.4rem; }
+  .site-lang-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); border-radius: 4px;
+    padding: 0.35rem 0.8rem; font-size: 0.72rem;
+    font-family: 'DM Mono', monospace; cursor: pointer; letter-spacing: 0.05em;
+  }
+  .site-lang-btn.active { background: var(--gold); color: #0a0b0d; border-color: var(--gold); font-weight: 500; }
+  .site-lang-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
 
   /* ── News topic menu bar ────────────────────── */
   .news-topics {
@@ -586,21 +595,25 @@
 
   <!-- Tab nav -->
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('news')">📰 每日简报</button>
-    <button class="tab-btn" onclick="switchTab('monitor')">📌 市场结构</button>
-    <button class="tab-btn" onclick="switchTab('analysts')">🎯 分析师观点</button>
-    <button class="tab-btn" onclick="switchTab('masignal')">🔀 均线买卖信号</button>
-    <button class="tab-btn" onclick="switchTab('screener')">🚀 强势股筛选</button>
-    <button class="tab-btn" onclick="switchTab('congress')">🏛 国会交易</button>
-    <button class="tab-btn" onclick="switchTab('wheel')">🎡 Wheel 期权</button>
-    <button class="tab-btn" onclick="switchTab('signals')">📊 个股技术信号</button>
-    <button class="tab-btn" onclick="switchTab('prediction')">🔄 板块轮动</button>
+    <button class="tab-btn active" data-tab="news" onclick="switchTab('news')">📰 每日简报</button>
+    <button class="tab-btn" data-tab="monitor" onclick="switchTab('monitor')">📌 市场结构</button>
+    <button class="tab-btn" data-tab="analysts" onclick="switchTab('analysts')">🎯 分析师观点</button>
+    <button class="tab-btn" data-tab="masignal" onclick="switchTab('masignal')">🔀 均线买卖信号</button>
+    <button class="tab-btn" data-tab="screener" onclick="switchTab('screener')">🚀 强势股筛选</button>
+    <button class="tab-btn" data-tab="congress" onclick="switchTab('congress')">🏛 国会交易</button>
+    <button class="tab-btn" data-tab="wheel" onclick="switchTab('wheel')">🎡 Wheel 期权</button>
+    <button class="tab-btn" data-tab="signals" onclick="switchTab('signals')">📊 个股技术信号</button>
+    <button class="tab-btn" data-tab="prediction" onclick="switchTab('prediction')">🔄 板块轮动</button>
   </div>
 
   <!-- Date bar -->
   <div class="date-bar">
     <span class="date-label">日期</span>
     <div class="date-pills" id="date-pills"></div>
+    <div class="site-lang-toggle">
+      <button class="site-lang-btn active" data-lang="cn" onclick="setLang('cn')">中文</button>
+      <button class="site-lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 
   <!-- News panel -->
@@ -782,6 +795,7 @@ function init() {
     + dates.map(d => `<option value="${d}" ${d===currentDate?'selected':''}>${d}</option>`).join('')
     + `</select>`;
 
+  applyLang();
   render();
 }
 
@@ -812,11 +826,65 @@ function render() {
   else if (currentTab === 'prediction') renderPrediction(day);
   else if (currentTab === 'analysts')   renderAnalysts(day);
   else if (currentTab === 'masignal')   renderMaSignal(day);
+  maybeCnOnlyNote();
 }
 
 function setNewsLang(lang) {
+  setLang(lang);
+}
+
+// ── 全局中/英 ────────────────────────────────────────────
+const I18N = {
+  tabs: {
+    news:      ['📰 每日简报',   '📰 Daily Brief'],
+    monitor:   ['📌 市场结构',   '📌 Market Structure'],
+    analysts:  ['🎯 分析师观点', '🎯 Analyst Views'],
+    masignal:  ['🔀 均线买卖信号','🔀 MA Buy/Sell'],
+    screener:  ['🚀 强势股筛选', '🚀 Stock Screener'],
+    congress:  ['🏛 国会交易',   '🏛 Congress Trades'],
+    wheel:     ['🎡 Wheel 期权', '🎡 Wheel Options'],
+    signals:   ['📊 个股技术信号','📊 Tech Signals'],
+    prediction:['🔄 板块轮动',   '🔄 Sector Rotation'],
+  },
+  dateLabel:   ['日期', 'Date'],
+  lastUpdated: ['最后更新', 'Last updated'],
+};
+const CN_ONLY_TABS = ['analysts','masignal','screener','congress','wheel','signals','prediction'];
+function langIdx() { return currentNewsLang === 'en' ? 1 : 0; }
+
+function applyLang() {
+  const i = langIdx();
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(b => {
+    const k = b.getAttribute('data-tab');
+    if (I18N.tabs[k]) b.textContent = I18N.tabs[k][i];
+  });
+  const dl = document.querySelector('.date-label');
+  if (dl) dl.textContent = I18N.dateLabel[i];
+  document.querySelectorAll('.site-lang-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('data-lang') === currentNewsLang));
+  const lu = document.getElementById('last-updated');
+  if (lu) lu.textContent = I18N.lastUpdated[i] + ': ' + (allData[currentDate]?.updated || currentDate);
+}
+
+function setLang(lang) {
   currentNewsLang = lang;
+  applyLang();
   render();
+}
+
+// 英文模式下,数据仅中文的模块给个提示条(内容仍中文)
+function maybeCnOnlyNote() {
+  document.querySelectorAll('.cn-only-note').forEach(n => n.remove());
+  if (currentNewsLang === 'en' && CN_ONLY_TABS.includes(currentTab)) {
+    const panel = document.getElementById('panel-' + currentTab);
+    if (panel) {
+      const note = document.createElement('div');
+      note.className = 'cn-only-note';
+      note.style.cssText = 'font-size:0.8rem;color:var(--muted);margin-bottom:1rem;padding:0.5rem 0.9rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)';
+      note.textContent = '🌐 This section is currently available in Chinese only.';
+      panel.insertBefore(note, panel.firstChild);
+    }
+  }
 }
 
 // ── HTML escape helper ────────────────────────────────────
@@ -830,15 +898,17 @@ function escHtml(s) {
 
 // ── Single news card ──────────────────────────────────────
 function renderNewsCard(item) {
-  const displayTitle = item.title_cn || item.title;
+  const en = currentNewsLang === 'en';
+  const displayTitle = en ? (item.title || item.title_cn) : (item.title_cn || item.title);
   const titleLinked = item.url
     ? `<a href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escHtml(displayTitle)}</a>`
     : escHtml(displayTitle);
 
-  const enText = escHtml(item.analysis_en || item.title);
   const cnText = item.analysis_cn
     ? escHtml(item.analysis_cn)
     : (item.title_cn ? `<span style="color:var(--muted);font-size:0.9em">${escHtml(item.title_cn)}</span>` : '<span style="color:var(--muted);font-size:0.85em">（翻译生成中）</span>');
+  const enText = escHtml(item.analysis_en || item.title);
+  const text = en ? enText : cnText;
 
   return `
     <div class="news-card">
@@ -846,28 +916,20 @@ function renderNewsCard(item) {
         <span class="rank">${item.rank}.</span>${titleLinked}
       </div>
       <div class="news-card-meta">${escHtml(item.source)} ｜ ${escHtml(item.time)}</div>
-      <div class="news-analysis-grid">
-        <div class="news-analysis-col">
-          <div class="news-analysis-label">中文</div>
-          <div class="news-analysis-text">${cnText}</div>
-        </div>
-        <div class="news-analysis-col">
-          <div class="news-analysis-label">English</div>
-          <div class="news-analysis-text">${enText}</div>
-        </div>
-      </div>
+      <div class="news-analysis-text" style="margin-top:0.5rem">${text}</div>
     </div>`;
 }
 
 // ── Section definitions ───────────────────────────────────
 const NEWS_SECTIONS = [
-  { key: 'ai',         label: '🤖 AI科技前沿' },
-  { key: 'finance',    label: '📈 金融财经' },
-  { key: 'health',     label: '🏥 健康医疗' },
-  { key: 'philosophy', label: '🧠 心理·哲学' },
-  { key: 'social',     label: '📱 自媒体精选' },
-  { key: 'wellness',   label: '🧠 健康·心理·美学' },  // legacy
+  { key: 'ai',         label: '🤖 AI科技前沿',     label_en: '🤖 AI & Tech' },
+  { key: 'finance',    label: '📈 金融财经',       label_en: '📈 Finance' },
+  { key: 'health',     label: '🏥 健康医疗',       label_en: '🏥 Health' },
+  { key: 'philosophy', label: '🧠 心理·哲学',      label_en: '🧠 Mind & Philosophy' },
+  { key: 'social',     label: '📱 自媒体精选',     label_en: '📱 Tech & Media' },
+  { key: 'wellness',   label: '🧠 健康·心理·美学', label_en: '🧠 Wellness' },  // legacy
 ];
+function secLabel(s) { return currentNewsLang === 'en' ? (s.label_en || s.label) : s.label; }
 
 function setNewsTopic(key) {
   currentNewsTopic = key;
@@ -890,15 +952,16 @@ function renderNewsCards(el, cards) {
   const menu = `<div class="news-topics">`
     + avail.map(s =>
         `<button class="news-topic-btn ${s.key===topic?'active':''}" onclick="setNewsTopic('${s.key}')">`
-        + `${s.label}<span class="cnt">${cards[s.key].length}</span></button>`
+        + `${secLabel(s)}<span class="cnt">${cards[s.key].length}</span></button>`
       ).join('')
     + `</div>`;
 
   const sec = avail.find(s => s.key === topic);
+  const metaTxt = currentNewsLang === 'en' ? `${cards[topic].length} items` : `${cards[topic].length} 条精选`;
   const body = `
     <div class="news-section">
-      <h2 class="news-section-title">${sec.label}</h2>
-      <p class="news-section-meta">${cards[topic].length} 条精选</p>
+      <h2 class="news-section-title">${secLabel(sec)}</h2>
+      <p class="news-section-meta">${metaTxt}</p>
       ${cards[topic].map(renderNewsCard).join('')}
     </div>`;
 
@@ -1064,22 +1127,11 @@ function renderMonitor(day) {
   const monBanner = monNote
     ? `<div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.8rem;padding:0.4rem 0.8rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)">📭 当日结构监控报告尚未生成，显示最近一期（${monNote}）</div>`
     : '';
-  el.innerHTML = gateHtml + monBanner + `
-    <div class="report-card">
-      <div class="report-card-header">
-        <span class="report-card-title">📌 结构监控</span>
-        <span class="report-card-lang">中文</span>
-      </div>
-      <div class="report-card-body">${renderMd(mon.cn)}</div>
-    </div>
-    <div class="report-card">
-      <div class="report-card-header">
-        <span class="report-card-title">📌 Market Structure Monitor</span>
-        <span class="report-card-lang">English</span>
-      </div>
-      <div class="report-card-body">${renderMd(mon.en)}</div>
-    </div>
-  `;
+  const en = currentNewsLang === 'en';
+  const monCard = en
+    ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
+    : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
+  el.innerHTML = gateHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
