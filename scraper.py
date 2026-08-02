@@ -100,12 +100,21 @@ def clean_html(raw: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text[:280] + "…" if len(text) > 280 else text
 
-RECENT_WINDOW_DAYS = 0   # 仅收「当天」文章（Rachel 指定：必须当天 + 每类10条 + 去重）
+def _recent_window_days() -> int:
+    """收录窗口(天):工作日/周六 = 仅当天(0);**周日例外** = 放宽到最近3天(含周五),
+    因为周日新闻少、当天常凑不满每类10条。按美东星期判定(新闻源是美国的)。"""
+    try:
+        import pytz
+        et = datetime.now(pytz.timezone("America/New_York"))
+    except Exception:
+        et = datetime.now(timezone(timedelta(hours=-4)))
+    return 2 if et.weekday() == 6 else 0   # 周日(weekday=6)→今/昨/前共3天;其余仅当天
 
 def is_today(entry) -> bool:
-    """Check if feed entry was published today (Asia/Shanghai timezone)."""
+    """Check if feed entry is within the recency window (仅当天;周日放宽到近3天)。"""
     tz_cst = timezone(timedelta(hours=8))
-    cutoff = (datetime.now(tz_cst) - timedelta(days=RECENT_WINDOW_DAYS)).date()
+    win = _recent_window_days()
+    cutoff = (datetime.now(tz_cst) - timedelta(days=win)).date()
 
     for attr in ('published_parsed', 'updated_parsed'):
         t = getattr(entry, attr, None)
@@ -115,7 +124,7 @@ def is_today(entry) -> bool:
                 return dt.date() >= cutoff
             except Exception:
                 pass
-    return False  # 无日期的条目不再兜底计入（要求严格当天）
+    return win > 0  # 周日:无日期条目兜底计入;工作日/周六:严格当天排除
 
 def fetch_feed(source: dict, max_items: int = 5) -> list:
     """Fetch and parse a single RSS feed."""
