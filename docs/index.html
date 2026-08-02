@@ -967,6 +967,14 @@ function renderNews(day) {
     banner.textContent = `📭 当日新闻尚未产出，显示最近一期（${note}）`;
     el.insertBefore(banner, el.firstChild);
   }
+  // 本次抓取时间戳（置顶，和微信推送对照是否同一轮快照）
+  const scrapedAt = src.news && src.news.scraped_at;
+  if (scrapedAt) {
+    const stamp = document.createElement('div');
+    stamp.style.cssText = 'font-size:0.72rem;color:var(--muted);margin-bottom:0.8rem';
+    stamp.textContent = `🕐 本次抓取：${scrapedAt}（可与微信推送对照）`;
+    el.insertBefore(stamp, el.firstChild);
+  }
 }
 
 function renderScreener(day) {

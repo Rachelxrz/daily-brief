@@ -286,8 +286,11 @@ def push_serverchan(news_data: dict) -> bool:
         log.warning("Server酱 SendKey 未配置，跳过推送")
         return False
     
-    content = format_text_message(news_data)
-    now_str = datetime.now().strftime("%Y/%m/%d")
+    _cst = datetime.now(timezone(timedelta(hours=8)))
+    stamp = _cst.strftime("%m-%d %H:%M")
+    # 本次抓取时间戳,便于和网页对齐是否同一轮快照
+    content = f"🕐 本次抓取：{stamp} CST（可与网页对照）\n\n" + format_text_message(news_data)
+    now_str = _cst.strftime("%Y/%m/%d")
     
     try:
         resp = requests.post(

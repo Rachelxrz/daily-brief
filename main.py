@@ -90,10 +90,15 @@ def run_daily_job(dry_run: bool = False):
     
     # Step 1: 抓取新闻
     log.info("\n📡 Step 1/3: 抓取新闻...")
-    news_data = scrape_all(items_per_category=Config.ITEMS_PER_CATEGORY)
+    # 先抓一个大池(每类目标数×3),去重后再截到目标数,保证每类尽量凑够 10 条
+    pool = max(30, Config.ITEMS_PER_CATEGORY * 3)
+    news_data = scrape_all(items_per_category=pool)
 
-    # 近三天去重：剔除前 3 天已出现过的新闻（RSS 会连续多天返回同一篇）
-    news_data = filter_recent_duplicates(news_data, days=3)
+    # 近两天去重：剔除前 2 天已出现过的新闻（RSS 会连续多天返回同一篇）
+    news_data = filter_recent_duplicates(news_data, days=2)
+
+    # 去重后再截到每类目标条数（默认 10）
+    news_data = {cat: items[:Config.ITEMS_PER_CATEGORY] for cat, items in news_data.items()}
 
     total = sum(len(v) for v in news_data.values())
     log.info(f"   ✅ 去重后共 {total} 条新闻")

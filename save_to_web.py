@@ -527,6 +527,8 @@ def save_news(news_data: dict = None, news_cn: str = None, news_en: str = None):
     data[today]["news"] = {
         "cn": news_cn if news_cn else existing.get("cn", ""),
         "en": news_en if news_en else existing.get("en", ""),
+        # 本次抓取时间(CST)——供网页和微信对齐是否同一轮快照
+        "scraped_at": datetime.now(tz_cst).strftime("%m-%d %H:%M") + " CST" if news_data is not None else existing.get("scraped_at", ""),
     }
     if news_cards:
         data[today]["news_cards"] = news_cards

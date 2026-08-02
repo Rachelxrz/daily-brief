@@ -100,17 +100,19 @@ def clean_html(raw: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text[:280] + "…" if len(text) > 280 else text
 
+RECENT_WINDOW_DAYS = 3   # 收录最近 3 天的文章（原来只收当天，周末/慢新闻日凑不满每类10条）
+
 def is_today(entry) -> bool:
-    """Check if feed entry was published today (Asia/Shanghai timezone)."""
+    """Check if feed entry was published within the last RECENT_WINDOW_DAYS (Asia/Shanghai)."""
     tz_cst = timezone(timedelta(hours=8))
-    today = datetime.now(tz_cst).date()
-    
+    cutoff = (datetime.now(tz_cst) - timedelta(days=RECENT_WINDOW_DAYS)).date()
+
     for attr in ('published_parsed', 'updated_parsed'):
         t = getattr(entry, attr, None)
         if t:
             try:
                 dt = datetime(*t[:6], tzinfo=timezone.utc).astimezone(tz_cst)
-                return dt.date() == today
+                return dt.date() >= cutoff
             except Exception:
                 pass
     return True  # fallback: include if no date
@@ -157,7 +159,7 @@ def scrape_all(items_per_category: int = 10) -> dict:
         
         all_items = []
         for source in sources:
-            items = fetch_feed(source, max_items=4)
+            items = fetch_feed(source, max_items=12)   # 4→12：每源多取,给去重留足缓冲
             all_items.extend(items)
             time.sleep(0.5)  # polite crawling
         
