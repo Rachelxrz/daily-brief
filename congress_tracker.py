@@ -17,6 +17,7 @@ Congressional Trading Signal Tracker
 import json
 import logging
 import os
+import re
 import sys
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -36,6 +37,10 @@ log = logging.getLogger(__name__)
 # 数据源 & 常量
 # ═══════════════════════════════════════════════
 HOUSE_URL = "https://raw.githubusercontent.com/TattooedHead/house-stock-watcher-data/main/data/all_transactions.json"
+# FMP 为主源（2026-08 起）；未配置 FMP_API_KEY 则回退社区镜像（已停更，仅兜底）。
+FMP_API_KEY = os.getenv("FMP_API_KEY", "")
+FMP_BASE    = "https://financialmodelingprep.com/stable"
+LATEST_SOURCE_DATE = None   # 本次抓取到的最新披露日期（用于前端「数据过期」横幅）
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL   = "claude-sonnet-4-6"
@@ -217,14 +222,74 @@ def format_size_range(amount: str) -> str:
 # 数据抓取
 # ═══════════════════════════════════════════════
 
+# ── FMP（主源，2026-08 起）→ 内部格式映射 ─────────────────────
+def _to_us_date(s: str) -> str:
+    """任意日期字符串 → MM/DD/YYYY（parse_us_date 需要）；失败原样返回。"""
+    s = (s or "").strip()[:10]
+    for fmt in ("%Y-%m-%d", "%m/%d/%Y"):
+        try:
+            return datetime.strptime(s, fmt).strftime("%m/%d/%Y")
+        except Exception:
+            continue
+    return s
+
+
+def _amount_mid(amount: str):
+    """'$1,001 - $15,000' → 8000.5；失败返回 None。"""
+    nums = [float(n.replace(",", "")) for n in re.findall(r"[\d,]+", amount or "")
+            if n.replace(",", "").isdigit()]
+    return sum(nums) / len(nums) if nums else None
+
+
+def _fmp_map(rec: dict) -> dict:
+    """FMP camelCase → 本项目内部 snake_case 交易记录。"""
+    name = f"{rec.get('firstName','')} {rec.get('lastName','')}".strip() or rec.get("office", "")
+    amount = rec.get("amount", "")
+    return {
+        "representative":    name,
+        "ticker":            (rec.get("symbol") or "").strip().upper(),
+        "type":              rec.get("type", ""),
+        "transaction_date":  _to_us_date(rec.get("transactionDate", "")),
+        "disclosure_date":   _to_us_date(rec.get("disclosureDate", "")),
+        "amount":            amount,
+        "amount_mid":        _amount_mid(amount),
+        "asset_description": rec.get("assetDescription", ""),
+        "asset_type":        rec.get("assetType", "Stock"),
+        "filing_id":         rec.get("link", ""),
+    }
+
+
+def _fmp_fetch(endpoint: str, pages: int = 8, limit: int = 100) -> list:
+    """拉 FMP stable 国会端点（分页），返回映射后的内部记录。"""
+    out = []
+    for p in range(pages):
+        url = f"{FMP_BASE}/{endpoint}?page={p}&limit={limit}&apikey={FMP_API_KEY}"
+        r = requests.get(url, timeout=45, headers={"User-Agent": "daily-brief-congress"})
+        r.raise_for_status()
+        chunk = r.json()
+        if not isinstance(chunk, list) or not chunk:
+            break
+        out.extend(_fmp_map(x) for x in chunk)
+        if len(chunk) < limit:
+            break
+    return out
+
+
 def fetch_house_trades() -> list:
-    """从 House Stock Watcher 社区镜像抓取众议院交易数据。"""
+    """众议院交易：优先 FMP（house-latest），无 key/失败则回退社区镜像（已停更，仅兜底）。"""
+    if FMP_API_KEY:
+        try:
+            recs = _fmp_fetch("house-latest")
+            log.info(f"   ✅ FMP House 获取成功，共 {len(recs)} 条")
+            return recs
+        except Exception as e:
+            log.error(f"   ❌ FMP House 获取失败，回退社区镜像: {e}")
     try:
         resp = requests.get(HOUSE_URL, timeout=60,
                              headers={"User-Agent": "daily-brief-congress-tracker"})
         resp.raise_for_status()
         data = resp.json()
-        log.info(f"   ✅ House 数据获取成功，共 {len(data)} 条记录")
+        log.info(f"   ✅ House 镜像获取成功（兜底），共 {len(data)} 条记录")
         return data
     except Exception as e:
         log.error(f"   ❌ House 数据获取失败: {e}")
@@ -232,9 +297,16 @@ def fetch_house_trades() -> list:
 
 
 def fetch_senate_trades() -> list:
-    """参议院数据源（Senate Stock Watcher）已失效，暂返回空列表。
-    见 modules/congress/status.md「已知问题」。"""
-    log.warning("   ⚠️ 参议院数据源暂不可用，本次跳过（详见 status.md）")
+    """参议院交易：FMP（senate-latest）；无 key 则跳过（旧 Senate Stock Watcher 已失效）。"""
+    if FMP_API_KEY:
+        try:
+            recs = _fmp_fetch("senate-latest")
+            log.info(f"   ✅ FMP Senate 获取成功，共 {len(recs)} 条")
+            return recs
+        except Exception as e:
+            log.error(f"   ❌ FMP Senate 获取失败: {e}")
+            return []
+    log.warning("   ⚠️ 未配置 FMP_API_KEY，参议院数据跳过（详见 status.md）")
     return []
 
 
@@ -301,8 +373,18 @@ def get_ma_signal(ticker: str):
 # ═══════════════════════════════════════════════
 
 def fetch_recent_trades(now: datetime) -> list:
+    global LATEST_SOURCE_DATE
     raw = fetch_house_trades() + fetch_senate_trades()
     cutoff = now.replace(tzinfo=None) - timedelta(days=RECENT_DAYS)
+
+    # 记录源里最新的披露日期（供前端判断数据是否停更）
+    _disc = []
+    for r in raw:
+        try:
+            _disc.append(parse_us_date(r["disclosure_date"]))
+        except Exception:
+            pass
+    LATEST_SOURCE_DATE = max(_disc).strftime("%Y-%m-%d") if _disc else None
 
     trades = []
     for r in raw:
@@ -715,6 +797,7 @@ def run_congress_tracker(dry_run: bool = False) -> dict:
 
     congress_data = {
         "date":             today_str,
+        "data_asof":        LATEST_SOURCE_DATE,   # 源里最新披露日期（前端据此显示过期横幅）
         "strong":           [_serialize(s) for s in strong],
         "medium":           [_serialize(s) for s in medium],
         "watch":            [_serialize(s) for s in weak],

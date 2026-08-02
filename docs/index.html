@@ -1303,8 +1303,17 @@ function renderCongress(day) {
   const allItems = [...strong, ...medium, ...watch];
   const antiSignals = allItems.filter(s => s.comparison && s.comparison.includes('方向相反'));
 
+  // 数据过期横幅：源最新披露日期距今 > 14 天则提示（切到 FMP 且数据新鲜后自动消失）
+  let staleBanner = '';
+  if (c.data_asof) {
+    const days = Math.round((Date.now() - new Date(c.data_asof).getTime()) / 86400000);
+    if (days > 14) {
+      staleBanner = `<div style="font-size:0.78rem;color:var(--amber);margin-bottom:0.8rem;padding:0.5rem 0.9rem;background:rgba(224,179,65,0.08);border-radius:6px;border:1px solid var(--amber)">⚠️ 国会数据源可能已停更：最新披露日期为 <b>${c.data_asof}</b>（距今约 ${days} 天），信号或已过期 —— 待切换新数据源（FMP）后自动恢复。</div>`;
+    }
+  }
+
   // Summary row
-  const summary = `
+  const summary = staleBanner + `
     <div class="congress-summary">
       <div class="congress-stat">
         <span class="congress-stat-label">强信号</span>

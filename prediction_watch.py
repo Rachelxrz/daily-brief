@@ -293,7 +293,10 @@ def save_to_web(page: str) -> None:
 
 
 def push(page: str) -> None:
-    """复用 WxPusher / ServerChan 推送通道。"""
+    """轮动观察已停用微信推送（2026-08：微信只推「每日简报」+「均线信号」，其它板块只上网页）。"""
+    log.info("⏭️ 轮动观察不推送微信（其它板块暂不推送），仅保存到网页")
+    return
+    # ↓ 保留旧逻辑备查，如需恢复删掉上面的 return 即可
     title = f"📈 轮动观察 · 截至 {_recent_friday(_now_et().date()).isoformat()}"
     try:
         from config import Config

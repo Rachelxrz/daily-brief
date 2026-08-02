@@ -22,7 +22,7 @@ ma_cross_signal.py — 20/50 均线 × Supertrend(10,4) 买卖信号 v1.1
 标的：docs/watchlist.json 的 core_holdings + long_term（动态读取），排除 EXCLUDE
 输出：docs/data.json 的 "ma_signal" key（供网页「🔀 均线信号」tab），含「近一周买卖」清单
 持久化：ma_signal_history.json + etf_flags.json（跨 GitHub Actions checkout 必须一起提交）
-不推送微信（遵循「微信只推新闻」规则）。
+推送微信摘要（2026-08 起：微信只推「每日简报」+「均线信号」两个板块，其它只上网页）。
 
 复用 signal_advisor.py 的 get_ohlcv / calc_supertrend，避免重复实现指标。
 """
@@ -487,6 +487,36 @@ def save_web(rows: list, today: str, recent: list):
              f"NEUTRAL={counts['neutral']} NO_DATA={counts['no_data']}")
 
 
+def push_wechat(recent: list, today: str, counts: dict):
+    """当日均线信号摘要推送微信（复用 market_monitor 的通用推送通道）。"""
+    try:
+        from config import Config
+        from market_monitor import push_serverchan, push_wecom, push_wxpusher
+    except Exception as e:
+        log.warning(f"⚠️ 无法导入推送模块，跳过微信推送：{e}")
+        return
+    lab = {"BUY": "🟢买入", "SELL_HALF": "🟠减半", "SELL_ALL": "🔴清仓"}
+    lines = [f"# 🔀 均线信号 {today}",
+             f"🟢买入 {counts.get('buy',0)} · 🟠减半 {counts.get('sell_half',0)} · "
+             f"🔴清仓 {counts.get('sell_all',0)} · ⚪无信号 {counts.get('neutral',0)}", ""]
+    if recent:
+        lines.append(f"📢 近 {RECENT_DAYS} 天买卖翻转（{len(recent)}）：")
+        for x in recent:
+            lines.append(f"- {x['ticker']} {lab.get(x['type'], x['type'])} @{x['date']} [{x.get('tf','')}]")
+    else:
+        lines.append(f"📢 近 {RECENT_DAYS} 天无新的买卖翻转。")
+    lines += ["", "规则：买入=MA20>MA50 且 ST(10,4)↑；减半=死叉；清仓=跌破 MA150。仅供参考，不构成投资建议。"]
+    msg, title = "\n".join(lines), f"🔀 均线信号 {today}"
+    sent = False
+    if getattr(Config, "SERVERCHAN_SENDKEY", ""):
+        push_serverchan(title, msg); sent = True
+    if getattr(Config, "WECOM_WEBHOOK_URL", ""):
+        push_wecom(msg); sent = True
+    if getattr(Config, "WXPUSHER_APP_TOKEN", ""):
+        push_wxpusher(title, msg); sent = True
+    log.info("📲 均线信号已推送微信" if sent else "⏭️ 未配置微信渠道，跳过推送")
+
+
 def run(dry_run: bool = False):
     today = _today_et()
     cache = load_etf_cache()
@@ -521,6 +551,11 @@ def run(dry_run: bool = False):
     save_etf_cache(cache)
     save_history(hist)
     save_web(rows, today, recent)
+    cnt = {"buy": 0, "sell_half": 0, "sell_all": 0, "neutral": 0, "no_data": 0}
+    _m = {"BUY": "buy", "SELL_HALF": "sell_half", "SELL_ALL": "sell_all", "NEUTRAL": "neutral", "NO_DATA": "no_data"}
+    for r in rows:
+        cnt[_m.get(r["signal"], "no_data")] += 1
+    push_wechat(recent, today, cnt)
     log.info(f"✅ 完成（近一周买卖 {len(recent)} 只）")
 
 
