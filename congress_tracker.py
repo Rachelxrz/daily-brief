@@ -259,20 +259,17 @@ def _fmp_map(rec: dict) -> dict:
     }
 
 
-def _fmp_fetch(endpoint: str, pages: int = 8, limit: int = 100) -> list:
-    """拉 FMP stable 国会端点（分页），返回映射后的内部记录。"""
-    out = []
-    for p in range(pages):
-        url = f"{FMP_BASE}/{endpoint}?page={p}&limit={limit}&apikey={FMP_API_KEY}"
-        r = requests.get(url, timeout=45, headers={"User-Agent": "daily-brief-congress"})
-        r.raise_for_status()
-        chunk = r.json()
-        if not isinstance(chunk, list) or not chunk:
-            break
-        out.extend(_fmp_map(x) for x in chunk)
-        if len(chunk) < limit:
-            break
-    return out
+def _fmp_fetch(endpoint: str) -> list:
+    """拉 FMP stable 国会端点，返回映射后的内部记录。
+    ⚠️ FMP 免费档只允许 page 0、且**不能带 limit**（默认返回最近 100 条；
+    显式 limit≥50 或 page≥1 都会 402 Payment Required）。100 条最近披露足够覆盖 14 天窗口。"""
+    url = f"{FMP_BASE}/{endpoint}?page=0&apikey={FMP_API_KEY}"
+    r = requests.get(url, timeout=45, headers={"User-Agent": "daily-brief-congress"})
+    r.raise_for_status()
+    chunk = r.json()
+    if not isinstance(chunk, list):
+        return []
+    return [_fmp_map(x) for x in chunk]
 
 
 def fetch_house_trades() -> list:
