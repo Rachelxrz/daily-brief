@@ -100,10 +100,10 @@ def clean_html(raw: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text[:280] + "…" if len(text) > 280 else text
 
-RECENT_WINDOW_DAYS = 3   # 收录最近 3 天的文章（原来只收当天，周末/慢新闻日凑不满每类10条）
+RECENT_WINDOW_DAYS = 0   # 仅收「当天」文章（Rachel 指定：必须当天 + 每类10条 + 去重）
 
 def is_today(entry) -> bool:
-    """Check if feed entry was published within the last RECENT_WINDOW_DAYS (Asia/Shanghai)."""
+    """Check if feed entry was published today (Asia/Shanghai timezone)."""
     tz_cst = timezone(timedelta(hours=8))
     cutoff = (datetime.now(tz_cst) - timedelta(days=RECENT_WINDOW_DAYS)).date()
 
@@ -115,7 +115,7 @@ def is_today(entry) -> bool:
                 return dt.date() >= cutoff
             except Exception:
                 pass
-    return True  # fallback: include if no date
+    return False  # 无日期的条目不再兜底计入（要求严格当天）
 
 def fetch_feed(source: dict, max_items: int = 5) -> list:
     """Fetch and parse a single RSS feed."""
