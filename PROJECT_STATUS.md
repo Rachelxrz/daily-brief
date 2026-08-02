@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-08-03 05:56 CST
+**自动刷新时间**：2026-08-03 06:06 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,7 +26,8 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `5790bc5` 2026-08-02 — feat: 国会源切FMP+过期横幅 + 微信只推简报&均线信号
+- `c0eb00b` 2026-08-02 — fix(congress): FMP 免费档只允许 page0 无 limit(修 402→回退旧镜像)
+- `728fc61` 2026-08-02 — congress_tracker 2026-08-02
 
 <!-- AUTO:END -->
 
