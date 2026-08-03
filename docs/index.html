@@ -1220,8 +1220,16 @@ function renderAnalysts(day) {
     ['📈 市场策略 · Strategy', ['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz']],
   ];
   const byName = {}; a.groups.forEach(g => { byName[g.name] = g; });
+  const runDate = (a.updated || '').slice(0, 10);   // 本次运行日期 YYYY-MM-DD
   function renderAnalystRecs(g) {
-    let h = `<h3 style="margin:0.7rem 0 0.2rem">${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span></h3>`;
+    // 最近一条观点的抓取日 < 本次运行日 → 本次无新表态,加标注
+    const ds = (g.records || []).map(r => r.date).filter(Boolean).sort();
+    const maxD = ds[ds.length - 1];
+    const stale = maxD && runDate && maxD < runDate;
+    const staleTag = stale
+      ? ` <span style="color:var(--muted);font-size:0.72rem;font-weight:400">· 🕐 ${t('无新表态，观点未更新（最近 '+escHtml(maxD)+'）', 'no new statement — view unchanged (last '+escHtml(maxD)+')')}</span>`
+      : '';
+    let h = `<h3 style="margin:0.7rem 0 0.2rem">${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span>${staleTag}</h3>`;
     for (const r of (g.records || [])) {
       const due = r.check_date && r.check_date <= today;
       h += '<div class="analyst-row"><div>';
