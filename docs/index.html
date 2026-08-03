@@ -1302,10 +1302,13 @@ function renderMaSignal(day) {
     for (const x of recent) {
       const col = sigColor[x.type] || 'var(--muted)';
       const lab = sigCn[x.type] || x.type;
+      const prev = (x.prev_type && x.prev_date)
+        ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
+        : '';
       html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
             + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
             + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
-            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span></span>`;
+            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}</span>`;
     }
     html += '</div>';
   } else {

@@ -436,15 +436,18 @@ def build_recent(rows: list, today: str, days: int = RECENT_DAYS) -> list:
         if not hist:
             continue
         last = hist[0]                       # 最新在前
+        prev = hist[1] if len(hist) > 1 else None   # 上一次信号
         gap = _days_between(last.get("date", ""), today)
         if gap is not None and 0 <= gap <= days:
             recent.append({
-                "ticker": r["ticker"],
-                "type":   last["type"],
-                "date":   last["date"],
-                "tf":     r.get("tf", ""),
-                "price":  r.get("price"),
-                "signal": r.get("signal"),   # 当前状态（可能已回到无信号）
+                "ticker":    r["ticker"],
+                "type":      last["type"],
+                "date":      last["date"],
+                "tf":        r.get("tf", ""),
+                "price":     r.get("price"),
+                "signal":    r.get("signal"),   # 当前状态（可能已回到无信号）
+                "prev_type": prev["type"] if prev else None,   # 上次信号类型
+                "prev_date": prev["date"] if prev else None,   # 上次信号时间
             })
     recent.sort(key=lambda x: (x["type"] != "BUY", x["date"]), reverse=False)
     recent.sort(key=lambda x: x["date"], reverse=True)
@@ -502,7 +505,10 @@ def push_wechat(recent: list, today: str, counts: dict):
     if recent:
         lines.append(f"📢 近 {RECENT_DAYS} 天买卖翻转（{len(recent)}）：")
         for x in recent:
-            lines.append(f"- {x['ticker']} {lab.get(x['type'], x['type'])} @{x['date']} [{x.get('tf','')}]")
+            line = f"- {x['ticker']} {lab.get(x['type'], x['type'])} @{x['date']} [{x.get('tf','')}]"
+            if x.get('prev_type') and x.get('prev_date'):
+                line += f"（上次 {lab.get(x['prev_type'], x['prev_type'])} @{x['prev_date']}）"
+            lines.append(line)
     else:
         lines.append(f"📢 近 {RECENT_DAYS} 天无新的买卖翻转。")
     lines += ["", "规则：买入=MA20>MA50 且 ST(10,4)↑；减半=死叉；清仓=跌破 MA150。仅供参考，不构成投资建议。"]
