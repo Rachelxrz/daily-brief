@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-08-04 01:02 CST
+**自动刷新时间**：2026-08-04 05:38 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,7 +26,9 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `c3cd689` 2026-08-03 — macro_gate intraday refresh 2026-08-03 16:19Z
+- `cb9d2cc` 2026-08-03 — ui(analysts): 分析师按类别分组,宏观+AI置顶
+- `37dd000` 2026-08-03 — macro_gate intraday refresh 2026-08-03 20:24Z
+- `879b1c9` 2026-08-03 — macro_gate intraday refresh 2026-08-03 18:48Z
 
 <!-- AUTO:END -->
 
