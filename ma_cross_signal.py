@@ -56,9 +56,24 @@ ST_PERIOD     = 10
 ST_MULTIPLIER = 4.0
 MA_FAST = 20
 MA_SLOW = 50
-MA_LONG = 150      # 150 均线地板（策略1：跌破即清仓）
+MA_LONG = 150      # 150 均线地板
 KEEP_SIGNALS = 2   # 每只标的保留最近 2 条信号历史
 RECENT_DAYS  = 7   # 「近一周买卖」窗口
+
+# 策略C(闸门融合,回测最优阈值≈3):跌破MA150 时,只有市场结构红灯≥3(确认崩盘体制)才清仓;
+# 否则继续持有,等 MA50<MA150 再清。红灯数 = macro_gate 六因子(市场级,当日一个数)。
+C_RED_THRESHOLD = 3
+GATE_VOTES = None   # 当日市场结构红灯数(0-6),run() 里算一次;None=取不到,C 回退旧策略
+
+
+def _compute_gate_votes():
+    """调 macro_gate 算当日六因子红灯数;失败返回 None(C 退回旧策略)。"""
+    try:
+        import macro_gate
+        return int(macro_gate.compute().get("votes"))
+    except Exception as e:
+        log.warning(f"⚠️ 市场结构红灯数取用失败，策略C 回退旧策略：{e}")
+        return None
 
 # 从均线信号中排除（不影响 watchlist.json 里的真实持仓/其他模块）。
 # WTI：yfinance 的 WTI 是 W&T Offshore（小盘油气股）而非原油，信号会误导，故剔除。
@@ -205,8 +220,11 @@ def _compute(ticker: str, bars: dict) -> dict:
     st_value = st.get("value")
     st_bars  = st.get("bars_since_flip")
 
-    # 优先级（风险优先）：SELL_ALL > SELL_HALF > BUY > NEUTRAL
-    if ma150 is not None and last_close < ma150:
+    below150 = ma150 is not None and last_close < ma150
+    ma_cross = ma150 is not None and ma50 < ma150      # MA50 < MA150
+
+    # 旧策略(A)：SELL_ALL > SELL_HALF > BUY > NEUTRAL；跌破150即清仓
+    if below150:
         signal = "SELL_ALL"                                   # 跌破150均线 → 清仓
     elif ma20 < ma50 and st_dir == "DOWN":
         signal = "SELL_HALF"                                  # 死叉 → 减半
@@ -214,6 +232,20 @@ def _compute(ticker: str, bars: dict) -> dict:
         signal = "BUY"                                        # 全仓买入
     else:
         signal = "NEUTRAL"
+
+    # 策略C(闸门融合)：MA50<MA150 全清；或 跌破150 且 红灯≥3 全清；否则跌破150也继续持有
+    votes = GATE_VOTES
+    clear_c = ma_cross or (below150 and (votes is None or votes >= C_RED_THRESHOLD))
+    if clear_c:
+        signal_c = "SELL_ALL"
+    elif ma20 < ma50 and st_dir == "DOWN":
+        signal_c = "SELL_HALF"
+    elif ma20 > ma50 and st_dir == "UP" and not below150:
+        signal_c = "BUY"
+    elif below150:
+        signal_c = "HOLD"                                     # 跌破150但闸门未确认崩盘 → 持有（与旧策略分歧）
+    else:
+        signal_c = "NEUTRAL"
 
     return {
         "ticker":     ticker,
@@ -224,12 +256,14 @@ def _compute(ticker: str, bars: dict) -> dict:
         "ma20":       ma20,
         "ma50":       ma50,
         "ma150":      ma150,
-        "below_ma150": (ma150 is not None and last_close < ma150),
+        "below_ma150": below150,
+        "ma50_below_ma150": ma_cross,
         "ma_gap_pct": ma_gap_pct,
         "st_dir":     st_dir,
         "st_value":   st_value,
         "st_bars":    st_bars,
         "signal":     signal,
+        "signal_c":   signal_c,
     }
 
 
@@ -445,7 +479,9 @@ def build_recent(rows: list, today: str, days: int = RECENT_DAYS) -> list:
                 "date":      last["date"],
                 "tf":        r.get("tf", ""),
                 "price":     r.get("price"),
-                "signal":    r.get("signal"),   # 当前状态（可能已回到无信号）
+                "signal":    r.get("signal"),   # 当前状态（旧策略A）
+                "signal_c":  r.get("signal_c"), # 策略C 当前建议
+                "below_ma150": r.get("below_ma150"),
                 "prev_type": prev["type"] if prev else None,   # 上次信号类型
                 "prev_date": prev["date"] if prev else None,   # 上次信号时间
             })
@@ -476,6 +512,8 @@ def save_web(rows: list, today: str, recent: list):
         "counts":  counts,
         "recent":  recent,
         "recent_days": RECENT_DAYS,
+        "gate_votes": GATE_VOTES,          # 当日市场结构红灯数(0-6),供策略C
+        "c_threshold": C_RED_THRESHOLD,    # 红灯≥此值,跌破150MA才清仓
         "tickers": rows,
     }
 
@@ -486,8 +524,8 @@ def save_web(rows: list, today: str, recent: list):
 
     DOCS_DIR.mkdir(exist_ok=True)
     DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    log.info(f"💾 ma_signal 已写入 data.json：{today}  BUY={counts['buy']} SELL={counts['sell']} "
-             f"NEUTRAL={counts['neutral']} NO_DATA={counts['no_data']}")
+    log.info(f"💾 ma_signal 已写入 data.json：{today}  BUY={counts['buy']} 减半={counts['sell_half']} "
+             f"清仓={counts['sell_all']} 无信号={counts['neutral']}  红灯={GATE_VOTES}")
 
 
 def push_wechat(recent: list, today: str, counts: dict):
@@ -498,8 +536,10 @@ def push_wechat(recent: list, today: str, counts: dict):
     except Exception as e:
         log.warning(f"⚠️ 无法导入推送模块，跳过微信推送：{e}")
         return
-    lab = {"BUY": "🟢买入", "SELL_HALF": "🟠减半", "SELL_ALL": "🔴清仓"}
+    lab = {"BUY": "🟢买入", "SELL_HALF": "🟠减半", "SELL_ALL": "🔴清仓", "HOLD": "🟡持有", "NEUTRAL": "⚪无信号"}
+    vtxt = f"{GATE_VOTES}/6" if GATE_VOTES is not None else "取用失败"
     lines = [f"# 🔀 均线信号 {today}",
+             f"🚦 市场结构红灯 {vtxt}（策略C：跌破150MA 时红灯≥{C_RED_THRESHOLD} 才清仓，否则持有）",
              f"🟢买入 {counts.get('buy',0)} · 🟠减半 {counts.get('sell_half',0)} · "
              f"🔴清仓 {counts.get('sell_all',0)} · ⚪无信号 {counts.get('neutral',0)}", ""]
     if recent:
@@ -508,6 +548,10 @@ def push_wechat(recent: list, today: str, counts: dict):
             line = f"- {x['ticker']} {lab.get(x['type'], x['type'])} @{x['date']} [{x.get('tf','')}]"
             if x.get('prev_type') and x.get('prev_date'):
                 line += f"（上次 {lab.get(x['prev_type'], x['prev_type'])} @{x['prev_date']}）"
+            # 策略C 建议与旧策略不同时,标出(尤其"旧清仓 vs C持有")
+            sc = x.get('signal_c')
+            if sc and sc != x.get('type'):
+                line += f" → 策略C：{lab.get(sc, sc)}"
             lines.append(line)
     else:
         lines.append(f"📢 近 {RECENT_DAYS} 天无新的买卖翻转。")
@@ -524,12 +568,16 @@ def push_wechat(recent: list, today: str, counts: dict):
 
 
 def run(dry_run: bool = False):
+    global GATE_VOTES
     today = _today_et()
     cache = load_etf_cache()
     tickers = load_tickers()
     log.info("=" * 60)
     log.info(f"🔀 均线×Supertrend 信号  {today}  ({len(tickers)} 只)")
     log.info("=" * 60)
+
+    GATE_VOTES = _compute_gate_votes()      # 当日市场结构红灯数(策略C用),算一次供所有标的
+    log.info(f"🚦 市场结构红灯数 = {GATE_VOTES}/6（策略C：跌破150MA 时红灯≥{C_RED_THRESHOLD} 才清仓）")
 
     hist = load_history()
     rows = []

@@ -1273,9 +1273,9 @@ function renderMaSignal(day) {
   // 四态信号（策略1）：BUY 全仓 / SELL_HALF 死叉减半 / SELL_ALL 跌破150清仓 / NEUTRAL。SELL 为旧格式兼容。
   const _en = currentNewsLang === 'en';
   const sigCn = _en
-    ? { BUY: '🟢 Buy', SELL_HALF: '🟠 Trim ½', SELL_ALL: '🔴 Exit', SELL: '🔴 Sell', NEUTRAL: '⚪ None', NO_DATA: '— No data' }
-    : { BUY: '🟢 买入', SELL_HALF: '🟠 减半', SELL_ALL: '🔴 清仓', SELL: '🔴 卖出', NEUTRAL: '⚪ 无信号', NO_DATA: '— 数据不足' };
-  const sigColor = { BUY: 'var(--green)', SELL_HALF: 'var(--amber)', SELL_ALL: 'var(--red)', SELL: 'var(--red)', NEUTRAL: 'var(--muted)', NO_DATA: 'var(--muted)' };
+    ? { BUY: '🟢 Buy', SELL_HALF: '🟠 Trim ½', SELL_ALL: '🔴 Exit', SELL: '🔴 Sell', HOLD: '🟡 Hold', NEUTRAL: '⚪ None', NO_DATA: '— No data' }
+    : { BUY: '🟢 买入', SELL_HALF: '🟠 减半', SELL_ALL: '🔴 清仓', SELL: '🔴 卖出', HOLD: '🟡 持有', NEUTRAL: '⚪ 无信号', NO_DATA: '— 数据不足' };
+  const sigColor = { BUY: 'var(--green)', SELL_HALF: 'var(--amber)', SELL_ALL: 'var(--red)', SELL: 'var(--red)', HOLD: 'var(--gold)', NEUTRAL: 'var(--muted)', NO_DATA: 'var(--muted)' };
   const histLab = _en
     ? { BUY: '🟢Buy', SELL_HALF: '🟠½', SELL_ALL: '🔴Exit', SELL: '🔴Sell' }
     : { BUY: '🟢买', SELL_HALF: '🟠减半', SELL_ALL: '🔴清仓', SELL: '🔴卖' };
@@ -1293,6 +1293,17 @@ function renderMaSignal(day) {
         + `<span style="color:var(--red)">${t('清仓', 'Exit')} ${c.sell_all||0}</span> · `
         + `${t('无信号', 'None')} ${c.neutral||0}${c.no_data ? ' · ' + t('数据不足', 'No data') + ' ' + c.no_data : ''}</p>`;
 
+  // 🚦 市场结构红灯数(策略C)
+  const gv = m.gate_votes, cth = m.c_threshold || 3;
+  if (gv != null) {
+    const gcol = gv >= cth ? 'var(--red)' : gv >= 1 ? 'var(--amber)' : 'var(--green)';
+    html += `<div style="border:1px solid var(--border);border-left:4px solid ${gcol};border-radius:8px;padding:8px 12px;margin:0.3rem 0 0.6rem;font-size:0.9rem">`
+          + `🚦 ${t('市场结构红灯','Market-structure red lights')} <b style="color:${gcol}">${gv}/6</b> — `
+          + t(`策略C：价格跌破 MA150 时，红灯 ≥${cth} 才清仓；否则继续持有，等 MA50<MA150 再清。`,
+              `Strategy C: when price is below MA150, only sell if red lights ≥${cth}; otherwise hold until MA50<MA150.`)
+          + `</div>`;
+  }
+
   // 📢 近一周买卖信号
   const recent = m.recent || [];
   const rdays = m.recent_days || 7;
@@ -1305,10 +1316,15 @@ function renderMaSignal(day) {
       const prev = (x.prev_type && x.prev_date)
         ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
         : '';
+      // 策略C 建议(与旧策略不同时高亮)
+      const cCol = sigColor[x.signal_c] || 'var(--muted)';
+      const cRec = (x.signal_c && x.signal_c !== x.type)
+        ? `<br><span style="font-size:0.82rem">→ ${t('策略C','Strategy C')}：<b style="color:${cCol}">${sigCn[x.signal_c]||x.signal_c}</b></span>`
+        : '';
       html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
             + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
             + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
-            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}</span>`;
+            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}${cRec}</span>`;
     }
     html += '</div>';
   } else {
@@ -1362,12 +1378,18 @@ function renderMaSignal(day) {
           + '</tr>';
   }
   html += '</tbody></table></div>';
-  const noteCN = '<b>策略1 分级卖出</b>：🟢买入=MA20&gt;MA50 且 ST↑（全仓）；🟠减半=MA20&lt;MA50 且 ST↓（死叉）；'
-        + '🔴清仓=收盘跌破 <b>MA150</b>（150均线地板，⚠ 标红）。优先级 清仓&gt;减半&gt;买入。'
-        + '周期：ETF 用<b>周线</b>，个股与杠杆 ETF（USD/SOXL）用<b>日线</b>。⚠️ 仅供参考，不构成投资建议。';
-  const noteEN = '<b>Strategy 1 tiered exit</b>: 🟢Buy = MA20&gt;MA50 &amp; ST↑ (full); 🟠Trim ½ = MA20&lt;MA50 &amp; ST↓ (death cross); '
-        + '🔴Exit = close below <b>MA150</b> (⚠ flagged red). Priority Exit&gt;Trim&gt;Buy. '
-        + 'ETF uses <b>weekly</b>, stocks &amp; leveraged ETFs (USD/SOXL) use <b>daily</b>. ⚠️ For reference only, not investment advice.';
+  const noteCN = '<b>信号规则</b>：🟢买入=MA20&gt;MA50 且 ST(10,4)↑（全仓）；🟠减半=MA20&lt;MA50 且 ST↓（死叉，卖一半）。<br>'
+        + '<b>清仓两套口径</b>：<b>旧策略(A)</b> 收盘跌破 <b>MA150</b> 即清仓；'
+        + '<b>策略C(闸门融合·回测更优)</b> = <b>MA50&lt;MA150</b> 清仓，或 收盘&lt;MA150 <b>且</b> 市场结构红灯 ≥3（确认崩盘）清仓——'
+        + '若跌破 MA150 但红灯 &lt;3 只是噪音回调，<b>🟡 继续持有</b>，等 MA50 跌破 MA150 再清。<br>'
+        + '所以近7天里看到"旧🔴清仓 → 策略C🟡持有"，意思是价格虽破150线、但宏观没确认崩盘，C 建议扛住。'
+        + '红灯数来自「结构监控」页六因子闸门(0-6)。ETF 用<b>周线</b>，个股/杠杆ETF 用<b>日线</b>。⚠️ 仅供参考，不构成投资建议。';
+  const noteEN = '<b>Signals</b>: 🟢Buy = MA20&gt;MA50 &amp; ST(10,4)↑ (full); 🟠Trim ½ = MA20&lt;MA50 &amp; ST↓ (death cross).<br>'
+        + '<b>Two exit rules</b>: <b>Old (A)</b> = sell all once close &lt; <b>MA150</b>. '
+        + '<b>Strategy C (regime hybrid, better in backtest)</b> = sell all when <b>MA50&lt;MA150</b>, OR close&lt;MA150 <b>and</b> red-lights ≥3; '
+        + 'if below MA150 but red-lights &lt;3, it is just noise → <b>🟡 Hold</b> until MA50&lt;MA150.<br>'
+        + '"Old 🔴Exit → C 🟡Hold" means price is below MA150 but the macro gate has not confirmed a crash. '
+        + 'Red-lights from the 6-factor gate on the Structure page. ETF weekly, stocks/leveraged daily. ⚠️ Not investment advice.';
   html += `<p style="color:var(--muted);font-size:0.8rem;margin-top:0.6rem">${_en ? noteEN : noteCN}</p>`;
   html += '</div></div>';
   el.innerHTML = html;
