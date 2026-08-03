@@ -1213,53 +1213,45 @@ function renderAnalysts(day) {
   let html = '<div class="report-card"><div class="report-card-body"><div class="md">';
   html += '<h1>🎯 分析师观点</h1>';
   html += `<p style="color:var(--muted)">首席策略师观点 + 可验证检查点 · 留存近三个月 · ${escHtml(a.updated || '')}</p>`;
-  // 按类别分组:宏观、AI·科技、市场策略(前两组置顶,方便找新增的宏观/AI分析师)
-  const CATS = [
-    ['📊 宏观经济 · Macro', ['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic']],
-    ['🤖 AI · 科技产业 · AI & Tech', ['Dan Ives','Stacy Rasgon','Gene Munster']],
-    ['📈 市场策略 · Strategy', ['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz']],
-  ];
-  const byName = {}; a.groups.forEach(g => { byName[g.name] = g; });
-  const runDate = (a.updated || '').slice(0, 10);   // 本次运行日期 YYYY-MM-DD
-  function renderAnalystRecs(g) {
-    // 最近一条观点的抓取日 < 本次运行日 → 本次无新表态,加标注
-    const ds = (g.records || []).map(r => r.date).filter(Boolean).sort();
-    const maxD = ds[ds.length - 1];
+  // 分析师类型标注
+  const TYPE = {};
+  const setType = (names, l, c) => names.forEach(n => TYPE[n] = { l, c });
+  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic'], t('宏观','Macro'), 'var(--blue)');
+  setType(['Dan Ives','Stacy Rasgon','Gene Munster'], t('AI·科技','AI/Tech'), 'var(--gold)');
+  setType(['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz'], t('策略','Strategy'), 'var(--green)');
+
+  const runDate = (a.updated || '').slice(0, 10);
+  const keyOf = r => (r.date || '0000-00-00') + '/' + (r.stated_at || '0000-00-00');
+  // 扁平化 + 按时间排序(最近发声在前);每位内部记录也按时间倒序
+  const list = a.groups.filter(g => (g.records || []).length).map(g => {
+    const recs = [...g.records].sort((x, y) => keyOf(y).localeCompare(keyOf(x)));
+    return { g, recs, sortKey: keyOf(recs[0]) };
+  }).sort((x, y) => y.sortKey.localeCompare(x.sortKey));
+
+  for (const { g, recs } of list) {
+    const ty = TYPE[g.name] || { l: t('其他','Other'), c: 'var(--muted)' };
+    const badge = `<span style="display:inline-block;background:color-mix(in srgb, ${ty.c} 16%, transparent);color:${ty.c};border:1px solid color-mix(in srgb, ${ty.c} 40%, transparent);border-radius:5px;padding:1px 7px;font-size:0.7rem;font-weight:500;margin-right:6px;vertical-align:middle">${ty.l}</span>`;
+    const maxD = recs[0].date || '';
     const stale = maxD && runDate && maxD < runDate;
-    const staleTag = stale
-      ? ` <span style="color:var(--muted);font-size:0.72rem;font-weight:400">· 🕐 ${t('无新表态，观点未更新（最近 '+escHtml(maxD)+'）', 'no new statement — view unchanged (last '+escHtml(maxD)+')')}</span>`
-      : '';
-    let h = `<h3 style="margin:0.7rem 0 0.2rem">${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span>${staleTag}</h3>`;
-    for (const r of (g.records || [])) {
+    const staleTag = stale ? ` <span style="color:var(--muted);font-size:0.72rem;font-weight:400">· 🕐 ${t('无新表态（最近 '+escHtml(maxD)+'）', 'no new statement (last '+escHtml(maxD)+')')}</span>` : '';
+    html += `<h3 style="margin:0.9rem 0 0.2rem">${badge}${escHtml(g.name)} <span style="color:var(--muted);font-weight:400">· ${escHtml(g.firm || '')}</span>${staleTag}</h3>`;
+    for (const r of recs) {
       const due = r.check_date && r.check_date <= today;
-      h += '<div class="analyst-row"><div>';
-      h += `<div class="analyst-said">发言日 ${escHtml(r.stated_at || '')}</div>`;
-      h += `<div class="analyst-view">${escHtml(r.view_cn || '')}</div>`;
+      html += '<div class="analyst-row"><div>';
+      html += `<div class="analyst-said">发言日 ${escHtml(r.stated_at || '')}</div>`;
+      html += `<div class="analyst-view">${escHtml(r.view_cn || '')}</div>`;
       if (r.sources && r.sources.length) {
-        h += '<div class="analyst-src">来源：' + r.sources.map(s => s.url
+        html += '<div class="analyst-src">来源：' + r.sources.map(s => s.url
           ? `<a href="${escHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escHtml(s.source || '原文')}</a>`
           : escHtml(s.source || '')).join(' · ') + '</div>';
       }
-      h += '</div><div class="analyst-test">';
-      h += `<div class="analyst-test-label">${due ? '⏰ 检查点已到' : '待验证'}</div>`;
-      h += `<div class="analyst-test-item">⏱ 测试时间：<b>${escHtml(r.check_date || '—')}</b></div>`;
-      h += `<div class="analyst-test-item">🎯 测试标的：<b>${escHtml(r.ticker || '—')}</b></div>`;
-      h += `<div class="analyst-test-item">✔ 测试内容：<b>${escHtml(r.check || '—')}</b></div>`;
-      h += '</div></div>';
+      html += '</div><div class="analyst-test">';
+      html += `<div class="analyst-test-label">${due ? '⏰ 检查点已到' : '待验证'}</div>`;
+      html += `<div class="analyst-test-item">⏱ 测试时间：<b>${escHtml(r.check_date || '—')}</b></div>`;
+      html += `<div class="analyst-test-item">🎯 测试标的：<b>${escHtml(r.ticker || '—')}</b></div>`;
+      html += `<div class="analyst-test-item">✔ 测试内容：<b>${escHtml(r.check || '—')}</b></div>`;
+      html += '</div></div>';
     }
-    return h;
-  }
-  const seen = new Set();
-  for (const [catLabel, names] of CATS) {
-    const members = names.map(n => byName[n]).filter(g => g && (g.records || []).length);
-    if (!members.length) continue;
-    html += `<h2 style="border-left:4px solid var(--gold);padding-left:0.6rem;margin-top:1.3rem">${catLabel} <span style="color:var(--muted);font-size:0.75rem;font-weight:400">${members.length}</span></h2>`;
-    for (const g of members) { seen.add(g.name); html += renderAnalystRecs(g); }
-  }
-  const rest = a.groups.filter(g => !seen.has(g.name) && (g.records || []).length);
-  if (rest.length) {
-    html += `<h2 style="border-left:4px solid var(--muted);padding-left:0.6rem;margin-top:1.3rem">其他 · Other</h2>`;
-    for (const g of rest) html += renderAnalystRecs(g);
   }
   html += '</div></div></div>';
   el.innerHTML = html;
