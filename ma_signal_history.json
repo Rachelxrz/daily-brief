@@ -184,17 +184,8 @@
     ]
   },
   "CIEN": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-07-21",
-        "price": 408.73,
-        "ma20": 441.01,
-        "ma50": 493.39,
-        "ma150": 394.64,
-        "st_value": 501.83
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-24",
@@ -203,21 +194,21 @@
         "ma50": 483.17,
         "ma150": 398.32,
         "st_value": 501.83
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-04",
+        "price": 411.13,
+        "ma20": 401.52,
+        "ma50": 456.71,
+        "ma150": 405.02,
+        "st_value": 457.16
       }
     ]
   },
   "COHR": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-07-20",
-        "price": 285.4,
-        "ma20": 342.54,
-        "ma50": 364.26,
-        "ma150": 283.77,
-        "st_value": 386.33
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-24",
@@ -226,6 +217,15 @@
         "ma50": 360.6,
         "ma150": 287.07,
         "st_value": 386.33
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-04",
+        "price": 323.73,
+        "ma20": 290.59,
+        "ma50": 344.93,
+        "ma150": 290.82,
+        "st_value": 346.43
       }
     ]
   },
@@ -460,7 +460,7 @@
     ]
   },
   "PLTR": {
-    "last_state": "SELL_ALL",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL_ALL",
@@ -483,7 +483,7 @@
     ]
   },
   "PWR": {
-    "last_state": "SELL_HALF",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL_ALL",
@@ -782,17 +782,8 @@
     ]
   },
   "GLW": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "BUY",
-        "date": "2026-04-08",
-        "price": 164.85,
-        "ma20": 137.12,
-        "ma50": 132.8,
-        "ma150": 100.64,
-        "st_value": 120.29
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-24",
@@ -801,6 +792,15 @@
         "ma50": 188.3,
         "ma150": 149.88,
         "st_value": 208.13
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-04",
+        "price": 159.89,
+        "ma20": 158.56,
+        "ma50": 181.14,
+        "ma150": 152.27,
+        "st_value": 182.04
       }
     ]
   },
@@ -1081,7 +1081,7 @@
     ]
   },
   "AEHR": {
-    "last_state": "SELL_HALF",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "BUY",
@@ -1127,17 +1127,8 @@
     ]
   },
   "AMZN": {
-    "last_state": "NEUTRAL",
+    "last_state": "BUY",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-06-29",
-        "price": 240.14,
-        "ma20": 242.5,
-        "ma50": 255.94,
-        "ma150": 234.36,
-        "st_value": 261.65
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-23",
@@ -1146,6 +1137,15 @@
         "ma50": 249.9,
         "ma150": 236.3,
         "st_value": 261.65
+      },
+      {
+        "type": "BUY",
+        "date": "2026-08-04",
+        "price": 277.42,
+        "ma20": 247.42,
+        "ma50": 247.19,
+        "ma150": 237.41,
+        "st_value": 239.02
       }
     ]
   },
@@ -1817,17 +1817,8 @@
     ]
   },
   "SOXL": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-07-20",
-        "price": 136.81,
-        "ma20": 198.7,
-        "ma50": 204.45,
-        "ma150": 112.06,
-        "st_value": 263.9
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-28",
@@ -1836,6 +1827,15 @@
         "ma50": 200.23,
         "ma150": 116.09,
         "st_value": 219.48
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-04",
+        "price": 139.9,
+        "ma20": 145.57,
+        "ma50": 195.41,
+        "ma150": 118.5,
+        "st_value": 210.67
       }
     ]
   },
