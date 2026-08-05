@@ -460,17 +460,8 @@
     ]
   },
   "PLTR": {
-    "last_state": "NEUTRAL",
+    "last_state": "BUY",
     "signals": [
-      {
-        "type": "SELL_ALL",
-        "date": "2026-01-20",
-        "price": 168.53,
-        "ma20": 180.91,
-        "ma50": 177.82,
-        "ma150": 169.76,
-        "st_value": 195.84
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-06-02",
@@ -479,6 +470,15 @@
         "ma50": 141.92,
         "ma150": 158.11,
         "st_value": 132.28
+      },
+      {
+        "type": "BUY",
+        "date": "2026-08-05",
+        "price": 158.43,
+        "ma20": 131.43,
+        "ma50": 131.42,
+        "ma150": 142.84,
+        "st_value": 125.12
       }
     ]
   },
@@ -506,17 +506,8 @@
     ]
   },
   "VRT": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-06-15",
-        "price": 311.93,
-        "ma20": 314.94,
-        "ma50": 318.51,
-        "ma150": 241.91,
-        "st_value": 363.31
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-29",
@@ -525,6 +516,15 @@
         "ma50": 309.58,
         "ma150": 268.8,
         "st_value": 324.15
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-05",
+        "price": 277.94,
+        "ma20": 284.62,
+        "ma50": 302.61,
+        "ma150": 271.79,
+        "st_value": 320.63
       }
     ]
   },
@@ -736,17 +736,8 @@
     ]
   },
   "ETN": {
-    "last_state": "SELL_HALF",
+    "last_state": "BUY",
     "signals": [
-      {
-        "type": "SELL_ALL",
-        "date": "2026-07-29",
-        "price": 361.88,
-        "ma20": 401.87,
-        "ma50": 402.46,
-        "ma150": 378.98,
-        "st_value": 445.11
-      },
       {
         "type": "SELL_HALF",
         "date": "2026-07-30",
@@ -755,6 +746,15 @@
         "ma50": 402.57,
         "ma150": 379.43,
         "st_value": 445.11
+      },
+      {
+        "type": "BUY",
+        "date": "2026-08-05",
+        "price": 447.28,
+        "ma20": 407.51,
+        "ma50": 406.99,
+        "ma150": 382.52,
+        "st_value": 369.17
       }
     ]
   },
@@ -1311,7 +1311,7 @@
     ]
   },
   "GDX": {
-    "last_state": "SELL_HALF",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "BUY",
