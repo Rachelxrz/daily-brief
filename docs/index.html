@@ -1304,6 +1304,23 @@ function renderMaSignal(day) {
           + `</div>`;
   }
 
+  // 🔀 策略C 与旧策略分歧(全部标的,不限7天)——最有价值:旧清仓 vs C减半/持有
+  const diverge = (m.tickers || []).filter(r => r.signal_c && r.signal && r.signal_c !== r.signal && r.signal !== 'NO_DATA');
+  if (diverge.length) {
+    html += `<h2 style="margin-top:0.5rem">🔀 ${t('策略C 与旧策略分歧','Strategy C differs from old')}（${diverge.length}）</h2>`;
+    html += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
+          + t('这些标的旧策略与C不同（多为：价格已跌破150MA、旧策略🔴清仓，但 MA50 未跌破 150 或红灯<3，C 建议先减半/持有，别急着清）',
+              'Old strategy vs C differs here (usually: price already below MA150 → old 🔴Exit, but MA50 still above 150 or red-lights<3 → C suggests Trim/Hold instead)')
+          + `</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0.4rem">`;
+    for (const r of diverge) {
+      html += `<span style="border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:0.9rem">`
+            + `<b>${escHtml(r.ticker)}</b> `
+            + `<span style="color:${sigColor[r.signal]||'var(--muted)'}">${sigCn[r.signal]||r.signal}</span> → `
+            + `<b style="color:${sigColor[r.signal_c]||'var(--muted)'}">${sigCn[r.signal_c]||r.signal_c}</b></span>`;
+    }
+    html += `</div>`;
+  }
+
   // 📢 近一周买卖信号
   const recent = m.recent || [];
   const rdays = m.recent_days || 7;
@@ -1316,9 +1333,9 @@ function renderMaSignal(day) {
       const prev = (x.prev_type && x.prev_date)
         ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
         : '';
-      // 策略C 建议(与旧策略不同时高亮)
+      // 策略C 建议(与当前旧信号不同时高亮)
       const cCol = sigColor[x.signal_c] || 'var(--muted)';
-      const cRec = (x.signal_c && x.signal_c !== x.type)
+      const cRec = (x.signal_c && x.signal && x.signal_c !== x.signal)
         ? `<br><span style="font-size:0.82rem">→ ${t('策略C','Strategy C')}：<b style="color:${cCol}">${sigCn[x.signal_c]||x.signal_c}</b></span>`
         : '';
       html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
