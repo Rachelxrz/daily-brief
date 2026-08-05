@@ -357,6 +357,9 @@ jobs:
       - name: Run QQQ 六因子宏观闸门
         run: python macro_gate.py
         continue-on-error: true
+      - name: Run 板块强弱·资金流向面板
+        run: python sector_board.py
+        continue-on-error: true
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"

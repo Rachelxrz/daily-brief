@@ -1132,6 +1132,45 @@ function renderMacroGate(g) {
     + `</div></div></div>`;
 }
 
+// 📊 板块强弱 · 资金流向面板（真实价格：今日/3月/YTD + 相对大盘推算流入流出）
+function renderSectorBoard(sb) {
+  if (!sb || !Array.isArray(sb.sectors) || !sb.sectors.length) return '';
+  const en = currentNewsLang === 'en';
+  const flowTone = { green: 'var(--green)', red: 'var(--red)', muted: 'var(--muted)' };
+  const pct = v => {
+    if (v == null) return `<span style="color:var(--muted)">—</span>`;
+    const col = v > 0 ? 'var(--green)' : v < 0 ? 'var(--red)' : 'var(--muted)';
+    return `<span style="color:${col}">${v > 0 ? '+' : ''}${v.toFixed(2)}%</span>`;
+  };
+  const b = sb.benchmark || {};
+  let h = `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-header">`
+        + `<span class="report-card-title">📊 ${t('板块强弱 · 资金流向','Sector Strength · Fund Flow')}</span>`
+        + `<span class="report-card-lang">${escHtml(sb.updated || '')}</span></div><div class="report-card-body">`;
+  h += `<p style="color:var(--muted);font-size:0.82rem;margin:0 0 0.5rem">`
+     + `${t('大盘基准','Benchmark')} <b>SPY</b> — ${t('今日','Today')} ${pct(b.day_pct)} · `
+     + `${t('3个月','3-mo')} ${pct(b.m3_pct)} · ${t('年初至今','YTD')} ${pct(b.ytd_pct)}`
+     + `${b.asof ? ` <span style="font-size:0.75rem">(${t('截至','as of')} ${escHtml(b.asof)})</span>` : ''}</p>`;
+  h += `<div style="overflow-x:auto"><table class="ma-tbl"><thead><tr>`
+     + `<th>${t('板块/资产','Sector/Asset')}</th><th>${t('今日','Today')}</th>`
+     + `<th>${t('3个月','3-mo')}</th><th>${t('年初至今','YTD')}</th>`
+     + `<th>${t('相对大盘(3M)','RS vs SPY (3M)')}</th><th>${t('资金方向','Fund Flow')}</th></tr></thead><tbody>`;
+  for (const r of sb.sectors) {
+    const name = en ? r.en : r.cn;
+    const rsCol = r.rs_m3 == null ? 'var(--muted)' : r.rs_m3 >= 0 ? 'var(--green)' : 'var(--red)';
+    const rsTxt = r.rs_m3 == null ? '—' : `${r.rs_m3 > 0 ? '+' : ''}${r.rs_m3.toFixed(2)}%`;
+    const fl = r.flow || {};
+    h += `<tr><td><b>${escHtml(r.emoji || '')} ${escHtml(r.ticker)}</b> `
+       + `<span style="color:var(--muted);font-size:0.82rem">${escHtml(name || '')}</span></td>`
+       + `<td>${pct(r.day_pct)}</td><td>${pct(r.m3_pct)}</td><td>${pct(r.ytd_pct)}</td>`
+       + `<td style="color:${rsCol}">${rsTxt}</td>`
+       + `<td style="color:${flowTone[fl.tone] || 'var(--muted)'}">${escHtml(fl.icon || '')} ${escHtml(en ? (fl.en || '') : (fl.cn || ''))}</td></tr>`;
+  }
+  h += `</tbody></table></div>`;
+  h += `<p style="color:var(--muted);font-size:0.75rem;margin:0.5rem 0 0">${escHtml(en ? sb.note_en : sb.note_cn)}</p>`;
+  h += `</div></div>`;
+  return h;
+}
+
 function renderMonitor(day) {
   const el = document.getElementById('monitor-content');
   const allDates = Object.keys(allData).sort().reverse();
@@ -1141,13 +1180,17 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].macro_gate) { gate = allData[d].macro_gate; break; } }
   }
   const gateHtml = gate ? renderMacroGate(gate) : '';
+  // 📊 板块强弱面板：结果闸门正下方（当日无则回退到最近一期）
+  let sb = day.sector_board;
+  if (!sb) { for (const d of allDates) { if (allData[d].sector_board) { sb = allData[d].sector_board; break; } } }
+  const boardHtml = renderSectorBoard(sb);
   // 结构监控报告：当日未生成（如 CI 失败）时回退到最近一期，避免整块内容消失
   let mon = day.monitor, monNote = '';
   if (!mon) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = gateHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = gateHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1157,7 +1200,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = gateHtml + monBanner + monCard;
+  el.innerHTML = gateHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
@@ -1333,11 +1376,24 @@ function renderMaSignal(day) {
       const prev = (x.prev_type && x.prev_date)
         ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
         : '';
-      // 策略C 建议(与当前旧信号不同时高亮)
+      // 策略C 建议(与当前旧信号不同时高亮)：说明「红灯 gv<阈值 → C 不清仓，维持上次建议」
       const cCol = sigColor[x.signal_c] || 'var(--muted)';
-      const cRec = (x.signal_c && x.signal && x.signal_c !== x.signal)
-        ? `<br><span style="font-size:0.82rem">→ ${t('策略C','Strategy C')}：<b style="color:${cCol}">${sigCn[x.signal_c]||x.signal_c}</b></span>`
-        : '';
+      let cRec = '';
+      if (x.signal_c && x.signal && x.signal_c !== x.signal) {
+        const cLab = `<b style="color:${cCol}">${sigCn[x.signal_c]||x.signal_c}</b>`;
+        const keep = (x.prev_type && x.prev_date && x.signal_c === x.prev_type);
+        const cnBody = (gv != null)
+          ? (keep
+              ? `红灯 <b>${gv}&lt;${cth}</b>，策略C 维持 ${escHtml(x.prev_date)} 的建议：${cLab}`
+              : `红灯 <b>${gv}&lt;${cth}</b>，策略C 建议：${cLab}`)
+          : `策略C：${cLab}`;
+        const enBody = (gv != null)
+          ? (keep
+              ? `Red lights <b>${gv}&lt;${cth}</b> → Strategy C keeps ${escHtml(x.prev_date)} call: ${cLab}`
+              : `Red lights <b>${gv}&lt;${cth}</b> → Strategy C: ${cLab}`)
+          : `Strategy C: ${cLab}`;
+        cRec = `<br><span style="font-size:0.82rem">→ ${t(cnBody, enBody)}</span>`;
+      }
       html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
             + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
             + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
