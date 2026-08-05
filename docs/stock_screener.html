@@ -146,6 +146,7 @@
 
 <!-- ── Tab B: Screener ── -->
 <div class="tab-panel" id="tab-screener">
+  <div id="screen-criteria" style="font-size:0.68rem;color:#8b949e;margin-bottom:12px;padding:8px 12px;background:#161b22;border:1px solid #30363d;border-radius:8px">筛选条件加载中…</div>
   <div class="etf-bar" id="etf-bar"><div class="loading">加载中...</div></div>
   <div class="sectors-grid" id="sectors-grid"></div>
 </div>
@@ -274,58 +275,63 @@ function renderWatchlist(wl) {
   document.getElementById('wl-table').style.display = 'table';
 }
 
-// ── Screener ───────────────────────────────────
+// ── Screener v4：资金流入板块 强势股 ───────────────
+function rsStr(v) { return v == null ? 'RS —' : 'RS ' + (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+
 function renderScreener(r) {
-  const bar = document.getElementById('etf-bar');
+  // 条件说明
+  const crit = document.getElementById('screen-criteria');
+  if (crit) crit.textContent = r.screen_criteria
+    || '资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增 · 按2月涨幅取前3';
+
+  // 板块强弱条（全部板块，按 RS 降序；绿=资金流入）
+  const bar  = document.getElementById('etf-bar');
+  const flow = r.sector_flow || {};
   bar.innerHTML = '';
-  Object.entries(r.sector_perf || {})
-    .sort((a,b) => b[1].pct - a[1].pct)
-    .forEach(([name, info]) => {
+  Object.entries(flow)
+    .sort((a,b) => (b[1].rs_m3 ?? -999) - (a[1].rs_m3 ?? -999))
+    .forEach(([tk, info]) => {
       bar.innerHTML += `
-        <div class="etf-chip ${info.is_leading ? 'leading' : 'falling'}">
-          <div class="chip-name">${info.emoji||''} ${name}</div>
-          <div class="chip-ticker">${info.etf}</div>
-          <div class="chip-pct ${pCls(info.pct)}">${pStr(info.pct)}</div>
+        <div class="etf-chip ${info.is_inflow ? 'leading' : 'falling'}">
+          <div class="chip-name">${info.emoji||''} ${info.cn||tk}</div>
+          <div class="chip-ticker">${tk}</div>
+          <div class="chip-pct ${pCls(info.rs_m3 ?? 0)}">${rsStr(info.rs_m3)}</div>
         </div>`;
     });
 
-  const grid    = document.getElementById('sectors-grid');
-  const leading = r.leading_sectors || [];
+  // 流入板块个股卡片
+  const grid   = document.getElementById('sectors-grid');
+  const inflow = r.inflow_sectors || [];
   grid.innerHTML = '';
-  if (!leading.length) {
-    grid.innerHTML = '<div class="loading">今日所有板块下跌，无筛选结果</div>';
+  if (!inflow.length) {
+    grid.innerHTML = '<div class="loading">今日无资金流入板块（相对大盘均跑输），无强势股结果</div>';
     return;
   }
 
-  leading.forEach(sName => {
-    const info   = (r.sector_perf||{})[sName] || {};
-    const stocks = (r.results_by_sector||{})[sName] || [];
-    let rows = stocks.length === 0
-      ? `<div class="no-stocks">无股票通过筛选条件</div>`
+  inflow.forEach(tk => {
+    const info   = flow[tk] || {};
+    const stocks = (r.results_by_sector||{})[tk] || [];
+    const rows = stocks.length === 0
+      ? `<div class="no-stocks">无个股满足条件（多头排列 + 逐月递增）</div>`
       : stocks.map((s,i) => {
-          const ma25  = s.pct_above_ma25  != null ? `MA25 +${s.pct_above_ma25.toFixed(1)}%`   : '';
-          const ma50  = s.pct_above_ma50  != null ? `MA50 +${s.pct_above_ma50.toFixed(1)}%`   : '';
-          const ma125 = s.pct_above_ma125 != null ? `MA125 +${s.pct_above_ma125.toFixed(1)}%` : '';
-          const adxPill = s.adx != null ? `<span class="adx-pill">ADX ${s.adx.toFixed(0)}${s.di_plus>s.di_minus?' DI+↑':' DI-↑'}</span>` : '';
-          const stPill  = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
-                        : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
-          const sqzPill = s.sqz_on != null
-            ? (s.sqz_on ? `<span class="badge-sqz">挤压${s.sqz_dir==='up'?' ↑':' ↓'}</span>`
-                        : `<span class="badge-nsqz">${s.sqz_dir==='up'?'↑动':'↓动'}</span>`) : '';
+          const mcap = s.market_cap_b != null ? `<span style="color:#8b949e;font-weight:400;font-size:0.62rem"> ${s.market_cap_b}B</span>` : '';
+          const stPill = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
+                       : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
+          const monTxt = (s.ret_prev_m != null && s.ret_1m != null)
+            ? `月月涨 ${pStr(s.ret_prev_m)}→${pStr(s.ret_1m)}` : '逐月递增';
           return `<div class="stock-row">
             <div class="rank">${RANK[i]||'#'+(i+1)}</div>
             <div class="stock-main">
-              <div class="stock-symbol">${s.symbol}</div>
+              <div class="stock-symbol">${s.symbol}${mcap}</div>
               <div class="stock-metas">
-                ${ma25  ? `<span class="ma-pill">${ma25}</span>`  : ''}
-                ${ma50  ? `<span class="ma-pill">${ma50}</span>`  : ''}
-                ${ma125 ? `<span class="ma-pill">${ma125}</span>` : ''}
-                ${adxPill}${stPill}${sqzPill}
+                <span class="ma-pill">20&gt;50&gt;150MA ✓</span>
+                <span class="ma-pill">${monTxt}</span>
+                ${stPill}
               </div>
             </div>
             <div class="stock-right">
-              <div class="day-chg ${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</div>
-              <div class="stock-price">$${s.price}</div>
+              <div class="day-chg ${pCls(s.ret_2m)}">2月 ${pStr(s.ret_2m)}</div>
+              <div class="stock-price">$${s.price} · 今日 <span class="${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</span></div>
             </div>
           </div>`;
         }).join('');
@@ -333,8 +339,8 @@ function renderScreener(r) {
     grid.innerHTML += `
       <div class="sector-block">
         <div class="sector-header">
-          <div class="sector-title">${info.emoji||''} ${sName}</div>
-          <div class="etf-badge">${info.etf} $${info.price} <span class="${pCls(info.pct)}" style="font-weight:700">${pStr(info.pct)}</span></div>
+          <div class="sector-title">${info.emoji||''} ${info.cn||tk}</div>
+          <div class="etf-badge">${tk} · <span class="${pCls(info.rs_m3 ?? 0)}" style="font-weight:700">${rsStr(info.rs_m3)}</span>${info.m3_pct!=null?` · 3月${pStr(info.m3_pct)}`:''}</div>
         </div>
         ${rows}
       </div>`;

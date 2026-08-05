@@ -24,9 +24,12 @@ import json
 import os
 import requests
 from datetime import datetime
+from pathlib import Path
 import pytz
 import numpy as np
 import pandas as pd
+
+DOCS_DIR = Path(__file__).resolve().parent / "docs"
 
 # ═══════════════════════════════════════════════
 # ★ 模块 B 配置 — 自选股 Watchlist
@@ -42,58 +45,52 @@ WATCHLIST = [
 
 
 # ═══════════════════════════════════════════════
-# 模块 A 配置 — 板块 ETF + 候选股池
+# 模块 A 配置 — 资金流入板块 强势股筛选（v4.0）
 # ═══════════════════════════════════════════════
+#
+# 【新规则】从 sector_board 的「资金流入板块」中，每个板块取前 3 名：
+#   1. 市值 > 2 亿美元（$200M）
+#   2. 20MA > 50MA > 150MA（多头排列）
+#   3. 逐月递增：现价 > 1个月前 > 2个月前（且隐含 2 个月收益为正）
+#   排序：按 2 个月涨幅（动量）降序取前 3。
+#
+# 「资金流入板块」= sector_board 中 flow.tone == 'green'（相对大盘 3 月 RS ≥ 0）。
+# 候选股池 = 各板块 ETF 的代表性成分股（大/中盘）。
 
-SECTORS = {
-    "Energy": {
-        "etf": "XLE", "etf_name": "Energy Select Sector SPDR", "emoji": "⛽",
-        "stocks": ["XOM","CVX","COP","EOG","SLB","PSX","MPC","VLO",
-                   "OXY","HAL","KMI","WMB","LNG","DVN","FANG"],
-    },
-    "Industrials": {
-        "etf": "XLI", "etf_name": "Industrial Select Sector SPDR", "emoji": "🏗️",
-        "stocks": ["GE","CAT","RTX","HON","LMT","UNP","DE","ETN",
-                   "EMR","GEV","GNRC","PWR","URI","FDX","NOC"],
-    },
-    "Utilities": {
-        "etf": "XLU", "etf_name": "Utilities Select Sector SPDR", "emoji": "🔌",
-        "stocks": ["NEE","CEG","SO","DUK","SRE","D","AEP","EXC",
-                   "XEL","PCG","ED","ETR","FE","NRG","VST"],
-    },
-    "Materials": {
-        "etf": "XLB", "etf_name": "Materials Select Sector SPDR", "emoji": "⚗️",
-        "stocks": ["LIN","APD","SHW","FCX","NEM","NUE","VMC","MLM",
-                   "CF","MOS","ALB","PPG","IP","PKG","SON"],
-    },
-    "Consumer Staples": {
-        "etf": "XLP", "etf_name": "Consumer Staples Select Sector SPDR", "emoji": "🛒",
-        "stocks": ["WMT","COST","PG","KO","PEP","PM","MO","MDLZ",
-                   "CL","KHC","GIS","K","HSY","SYY","BG"],
-    },
-    "Gold": {
-        "etf": "GLD", "etf_name": "SPDR Gold Shares", "emoji": "🥇",
-        "stocks": ["NEM","AEM","WPM","GOLD","KGC","AGI","HL","EGO","AU","BTG","OR","IAG"],
-        "relaxed_screener": True,
-    },
-    "Copper": {
-        "etf": "COPX", "etf_name": "Global X Copper Miners ETF", "emoji": "🔶",
-        "stocks": ["FCX","SCCO","TECK","HBM","VALE","BHP","RIO"],
-        "relaxed_screener": True,
-    },
+SCREEN = {
+    "min_market_cap_usd": 200_000_000,   # 2 亿美元
+    "mom_month_days": 21,                 # 1 个月 ≈ 21 交易日
+    "top_per_sector": 3,
+    "min_hist": 155,                      # 需 ≥150 根算 MA150
 }
 
-SCREENER_STRICT = {
-    "min_price": 100, "min_market_cap_b": 15,
-    "min_avg_volume": 300_000, "min_eps": 0.25,
-    "ma_periods": [25, 50, 125], "ma_thresholds": [0.001, 0.002, 0.007],
-    "top_per_sector": 3,
-}
-SCREENER_RELAXED = {
-    "min_price": 5, "min_market_cap_b": 2,
-    "min_avg_volume": 200_000, "min_eps": None,
-    "ma_periods": [25, 50], "ma_thresholds": [0.0, 0.0],
-    "top_per_sector": 3,
+# sector_board ticker → 候选成分股（TLT 无股票，跳过）
+SECTOR_UNIVERSE = {
+    "XLK":  ["AAPL","MSFT","NVDA","AVGO","ORCL","CRM","CSCO","ACN","AMD","ADBE",
+             "TXN","QCOM","IBM","NOW","INTU","AMAT","MU","LRCX","ANET","PLTR"],
+    "XLC":  ["GOOGL","META","NFLX","DIS","TMUS","VZ","T","CMCSA","CHTR","EA",
+             "TTWO","WBD","OMC","LYV","MTCH"],
+    "XLY":  ["AMZN","TSLA","HD","MCD","BKNG","LOW","NKE","SBUX","TJX","ORLY",
+             "MAR","GM","F","CMG","HLT","RCL","DHI","ROST"],
+    "XLP":  ["WMT","COST","PG","KO","PEP","PM","MO","MDLZ","CL","KHC",
+             "GIS","KMB","STZ","KDP","HSY"],
+    "XLV":  ["LLY","UNH","JNJ","MRK","ABBV","TMO","ABT","DHR","AMGN","ISRG",
+             "PFE","VRTX","BSX","MDT","GILD","REGN","ELV","CI","SYK"],
+    "XLF":  ["JPM","V","MA","BAC","WFC","GS","MS","AXP","SPGI","BLK",
+             "C","SCHW","CB","PGR","KKR","PNC","BX","MMC"],
+    "XLI":  ["GE","CAT","RTX","HON","UNP","BA","DE","LMT","ETN","UPS",
+             "GEV","PH","TT","EMR","PWR","GD","NOC","CSX","ITW"],
+    "XLE":  ["XOM","CVX","COP","EOG","SLB","PSX","MPC","VLO","OXY","WMB",
+             "KMI","LNG","HES","DVN","FANG","HAL"],
+    "XLU":  ["NEE","CEG","SO","DUK","SRE","D","AEP","EXC","XEL","PCG",
+             "ED","VST","ETR","PEG","EIX"],
+    "XLRE": ["PLD","AMT","EQIX","WELL","SPG","PSA","O","CCI","DLR","CBRE",
+             "EXR","VICI","AVB","IRM"],
+    "XLB":  ["LIN","SHW","APD","ECL","FCX","NEM","NUE","DOW","CTVA","VMC",
+             "MLM","ALB","PPG","IFF"],
+    "SMH":  ["NVDA","TSM","AVGO","AMD","ASML","QCOM","TXN","AMAT","MU","LRCX",
+             "KLAC","ADI","MRVL","NXPI","MCHP","ON","MPWR","TER"],
+    "GLD":  ["NEM","AEM","WPM","GOLD","KGC","AGI","FNV","RGLD","HL","EGO"],
 }
 
 SERVERCHAN_KEY = os.environ.get("SERVERCHAN_KEY", "")
@@ -402,140 +399,121 @@ def analyze_watchlist():
 
 
 # ═══════════════════════════════════════════════
-# 模块 A — ETF 板块表现
+# 模块 A — 资金流入板块 强势股筛选（v4.0）
 # ═══════════════════════════════════════════════
 
-def get_etf_day_change(symbol):
-    t = yf.Ticker(symbol)
-    price, pct = get_realtime_change(t)
-    if price is not None:
-        return pct, price
-    hist = t.history(period="5d")
-    if len(hist) >= 2:
-        prev = hist["Close"].iloc[-2]
-        last = hist["Close"].iloc[-1]
-        return round((last - prev) / prev * 100, 2), round(last, 2)
-    return 0.0, 0.0
-
-
-def get_all_sector_perf():
-    print("📊 模块 A — 板块 ETF 今日表现\n")
-    perf = {}
-    for sector, cfg in SECTORS.items():
-        etf = cfg["etf"]
-        try:
-            pct, price = get_etf_day_change(etf)
-            perf[sector] = {"pct": pct, "price": price, "etf": etf}
-            print(f"  {cfg['emoji']} {sector:22s} {etf}: ${price:<8.2f} {pct:+.2f}%")
-        except Exception as e:
-            perf[sector] = {"pct": 0, "price": 0, "etf": etf}
-            print(f"  ⚠️ {sector} ({etf}): {e}")
-    return perf
-
-
-def passes_screener(ticker_obj, hist_1y, cfg):
-    metrics = {}
+def load_sector_board():
+    """读取 sector_board（优先 docs/data.json 最近一期；否则现算）。"""
     try:
-        info  = ticker_obj.fast_info
-        current = getattr(info, "last_price", None)
-        price = current if current else hist_1y["Close"].iloc[-1]
-        metrics["price"] = round(price, 2)
-        if price < cfg["min_price"]:
-            return False, metrics
-
-        market_cap_b = (getattr(info, "market_cap", 0) or 0) / 1e9
-        metrics["market_cap_b"] = round(market_cap_b, 1)
-        if market_cap_b < cfg["min_market_cap_b"]:
-            return False, metrics
-
-        avg_vol = hist_1y["Volume"].mean()
-        metrics["avg_volume"] = int(avg_vol)
-        if avg_vol < cfg["min_avg_volume"]:
-            return False, metrics
-
-        # 今日涨幅
-        try:
-            fi   = ticker_obj.fast_info
-            cur  = getattr(fi, "last_price", None)
-            prev = getattr(fi, "regular_market_previous_close", None)
-            if cur and prev and prev > 0:
-                metrics["day_change_pct"] = round((cur - prev) / prev * 100, 2)
-                metrics["price"] = round(cur, 2)
-            else:
-                raise ValueError
-        except Exception:
-            if len(hist_1y) >= 2:
-                p = hist_1y["Close"].iloc[-2]
-                c = hist_1y["Close"].iloc[-1]
-                metrics["day_change_pct"] = round((c - p) / p * 100, 2)
-            else:
-                metrics["day_change_pct"] = 0
-
-        if cfg["min_eps"] is not None:
-            try:
-                eps = ticker_obj.info.get("trailingEps", None)
-                metrics["eps"] = eps
-                if eps is not None and eps < cfg["min_eps"]:
-                    return False, metrics
-            except:
-                metrics["eps"] = None
-        else:
-            metrics["eps"] = None
-
-        closes = hist_1y["Close"]
-        for period, threshold in zip(cfg["ma_periods"], cfg["ma_thresholds"]):
-            if len(closes) < period:
-                return False, metrics
-            ma      = closes.rolling(period).mean().iloc[-1]
-            pct_abv = (closes.iloc[-1] - ma) / ma
-            metrics[f"ma{period}"]           = round(ma, 2)
-            metrics[f"pct_above_ma{period}"] = round(pct_abv * 100, 2)
-            if pct_abv < threshold:
-                return False, metrics
-
-        return True, metrics
+        d = json.loads((DOCS_DIR / "data.json").read_text(encoding="utf-8"))
+        for dt in sorted(d.keys(), reverse=True):
+            sb = d[dt].get("sector_board")
+            if sb and sb.get("sectors"):
+                return sb
     except Exception as e:
-        print(f"    screener error: {e}")
-        return False, {}
+        print(f"  ⚠️ 读取 data.json sector_board 失败: {e}")
+    try:
+        import sector_board
+        return sector_board.build()
+    except Exception as e:
+        print(f"  ⚠️ 现算 sector_board 失败: {e}")
+        return None
 
 
-def screen_sector(sector_name, sector_cfg, screener_cfg):
-    candidates = sector_cfg["stocks"]
-    emoji      = sector_cfg["emoji"]
-    min_hist   = max(screener_cfg["ma_periods"] + [30])
-    print(f"\n  🔍 {emoji} {sector_name} ({len(candidates)} 只候选股)...")
+def get_inflow_sectors(sb):
+    """返回资金流入板块列表（有候选股池的）：[{ticker,cn,en,emoji,rs_m3,m3_pct,ytd_pct,flow_cn}]。"""
+    inflow = []
+    for r in (sb.get("sectors", []) if sb else []):
+        tk = r.get("ticker")
+        if tk not in SECTOR_UNIVERSE:                 # TLT 等无股票池 → 跳过
+            continue
+        if (r.get("flow", {}).get("tone")) != "green":  # 只要流入（RS≥0）
+            continue
+        inflow.append({
+            "ticker": tk, "cn": r.get("cn"), "en": r.get("en"),
+            "emoji": r.get("emoji"), "rs_m3": r.get("rs_m3"),
+            "m3_pct": r.get("m3_pct"), "ytd_pct": r.get("ytd_pct"),
+            "flow_cn": r.get("flow", {}).get("cn"),
+        })
+    # 已按 RS 降序（sector_board 已排），这里再保险排一次
+    inflow.sort(key=lambda x: (x["rs_m3"] is None, -(x["rs_m3"] or 0)))
+    return inflow
 
+
+def screen_stock(symbol):
+    """按新三条件筛选单只股票；通过则返回 metrics，否则 None。"""
+    t, hist = get_hist(symbol, "1y")
+    if hist is None or len(hist) < SCREEN["min_hist"]:
+        return None
+    closes = hist["Close"].dropna()
+    if len(closes) < SCREEN["min_hist"]:
+        return None
+    cl = closes.values.astype(float)
+
+    # 现价 / 今日涨幅（实时优先）
+    price, day_chg = get_realtime_change(t)
+    if price is None:
+        price   = round(float(cl[-1]), 2)
+        day_chg = round((cl[-1] - cl[-2]) / cl[-2] * 100, 2) if len(cl) >= 2 else 0.0
+
+    # 1) 市值 > 2 亿美元
+    mcap = 0
+    try:
+        mcap = getattr(t.fast_info, "market_cap", 0) or 0
+    except Exception:
+        mcap = 0
+    if mcap and mcap < SCREEN["min_market_cap_usd"]:
+        return None
+
+    # 2) 20MA > 50MA > 150MA（多头排列）
+    ma20  = float(np.mean(cl[-20:]))
+    ma50  = float(np.mean(cl[-50:]))
+    ma150 = float(np.mean(cl[-150:]))
+    if not (ma20 > ma50 > ma150):
+        return None
+
+    # 3) 逐月递增：现价 > 1个月前 > 2个月前
+    md = SCREEN["mom_month_days"]
+    c_now, c_1m, c_2m = float(cl[-1]), float(cl[-1 - md]), float(cl[-1 - 2 * md])
+    if not (c_now > c_1m > c_2m):
+        return None
+
+    ret_2m   = round((c_now / c_2m - 1) * 100, 2)   # 2 个月总涨幅（排序键，隐含>0）
+    ret_1m   = round((c_now / c_1m - 1) * 100, 2)   # 近 1 个月
+    ret_prev = round((c_1m / c_2m - 1) * 100, 2)    # 前 1 个月
+
+    metrics = {
+        "symbol": symbol, "price": round(price, 2), "day_change_pct": day_chg,
+        "market_cap_b": round(mcap / 1e9, 2) if mcap else None,
+        "ma20": round(ma20, 2), "ma50": round(ma50, 2), "ma150": round(ma150, 2),
+        "ret_2m": ret_2m, "ret_1m": ret_1m, "ret_prev_m": ret_prev,
+    }
+    st_d = calc_supertrend(hist)
+    if st_d:
+        metrics["supertrend"] = st_d["direction"]
+    adx_d = calc_adx_di(hist)
+    if adx_d:
+        metrics["adx"] = adx_d["adx"]
+    return metrics
+
+
+def screen_sector(sec):
+    """筛选单个流入板块，返回按 2 个月涨幅降序的前 3 名。"""
+    tk = sec["ticker"]
+    candidates = SECTOR_UNIVERSE.get(tk, [])
+    print(f"\n  🔍 {sec['emoji']} {sec['cn']} ({tk}, {len(candidates)} 只候选)  RS={sec['rs_m3']}...")
     passed = []
     for symbol in candidates:
         try:
-            t, hist = get_hist(symbol, "1y")
-            if hist is None or len(hist) < min_hist:
-                continue
-            ok, metrics = passes_screener(t, hist, screener_cfg)
-            if ok:
-                metrics["symbol"] = symbol
-                metrics["sector"] = sector_name
-                adx_d = calc_adx_di(hist)
-                st_d  = calc_supertrend(hist)
-                sqz_d = calc_sqzmom(hist)
-                if adx_d:
-                    metrics.update(adx_d)
-                if st_d:
-                    metrics["supertrend"] = st_d["direction"]
-                    metrics["st_value"]   = st_d["value"]
-                if sqz_d:
-                    metrics["sqz_on"]  = sqz_d["sqz_on"]
-                    metrics["sqz_dir"] = sqz_d["sqz_dir"]
-                    metrics["sqz_mom"] = sqz_d["sqz_mom"]
-                passed.append(metrics)
-                print(f"    ✅ {symbol}: ${metrics['price']}  {metrics['day_change_pct']:+.2f}%")
-            else:
-                print(f"    ❌ {symbol}")
+            m = screen_stock(symbol)
+            if m:
+                m["sector"] = tk
+                passed.append(m)
+                print(f"    ✅ {symbol}: 2月{m['ret_2m']:+.1f}%  今日{m['day_change_pct']:+.2f}%")
         except Exception as e:
             print(f"    ⚠️ {symbol}: {e}")
-
-    passed.sort(key=lambda x: x.get("day_change_pct", 0), reverse=True)
-    return passed[:screener_cfg["top_per_sector"]]
+    passed.sort(key=lambda x: x.get("ret_2m", -999), reverse=True)
+    return passed[:SCREEN["top_per_sector"]]
 
 
 # ═══════════════════════════════════════════════
@@ -552,47 +530,50 @@ def run_all():
         return None
 
     print(f"\n{'═'*55}")
-    print(f"🚀 Stock Screener v3.0 — {today_str}")
+    print(f"🚀 Stock Screener v4.0 — {today_str}")
     print(f"{'═'*55}")
 
     # ── 模块 B：Watchlist 技术分析（无条件每日运行）──
     watchlist_results = analyze_watchlist()
 
-    # ── 模块 A：板块轮动筛选 ──
+    # ── 模块 A：资金流入板块 强势股筛选 ──
     print(f"\n{'─'*55}")
-    sector_perf = get_all_sector_perf()
-
-    leading = sorted(
-        [s for s, p in sector_perf.items() if p["pct"] > 0],
-        key=lambda s: sector_perf[s]["pct"], reverse=True,
-    )
+    print("📊 模块 A — 资金流入板块 强势股（市值>2亿 · 20>50>150MA · 逐月递增 · 按2月涨幅取前3）")
+    sb = load_sector_board()
+    inflow = get_inflow_sectors(sb)
 
     results_by_sector = {}
-    if leading:
-        print(f"\n✅ 今日上涨板块 ({len(leading)}个): {leading}")
-        for s in leading:
-            cfg = SCREENER_RELAXED if SECTORS[s].get("relaxed_screener") else SCREENER_STRICT
-            results_by_sector[s] = screen_sector(s, SECTORS[s], cfg)
+    if inflow:
+        print(f"\n✅ 资金流入板块 ({len(inflow)}个): {[s['ticker'] for s in inflow]}")
+        for s in inflow:
+            results_by_sector[s["ticker"]] = screen_sector(s)
     else:
-        print("⚠️ 今日所有板块均下跌，模块 A 跳过")
+        print("⚠️ 无资金流入板块（或 sector_board 缺失），模块 A 跳过")
+
+    # sector_board 全部板块（含流出）供前端「板块强弱条」展示
+    sector_flow = {}
+    for r in (sb.get("sectors", []) if sb else []):
+        tk = r.get("ticker")
+        sector_flow[tk] = {
+            "cn": r.get("cn"), "en": r.get("en"), "emoji": r.get("emoji"),
+            "rs_m3": r.get("rs_m3"), "m3_pct": r.get("m3_pct"),
+            "ytd_pct": r.get("ytd_pct"), "day_pct": r.get("day_pct"),
+            "flow_cn": r.get("flow", {}).get("cn"),
+            "flow_tone": r.get("flow", {}).get("tone"),
+            "is_inflow": r.get("flow", {}).get("tone") == "green",
+            "has_stocks": tk in SECTOR_UNIVERSE,
+        }
 
     # ── 汇总报告 ──
     report = {
         "date":         today_str,
         "generated_at": today.strftime("%Y-%m-%d %H:%M ET"),
+        "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增（现价>1月前>2月前）· 按2月涨幅取前3",
         # 模块 B
         "watchlist": watchlist_results,
-        # 模块 A
-        "leading_sectors":   leading,
-        "sector_perf": {
-            s: {
-                **sector_perf[s],
-                "etf_name":   SECTORS[s]["etf_name"],
-                "emoji":      SECTORS[s]["emoji"],
-                "is_leading": s in leading,
-            }
-            for s in SECTORS
-        },
+        # 模块 A（v4.0）
+        "inflow_sectors":    [s["ticker"] for s in inflow],
+        "sector_flow":       sector_flow,
         "results_by_sector": results_by_sector,
     }
     return report
@@ -651,15 +632,17 @@ def build_message(report):
     lines.append("")
 
     # ── 模块 A 摘要 ──
-    leading = report.get("leading_sectors", [])
-    if leading:
-        lines.append("📈 今日领涨板块强势股")
-        for s in leading:
-            info   = report["sector_perf"][s]
-            stocks = report["results_by_sector"].get(s, [])
-            lines.append(f"  {info['emoji']} {s} | {info['etf']} {info['pct']:+.2f}%")
+    inflow = report.get("inflow_sectors", [])
+    flow   = report.get("sector_flow", {})
+    if inflow:
+        lines.append("📈 资金流入板块 强势股（2月涨幅前3）")
+        for tk in inflow:
+            info   = flow.get(tk, {})
+            stocks = report["results_by_sector"].get(tk, [])
+            rs = info.get("rs_m3")
+            lines.append(f"  {info.get('emoji','')} {info.get('cn',tk)} | {tk} RS{('%+.1f'%rs) if rs is not None else '—'}%")
             for i, st in enumerate(stocks, 1):
-                lines.append(f"    #{i} {st['symbol']}  ${st['price']}  {st['day_change_pct']:+.2f}%")
+                lines.append(f"    #{i} {st['symbol']}  ${st['price']}  2月{st['ret_2m']:+.1f}%")
         lines.append("")
 
     lines += ["⚠️ 仅供参考，不构成投资建议",
