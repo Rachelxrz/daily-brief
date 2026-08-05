@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-08-06 05:44 CST
+**自动刷新时间**：2026-08-06 06:33 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,11 +26,8 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `1f3d272` 2026-08-05 — data: 回填 08-05 板块强弱面板数据
-- `c3f1024` 2026-08-05 — 市场结构页:结果闸门下新增'板块强弱·资金流向'面板 + 均线C建议改为红灯语境措辞
-- `82aa087` 2026-08-05 — macro_gate intraday refresh 2026-08-05 21:03Z
-- `0ad13b9` 2026-08-05 — macro_gate intraday refresh 2026-08-05 19:24Z
-- `0a3a65a` 2026-08-05 — macro_gate intraday refresh 2026-08-05 17:49Z
+- `606ea07` 2026-08-05 — 强势股筛选 v4.0:改为'资金流入板块 强势股'(接入sector_board)
+- `28affb4` 2026-08-05 — congress_tracker 2026-08-05
 
 <!-- AUTO:END -->
 
