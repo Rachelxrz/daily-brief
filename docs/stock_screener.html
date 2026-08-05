@@ -277,12 +277,18 @@ function renderWatchlist(wl) {
 
 // ── Screener v4：资金流入板块 强势股 ───────────────
 function rsStr(v) { return v == null ? 'RS —' : 'RS ' + (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+// 净利润($M)紧凑显示：≥1000 → $X.XB，否则 $XXXM（负数带 -）
+function money(m) {
+  if (m == null) return '—';
+  const a = Math.abs(m), sign = m < 0 ? '-' : '';
+  return a >= 1000 ? `${sign}$${(a/1000).toFixed(1)}B` : `${sign}$${Math.round(a)}M`;
+}
 
 function renderScreener(r) {
   // 条件说明
   const crit = document.getElementById('screen-criteria');
   if (crit) crit.textContent = r.screen_criteria
-    || '资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增 · 按2月涨幅取前3';
+    || '资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 近3季净利润递增 · 按2月涨幅取前3';
 
   // 板块强弱条（全部板块，按 RS 降序；绿=资金流入）
   const bar  = document.getElementById('etf-bar');
@@ -317,15 +323,16 @@ function renderScreener(r) {
           const mcap = s.market_cap_b != null ? `<span style="color:#8b949e;font-weight:400;font-size:0.62rem"> ${s.market_cap_b}B</span>` : '';
           const stPill = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
                        : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
-          const monTxt = (s.ret_prev_m != null && s.ret_1m != null)
-            ? `月月涨 ${pStr(s.ret_prev_m)}→${pStr(s.ret_1m)}` : '逐月递增';
+          // 净利润 3 季趋势（ni_q = [最新, 上季, 上上季] $M）→ 展示为 上上→上→最新
+          const niTxt = Array.isArray(s.ni_q) && s.ni_q.length === 3
+            ? `净利↑ ${money(s.ni_q[2])}→${money(s.ni_q[1])}→${money(s.ni_q[0])}` : '';
           return `<div class="stock-row">
             <div class="rank">${RANK[i]||'#'+(i+1)}</div>
             <div class="stock-main">
               <div class="stock-symbol">${s.symbol}${mcap}</div>
               <div class="stock-metas">
                 <span class="ma-pill">20&gt;50&gt;150MA ✓</span>
-                <span class="ma-pill">${monTxt}</span>
+                ${niTxt ? `<span class="ma-pill">${niTxt}</span>` : ''}
                 ${stPill}
               </div>
             </div>

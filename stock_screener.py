@@ -51,8 +51,8 @@ WATCHLIST = [
 # 【新规则】从 sector_board 的「资金流入板块」中，每个板块取前 3 名：
 #   1. 市值 > 2 亿美元（$200M）
 #   2. 20MA > 50MA > 150MA（多头排列）
-#   3. 逐月递增：现价 > 1个月前 > 2个月前（且隐含 2 个月收益为正）
-#   排序：按 2 个月涨幅（动量）降序取前 3。
+#   3. 最近 3 个季度净利润呈增长趋势（最新季 > 上季 > 上上季，且最新季 > 0）
+#   排序：按 2 个月价格涨幅（动量）降序取前 3。
 #
 # 「资金流入板块」= sector_board 中 flow.tone == 'green'（相对大盘 3 月 RS ≥ 0）。
 # 候选股池 = 各板块 ETF 的代表性成分股（大/中盘）。
@@ -440,6 +440,51 @@ def get_inflow_sectors(sb):
     return inflow
 
 
+def net_income_trend(t):
+    """最近 3 个季度净利润趋势。返回 {q:[q0,q1,q2]($M), growing:bool} 或 None（数据缺失）。
+    q0=最新季度；growing = q0>q1>q2 且 q0>0（净利润逐季递增且当前为正）。"""
+    fin = None
+    for attr in ("quarterly_income_stmt", "quarterly_financials"):
+        try:
+            df = getattr(t, attr)
+            if df is not None and not df.empty:
+                fin = df
+                break
+        except Exception:
+            continue
+    if fin is None or fin.empty:
+        return None
+    # 列=季度末日期，按时间降序（最新在前）
+    try:
+        fin = fin.reindex(sorted(fin.columns, reverse=True), axis=1)
+    except Exception:
+        pass
+    row = None
+    for key in ("Net Income", "Net Income Common Stockholders",
+                "Net Income From Continuing Operation Net Minority Interest",
+                "Net Income Continuous Operations", "NetIncome"):
+        if key in fin.index:
+            row = fin.loc[key]
+            break
+    if row is None:
+        return None
+    vals = []
+    for v in row.values:
+        try:
+            fv = float(v)
+        except (TypeError, ValueError):
+            continue
+        if fv == fv:          # 非 NaN
+            vals.append(fv)
+        if len(vals) == 3:
+            break
+    if len(vals) < 3:
+        return None
+    q0, q1, q2 = vals[0], vals[1], vals[2]
+    return {"q": [round(q0 / 1e6, 1), round(q1 / 1e6, 1), round(q2 / 1e6, 1)],
+            "growing": bool(q0 > q1 > q2 and q0 > 0)}
+
+
 def screen_stock(symbol):
     """按新三条件筛选单只股票；通过则返回 metrics，否则 None。"""
     t, hist = get_hist(symbol, "1y")
@@ -472,21 +517,22 @@ def screen_stock(symbol):
     if not (ma20 > ma50 > ma150):
         return None
 
-    # 3) 逐月递增：现价 > 1个月前 > 2个月前
-    md = SCREEN["mom_month_days"]
-    c_now, c_1m, c_2m = float(cl[-1]), float(cl[-1 - md]), float(cl[-1 - 2 * md])
-    if not (c_now > c_1m > c_2m):
+    # 3) 最近 3 个季度净利润呈增长趋势（q0>q1>q2 且 q0>0）
+    ni = net_income_trend(t)
+    if ni is None or not ni["growing"]:
         return None
 
-    ret_2m   = round((c_now / c_2m - 1) * 100, 2)   # 2 个月总涨幅（排序键，隐含>0）
-    ret_1m   = round((c_now / c_1m - 1) * 100, 2)   # 近 1 个月
-    ret_prev = round((c_1m / c_2m - 1) * 100, 2)    # 前 1 个月
+    # 排序键：2 个月价格涨幅（动量）
+    md = SCREEN["mom_month_days"]
+    c_now, c_2m = float(cl[-1]), float(cl[-1 - 2 * md])
+    ret_2m = round((c_now / c_2m - 1) * 100, 2)
 
     metrics = {
         "symbol": symbol, "price": round(price, 2), "day_change_pct": day_chg,
         "market_cap_b": round(mcap / 1e9, 2) if mcap else None,
         "ma20": round(ma20, 2), "ma50": round(ma50, 2), "ma150": round(ma150, 2),
-        "ret_2m": ret_2m, "ret_1m": ret_1m, "ret_prev_m": ret_prev,
+        "ret_2m": ret_2m,
+        "ni_q": ni["q"],              # [最新, 上季, 上上季] 净利润($M)
     }
     st_d = calc_supertrend(hist)
     if st_d:
@@ -538,7 +584,7 @@ def run_all():
 
     # ── 模块 A：资金流入板块 强势股筛选 ──
     print(f"\n{'─'*55}")
-    print("📊 模块 A — 资金流入板块 强势股（市值>2亿 · 20>50>150MA · 逐月递增 · 按2月涨幅取前3）")
+    print("📊 模块 A — 资金流入板块 强势股（市值>2亿 · 20>50>150MA · 近3季净利润递增 · 按2月涨幅取前3）")
     sb = load_sector_board()
     inflow = get_inflow_sectors(sb)
 
@@ -568,7 +614,7 @@ def run_all():
     report = {
         "date":         today_str,
         "generated_at": today.strftime("%Y-%m-%d %H:%M ET"),
-        "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增（现价>1月前>2月前）· 按2月涨幅取前3",
+        "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 近3季净利润递增（最新季>上季>上上季且>0）· 按2月涨幅取前3",
         # 模块 B
         "watchlist": watchlist_results,
         # 模块 A（v4.0）
