@@ -1,7 +1,7 @@
 {
   "latest": {
     "date": "2026-08-05",
-    "generated_at": "2026-08-05 18:03 ET",
+    "generated_at": "2026-08-05 18:34 ET",
     "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增（现价>1月前>2月前）· 按2月涨幅取前3",
     "watchlist": [
       {
@@ -1007,7 +1007,7 @@
   "history": [
     {
       "date": "2026-08-05",
-      "generated_at": "2026-08-05 18:03 ET",
+      "generated_at": "2026-08-05 18:34 ET",
       "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 逐月递增（现价>1月前>2月前）· 按2月涨幅取前3",
       "watchlist": [
         {
@@ -23223,5 +23223,5 @@
       }
     }
   ],
-  "updated_at": "2026-08-05 18:03 ET"
+  "updated_at": "2026-08-05 18:34 ET"
 }
