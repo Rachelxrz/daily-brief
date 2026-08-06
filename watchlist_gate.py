@@ -81,10 +81,11 @@ def _ma(cl, n):
 
 
 def evaluate(promote: bool = False) -> dict:
-    """promote=False（每日）：只做「移出到 Secondary Watchlist」（跌破周线200MA）。
+    """promote=False（每日）：只做「移出到 Secondary Watchlist」（跌破周线150MA）。
     promote=True（每周）：额外复查 Secondary Watchlist 里的标的能否重回主 watchlist。"""
     data = wm.load_watchlist()
     suspended = wm.get_suspended_tickers()
+    susp_reason = {s["ticker"]: (s.get("reason") or "") for s in data.get("suspended", []) if isinstance(s, dict)}
     # core_holdings（GLD/QQQ/TLT/WTI 等战略锚仓，无财报）豁免本闸门，只对个股(long_term+screener)生效
     exempt = {(h.get("ticker") if isinstance(h, dict) else h) for h in data.get("core_holdings", [])}
     active   = set(wm.get_full_watchlist()) - exempt         # 主 watchlist 候选（查移出）
@@ -112,6 +113,9 @@ def evaluate(promote: bool = False) -> dict:
                         "detail": f"周收{close:.1f} < 150wMA {ma150:.1f}",
                     })
             elif promote:
+                # 「3年回报低于QQQ」类由半年分类器复查，不走本周线MA回归
+                if "QQQ" in susp_reason.get(tk, ""):
+                    continue
                 # Secondary Watchlist 复查（仅每周）→ 满足全部条件才重回主 watchlist
                 if ma150 is None or ma20 is None:
                     continue
@@ -144,7 +148,7 @@ def run(promote: bool = False):
 if __name__ == "__main__":
     import argparse
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    ap = argparse.ArgumentParser(description="watchlist 周线200MA 移出/回归闸门")
+    ap = argparse.ArgumentParser(description="watchlist 周线150MA 移出/回归闸门")
     ap.add_argument("--promote", action="store_true",
                     help="每周复查 Secondary Watchlist 能否重回主 watchlist（默认只做每日移出）")
     args = ap.parse_args()

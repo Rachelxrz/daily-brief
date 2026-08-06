@@ -2,6 +2,62 @@
   "events": [
     {
       "date": "2026-08-07",
+      "ticker": "TXN",
+      "action": "suspend",
+      "source": "manual",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 20.7% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "NEE",
+      "action": "suspend",
+      "source": "manual",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 8.7% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "LNG",
+      "action": "suspend",
+      "source": "manual",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 19.8% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "LMT",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 12.1% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "JNJ",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 18.2% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "HON",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 10.4% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "CSX",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 17.1% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "date": "2026-08-07",
       "ticker": "TSLA",
       "action": "reclassify",
       "source": "classifier",

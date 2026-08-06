@@ -224,13 +224,6 @@
   ],
   "screener_signals": [
     {
-      "ticker": "JNJ",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "bucket": "current",
-      "sector": "XLV"
-    },
-    {
       "ticker": "LLY",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
@@ -280,13 +273,6 @@
       "sector": "XLK"
     },
     {
-      "ticker": "TXN",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "bucket": "potential",
-      "sector": "SMH"
-    },
-    {
       "ticker": "ADI",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
@@ -301,13 +287,6 @@
       "sector": "SMH"
     },
     {
-      "ticker": "CSX",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "bucket": "current",
-      "sector": "XLI"
-    },
-    {
       "ticker": "GD",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
@@ -319,20 +298,6 @@
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
       "bucket": "current",
-      "sector": "XLI"
-    },
-    {
-      "ticker": "HON",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "bucket": "potential",
-      "sector": "XLI"
-    },
-    {
-      "ticker": "LMT",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "bucket": "potential",
       "sector": "XLI"
     },
     {
@@ -378,10 +343,60 @@
       "since": "2026-08-07",
       "reason": "周线跌破150MA",
       "detail": "周收373.0 < 150wMA 459.2"
+    },
+    {
+      "ticker": "CSX",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 17.1% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "HON",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 10.4% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "JNJ",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 18.2% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "LMT",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 12.1% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "LNG",
+      "source": "manual",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 19.8% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "NEE",
+      "source": "manual",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 8.7% < QQQ 24.8%（不如直接持有QQQ）"
+    },
+    {
+      "ticker": "TXN",
+      "source": "manual",
+      "since": "2026-08-07",
+      "reason": "3年回报低于QQQ",
+      "detail": "3年年化 20.7% < QQQ 24.8%（不如直接持有QQQ）"
     }
   ],
   "classification": {
     "updated": "2026-08-07",
+    "qqq_r3y": 24.8,
     "tickers": {
       "ADI": {
         "archetype": "稳定核心",
@@ -390,7 +405,9 @@
         "years": 46.4,
         "vol": 38.2,
         "beta": 1.59,
-        "maxdd": -33.6
+        "maxdd": -33.6,
+        "r3y": 27.2,
+        "beats_qqq": true
       },
       "AEHR": {
         "archetype": "题材投机",
@@ -399,7 +416,9 @@
         "years": 29.0,
         "vol": 112.8,
         "beta": 3.0,
-        "maxdd": -87.4
+        "maxdd": -87.4,
+        "r3y": 25.8,
+        "beats_qqq": true
       },
       "AGX": {
         "archetype": "趋势成长",
@@ -408,7 +427,9 @@
         "years": 31.0,
         "vol": 74.0,
         "beta": 1.3,
-        "maxdd": -55.3
+        "maxdd": -55.3,
+        "r3y": 151.3,
+        "beats_qqq": true
       },
       "ALAB": {
         "archetype": "题材投机",
@@ -417,7 +438,9 @@
         "years": 2.4,
         "vol": 97.4,
         "beta": 2.72,
-        "maxdd": -63.7
+        "maxdd": -63.7,
+        "r3y": null,
+        "beats_qqq": false
       },
       "ALB": {
         "archetype": "题材投机",
@@ -426,7 +449,9 @@
         "years": 32.4,
         "vol": 60.2,
         "beta": 1.69,
-        "maxdd": -83.9
+        "maxdd": -83.9,
+        "r3y": -13.5,
+        "beats_qqq": false
       },
       "AMD": {
         "archetype": "成长性核心",
@@ -435,7 +460,9 @@
         "years": 46.4,
         "vol": 62.8,
         "beta": 2.31,
-        "maxdd": -65.4
+        "maxdd": -65.4,
+        "r3y": 64.8,
+        "beats_qqq": true
       },
       "AMZN": {
         "archetype": "成长性核心",
@@ -444,7 +471,9 @@
         "years": 29.2,
         "vol": 34.8,
         "beta": 1.41,
-        "maxdd": -56.1
+        "maxdd": -56.1,
+        "r3y": 28.5,
+        "beats_qqq": true
       },
       "ANET": {
         "archetype": "成长性核心",
@@ -453,7 +482,9 @@
         "years": 12.2,
         "vol": 54.5,
         "beta": 1.84,
-        "maxdd": -52.2
+        "maxdd": -52.2,
+        "r3y": 63.1,
+        "beats_qqq": true
       },
       "APP": {
         "archetype": "趋势成长",
@@ -462,7 +493,9 @@
         "years": 5.3,
         "vol": 85.1,
         "beta": 2.25,
-        "maxdd": -91.9
+        "maxdd": -91.9,
+        "r3y": 120.9,
+        "beats_qqq": true
       },
       "ARM": {
         "archetype": "题材投机",
@@ -471,7 +504,9 @@
         "years": 2.9,
         "vol": 70.4,
         "beta": 2.72,
-        "maxdd": -54.0
+        "maxdd": -54.0,
+        "r3y": null,
+        "beats_qqq": false
       },
       "ASML": {
         "archetype": "成长性核心",
@@ -480,7 +515,9 @@
         "years": 31.4,
         "vol": 45.3,
         "beta": 1.77,
-        "maxdd": -56.9
+        "maxdd": -56.9,
+        "r3y": 36.8,
+        "beats_qqq": true
       },
       "AVGO": {
         "archetype": "成长性核心",
@@ -489,7 +526,9 @@
         "years": 17.0,
         "vol": 53.3,
         "beta": 2.02,
-        "maxdd": -48.3
+        "maxdd": -48.3,
+        "r3y": 69.7,
+        "beats_qqq": true
       },
       "AXP": {
         "archetype": "成长性核心",
@@ -498,7 +537,9 @@
         "years": 54.2,
         "vol": 29.9,
         "beta": 1.18,
-        "maxdd": -49.6
+        "maxdd": -49.6,
+        "r3y": 28.6,
+        "beats_qqq": true
       },
       "BDRY": {
         "archetype": "ETF/基金"
@@ -513,7 +554,9 @@
         "years": 64.6,
         "vol": 35.1,
         "beta": 1.29,
-        "maxdd": -43.4
+        "maxdd": -43.4,
+        "r3y": 45.9,
+        "beats_qqq": true
       },
       "CBRS": {
         "archetype": "无数据"
@@ -525,7 +568,9 @@
         "years": 4.5,
         "vol": 57.7,
         "beta": 1.52,
-        "maxdd": -50.7
+        "maxdd": -50.7,
+        "r3y": 40.8,
+        "beats_qqq": true
       },
       "CI": {
         "archetype": "成长性核心",
@@ -534,7 +579,9 @@
         "years": 44.3,
         "vol": 31.1,
         "beta": 0.16,
-        "maxdd": -42.5
+        "maxdd": -42.5,
+        "r3y": -0.9,
+        "beats_qqq": false
       },
       "CIEN": {
         "archetype": "趋势成长",
@@ -543,7 +590,9 @@
         "years": 29.5,
         "vol": 63.9,
         "beta": 1.86,
-        "maxdd": -49.5
+        "maxdd": -49.5,
+        "r3y": 112.9,
+        "beats_qqq": true
       },
       "COHR": {
         "archetype": "趋势成长",
@@ -552,7 +601,9 @@
         "years": 38.8,
         "vol": 76.0,
         "beta": 2.69,
-        "maxdd": -72.2
+        "maxdd": -72.2,
+        "r3y": 93.5,
+        "beats_qqq": true
       },
       "COIN": {
         "archetype": "题材投机",
@@ -561,7 +612,9 @@
         "years": 5.3,
         "vol": 78.1,
         "beta": 2.51,
-        "maxdd": -90.9
+        "maxdd": -90.9,
+        "r3y": 17.2,
+        "beats_qqq": false
       },
       "COPX": {
         "archetype": "ETF/基金"
@@ -576,7 +629,9 @@
         "years": 36.5,
         "vol": 28.4,
         "beta": 0.86,
-        "maxdd": -42.0
+        "maxdd": -42.0,
+        "r3y": 35.5,
+        "beats_qqq": true
       },
       "CSX": {
         "archetype": "稳定核心",
@@ -585,7 +640,9 @@
         "years": 45.8,
         "vol": 24.4,
         "beta": 0.65,
-        "maxdd": -40.6
+        "maxdd": -40.6,
+        "r3y": 17.1,
+        "beats_qqq": false
       },
       "DELL": {
         "archetype": "成长性核心",
@@ -594,7 +651,9 @@
         "years": 10.0,
         "vol": 62.3,
         "beta": 1.85,
-        "maxdd": -59.6
+        "maxdd": -59.6,
+        "r3y": 105.5,
+        "beats_qqq": true
       },
       "DOCN": {
         "archetype": "趋势成长",
@@ -603,7 +662,9 @@
         "years": 5.4,
         "vol": 74.4,
         "beta": 2.11,
-        "maxdd": -84.8
+        "maxdd": -84.8,
+        "r3y": 37.5,
+        "beats_qqq": true
       },
       "DRAM": {
         "archetype": "ETF/基金"
@@ -615,7 +676,9 @@
         "years": 26.0,
         "vol": 25.9,
         "beta": 0.72,
-        "maxdd": -41.8
+        "maxdd": -41.8,
+        "r3y": 11.7,
+        "beats_qqq": false
       },
       "ETHA": {
         "archetype": "ETF/基金"
@@ -627,7 +690,9 @@
         "years": 54.2,
         "vol": 37.2,
         "beta": 1.49,
-        "maxdd": -44.6
+        "maxdd": -44.6,
+        "r3y": 28.6,
+        "beats_qqq": true
       },
       "FLJH": {
         "archetype": "ETF/基金"
@@ -642,7 +707,9 @@
         "years": 25.0,
         "vol": 48.4,
         "beta": 0.57,
-        "maxdd": -79.8
+        "maxdd": -79.8,
+        "r3y": 45.6,
+        "beats_qqq": true
       },
       "FTAI": {
         "archetype": "趋势成长",
@@ -651,7 +718,9 @@
         "years": 11.2,
         "vol": 72.7,
         "beta": 1.81,
-        "maxdd": -72.8
+        "maxdd": -72.8,
+        "r3y": 92.1,
+        "beats_qqq": true
       },
       "GD": {
         "archetype": "成长性核心",
@@ -660,7 +729,9 @@
         "years": 64.6,
         "vol": 22.3,
         "beta": 0.49,
-        "maxdd": -51.6
+        "maxdd": -51.6,
+        "r3y": 22.0,
+        "beats_qqq": false
       },
       "GDX": {
         "archetype": "ETF/基金"
@@ -672,7 +743,9 @@
         "years": 2.4,
         "vol": 53.6,
         "beta": 1.83,
-        "maxdd": -38.3
+        "maxdd": -38.3,
+        "r3y": null,
+        "beats_qqq": false
       },
       "GLD": {
         "archetype": "ETF/基金"
@@ -684,7 +757,9 @@
         "years": 44.6,
         "vol": 53.6,
         "beta": 1.45,
-        "maxdd": -51.5
+        "maxdd": -51.5,
+        "r3y": 70.8,
+        "beats_qqq": true
       },
       "GOOG": {
         "archetype": "成长性核心",
@@ -693,7 +768,9 @@
         "years": 22.0,
         "vol": 31.6,
         "beta": 1.15,
-        "maxdd": -44.6
+        "maxdd": -44.6,
+        "r3y": 40.9,
+        "beats_qqq": true
       },
       "GS": {
         "archetype": "成长性核心",
@@ -702,7 +779,9 @@
         "years": 27.3,
         "vol": 32.9,
         "beta": 1.35,
-        "maxdd": -48.7
+        "maxdd": -48.7,
+        "r3y": 46.7,
+        "beats_qqq": true
       },
       "HEWJ": {
         "archetype": "ETF/基金"
@@ -714,7 +793,9 @@
         "years": 64.6,
         "vol": 25.4,
         "beta": 0.74,
-        "maxdd": -43.0
+        "maxdd": -43.0,
+        "r3y": 10.4,
+        "beats_qqq": false
       },
       "HYG": {
         "archetype": "ETF/基金"
@@ -729,7 +810,9 @@
         "years": 46.4,
         "vol": 72.5,
         "beta": 1.93,
-        "maxdd": -70.8
+        "maxdd": -70.8,
+        "r3y": 43.6,
+        "beats_qqq": true
       },
       "INTU": {
         "archetype": "成长性核心",
@@ -738,7 +821,9 @@
         "years": 33.4,
         "vol": 40.6,
         "beta": 0.88,
-        "maxdd": -68.2
+        "maxdd": -68.2,
+        "r3y": -12.9,
+        "beats_qqq": false
       },
       "ISRG": {
         "archetype": "趋势成长",
@@ -747,7 +832,9 @@
         "years": 26.1,
         "vol": 34.6,
         "beta": 1.16,
-        "maxdd": -49.9
+        "maxdd": -49.9,
+        "r3y": 6.0,
+        "beats_qqq": false
       },
       "ITA": {
         "archetype": "ETF/基金"
@@ -762,7 +849,9 @@
         "years": 64.6,
         "vol": 18.8,
         "beta": 0.0,
-        "maxdd": -27.4
+        "maxdd": -27.4,
+        "r3y": 18.2,
+        "beats_qqq": false
       },
       "KLAC": {
         "archetype": "成长性核心",
@@ -771,7 +860,9 @@
         "years": 45.8,
         "vol": 53.3,
         "beta": 2.04,
-        "maxdd": -43.6
+        "maxdd": -43.6,
+        "r3y": 58.3,
+        "beats_qqq": true
       },
       "LITE": {
         "archetype": "趋势成长",
@@ -780,7 +871,9 @@
         "years": 11.0,
         "vol": 81.9,
         "beta": 2.45,
-        "maxdd": -66.9
+        "maxdd": -66.9,
+        "r3y": 155.1,
+        "beats_qqq": true
       },
       "LLY": {
         "archetype": "成长性核心",
@@ -789,7 +882,9 @@
         "years": 54.2,
         "vol": 38.6,
         "beta": 0.63,
-        "maxdd": -34.5
+        "maxdd": -34.5,
+        "r3y": 38.9,
+        "beats_qqq": true
       },
       "LMT": {
         "archetype": "稳定核心",
@@ -798,7 +893,9 @@
         "years": 64.6,
         "vol": 26.9,
         "beta": 0.13,
-        "maxdd": -36.7
+        "maxdd": -36.7,
+        "r3y": 12.1,
+        "beats_qqq": false
       },
       "LNG": {
         "archetype": "稳定核心",
@@ -807,7 +904,9 @@
         "years": 32.3,
         "vol": 29.3,
         "beta": 0.31,
-        "maxdd": -70.9
+        "maxdd": -70.9,
+        "r3y": 19.8,
+        "beats_qqq": false
       },
       "LQD": {
         "archetype": "ETF/基金"
@@ -825,7 +924,9 @@
         "years": 6.1,
         "vol": 83.6,
         "beta": 1.47,
-        "maxdd": -82.0
+        "maxdd": -82.0,
+        "r3y": 28.9,
+        "beats_qqq": true
       },
       "MPC": {
         "archetype": "稳定核心",
@@ -834,7 +935,9 @@
         "years": 15.1,
         "vol": 34.7,
         "beta": 0.64,
-        "maxdd": -79.7
+        "maxdd": -79.7,
+        "r3y": 32.8,
+        "beats_qqq": true
       },
       "MPWR": {
         "archetype": "成长性核心",
@@ -843,7 +946,9 @@
         "years": 21.7,
         "vol": 59.1,
         "beta": 2.41,
-        "maxdd": -51.6
+        "maxdd": -51.6,
+        "r3y": 37.9,
+        "beats_qqq": true
       },
       "MRVL": {
         "archetype": "趋势成长",
@@ -852,7 +957,9 @@
         "years": 26.1,
         "vol": 74.9,
         "beta": 2.54,
-        "maxdd": -61.9
+        "maxdd": -61.9,
+        "r3y": 50.7,
+        "beats_qqq": true
       },
       "MS": {
         "archetype": "成长性核心",
@@ -861,7 +968,9 @@
         "years": 33.4,
         "vol": 31.1,
         "beta": 1.27,
-        "maxdd": -51.3
+        "maxdd": -51.3,
+        "r3y": 37.9,
+        "beats_qqq": true
       },
       "MSFT": {
         "archetype": "成长性核心",
@@ -870,7 +979,9 @@
         "years": 40.4,
         "vol": 28.8,
         "beta": 0.97,
-        "maxdd": -37.1
+        "maxdd": -37.1,
+        "r3y": 16.0,
+        "beats_qqq": false
       },
       "MU": {
         "archetype": "趋势成长",
@@ -879,7 +990,9 @@
         "years": 42.2,
         "vol": 72.2,
         "beta": 2.35,
-        "maxdd": -72.5
+        "maxdd": -72.5,
+        "r3y": 135.6,
+        "beats_qqq": true
       },
       "NBIS": {
         "archetype": "题材投机",
@@ -888,7 +1001,9 @@
         "years": 1.8,
         "vol": 113.8,
         "beta": 2.81,
-        "maxdd": -58.3
+        "maxdd": -58.3,
+        "r3y": null,
+        "beats_qqq": false
       },
       "NEE": {
         "archetype": "稳定核心",
@@ -897,7 +1012,9 @@
         "years": 53.5,
         "vol": 25.3,
         "beta": 0.33,
-        "maxdd": -45.0
+        "maxdd": -45.0,
+        "r3y": 8.7,
+        "beats_qqq": false
       },
       "NVDA": {
         "archetype": "成长性核心",
@@ -906,7 +1023,9 @@
         "years": 27.5,
         "vol": 45.9,
         "beta": 2.05,
-        "maxdd": -66.3
+        "maxdd": -66.3,
+        "r3y": 70.5,
+        "beats_qqq": true
       },
       "NVMI": {
         "archetype": "趋势成长",
@@ -915,7 +1034,9 @@
         "years": 26.3,
         "vol": 59.0,
         "beta": 2.1,
-        "maxdd": -52.8
+        "maxdd": -52.8,
+        "r3y": 46.4,
+        "beats_qqq": true
       },
       "ONTO": {
         "archetype": "趋势成长",
@@ -924,7 +1045,9 @@
         "years": 6.8,
         "vol": 69.0,
         "beta": 2.47,
-        "maxdd": -62.8
+        "maxdd": -62.8,
+        "r3y": 31.1,
+        "beats_qqq": true
       },
       "PLTR": {
         "archetype": "趋势成长",
@@ -933,7 +1056,9 @@
         "years": 5.8,
         "vol": 66.9,
         "beta": 2.16,
-        "maxdd": -84.6
+        "maxdd": -84.6,
+        "r3y": 101.8,
+        "beats_qqq": true
       },
       "PWR": {
         "archetype": "成长性核心",
@@ -942,7 +1067,9 @@
         "years": 28.5,
         "vol": 41.4,
         "beta": 1.4,
-        "maxdd": -45.5
+        "maxdd": -45.5,
+        "r3y": 49.1,
+        "beats_qqq": true
       },
       "QQQ": {
         "archetype": "ETF/基金"
@@ -960,7 +1087,9 @@
         "years": 64.3,
         "vol": 25.6,
         "beta": 0.43,
-        "maxdd": -52.0
+        "maxdd": -52.0,
+        "r3y": 40.7,
+        "beats_qqq": true
       },
       "RVTY": {
         "archetype": "趋势成长",
@@ -969,7 +1098,9 @@
         "years": 53.5,
         "vol": 37.0,
         "beta": 1.06,
-        "maxdd": -59.0
+        "maxdd": -59.0,
+        "r3y": -2.7,
+        "beats_qqq": false
       },
       "SCHW": {
         "archetype": "成长性核心",
@@ -978,7 +1109,9 @@
         "years": 38.9,
         "vol": 25.8,
         "beta": 0.77,
-        "maxdd": -51.1
+        "maxdd": -51.1,
+        "r3y": 19.8,
+        "beats_qqq": false
       },
       "SMH": {
         "archetype": "ETF/基金"
@@ -990,7 +1123,9 @@
         "years": 1.5,
         "vol": 107.5,
         "beta": 2.8,
-        "maxdd": -56.5
+        "maxdd": -56.5,
+        "r3y": null,
+        "beats_qqq": false
       },
       "SOXL": {
         "archetype": "ETF/基金"
@@ -1014,7 +1149,9 @@
         "years": 42.7,
         "vol": 23.9,
         "beta": -0.0,
-        "maxdd": -39.4
+        "maxdd": -39.4,
+        "r3y": 24.6,
+        "beats_qqq": false
       },
       "TLT": {
         "archetype": "ETF/基金"
@@ -1026,7 +1163,9 @@
         "years": 16.1,
         "vol": 60.5,
         "beta": 2.26,
-        "maxdd": -73.6
+        "maxdd": -73.6,
+        "r3y": 7.9,
+        "beats_qqq": false
       },
       "TSM": {
         "archetype": "成长性核心",
@@ -1035,7 +1174,9 @@
         "years": 28.8,
         "vol": 42.2,
         "beta": 1.69,
-        "maxdd": -56.5
+        "maxdd": -56.5,
+        "r3y": 65.8,
+        "beats_qqq": true
       },
       "TXN": {
         "archetype": "稳定核心",
@@ -1044,7 +1185,9 @@
         "years": 54.2,
         "vol": 41.5,
         "beta": 1.36,
-        "maxdd": -33.4
+        "maxdd": -33.4,
+        "r3y": 20.7,
+        "beats_qqq": false
       },
       "USD": {
         "archetype": "ETF/基金"
@@ -1062,7 +1205,9 @@
         "years": 46.4,
         "vol": 36.5,
         "beta": 1.39,
-        "maxdd": -80.9
+        "maxdd": -80.9,
+        "r3y": 21.7,
+        "beats_qqq": false
       },
       "VRT": {
         "archetype": "成长性核心",
@@ -1071,7 +1216,9 @@
         "years": 8.0,
         "vol": 67.2,
         "beta": 2.42,
-        "maxdd": -71.2
+        "maxdd": -71.2,
+        "r3y": 100.4,
+        "beats_qqq": true
       },
       "VST": {
         "archetype": "趋势成长",
@@ -1080,7 +1227,9 @@
         "years": 9.8,
         "vol": 61.4,
         "beta": 1.75,
-        "maxdd": -53.3
+        "maxdd": -53.3,
+        "r3y": 73.3,
+        "beats_qqq": true
       },
       "WDC": {
         "archetype": "趋势成长",
@@ -1089,7 +1238,9 @@
         "years": 47.8,
         "vol": 64.5,
         "beta": 1.97,
-        "maxdd": -70.5
+        "maxdd": -70.5,
+        "r3y": 141.9,
+        "beats_qqq": true
       },
       "WTI": {
         "archetype": "题材投机",
@@ -1098,7 +1249,9 @@
         "years": 21.5,
         "vol": 75.6,
         "beta": 0.48,
-        "maxdd": -88.9
+        "maxdd": -88.9,
+        "r3y": -3.7,
+        "beats_qqq": false
       },
       "XBI": {
         "archetype": "ETF/基金"

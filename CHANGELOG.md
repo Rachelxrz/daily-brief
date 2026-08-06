@@ -4,6 +4,15 @@
 
 ## 2026-08-07
 
+### 新增：用QQQ替代低效稳定核心（3年跑不过QQQ→移入 Secondary）
+- `stock_classifier.py` 计算每股近3年价格年化(r3y)与 QQQ 对比(beats_qqq)。
+- **稳定核心 若近3年年化 < QQQ → 移入 Secondary Watchlist**（reason=「3年回报低于QQQ」），停止买卖信号；回到QQQ之上再放回。由半年分类任务复查，不走周线MA回归。
+- `watchlist_gate.py` 的每周回归复查**跳过**「QQQ」类条目（避免用MA规则把它们错误放回）。
+- 本次移入 Secondary 7 只：CSX/HON/JNJ/LMT/LNG/NEE/TXN；留主 watchlist 的稳定核心仅 ADI/CAT/CSCO/MPC（3年跑赢QQQ）。
+- Secondary Watchlist 现有两类移出原因：①周线跌破150MA ②3年回报低于QQQ；页面说明已更新。
+
+### 变更：Secondary 移出闸门确认为 周线150MA（引擎/文案统一）
+
 ### 新增：个股基本面分档（成长性核心/稳定核心/趋势成长/题材投机）
 - 新增 `stock_classifier.py`：按**纯基本面**给每只股票定档，写入 `docs/watchlist.json` 的 `classification`（每票含 archetype/profit/市值/上市年限 + 特性 vol/beta/maxdd）。
 - **定档规则**（回撤/波动/Beta 不参与定档，只作特性给交易层）：
