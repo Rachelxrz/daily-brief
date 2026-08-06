@@ -2,6 +2,13 @@
   "events": [
     {
       "date": "2026-08-07",
+      "ticker": "PLTR",
+      "action": "add",
+      "source": "screener",
+      "reason": "强势股筛选入选"
+    },
+    {
+      "date": "2026-08-07",
       "ticker": "ISRG",
       "action": "suspend",
       "source": "screener",
