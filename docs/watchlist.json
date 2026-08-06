@@ -537,7 +537,7 @@
         "maxdd": -42.5
       },
       "CIEN": {
-        "archetype": "稳定核心",
+        "archetype": "趋势成长",
         "profit": "利润下滑",
         "mcap_b": 57.2,
         "years": 29.5,
@@ -1020,7 +1020,7 @@
         "archetype": "ETF/基金"
       },
       "TSLA": {
-        "archetype": "稳定核心",
+        "archetype": "趋势成长",
         "profit": "利润下滑",
         "mcap_b": 1262.0,
         "years": 16.1,

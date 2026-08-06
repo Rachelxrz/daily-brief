@@ -2,6 +2,20 @@
   "events": [
     {
       "date": "2026-08-07",
+      "ticker": "TSLA",
+      "action": "reclassify",
+      "source": "classifier",
+      "reason": "稳定核心 → 趋势成长"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "CIEN",
+      "action": "reclassify",
+      "source": "classifier",
+      "reason": "稳定核心 → 趋势成长"
+    },
+    {
+      "date": "2026-08-07",
       "ticker": "ALB",
       "action": "resume",
       "source": "manual",

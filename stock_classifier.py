@@ -4,8 +4,9 @@
 档位（纯基本面，回撤/波动/Beta 只作为「特性」记录，供交易层用，不参与定档）：
   · 题材投机 : 当前亏损(trailing<0) 或 上市 < 3年
   · 核心     : 市值≥$50B 且 上市≥8年 且 近3年逐年净利润为正
-        - 成长性核心 : 最新年净利润 > 3年前
-        - 稳定核心   : 年年为正但未超过3年前(持平/下滑)
+        - 成长性核心 : 最新年净利润 > 3年前(不看波动)
+        - 稳定核心   : 年年为正但未超3年前(持平/下滑) 且 年化波动≤45%(够稳当压舱石)
+        - 利润不增长但波动>45%(如 TSLA) → 归 趋势成长(波动型非成长)
   · 趋势成长 : 有盈利但够不到核心(有亏损年 / 市值或年限不够)
   · ETF/基金 : 不适用个股分档
 
@@ -29,6 +30,7 @@ ETF_FLAGS = HERE / "etf_flags.json"
 MIN_MCAP_CORE  = 50e9   # 核心：市值 ≥ $50B
 MIN_YEARS_CORE = 8      # 核心：上市 ≥ 8年
 MIN_YEARS_SPEC = 3      # 题材投机：上市 < 3年
+STABLE_MAX_VOL = 45     # 稳定核心：利润不增长时，年化波动 ≤此值 才算「稳定」，否则→趋势成长
 
 
 def _etf_set():
@@ -118,7 +120,12 @@ def classify(f):
     if (prof is not None and prof < 0) or f["years"] < MIN_YEARS_SPEC:
         return "题材投机"
     if (f["mcap"] >= MIN_MCAP_CORE) and (f["years"] >= MIN_YEARS_CORE) and f["all_pos"]:
-        return "成长性核心" if f["grew"] else "稳定核心"
+        if f["grew"]:
+            return "成长性核心"                       # 利润增长 → 成长核心(不看波动)
+        # 利润不增长：只有波动够小才算「稳定核心」，波动大的是「波动型非成长」→ 趋势成长
+        if f["vol"] is not None and f["vol"] <= STABLE_MAX_VOL:
+            return "稳定核心"
+        return "趋势成长"
     return "趋势成长"
 
 
