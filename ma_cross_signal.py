@@ -131,8 +131,8 @@ def load_tickers() -> list:
 
 
 def watchlist_meta() -> tuple:
-    """返回 (source_map, suspended_list)。source_map: {ticker: 'screener'|'manual'}；
-    suspended_list: [{ticker,source,reason,detail,since}]。供前端标记来源/展示已暂停。"""
+    """返回 (source_map, suspended_list, class_map)。source_map: {ticker: 'screener'|'manual'}；
+    suspended_list: [{ticker,source,reason,detail,since}]；class_map: {ticker: archetype}（个股分档）。"""
     wl = _load_wl()
     src = {}
     for h in wl.get("core_holdings", []):
@@ -149,7 +149,9 @@ def watchlist_meta() -> tuple:
     susp = [{"ticker": s.get("ticker"), "source": s.get("source"),
              "reason": s.get("reason"), "detail": s.get("detail"), "since": s.get("since")}
             for s in wl.get("suspended", []) if isinstance(s, dict)]
-    return src, susp
+    cmap = {tk: (info or {}).get("archetype")
+            for tk, info in ((wl.get("classification") or {}).get("tickers", {})).items()}
+    return src, susp, cmap
 
 
 # ── ETF/个股分类（yfinance quoteType，缓存到 etf_flags.json）────────────────
@@ -634,10 +636,11 @@ def run(dry_run: bool = False):
             log.info(f"  {t:<6} [{res.get('tf','')}] {res['signal']:<8} ${res['price']}  "
                      f"MA20 {res['ma20']} / MA50 {res['ma50']}  ST{res['st_dir']}")
 
-    # 来源标记（筛选/自选）+ 已暂停清单（周线破200MA）
-    src_map, suspended = watchlist_meta()
+    # 来源标记（筛选/自选）+ 已暂停清单（周线破200MA）+ 个股分档
+    src_map, suspended, class_map = watchlist_meta()
     for r in rows:
         r["source"] = src_map.get(r.get("ticker"), "manual")
+        r["archetype"] = class_map.get(r.get("ticker"))
 
     rows.sort(key=lambda r: (_SIG_ORDER.get(r["signal"], 9), -(r.get("ma_gap_pct") or -999)))
     recent = build_recent(rows, today)

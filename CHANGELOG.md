@@ -4,6 +4,16 @@
 
 ## 2026-08-07
 
+### 新增：个股基本面分档（成长性核心/稳定核心/趋势成长/题材投机）
+- 新增 `stock_classifier.py`：按**纯基本面**给每只股票定档，写入 `docs/watchlist.json` 的 `classification`（每票含 archetype/profit/市值/上市年限 + 特性 vol/beta/maxdd）。
+- **定档规则**（回撤/波动/Beta 不参与定档，只作特性给交易层）：
+  - 题材投机 = 当前亏损 或 上市<3年；
+  - 核心 = 市值≥$50B 且 上市≥8年 且 **近3年逐年净利润为正**（成长核心=最新>3年前；稳定核心=年年正但未超3年前）；
+  - 趋势成长 = 有盈利但够不到核心。
+- 设计取舍记录：先用「波动/Beta」定档 → 发现把 LLY/NVDA 等误判 → 改纯基本面；「近4年」放宽为「近3年」；曾尝试「3年降幅>15%出局」，因一次性收益(JNJ 2023 Kenvue)与周期高点基数误伤优质股而**弃用**，最终**利润为正为唯一硬闸门**，"利润下滑"仅作标签。
+- **每半年复核一次**：`.github/workflows/stock_classify.yml`（1/1 与 7/1），档位变化写入 `watchlist_changelog.json`。
+- 均线信号页每只股票挂「分档徽章」；`ma_cross_signal` 从 classification 读取 archetype 带入 payload。
+
 ### 变更：Secondary 移出闸门 200周MA → 150周MA
 - 「移入 Secondary Watchlist」的闸门由周线200MA改为**周线150MA**（与强势股进场的周线120MA更接近，避免长期倒挂股「过了120进场线却低于200出场线」）。
 - 一次性迁移：已在 Secondary 里但已站上周线150MA的标的迁回主 watchlist（如 ALB：周收125.7 > 150wMA 111.3）。CI/COIN/INTU/ISRG 仍低于各自150MA，留在 Secondary。

@@ -1352,6 +1352,17 @@ function renderMaSignal(day) {
   const srcBadge = (src) => src === 'screener'
     ? `<span style="font-size:0.62rem;border:1px solid var(--border);border-radius:4px;padding:0 4px;color:var(--gold)">${t('筛选','Screener')}</span>`
     : `<span style="font-size:0.62rem;border:1px solid var(--border);border-radius:4px;padding:0 4px;color:var(--muted)">${t('自选','Manual')}</span>`;
+  // 个股分档徽章（半年复核一次，写在 watchlist）
+  const ARCH = {
+    '成长性核心': ['成长核心', 'Growth-core', 'var(--green)'],
+    '稳定核心':   ['稳定核心', 'Stable-core', '#58a6ff'],
+    '趋势成长':   ['趋势成长', 'Trend',       'var(--gold)'],
+    '题材投机':   ['题材投机', 'Speculative', 'var(--red)'],
+  };
+  const archBadge = (a) => {
+    const m = ARCH[a]; if (!m) return '';
+    return `<span style="font-size:0.62rem;border:1px solid ${m[2]};border-radius:4px;padding:0 4px;color:${m[2]};margin-left:3px">${t(m[0], m[1])}</span>`;
+  };
   if (suspended.length) {
     html += `<h2 style="margin-top:0.5rem">🗂️ ${t('二级观察名单 · Secondary Watchlist','Secondary Watchlist')}（${suspended.length}）</h2>`;
     html += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
@@ -1473,7 +1484,7 @@ function renderMaSignal(day) {
         + `${r.ma150}${r.below_ma150 ? ' ⚠' : ''}</td>`;
 
     html += '<tr>'
-          + `<td><b>${escHtml(r.ticker)}</b>${r.source === 'screener' ? ' ' + srcBadge('screener') : ''}</td>`
+          + `<td><b>${escHtml(r.ticker)}</b>${r.source === 'screener' ? ' ' + srcBadge('screener') : ''}${archBadge(r.archetype)}</td>`
           + `<td style="color:var(--muted)">${escHtml(tfTxt(tf))}</td>`
           + `<td style="color:${sigColor[sig]};font-weight:600">${sigCn[sig]}</td>`
           + `<td>$${(r.price ?? 0).toFixed(2)}</td>`

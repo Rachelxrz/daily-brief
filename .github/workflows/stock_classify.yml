@@ -1,0 +1,47 @@
+name: 🏷️ Semiannual Stock Classification
+
+# 每半年重新确认每只股票的基本面属性(成长性核心/稳定核心/趋势成长/题材投机)。
+# 写入 docs/watchlist.json 的 classification；档位变化记入 watchlist_changelog.json。
+on:
+  schedule:
+    - cron: '0 12 1 1,7 *'   # 每年 1月1日 与 7月1日 12:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: daily-brief-main-push
+  cancel-in-progress: false
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install yfinance pandas numpy pytz
+      - name: 个股基本面分档
+        run: python stock_classifier.py
+      - name: Commit & push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/watchlist.json docs/watchlist_changelog.json
+          if git diff --staged --quiet; then
+            echo "无变更，跳过提交"; exit 0
+          fi
+          git commit -m "🏷️ 个股分档半年复核 $(date -u +'%Y-%m-%d')"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "✅ 已推送（第 $i 次尝试）"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "⚠️ 第 $i 次推送失败，5s 后重试…"; sleep 5
+          done
+          echo "❌ 重试后仍失败"; exit 1
