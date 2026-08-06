@@ -46,7 +46,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/stock_screener.json
+          git add docs/data/stock_screener.json docs/watchlist.json
           if git diff --staged --quiet; then
             echo "无变更，跳过提交"; exit 0
           fi

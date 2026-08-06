@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 WATCHLIST_FILE       = Path(__file__).parent / "docs" / "watchlist.json"
 CST                  = timezone(timedelta(hours=8))
 CONGRESS_EXPIRY_DAYS = 90
+SCREENER_EXPIRY_DAYS = 30  # 强势股筛选信号：连续 30 天未再入选自动移除
 MIN_SCORE_ENTRY      = 3  # 中等信号（3分）以上才加入 congress_signals
 
 CORE_HOLDINGS = [
@@ -49,6 +50,11 @@ def _expiry(from_date: str) -> str:
     return d.strftime("%Y-%m-%d")
 
 
+def _expiry_days(from_date: str, days: int) -> str:
+    d = datetime.strptime(from_date, "%Y-%m-%d") + timedelta(days=days)
+    return d.strftime("%Y-%m-%d")
+
+
 # ── I/O ──────────────────────────────────────────────────────────────────
 
 def load_watchlist() -> dict:
@@ -62,6 +68,7 @@ def load_watchlist() -> dict:
         "core_holdings":   CORE_HOLDINGS,
         "long_term":       list(LONG_TERM_DEFAULT),
         "congress_signals": [],
+        "screener_signals": [],
         "wheel_positions": [],
     }
 
@@ -80,12 +87,13 @@ def save_watchlist(data: dict) -> None:
 # ── 读取接口 ──────────────────────────────────────────────────────────────
 
 def get_full_watchlist() -> list:
-    """返回三层合并的完整 ticker 列表（去重排序）。"""
+    """返回各层合并的完整 ticker 列表（去重排序）。"""
     data    = load_watchlist()
     tickers = set()
     tickers.update(h["ticker"] for h in data.get("core_holdings", []))
     tickers.update(data.get("long_term", []))
     tickers.update(s["ticker"] for s in data.get("congress_signals", []))
+    tickers.update(s["ticker"] for s in data.get("screener_signals", []))
     return sorted(tickers)
 
 
@@ -150,6 +158,49 @@ def remove_expired_tickers() -> list:
     return removed
 
 
+# ── screener_signals 管理（强势股筛选自动进出）────────────────────────────
+
+def sync_screener_signals(entries: list) -> dict:
+    """批量刷新 screener_signals 层：本次入选的刷新过期时间（30天），未入选的到期后自动移除。
+    entries: [{"ticker","sector","bucket"(current/potential)}]。一次 load/save，避免多次写盘。
+    返回 {"added":[...], "refreshed":[...], "removed":[...]}。"""
+    today = _today()
+    data  = load_watchlist()
+    sigs  = data.setdefault("screener_signals", [])
+    by_tk = {s["ticker"]: s for s in sigs}
+    added, refreshed = [], []
+    for e in entries or []:
+        tk = str(e.get("ticker") or "").upper()
+        if not tk or tk in ("", "N/A", "NONE"):
+            continue
+        if tk in by_tk:
+            s = by_tk[tk]
+            s["expires"]   = _expiry_days(today, SCREENER_EXPIRY_DAYS)
+            s["last_seen"] = today
+            s["bucket"]    = e.get("bucket")
+            s["sector"]    = e.get("sector")
+            refreshed.append(tk)
+        else:
+            new = {
+                "ticker":     tk,
+                "added_date": today,
+                "last_seen":  today,
+                "expires":    _expiry_days(today, SCREENER_EXPIRY_DAYS),
+                "bucket":     e.get("bucket"),
+                "sector":     e.get("sector"),
+            }
+            sigs.append(new)
+            by_tk[tk] = new
+            added.append(tk)
+    # 过期清理（expires < today）
+    before = len(sigs)
+    data["screener_signals"] = [s for s in sigs if s.get("expires", "") >= today]
+    removed_n = before - len(data["screener_signals"])
+    save_watchlist(data)
+    log.info(f"   📝 screener_signals: 新增{len(added)} 刷新{len(refreshed)} 过期移除{removed_n}")
+    return {"added": added, "refreshed": refreshed, "removed": removed_n}
+
+
 # ── wheel_positions 管理 ──────────────────────────────────────────────────
 
 def add_wheel_position(ticker: str, position_type: str, strike: float,
@@ -200,6 +251,7 @@ def _init_file() -> None:
         "core_holdings":   CORE_HOLDINGS,
         "long_term":       list(LONG_TERM_DEFAULT),
         "congress_signals": existing.get("congress_signals", []),
+        "screener_signals": existing.get("screener_signals", []),
         "wheel_positions":  existing.get("wheel_positions", []),
     }
     save_watchlist(data)

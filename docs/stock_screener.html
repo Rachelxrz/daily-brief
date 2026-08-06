@@ -167,6 +167,8 @@ function stockRow(s, i, isCurrent) {
   const maPill = isCurrent
     ? '<span class="ma-pill">20&gt;50&gt;150MA ✓</span>'
     : '<span class="badge na" style="font-size:0.6rem">待多头排列</span>';
+  const retPill = s.ret_2m != null ? `<span class="ma-pill" style="background:#0d1a2a;color:#58a6ff">2月 ${pStr(s.ret_2m)}</span>` : '';
+  const vol = s.vol_6m != null ? s.vol_6m.toFixed(1) + '%' : '—';
   return `<div class="stock-row">
     <div class="rank">${RANK[i]||'#'+(i+1)}</div>
     <div class="stock-main">
@@ -174,11 +176,11 @@ function stockRow(s, i, isCurrent) {
       <div class="stock-metas">
         ${maPill}
         ${niTxt ? `<span class="ma-pill" style="background:#1a1c22;color:#8b949e">${niTxt}</span>` : ''}
-        ${stPill}
+        ${retPill}${stPill}
       </div>
     </div>
     <div class="stock-right">
-      <div class="day-chg ${pCls(s.ret_2m)}">2月 ${pStr(s.ret_2m)}</div>
+      <div class="day-chg neu" title="6个月年化波动率（越小越稳，本档按此从小到大排）">6月波动 ${vol}</div>
       <div class="stock-price">$${s.price} · 今日 <span class="${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</span></div>
     </div>
   </div>`;
@@ -195,7 +197,7 @@ function bucket(label, stocks, isCurrent, emptyMsg) {
 function renderScreener(r) {
   const crit = document.getElementById('screen-criteria');
   if (crit) crit.textContent = r.screen_criteria
-    || '资金流入板块 · 潜在强势股=市值>2亿+近3季净利增/平 · 现有强势股=潜在+20MA>50MA>150MA';
+    || '资金流入板块 · 潜在=市值>2亿+近3季净利增/平 · 现有=潜在+多头排列 · 按6月波动率从小到大取前3';
 
   // 板块强弱条（全部板块，按 RS 降序；绿=资金流入）
   const bar  = document.getElementById('etf-bar');

@@ -52,6 +52,8 @@ WATCHLIST = [
 #   潜在强势股：① 市值 > 2 亿美元  ② 近3季净利润「增加或持平」（最新季>0）
 #   现有强势股：潜在 + ③ 20MA > 50MA > 150MA（多头排列）
 #   （现有 ⊂ 潜在；「持平」= 净利润环比降幅 ≤2%）
+#   排序：满足条件后按 6 个月波动率从小到大取前 3（挑最稳的，而非涨得最多的）。
+#   入选个股写入 watchlist 的 screener_signals 层（30天未再入选自动移除）→ 均线信号页会跟踪。
 #
 # 「资金流入板块」= sector_board 中 flow.tone == 'green'（相对大盘 3 月 RS ≥ 0）。
 # 候选股池 = 各板块 ETF 的代表性成分股（大/中盘）。
@@ -531,10 +533,14 @@ def screen_stock(symbol):
         ma150 = float(np.mean(cl[-150:]))
         ma_aligned = ma20 > ma50 > ma150
 
-    # 排序键：2 个月价格涨幅（动量）
+    # 2 个月价格涨幅（动量，供展示）
     md = SCREEN["mom_month_days"]
     c_now, c_2m = float(cl[-1]), float(cl[-1 - 2 * md])
     ret_2m = round((c_now / c_2m - 1) * 100, 2)
+
+    # 排序键：6 个月已实现波动率（年化%，越小越稳）—— 取最近 ~126 交易日日收益
+    rets = np.diff(np.log(cl[-127:]))
+    vol_6m = round(float(np.std(rets, ddof=1)) * np.sqrt(252) * 100, 1) if len(rets) >= 60 else None
 
     metrics = {
         "symbol": symbol, "price": round(price, 2), "day_change_pct": day_chg,
@@ -544,6 +550,7 @@ def screen_stock(symbol):
         "ma150": round(ma150, 2) if ma150 else None,
         "ma_aligned": ma_aligned,
         "ret_2m": ret_2m,
+        "vol_6m": vol_6m,             # 6 个月年化波动率（排序键，升序）
         "ni_q": ni["q"],              # [最新, 上季, 上上季] 净利润($M)
     }
     st_d = calc_supertrend(hist)
@@ -565,10 +572,11 @@ def screen_sector(sec):
                 m["sector"] = tk
                 passed.append(m)
                 tag = "现有" if m["ma_aligned"] else "潜在"
-                print(f"    ✅[{tag}] {symbol}: 2月{m['ret_2m']:+.1f}%  今日{m['day_change_pct']:+.2f}%")
+                print(f"    ✅[{tag}] {symbol}: 6月波动{m['vol_6m']}%  2月{m['ret_2m']:+.1f}%")
         except Exception as e:
             print(f"    ⚠️ {symbol}: {e}")
-    passed.sort(key=lambda x: x.get("ret_2m", -999), reverse=True)
+    # 满足条件后按「6 个月波动率」升序取前 N（挑最稳的），无波动数据的排最后
+    passed.sort(key=lambda x: (x.get("vol_6m") is None, x.get("vol_6m", 1e9)))
     n = SCREEN["top_per_sector"]
     current   = [m for m in passed if m["ma_aligned"]][:n]     # 现有强势股（+多头排列）
     potential = [m for m in passed if not m["ma_aligned"]][:n]  # 潜在强势股（仅基本面）
@@ -605,6 +613,20 @@ def run_all():
     else:
         print("⚠️ 无资金流入板块（或 sector_board 缺失），跳过")
 
+    # 将筛出的强势股（现有+潜在）写入 watchlist（screener_signals 层，30天未再入选自动移除）
+    try:
+        import watchlist_manager as wm
+        entries = []
+        for tk, b in results_by_sector.items():
+            for s in b.get("current", []):
+                entries.append({"ticker": s["symbol"], "sector": tk, "bucket": "current"})
+            for s in b.get("potential", []):
+                entries.append({"ticker": s["symbol"], "sector": tk, "bucket": "potential"})
+        res = wm.sync_screener_signals(entries)
+        print(f"📝 写入 watchlist：新增{len(res['added'])} 刷新{len(res['refreshed'])} 过期移除{res['removed']}")
+    except Exception as e:
+        print(f"⚠️ 写入 watchlist 失败：{e}")
+
     # sector_board 全部板块（含流出）供前端「板块强弱条」展示
     sector_flow = {}
     for r in (sb.get("sectors", []) if sb else []):
@@ -623,7 +645,7 @@ def run_all():
     report = {
         "date":         today_str,
         "generated_at": today.strftime("%Y-%m-%d %H:%M ET"),
-        "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
+        "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 满足条件后按6个月波动率从小到大取前3（选最稳的）",
         "inflow_sectors":    [s["ticker"] for s in inflow],
         "sector_flow":       sector_flow,
         "results_by_sector": results_by_sector,   # {tk:{current:[...],potential:[...]}}

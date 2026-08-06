@@ -1,8 +1,8 @@
 {
   "latest": {
     "date": "2026-08-06",
-    "generated_at": "2026-08-06 12:15 ET",
-    "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
+    "generated_at": "2026-08-06 14:45 ET",
+    "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 满足条件后按6个月波动率从小到大取前3（选最稳的）",
     "inflow_sectors": [
       "XLV",
       "XLF",
@@ -199,14 +199,15 @@
         "current": [
           {
             "symbol": "JNJ",
-            "price": 256.16,
-            "day_change_pct": -0.56,
-            "market_cap_b": 617.32,
-            "ma20": 256.49,
-            "ma50": 247.15,
-            "ma150": 235.91,
+            "price": 256.92,
+            "day_change_pct": -0.26,
+            "market_cap_b": 619.16,
+            "ma20": 256.53,
+            "ma50": 247.17,
+            "ma150": 235.92,
             "ma_aligned": true,
-            "ret_2m": 10.05,
+            "ret_2m": 10.38,
+            "vol_6m": 21.2,
             "ni_q": [
               5534.0,
               5235.0,
@@ -216,37 +217,39 @@
             "sector": "XLV"
           },
           {
-            "symbol": "LLY",
-            "price": 1175.65,
-            "day_change_pct": 0.49,
-            "market_cap_b": 1048.38,
-            "ma20": 1170.48,
-            "ma50": 1155.17,
-            "ma150": 1044.92,
+            "symbol": "CI",
+            "price": 273.35,
+            "day_change_pct": 1.05,
+            "market_cap_b": 72.23,
+            "ma20": 287.74,
+            "ma50": 285.65,
+            "ma150": 279.35,
             "ma_aligned": true,
-            "ret_2m": 3.91,
+            "ret_2m": -5.57,
+            "vol_6m": 29.1,
             "ni_q": [
-              7396.0,
-              6637.7,
-              5582.5
+              1660.0,
+              1654.0,
+              1234.0
             ],
             "supertrend": "bearish",
             "sector": "XLV"
           },
           {
-            "symbol": "CI",
-            "price": 272.97,
-            "day_change_pct": 0.91,
-            "market_cap_b": 72.13,
-            "ma20": 287.72,
-            "ma50": 285.64,
-            "ma150": 279.35,
+            "symbol": "LLY",
+            "price": 1184.17,
+            "day_change_pct": 1.22,
+            "market_cap_b": 1055.97,
+            "ma20": 1170.91,
+            "ma50": 1155.34,
+            "ma150": 1044.97,
             "ma_aligned": true,
-            "ret_2m": -5.7,
+            "ret_2m": 4.66,
+            "vol_6m": 36.9,
             "ni_q": [
-              1660.0,
-              1654.0,
-              1234.0
+              7396.0,
+              6637.7,
+              5582.5
             ],
             "supertrend": "bearish",
             "sector": "XLV"
@@ -255,14 +258,15 @@
         "potential": [
           {
             "symbol": "ISRG",
-            "price": 374.32,
-            "day_change_pct": -0.23,
-            "market_cap_b": 134.11,
-            "ma20": 365.74,
-            "ma50": 393.99,
-            "ma150": 455.63,
+            "price": 374.11,
+            "day_change_pct": -0.29,
+            "market_cap_b": 134.04,
+            "ma20": 365.73,
+            "ma50": 393.98,
+            "ma150": 455.62,
             "ma_aligned": false,
-            "ret_2m": -11.31,
+            "ret_2m": -11.36,
+            "vol_6m": 40.5,
             "ni_q": [
               818.1,
               821.5,
@@ -276,33 +280,16 @@
       "XLF": {
         "current": [
           {
-            "symbol": "SCHW",
-            "price": 107.25,
-            "day_change_pct": -0.71,
-            "market_cap_b": 186.52,
-            "ma20": 103.62,
-            "ma50": 96.51,
-            "ma150": 95.78,
-            "ma_aligned": true,
-            "ret_2m": 20.72,
-            "ni_q": [
-              2479.0,
-              2459.0,
-              2358.0
-            ],
-            "supertrend": "bullish",
-            "sector": "XLF"
-          },
-          {
             "symbol": "AXP",
-            "price": 344.8,
-            "day_change_pct": -1.2,
-            "market_cap_b": 232.85,
-            "ma20": 345.82,
-            "ma50": 335.96,
-            "ma150": 330.0,
+            "price": 343.98,
+            "day_change_pct": -1.44,
+            "market_cap_b": 232.29,
+            "ma20": 345.78,
+            "ma50": 335.95,
+            "ma150": 329.99,
             "ma_aligned": true,
-            "ret_2m": 11.29,
+            "ret_2m": 11.03,
+            "vol_6m": 29.3,
             "ni_q": [
               3110.0,
               2971.0,
@@ -312,15 +299,35 @@
             "sector": "XLF"
           },
           {
-            "symbol": "MS",
-            "price": 216.48,
-            "day_change_pct": -0.82,
-            "market_cap_b": 340.31,
-            "ma20": 215.2,
-            "ma50": 214.56,
-            "ma150": 189.34,
+            "symbol": "SCHW",
+            "price": 107.53,
+            "day_change_pct": -0.46,
+            "market_cap_b": 187.0,
+            "ma20": 103.63,
+            "ma50": 96.52,
+            "ma150": 95.78,
             "ma_aligned": true,
-            "ret_2m": 2.71,
+            "ret_2m": 21.03,
+            "vol_6m": 29.4,
+            "ni_q": [
+              2479.0,
+              2459.0,
+              2358.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLF"
+          },
+          {
+            "symbol": "MS",
+            "price": 215.51,
+            "day_change_pct": -1.26,
+            "market_cap_b": 338.78,
+            "ma20": 215.15,
+            "ma50": 214.54,
+            "ma150": 189.33,
+            "ma_aligned": true,
+            "ret_2m": 2.25,
+            "vol_6m": 32.0,
             "ni_q": [
               5581.0,
               5567.0,
@@ -335,33 +342,16 @@
       "XLK": {
         "current": [
           {
-            "symbol": "ANET",
-            "price": 191.76,
-            "day_change_pct": -2.81,
-            "market_cap_b": 241.46,
-            "ma20": 177.17,
-            "ma50": 169.85,
-            "ma150": 150.7,
-            "ma_aligned": true,
-            "ret_2m": 24.3,
-            "ni_q": [
-              1022.9,
-              955.8,
-              853.0
-            ],
-            "supertrend": "bullish",
-            "sector": "XLK"
-          },
-          {
             "symbol": "NVDA",
-            "price": 218.23,
-            "day_change_pct": -0.45,
-            "market_cap_b": 5285.75,
-            "ma20": 206.13,
-            "ma50": 205.8,
-            "ma150": 196.1,
+            "price": 219.88,
+            "day_change_pct": 0.3,
+            "market_cap_b": 5325.83,
+            "ma20": 206.21,
+            "ma50": 205.83,
+            "ma150": 196.11,
             "ma_aligned": true,
-            "ret_2m": 6.4,
+            "ret_2m": 7.21,
+            "vol_6m": 39.8,
             "ni_q": [
               58321.0,
               42960.0,
@@ -369,55 +359,77 @@
             ],
             "supertrend": "bullish",
             "sector": "XLK"
+          },
+          {
+            "symbol": "ANET",
+            "price": 192.55,
+            "day_change_pct": -2.41,
+            "market_cap_b": 242.46,
+            "ma20": 177.21,
+            "ma50": 169.86,
+            "ma150": 150.71,
+            "ma_aligned": true,
+            "ret_2m": 24.82,
+            "vol_6m": 60.3,
+            "ni_q": [
+              1022.9,
+              955.8,
+              853.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLK"
           }
         ],
         "potential": [
           {
-            "symbol": "AMAT",
-            "price": 530.23,
-            "day_change_pct": -0.75,
-            "market_cap_b": 420.98,
-            "ma20": 537.77,
-            "ma50": 551.35,
-            "ma150": 424.28,
+            "symbol": "CSCO",
+            "price": 120.98,
+            "day_change_pct": -0.43,
+            "market_cap_b": 476.83,
+            "ma20": 115.26,
+            "ma50": 117.61,
+            "ma150": 95.06,
             "ma_aligned": false,
-            "ret_2m": 17.05,
+            "ret_2m": -0.17,
+            "vol_6m": 41.0,
             "ni_q": [
-              2806.0,
-              2026.0,
-              1897.0
+              3373.0,
+              3175.0,
+              2860.0
             ],
             "supertrend": "bearish",
             "sector": "XLK"
           },
           {
-            "symbol": "PLTR",
-            "price": 155.73,
-            "day_change_pct": -1.7,
-            "market_cap_b": 373.33,
-            "ma20": 132.77,
-            "ma50": 131.81,
-            "ma150": 142.67,
+            "symbol": "TXN",
+            "price": 281.86,
+            "day_change_pct": 1.49,
+            "market_cap_b": 257.4,
+            "ma20": 284.93,
+            "ma50": 294.28,
+            "ma150": 246.3,
             "ma_aligned": false,
-            "ret_2m": 14.9,
+            "ret_2m": -0.62,
+            "vol_6m": 48.8,
             "ni_q": [
-              870.5,
-              608.7,
-              475.6
+              1980.0,
+              1545.0,
+              1163.0
             ],
-            "supertrend": "bullish",
+            "supertrend": "bearish",
             "sector": "XLK"
           },
           {
             "symbol": "INTU",
-            "price": 319.57,
-            "day_change_pct": -2.55,
-            "market_cap_b": 87.41,
-            "ma20": 301.5,
+            "price": 319.34,
+            "day_change_pct": -2.62,
+            "market_cap_b": 87.35,
+            "ma20": 301.48,
             "ma50": 290.74,
             "ma150": 391.26,
             "ma_aligned": false,
-            "ret_2m": 8.16,
+            "ret_2m": 8.09,
+            "vol_6m": 59.9,
             "ni_q": [
               3064.0,
               693.0,
@@ -432,14 +444,15 @@
         "current": [
           {
             "symbol": "NVDA",
-            "price": 218.23,
-            "day_change_pct": -0.45,
-            "market_cap_b": 5285.75,
-            "ma20": 206.13,
-            "ma50": 205.8,
-            "ma150": 196.1,
+            "price": 219.88,
+            "day_change_pct": 0.3,
+            "market_cap_b": 5325.83,
+            "ma20": 206.21,
+            "ma50": 205.83,
+            "ma150": 196.11,
             "ma_aligned": true,
-            "ret_2m": 6.4,
+            "ret_2m": 7.21,
+            "vol_6m": 39.8,
             "ni_q": [
               58321.0,
               42960.0,
@@ -451,55 +464,58 @@
         ],
         "potential": [
           {
-            "symbol": "AMAT",
-            "price": 530.23,
-            "day_change_pct": -0.75,
-            "market_cap_b": 420.98,
-            "ma20": 537.77,
-            "ma50": 551.35,
-            "ma150": 424.28,
+            "symbol": "ADI",
+            "price": 381.13,
+            "day_change_pct": 0.91,
+            "market_cap_b": 185.64,
+            "ma20": 377.07,
+            "ma50": 395.53,
+            "ma150": 359.57,
             "ma_aligned": false,
-            "ret_2m": 17.05,
+            "ret_2m": -5.05,
+            "vol_6m": 41.3,
             "ni_q": [
-              2806.0,
-              2026.0,
-              1897.0
+              1176.3,
+              830.8,
+              787.7
             ],
             "supertrend": "bearish",
             "sector": "SMH"
           },
           {
-            "symbol": "MU",
-            "price": 890.73,
-            "day_change_pct": -0.28,
-            "market_cap_b": 1005.98,
-            "ma20": 893.81,
-            "ma50": 972.06,
-            "ma150": 629.33,
+            "symbol": "TSM",
+            "price": 420.23,
+            "day_change_pct": 1.51,
+            "market_cap_b": 2179.54,
+            "ma20": 410.1,
+            "ma50": 425.75,
+            "ma150": 380.99,
             "ma_aligned": false,
-            "ret_2m": 3.11,
+            "ret_2m": 1.46,
+            "vol_6m": 46.3,
             "ni_q": [
-              28243.0,
-              13785.0,
-              5240.0
+              706562.0,
+              572479.8,
+              485465.4
             ],
             "supertrend": "bearish",
             "sector": "SMH"
           },
           {
-            "symbol": "LRCX",
-            "price": 308.65,
-            "day_change_pct": 0.4,
-            "market_cap_b": 386.21,
-            "ma20": 310.09,
-            "ma50": 337.97,
-            "ma150": 272.71,
+            "symbol": "TXN",
+            "price": 281.86,
+            "day_change_pct": 1.49,
+            "market_cap_b": 257.4,
+            "ma20": 284.93,
+            "ma50": 294.28,
+            "ma150": 246.3,
             "ma_aligned": false,
-            "ret_2m": 1.84,
+            "ret_2m": -0.62,
+            "vol_6m": 48.8,
             "ni_q": [
-              1825.5,
-              1594.0,
-              1568.7
+              1980.0,
+              1545.0,
+              1163.0
             ],
             "supertrend": "bearish",
             "sector": "SMH"
@@ -509,15 +525,54 @@
       "XLI": {
         "current": [
           {
+            "symbol": "CSX",
+            "price": 50.78,
+            "day_change_pct": -0.66,
+            "market_cap_b": 94.07,
+            "ma20": 50.64,
+            "ma50": 48.5,
+            "ma150": 43.43,
+            "ma_aligned": true,
+            "ret_2m": 8.07,
+            "vol_6m": 24.3,
+            "ni_q": [
+              1002.0,
+              807.0,
+              720.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
+            "symbol": "GD",
+            "price": 386.58,
+            "day_change_pct": 0.65,
+            "market_cap_b": 104.59,
+            "ma20": 378.41,
+            "ma50": 362.44,
+            "ma150": 351.31,
+            "ma_aligned": true,
+            "ret_2m": 12.08,
+            "vol_6m": 24.7,
+            "ni_q": [
+              1160.0,
+              1125.0,
+              1143.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
             "symbol": "RTX",
-            "price": 222.38,
-            "day_change_pct": 0.03,
-            "market_cap_b": 299.71,
+            "price": 222.5,
+            "day_change_pct": 0.09,
+            "market_cap_b": 299.88,
             "ma20": 206.78,
             "ma50": 193.89,
             "ma150": 192.67,
             "ma_aligned": true,
-            "ret_2m": 22.87,
+            "ret_2m": 22.93,
+            "vol_6m": 28.0,
             "ni_q": [
               2139.0,
               2059.0,
@@ -525,73 +580,20 @@
             ],
             "supertrend": "bullish",
             "sector": "XLI"
-          },
-          {
-            "symbol": "PH",
-            "price": 1060.82,
-            "day_change_pct": 6.41,
-            "market_cap_b": 133.75,
-            "ma20": 975.61,
-            "ma50": 941.47,
-            "ma150": 936.23,
-            "ma_aligned": true,
-            "ret_2m": 20.23,
-            "ni_q": [
-              904.0,
-              845.0,
-              808.0
-            ],
-            "supertrend": "bullish",
-            "sector": "XLI"
-          },
-          {
-            "symbol": "EMR",
-            "price": 157.15,
-            "day_change_pct": -3.27,
-            "market_cap_b": 87.66,
-            "ma20": 145.61,
-            "ma50": 143.66,
-            "ma150": 142.04,
-            "ma_aligned": true,
-            "ret_2m": 13.78,
-            "ni_q": [
-              718.0,
-              618.0,
-              605.0
-            ],
-            "supertrend": "bullish",
-            "sector": "XLI"
           }
         ],
         "potential": [
           {
-            "symbol": "LMT",
-            "price": 582.82,
-            "day_change_pct": 0.9,
-            "market_cap_b": 134.51,
-            "ma20": 550.06,
-            "ma50": 532.97,
-            "ma150": 568.32,
-            "ma_aligned": false,
-            "ret_2m": 11.28,
-            "ni_q": [
-              1836.0,
-              1488.0,
-              1344.0
-            ],
-            "supertrend": "bullish",
-            "sector": "XLI"
-          },
-          {
             "symbol": "HON",
-            "price": 241.89,
-            "day_change_pct": -2.51,
-            "market_cap_b": 76.66,
-            "ma20": 236.42,
-            "ma50": 234.63,
-            "ma150": 234.82,
+            "price": 240.99,
+            "day_change_pct": -2.87,
+            "market_cap_b": 76.38,
+            "ma20": 236.38,
+            "ma50": 234.61,
+            "ma150": 234.81,
             "ma_aligned": false,
-            "ret_2m": 7.79,
+            "ret_2m": 7.39,
+            "vol_6m": 29.6,
             "ni_q": [
               5682.0,
               821.0,
@@ -601,15 +603,35 @@
             "sector": "XLI"
           },
           {
+            "symbol": "LMT",
+            "price": 581.35,
+            "day_change_pct": 0.65,
+            "market_cap_b": 134.17,
+            "ma20": 549.99,
+            "ma50": 532.94,
+            "ma150": 568.31,
+            "ma_aligned": false,
+            "ret_2m": 11.0,
+            "vol_6m": 30.1,
+            "ni_q": [
+              1836.0,
+              1488.0,
+              1344.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
             "symbol": "CAT",
-            "price": 865.55,
-            "day_change_pct": -0.63,
-            "market_cap_b": 398.67,
-            "ma20": 873.48,
-            "ma50": 917.15,
+            "price": 866.7,
+            "day_change_pct": -0.5,
+            "market_cap_b": 399.2,
+            "ma20": 873.54,
+            "ma50": 917.17,
             "ma150": 801.35,
             "ma_aligned": false,
-            "ret_2m": -4.11,
+            "ret_2m": -3.98,
+            "vol_6m": 44.6,
             "ni_q": [
               2549.0,
               2402.0,
@@ -625,8 +647,8 @@
   "history": [
     {
       "date": "2026-08-06",
-      "generated_at": "2026-08-06 12:15 ET",
-      "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
+      "generated_at": "2026-08-06 14:45 ET",
+      "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 满足条件后按6个月波动率从小到大取前3（选最稳的）",
       "inflow_sectors": [
         "XLV",
         "XLF",
@@ -823,14 +845,15 @@
           "current": [
             {
               "symbol": "JNJ",
-              "price": 256.16,
-              "day_change_pct": -0.56,
-              "market_cap_b": 617.32,
-              "ma20": 256.49,
-              "ma50": 247.15,
-              "ma150": 235.91,
+              "price": 256.92,
+              "day_change_pct": -0.26,
+              "market_cap_b": 619.16,
+              "ma20": 256.53,
+              "ma50": 247.17,
+              "ma150": 235.92,
               "ma_aligned": true,
-              "ret_2m": 10.05,
+              "ret_2m": 10.38,
+              "vol_6m": 21.2,
               "ni_q": [
                 5534.0,
                 5235.0,
@@ -840,37 +863,39 @@
               "sector": "XLV"
             },
             {
-              "symbol": "LLY",
-              "price": 1175.65,
-              "day_change_pct": 0.49,
-              "market_cap_b": 1048.38,
-              "ma20": 1170.48,
-              "ma50": 1155.17,
-              "ma150": 1044.92,
+              "symbol": "CI",
+              "price": 273.35,
+              "day_change_pct": 1.05,
+              "market_cap_b": 72.23,
+              "ma20": 287.74,
+              "ma50": 285.65,
+              "ma150": 279.35,
               "ma_aligned": true,
-              "ret_2m": 3.91,
+              "ret_2m": -5.57,
+              "vol_6m": 29.1,
               "ni_q": [
-                7396.0,
-                6637.7,
-                5582.5
+                1660.0,
+                1654.0,
+                1234.0
               ],
               "supertrend": "bearish",
               "sector": "XLV"
             },
             {
-              "symbol": "CI",
-              "price": 272.97,
-              "day_change_pct": 0.91,
-              "market_cap_b": 72.13,
-              "ma20": 287.72,
-              "ma50": 285.64,
-              "ma150": 279.35,
+              "symbol": "LLY",
+              "price": 1184.17,
+              "day_change_pct": 1.22,
+              "market_cap_b": 1055.97,
+              "ma20": 1170.91,
+              "ma50": 1155.34,
+              "ma150": 1044.97,
               "ma_aligned": true,
-              "ret_2m": -5.7,
+              "ret_2m": 4.66,
+              "vol_6m": 36.9,
               "ni_q": [
-                1660.0,
-                1654.0,
-                1234.0
+                7396.0,
+                6637.7,
+                5582.5
               ],
               "supertrend": "bearish",
               "sector": "XLV"
@@ -879,14 +904,15 @@
           "potential": [
             {
               "symbol": "ISRG",
-              "price": 374.32,
-              "day_change_pct": -0.23,
-              "market_cap_b": 134.11,
-              "ma20": 365.74,
-              "ma50": 393.99,
-              "ma150": 455.63,
+              "price": 374.11,
+              "day_change_pct": -0.29,
+              "market_cap_b": 134.04,
+              "ma20": 365.73,
+              "ma50": 393.98,
+              "ma150": 455.62,
               "ma_aligned": false,
-              "ret_2m": -11.31,
+              "ret_2m": -11.36,
+              "vol_6m": 40.5,
               "ni_q": [
                 818.1,
                 821.5,
@@ -900,33 +926,16 @@
         "XLF": {
           "current": [
             {
-              "symbol": "SCHW",
-              "price": 107.25,
-              "day_change_pct": -0.71,
-              "market_cap_b": 186.52,
-              "ma20": 103.62,
-              "ma50": 96.51,
-              "ma150": 95.78,
-              "ma_aligned": true,
-              "ret_2m": 20.72,
-              "ni_q": [
-                2479.0,
-                2459.0,
-                2358.0
-              ],
-              "supertrend": "bullish",
-              "sector": "XLF"
-            },
-            {
               "symbol": "AXP",
-              "price": 344.8,
-              "day_change_pct": -1.2,
-              "market_cap_b": 232.85,
-              "ma20": 345.82,
-              "ma50": 335.96,
-              "ma150": 330.0,
+              "price": 343.98,
+              "day_change_pct": -1.44,
+              "market_cap_b": 232.29,
+              "ma20": 345.78,
+              "ma50": 335.95,
+              "ma150": 329.99,
               "ma_aligned": true,
-              "ret_2m": 11.29,
+              "ret_2m": 11.03,
+              "vol_6m": 29.3,
               "ni_q": [
                 3110.0,
                 2971.0,
@@ -936,15 +945,35 @@
               "sector": "XLF"
             },
             {
-              "symbol": "MS",
-              "price": 216.48,
-              "day_change_pct": -0.82,
-              "market_cap_b": 340.31,
-              "ma20": 215.2,
-              "ma50": 214.56,
-              "ma150": 189.34,
+              "symbol": "SCHW",
+              "price": 107.53,
+              "day_change_pct": -0.46,
+              "market_cap_b": 187.0,
+              "ma20": 103.63,
+              "ma50": 96.52,
+              "ma150": 95.78,
               "ma_aligned": true,
-              "ret_2m": 2.71,
+              "ret_2m": 21.03,
+              "vol_6m": 29.4,
+              "ni_q": [
+                2479.0,
+                2459.0,
+                2358.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLF"
+            },
+            {
+              "symbol": "MS",
+              "price": 215.51,
+              "day_change_pct": -1.26,
+              "market_cap_b": 338.78,
+              "ma20": 215.15,
+              "ma50": 214.54,
+              "ma150": 189.33,
+              "ma_aligned": true,
+              "ret_2m": 2.25,
+              "vol_6m": 32.0,
               "ni_q": [
                 5581.0,
                 5567.0,
@@ -959,33 +988,16 @@
         "XLK": {
           "current": [
             {
-              "symbol": "ANET",
-              "price": 191.76,
-              "day_change_pct": -2.81,
-              "market_cap_b": 241.46,
-              "ma20": 177.17,
-              "ma50": 169.85,
-              "ma150": 150.7,
-              "ma_aligned": true,
-              "ret_2m": 24.3,
-              "ni_q": [
-                1022.9,
-                955.8,
-                853.0
-              ],
-              "supertrend": "bullish",
-              "sector": "XLK"
-            },
-            {
               "symbol": "NVDA",
-              "price": 218.23,
-              "day_change_pct": -0.45,
-              "market_cap_b": 5285.75,
-              "ma20": 206.13,
-              "ma50": 205.8,
-              "ma150": 196.1,
+              "price": 219.88,
+              "day_change_pct": 0.3,
+              "market_cap_b": 5325.83,
+              "ma20": 206.21,
+              "ma50": 205.83,
+              "ma150": 196.11,
               "ma_aligned": true,
-              "ret_2m": 6.4,
+              "ret_2m": 7.21,
+              "vol_6m": 39.8,
               "ni_q": [
                 58321.0,
                 42960.0,
@@ -993,55 +1005,77 @@
               ],
               "supertrend": "bullish",
               "sector": "XLK"
+            },
+            {
+              "symbol": "ANET",
+              "price": 192.55,
+              "day_change_pct": -2.41,
+              "market_cap_b": 242.46,
+              "ma20": 177.21,
+              "ma50": 169.86,
+              "ma150": 150.71,
+              "ma_aligned": true,
+              "ret_2m": 24.82,
+              "vol_6m": 60.3,
+              "ni_q": [
+                1022.9,
+                955.8,
+                853.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLK"
             }
           ],
           "potential": [
             {
-              "symbol": "AMAT",
-              "price": 530.23,
-              "day_change_pct": -0.75,
-              "market_cap_b": 420.98,
-              "ma20": 537.77,
-              "ma50": 551.35,
-              "ma150": 424.28,
+              "symbol": "CSCO",
+              "price": 120.98,
+              "day_change_pct": -0.43,
+              "market_cap_b": 476.83,
+              "ma20": 115.26,
+              "ma50": 117.61,
+              "ma150": 95.06,
               "ma_aligned": false,
-              "ret_2m": 17.05,
+              "ret_2m": -0.17,
+              "vol_6m": 41.0,
               "ni_q": [
-                2806.0,
-                2026.0,
-                1897.0
+                3373.0,
+                3175.0,
+                2860.0
               ],
               "supertrend": "bearish",
               "sector": "XLK"
             },
             {
-              "symbol": "PLTR",
-              "price": 155.73,
-              "day_change_pct": -1.7,
-              "market_cap_b": 373.33,
-              "ma20": 132.77,
-              "ma50": 131.81,
-              "ma150": 142.67,
+              "symbol": "TXN",
+              "price": 281.86,
+              "day_change_pct": 1.49,
+              "market_cap_b": 257.4,
+              "ma20": 284.93,
+              "ma50": 294.28,
+              "ma150": 246.3,
               "ma_aligned": false,
-              "ret_2m": 14.9,
+              "ret_2m": -0.62,
+              "vol_6m": 48.8,
               "ni_q": [
-                870.5,
-                608.7,
-                475.6
+                1980.0,
+                1545.0,
+                1163.0
               ],
-              "supertrend": "bullish",
+              "supertrend": "bearish",
               "sector": "XLK"
             },
             {
               "symbol": "INTU",
-              "price": 319.57,
-              "day_change_pct": -2.55,
-              "market_cap_b": 87.41,
-              "ma20": 301.5,
+              "price": 319.34,
+              "day_change_pct": -2.62,
+              "market_cap_b": 87.35,
+              "ma20": 301.48,
               "ma50": 290.74,
               "ma150": 391.26,
               "ma_aligned": false,
-              "ret_2m": 8.16,
+              "ret_2m": 8.09,
+              "vol_6m": 59.9,
               "ni_q": [
                 3064.0,
                 693.0,
@@ -1056,14 +1090,15 @@
           "current": [
             {
               "symbol": "NVDA",
-              "price": 218.23,
-              "day_change_pct": -0.45,
-              "market_cap_b": 5285.75,
-              "ma20": 206.13,
-              "ma50": 205.8,
-              "ma150": 196.1,
+              "price": 219.88,
+              "day_change_pct": 0.3,
+              "market_cap_b": 5325.83,
+              "ma20": 206.21,
+              "ma50": 205.83,
+              "ma150": 196.11,
               "ma_aligned": true,
-              "ret_2m": 6.4,
+              "ret_2m": 7.21,
+              "vol_6m": 39.8,
               "ni_q": [
                 58321.0,
                 42960.0,
@@ -1075,55 +1110,58 @@
           ],
           "potential": [
             {
-              "symbol": "AMAT",
-              "price": 530.23,
-              "day_change_pct": -0.75,
-              "market_cap_b": 420.98,
-              "ma20": 537.77,
-              "ma50": 551.35,
-              "ma150": 424.28,
+              "symbol": "ADI",
+              "price": 381.13,
+              "day_change_pct": 0.91,
+              "market_cap_b": 185.64,
+              "ma20": 377.07,
+              "ma50": 395.53,
+              "ma150": 359.57,
               "ma_aligned": false,
-              "ret_2m": 17.05,
+              "ret_2m": -5.05,
+              "vol_6m": 41.3,
               "ni_q": [
-                2806.0,
-                2026.0,
-                1897.0
+                1176.3,
+                830.8,
+                787.7
               ],
               "supertrend": "bearish",
               "sector": "SMH"
             },
             {
-              "symbol": "MU",
-              "price": 890.73,
-              "day_change_pct": -0.28,
-              "market_cap_b": 1005.98,
-              "ma20": 893.81,
-              "ma50": 972.06,
-              "ma150": 629.33,
+              "symbol": "TSM",
+              "price": 420.23,
+              "day_change_pct": 1.51,
+              "market_cap_b": 2179.54,
+              "ma20": 410.1,
+              "ma50": 425.75,
+              "ma150": 380.99,
               "ma_aligned": false,
-              "ret_2m": 3.11,
+              "ret_2m": 1.46,
+              "vol_6m": 46.3,
               "ni_q": [
-                28243.0,
-                13785.0,
-                5240.0
+                706562.0,
+                572479.8,
+                485465.4
               ],
               "supertrend": "bearish",
               "sector": "SMH"
             },
             {
-              "symbol": "LRCX",
-              "price": 308.65,
-              "day_change_pct": 0.4,
-              "market_cap_b": 386.21,
-              "ma20": 310.09,
-              "ma50": 337.97,
-              "ma150": 272.71,
+              "symbol": "TXN",
+              "price": 281.86,
+              "day_change_pct": 1.49,
+              "market_cap_b": 257.4,
+              "ma20": 284.93,
+              "ma50": 294.28,
+              "ma150": 246.3,
               "ma_aligned": false,
-              "ret_2m": 1.84,
+              "ret_2m": -0.62,
+              "vol_6m": 48.8,
               "ni_q": [
-                1825.5,
-                1594.0,
-                1568.7
+                1980.0,
+                1545.0,
+                1163.0
               ],
               "supertrend": "bearish",
               "sector": "SMH"
@@ -1133,15 +1171,54 @@
         "XLI": {
           "current": [
             {
+              "symbol": "CSX",
+              "price": 50.78,
+              "day_change_pct": -0.66,
+              "market_cap_b": 94.07,
+              "ma20": 50.64,
+              "ma50": 48.5,
+              "ma150": 43.43,
+              "ma_aligned": true,
+              "ret_2m": 8.07,
+              "vol_6m": 24.3,
+              "ni_q": [
+                1002.0,
+                807.0,
+                720.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
+              "symbol": "GD",
+              "price": 386.58,
+              "day_change_pct": 0.65,
+              "market_cap_b": 104.59,
+              "ma20": 378.41,
+              "ma50": 362.44,
+              "ma150": 351.31,
+              "ma_aligned": true,
+              "ret_2m": 12.08,
+              "vol_6m": 24.7,
+              "ni_q": [
+                1160.0,
+                1125.0,
+                1143.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
               "symbol": "RTX",
-              "price": 222.38,
-              "day_change_pct": 0.03,
-              "market_cap_b": 299.71,
+              "price": 222.5,
+              "day_change_pct": 0.09,
+              "market_cap_b": 299.88,
               "ma20": 206.78,
               "ma50": 193.89,
               "ma150": 192.67,
               "ma_aligned": true,
-              "ret_2m": 22.87,
+              "ret_2m": 22.93,
+              "vol_6m": 28.0,
               "ni_q": [
                 2139.0,
                 2059.0,
@@ -1149,73 +1226,20 @@
               ],
               "supertrend": "bullish",
               "sector": "XLI"
-            },
-            {
-              "symbol": "PH",
-              "price": 1060.82,
-              "day_change_pct": 6.41,
-              "market_cap_b": 133.75,
-              "ma20": 975.61,
-              "ma50": 941.47,
-              "ma150": 936.23,
-              "ma_aligned": true,
-              "ret_2m": 20.23,
-              "ni_q": [
-                904.0,
-                845.0,
-                808.0
-              ],
-              "supertrend": "bullish",
-              "sector": "XLI"
-            },
-            {
-              "symbol": "EMR",
-              "price": 157.15,
-              "day_change_pct": -3.27,
-              "market_cap_b": 87.66,
-              "ma20": 145.61,
-              "ma50": 143.66,
-              "ma150": 142.04,
-              "ma_aligned": true,
-              "ret_2m": 13.78,
-              "ni_q": [
-                718.0,
-                618.0,
-                605.0
-              ],
-              "supertrend": "bullish",
-              "sector": "XLI"
             }
           ],
           "potential": [
             {
-              "symbol": "LMT",
-              "price": 582.82,
-              "day_change_pct": 0.9,
-              "market_cap_b": 134.51,
-              "ma20": 550.06,
-              "ma50": 532.97,
-              "ma150": 568.32,
-              "ma_aligned": false,
-              "ret_2m": 11.28,
-              "ni_q": [
-                1836.0,
-                1488.0,
-                1344.0
-              ],
-              "supertrend": "bullish",
-              "sector": "XLI"
-            },
-            {
               "symbol": "HON",
-              "price": 241.89,
-              "day_change_pct": -2.51,
-              "market_cap_b": 76.66,
-              "ma20": 236.42,
-              "ma50": 234.63,
-              "ma150": 234.82,
+              "price": 240.99,
+              "day_change_pct": -2.87,
+              "market_cap_b": 76.38,
+              "ma20": 236.38,
+              "ma50": 234.61,
+              "ma150": 234.81,
               "ma_aligned": false,
-              "ret_2m": 7.79,
+              "ret_2m": 7.39,
+              "vol_6m": 29.6,
               "ni_q": [
                 5682.0,
                 821.0,
@@ -1225,15 +1249,35 @@
               "sector": "XLI"
             },
             {
+              "symbol": "LMT",
+              "price": 581.35,
+              "day_change_pct": 0.65,
+              "market_cap_b": 134.17,
+              "ma20": 549.99,
+              "ma50": 532.94,
+              "ma150": 568.31,
+              "ma_aligned": false,
+              "ret_2m": 11.0,
+              "vol_6m": 30.1,
+              "ni_q": [
+                1836.0,
+                1488.0,
+                1344.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
               "symbol": "CAT",
-              "price": 865.55,
-              "day_change_pct": -0.63,
-              "market_cap_b": 398.67,
-              "ma20": 873.48,
-              "ma50": 917.15,
+              "price": 866.7,
+              "day_change_pct": -0.5,
+              "market_cap_b": 399.2,
+              "ma20": 873.54,
+              "ma50": 917.17,
               "ma150": 801.35,
               "ma_aligned": false,
-              "ret_2m": -4.11,
+              "ret_2m": -3.98,
+              "vol_6m": 44.6,
               "ni_q": [
                 2549.0,
                 2402.0,
@@ -22942,5 +22986,5 @@
       }
     }
   ],
-  "updated_at": "2026-08-06 12:15 ET"
+  "updated_at": "2026-08-06 14:45 ET"
 }

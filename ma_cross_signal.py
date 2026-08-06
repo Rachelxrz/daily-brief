@@ -112,6 +112,11 @@ def load_tickers() -> list:
     for t in wl.get("long_term", []):
         if t:
             tickers.append(str(t).upper())
+    # 强势股筛选自动加入的标的（screener_signals 层，30天过期）→ 一并跟踪均线信号
+    for s in wl.get("screener_signals", []):
+        t = s.get("ticker") if isinstance(s, dict) else s
+        if t:
+            tickers.append(str(t).upper())
     # 去重保序 + 排除
     seen, out = set(), []
     for t in tickers:
