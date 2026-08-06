@@ -197,7 +197,7 @@ function bucket(label, stocks, isCurrent, emptyMsg) {
 function renderScreener(r) {
   const crit = document.getElementById('screen-criteria');
   if (crit) crit.textContent = r.screen_criteria
-    || '资金流入板块 · 潜在=市值>2亿+近3季净利增/平 · 现有=潜在+多头排列 · 按6月波动率从小到大取前3';
+    || '资金流入板块 · 潜在=市值>2亿+周线>120MA+近3季净利增/平 · 现有=潜在+日线多头排列 · 按6月波动率从小到大取前3';
 
   // 板块强弱条（全部板块，按 RS 降序；绿=资金流入）
   const bar  = document.getElementById('etf-bar');

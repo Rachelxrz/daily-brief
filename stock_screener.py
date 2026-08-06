@@ -49,8 +49,8 @@ WATCHLIST = [
 # ═══════════════════════════════════════════════
 #
 # 【规则 v4.1】从 sector_board 的「资金流入板块」中，每个板块分两档，各按2月涨幅取前3：
-#   潜在强势股：① 市值 > 2 亿美元  ② 近3季净利润「增加或持平」（最新季>0）
-#   现有强势股：潜在 + ③ 20MA > 50MA > 150MA（多头排列）
+#   潜在强势股：① 市值 > 2 亿美元  ② 周线价格 > 120周MA  ③ 近3季净利润「增加或持平」（最新季>0）
+#   现有强势股：潜在 + ④ 日线 20MA > 50MA > 150MA（多头排列）
 #   （现有 ⊂ 潜在；「持平」= 净利润环比降幅 ≤2%）
 #   排序：满足条件后按 6 个月波动率从小到大取前 3（挑最稳的，而非涨得最多的）。
 #   入选个股写入 watchlist 的 screener_signals 层（30天未再入选自动移除）→ 均线信号页会跟踪。
@@ -64,6 +64,7 @@ SCREEN = {
     "top_per_sector": 3,
     "min_hist_rank": 45,                  # 至少 2 个月历史（供动量排序）
     "ma_hist": 150,                       # ≥150 根才判多头排列
+    "wk_ma_long": 120,                    # 周线 120MA：价格必须站上
     "ni_flat_tol": 0.02,                  # 净利润环比降幅 ≤2% 视为「持平」
 }
 
@@ -493,9 +494,24 @@ def net_income_trend(t):
     return {"q": [round(q0 / 1e6, 1), round(q1 / 1e6, 1), round(q2 / 1e6, 1)], "ok": ok}
 
 
+def _weekly_price_ma(t, n):
+    """返回 (最新周线收盘, n周MA)。周线不足 n 根 → MA=None。"""
+    try:
+        df = t.history(period="5y", interval="1wk", auto_adjust=True)
+    except Exception:
+        return None, None
+    if df is None or df.empty or "Close" not in df:
+        return None, None
+    cl = df["Close"].dropna().values.astype(float)
+    if len(cl) == 0:
+        return None, None
+    ma = float(np.mean(cl[-n:])) if len(cl) >= n else None
+    return float(cl[-1]), ma
+
+
 def screen_stock(symbol):
-    """结构过滤（市值 + 近3季净利润增/平）。通过返回 metrics（含 ma_aligned 标记）；否则 None。
-    ma_aligned = 20MA>50MA>150MA（多头排列）→ 用于区分「现有强势股」/「潜在强势股」。"""
+    """结构过滤（市值 + 周线站上120MA + 近3季净利润增/平）。通过返回 metrics（含 ma_aligned）；否则 None。
+    ma_aligned = 日线 20MA>50MA>150MA（多头排列）→ 区分「现有强势股」/「潜在强势股」。"""
     t, hist = get_hist(symbol, "1y")
     if hist is None:
         return None
@@ -519,7 +535,12 @@ def screen_stock(symbol):
     if mcap and mcap < SCREEN["min_market_cap_usd"]:
         return None
 
-    # 2) 最近 3 个季度净利润「增加或持平」（且最新季 > 0）
+    # 2) 周线价格 > 120周MA（站上长期周线均线；周线不足120根则淘汰）
+    wk_close, wk120 = _weekly_price_ma(t, SCREEN["wk_ma_long"])
+    if wk120 is None or wk_close is None or wk_close <= wk120:
+        return None
+
+    # 3) 最近 3 个季度净利润「增加或持平」（且最新季 > 0）
     ni = net_income_trend(t)
     if ni is None or not ni["ok"]:
         return None
@@ -551,6 +572,7 @@ def screen_stock(symbol):
         "ma_aligned": ma_aligned,
         "ret_2m": ret_2m,
         "vol_6m": vol_6m,             # 6 个月年化波动率（排序键，升序）
+        "wk120": round(wk120, 2),     # 120周MA（价格已站上）
         "ni_q": ni["q"],              # [最新, 上季, 上上季] 净利润($M)
     }
     st_d = calc_supertrend(hist)
@@ -601,7 +623,7 @@ def run_all():
     print(f"{'═'*55}")
 
     # ── 资金流入板块 强势股筛选（潜在 / 现有 两档）──
-    print("📊 资金流入板块 强势股（潜在=市值>2亿+近3季净利增/平；现有=潜在+多头排列）")
+    print("📊 资金流入板块 强势股（潜在=市值>2亿+周线>120MA+近3季净利增/平；现有=潜在+日线多头排列）")
     sb = load_sector_board()
     inflow = get_inflow_sectors(sb)
 
@@ -623,7 +645,7 @@ def run_all():
             for s in b.get("potential", []):
                 entries.append({"ticker": s["symbol"], "sector": tk, "bucket": "potential"})
         res = wm.sync_screener_signals(entries)
-        print(f"📝 写入 watchlist：新增{len(res['added'])} 刷新{len(res['refreshed'])} 过期移除{res['removed']}")
+        print(f"📝 写入 watchlist：新增{len(res['added'])} 刷新{len(res['refreshed'])}（跌破周线200MA才移除）")
     except Exception as e:
         print(f"⚠️ 写入 watchlist 失败：{e}")
 
@@ -645,7 +667,7 @@ def run_all():
     report = {
         "date":         today_str,
         "generated_at": today.strftime("%Y-%m-%d %H:%M ET"),
-        "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 满足条件后按6个月波动率从小到大取前3（选最稳的）",
+        "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+周线站上120MA+近3季净利润增/平 · 现有强势股=潜在+日线20>50>150MA · 满足条件后按6个月波动率从小到大取前3（选最稳的）",
         "inflow_sectors":    [s["ticker"] for s in inflow],
         "sector_flow":       sector_flow,
         "results_by_sector": results_by_sector,   # {tk:{current:[...],potential:[...]}}

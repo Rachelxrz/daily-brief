@@ -227,7 +227,6 @@
       "ticker": "JNJ",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLV"
     },
@@ -235,7 +234,6 @@
       "ticker": "LLY",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLV"
     },
@@ -243,7 +241,6 @@
       "ticker": "AXP",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLF"
     },
@@ -251,7 +248,6 @@
       "ticker": "SCHW",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLF"
     },
@@ -259,7 +255,6 @@
       "ticker": "MS",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLF"
     },
@@ -267,7 +262,6 @@
       "ticker": "NVDA",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "SMH"
     },
@@ -275,7 +269,6 @@
       "ticker": "ANET",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLK"
     },
@@ -283,7 +276,6 @@
       "ticker": "CSCO",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "XLK"
     },
@@ -291,7 +283,6 @@
       "ticker": "TXN",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "SMH"
     },
@@ -299,7 +290,6 @@
       "ticker": "ADI",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "SMH"
     },
@@ -307,7 +297,6 @@
       "ticker": "TSM",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "SMH"
     },
@@ -315,7 +304,6 @@
       "ticker": "CSX",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLI"
     },
@@ -323,7 +311,6 @@
       "ticker": "GD",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLI"
     },
@@ -331,7 +318,6 @@
       "ticker": "RTX",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "current",
       "sector": "XLI"
     },
@@ -339,7 +325,6 @@
       "ticker": "HON",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "XLI"
     },
@@ -347,7 +332,6 @@
       "ticker": "LMT",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "XLI"
     },
@@ -355,9 +339,15 @@
       "ticker": "CAT",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "XLI"
+    },
+    {
+      "ticker": "PLTR",
+      "added_date": "2026-08-07",
+      "last_seen": "2026-08-07",
+      "bucket": "potential",
+      "sector": "XLK"
     }
   ],
   "suspended": [
