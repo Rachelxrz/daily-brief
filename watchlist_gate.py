@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""watchlist_gate.py — 周线200MA 暂停/恢复引擎
+"""watchlist_gate.py — 周线150MA 移出/回归引擎（Secondary Watchlist）
 
 规则（对 watchlist 全部标的：core_holdings + long_term + screener_signals）：
-  · 暂停触发：周线收盘 < 200周MA  → 移出活跃跟踪（不再给买卖信号），记住来源以便恢复。
-  · 恢复触发（全部满足）：周线收盘 > 150周MA 且 > 20周MA 且 连续2季度净利润>0且上升。
-    —— ETF/无财报标的（GLD/QQQ/COPX/ETHA…）无利润，恢复仅看价格（>150MA 且 >20MA）。
-  · 200MA暂停 / 150MA恢复 → 迟滞带，避免反复横跳。
+  · 移出触发：周线收盘 < 150周MA  → 移入 Secondary Watchlist（不再给买卖信号），记住来源以便回归。
+  · 回归触发（全部满足）：周线收盘 > 150周MA 且 > 20周MA 且 连续2季度净利润>0且上升。
+    —— ETF/无财报标的（GLD/QQQ/COPX/ETHA…）无利润，回归仅看价格（>150MA 且 >20MA）。
+  · 移出只看150MA；回归还需站上20MA+盈利上升 → 形成迟滞，避免反复横跳。
 
-被暂停的标的：均线信号页显示「已暂停」，不给买卖信号；变动写入 watchlist_changelog.json。
-每个交易日在 ma_cross_signal 之前运行（见 daily_brief.yml）。
+被移出的标的：均线信号页「Secondary Watchlist」显示，不给买卖信号；变动写入 watchlist_changelog.json。
+移出每日检测（daily_brief）；回归复查每周一次（watchlist_promote.yml）。
 """
 import logging
 import numpy as np
@@ -18,9 +18,8 @@ import watchlist_manager as wm
 
 log = logging.getLogger("watchlist_gate")
 
-WK_LONG   = 200   # 周线 200MA（暂停闸门）
-WK_MID    = 150   # 周线 150MA（恢复闸门·价格）
-WK_SHORT  = 20    # 周线 20MA（恢复闸门·价格）
+WK_EXIT   = 150   # 周线 150MA（移出 Secondary 的闸门；也是回归的价格线）
+WK_SHORT  = 20    # 周线 20MA（回归闸门·价格）
 
 
 def _weekly_closes(t: yf.Ticker):
@@ -100,18 +99,17 @@ def evaluate(promote: bool = False) -> dict:
                 skipped.append(tk)
                 continue
             close = float(cl[-1])
-            ma200 = _ma(cl, WK_LONG)
-            ma150 = _ma(cl, WK_MID)
+            ma150 = _ma(cl, WK_EXIT)
             ma20  = _ma(cl, WK_SHORT)
             is_susp = tk in suspended
 
             if not is_susp:
-                # 主 watchlist 活跃 → 是否跌破200周MA → 移入 Secondary Watchlist
-                if ma200 is not None and close < ma200:
+                # 主 watchlist 活跃 → 是否跌破150周MA → 移入 Secondary Watchlist
+                if ma150 is not None and close < ma150:
                     to_suspend.append({
                         "ticker": tk, "source": wm.ticker_source(data, tk),
-                        "reason": "周线跌破200MA",
-                        "detail": f"周收{close:.1f} < 200wMA {ma200:.1f}",
+                        "reason": "周线跌破150MA",
+                        "detail": f"周收{close:.1f} < 150wMA {ma150:.1f}",
                     })
             elif promote:
                 # Secondary Watchlist 复查（仅每周）→ 满足全部条件才重回主 watchlist

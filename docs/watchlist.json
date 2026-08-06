@@ -352,39 +352,32 @@
   ],
   "suspended": [
     {
-      "ticker": "ALB",
-      "source": "manual",
-      "since": "2026-08-07",
-      "reason": "周线跌破200MA",
-      "detail": "周收126.9 < 200wMA 137.8"
-    },
-    {
       "ticker": "CI",
       "source": "screener",
       "since": "2026-08-07",
-      "reason": "周线跌破200MA",
-      "detail": "周收275.5 < 200wMA 291.3"
+      "reason": "周线跌破150MA",
+      "detail": "周收275.8 < 150wMA 298.1"
     },
     {
       "ticker": "COIN",
       "source": "manual",
       "since": "2026-08-07",
-      "reason": "周线跌破200MA",
-      "detail": "周收146.7 < 200wMA 181.8"
+      "reason": "周线跌破150MA",
+      "detail": "周收145.6 < 150wMA 221.2"
     },
     {
       "ticker": "INTU",
       "source": "screener",
       "since": "2026-08-07",
-      "reason": "周线跌破200MA",
-      "detail": "周收318.9 < 200wMA 540.0"
+      "reason": "周线跌破150MA",
+      "detail": "周收321.6 < 150wMA 577.8"
     },
     {
       "ticker": "ISRG",
       "source": "screener",
       "since": "2026-08-07",
-      "reason": "周线跌破200MA",
-      "detail": "周收374.1 < 200wMA 414.1"
+      "reason": "周线跌破150MA",
+      "detail": "周收373.0 < 150wMA 459.2"
     }
   ]
 }

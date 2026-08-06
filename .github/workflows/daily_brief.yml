@@ -351,7 +351,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: mkdir -p logs docs
       - run: python signal_advisor.py --session post --group priority
-      - name: Run watchlist 闸门（每日：跌破周线200MA→移入Secondary Watchlist）
+      - name: Run watchlist 闸门（每日：跌破周线150MA→移入Secondary Watchlist）
         run: python watchlist_gate.py
         continue-on-error: true
       - name: Run MA×Supertrend 均线信号

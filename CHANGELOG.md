@@ -4,6 +4,11 @@
 
 ## 2026-08-07
 
+### 变更：Secondary 移出闸门 200周MA → 150周MA
+- 「移入 Secondary Watchlist」的闸门由周线200MA改为**周线150MA**（与强势股进场的周线120MA更接近，避免长期倒挂股「过了120进场线却低于200出场线」）。
+- 一次性迁移：已在 Secondary 里但已站上周线150MA的标的迁回主 watchlist（如 ALB：周收125.7 > 150wMA 111.3）。CI/COIN/INTU/ISRG 仍低于各自150MA，留在 Secondary。
+- 回归条件不变：周线 > 150MA 且 > 20MA 且 近2季净利润上升。
+
 ### 新增：Secondary Watchlist（二级观察名单）+ 移出/回归分频
 - 把「跌破周线200MA被移出」的标的正式命名为 **Secondary Watchlist**（页面标题、说明更新）。
 - **移出**（主→二级）：仍每日检测（`daily_brief` 里 `watchlist_gate.py`）。

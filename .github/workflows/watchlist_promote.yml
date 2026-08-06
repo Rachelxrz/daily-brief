@@ -1,6 +1,6 @@
 name: 🔁 Weekly Secondary-Watchlist Review
 
-# 每周复查 Secondary Watchlist（跌破周线200MA被移出的标的）能否重回主 watchlist。
+# 每周复查 Secondary Watchlist（跌破周线150MA被移出的标的）能否重回主 watchlist。
 # 恢复条件：周线收盘 > 150周MA 且 > 20周MA 且 近2季度净利润>0并上升（ETF仅看价格）。
 # 周线K在周五收盘定型 → 周六复查最合适。移出(demote)仍由 daily_brief 每日及时处理。
 on:

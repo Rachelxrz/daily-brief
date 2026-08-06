@@ -2,6 +2,14 @@
   "events": [
     {
       "date": "2026-08-07",
+      "ticker": "ALB",
+      "action": "resume",
+      "source": "manual",
+      "reason": "迁移:已站上周线150MA",
+      "detail": "周收125.7 >= 150wMA 111.3"
+    },
+    {
+      "date": "2026-08-07",
       "ticker": "PLTR",
       "action": "add",
       "source": "screener",
