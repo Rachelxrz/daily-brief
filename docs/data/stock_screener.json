@@ -1,686 +1,8 @@
 {
   "latest": {
-    "date": "2026-08-05",
-    "generated_at": "2026-08-05 19:12 ET",
-    "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 近3季净利润递增（最新季>上季>上上季且>0）· 按2月涨幅取前3",
-    "watchlist": [
-      {
-        "symbol": "ALB",
-        "price": 118.84,
-        "day_chg": -1.64,
-        "ma20": 119.85,
-        "ma50": 140.56,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          118.71,
-          120.82,
-          118.84
-        ],
-        "adx": 34.2,
-        "di_plus": 16.8,
-        "di_minus": 23.4,
-        "supertrend": "bearish",
-        "st_value": 129.39,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 2.683,
-        "strength_score": 2,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "ANET",
-        "price": 197.31,
-        "day_chg": 3.57,
-        "ma20": 176.82,
-        "ma50": 169.17,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          184.89,
-          190.51,
-          197.31
-        ],
-        "adx": 16.3,
-        "di_plus": 36.4,
-        "di_minus": 15.0,
-        "supertrend": "bullish",
-        "st_value": 166.49,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.5763,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "AVGO",
-        "price": 418.28,
-        "day_chg": 0.03,
-        "ma20": 389.49,
-        "ma50": 394.72,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          392.23,
-          418.16,
-          418.28
-        ],
-        "adx": 14.9,
-        "di_plus": 29.6,
-        "di_minus": 19.2,
-        "supertrend": "bullish",
-        "st_value": 371.48,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.2835,
-        "strength_score": 9,
-        "strength_grade": "超强势"
-      },
-      {
-        "symbol": "BDRY",
-        "price": 13.97,
-        "day_chg": 0.43,
-        "ma20": 12.97,
-        "ma50": 12.58,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          13.95,
-          13.91,
-          13.97
-        ],
-        "adx": 15.4,
-        "di_plus": 33.7,
-        "di_minus": 21.5,
-        "supertrend": "bullish",
-        "st_value": 12.83,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.0234,
-        "strength_score": 7,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "CEG",
-        "price": 265.12,
-        "day_chg": -0.8,
-        "ma20": 261.96,
-        "ma50": 262.1,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          273.71,
-          267.25,
-          265.12
-        ],
-        "adx": 13.6,
-        "di_plus": 24.1,
-        "di_minus": 19.6,
-        "supertrend": "bullish",
-        "st_value": 249.68,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.5239,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "CIEN",
-        "price": 408.83,
-        "day_chg": -0.56,
-        "ma20": 399.91,
-        "ma50": 453.21,
-        "above_ma20": true,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          390.76,
-          411.13,
-          408.83
-        ],
-        "adx": 24.1,
-        "di_plus": 25.7,
-        "di_minus": 30.4,
-        "supertrend": "bearish",
-        "st_value": 421.13,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 2.5771,
-        "strength_score": 3,
-        "strength_grade": "偏弱"
-      },
-      {
-        "symbol": "COHR",
-        "price": 328.22,
-        "day_chg": 1.39,
-        "ma20": 291.15,
-        "ma50": 343.94,
-        "above_ma20": true,
-        "above_ma50": false,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          288.14,
-          323.73,
-          328.22
-        ],
-        "adx": 23.0,
-        "di_plus": 29.6,
-        "di_minus": 24.2,
-        "supertrend": "bullish",
-        "st_value": 234.61,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 8.5878,
-        "strength_score": 7,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "COPX",
-        "price": 86.72,
-        "day_chg": 3.25,
-        "ma20": 77.87,
-        "ma50": 80.59,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          79.36,
-          83.99,
-          86.72
-        ],
-        "adx": 13.7,
-        "di_plus": 38.4,
-        "di_minus": 22.8,
-        "supertrend": "bullish",
-        "st_value": 78.07,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.7916,
-        "strength_score": 9,
-        "strength_grade": "超强势"
-      },
-      {
-        "symbol": "ETHA",
-        "price": 14.48,
-        "day_chg": 2.33,
-        "ma20": 14.16,
-        "ma50": 13.59,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          14.11,
-          14.15,
-          14.48
-        ],
-        "adx": 14.2,
-        "di_plus": 33.1,
-        "di_minus": 29.4,
-        "supertrend": "bullish",
-        "st_value": 13.26,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.1117,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "FRO",
-        "price": 37.97,
-        "day_chg": -2.57,
-        "ma20": 38.24,
-        "ma50": 37.13,
-        "above_ma20": false,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          39.91,
-          38.97,
-          37.97
-        ],
-        "adx": 7.8,
-        "di_plus": 20.3,
-        "di_minus": 23.6,
-        "supertrend": "bearish",
-        "st_value": 40.98,
-        "sqz_on": true,
-        "sqz_dir": "up",
-        "sqz_mom": 0.1912,
-        "strength_score": 3,
-        "strength_grade": "偏弱"
-      },
-      {
-        "symbol": "GEV",
-        "price": 1017.96,
-        "day_chg": -0.06,
-        "ma20": 1023.47,
-        "ma50": 1023.39,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          1006.76,
-          1018.53,
-          1017.96
-        ],
-        "adx": 17.0,
-        "di_plus": 22.4,
-        "di_minus": 25.4,
-        "supertrend": "bearish",
-        "st_value": 1125.42,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.9263,
-        "strength_score": 0,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "GS",
-        "price": 1060.38,
-        "day_chg": 0.7,
-        "ma20": 1061.53,
-        "ma50": 1052.5,
-        "above_ma20": false,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          1027.06,
-          1052.98,
-          1060.38
-        ],
-        "adx": 14.4,
-        "di_plus": 24.3,
-        "di_minus": 22.4,
-        "supertrend": "bearish",
-        "st_value": 1129.17,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -3.4097,
-        "strength_score": 4,
-        "strength_grade": "偏弱"
-      },
-      {
-        "symbol": "HEWJ",
-        "price": 63.58,
-        "day_chg": 0.49,
-        "ma20": 63.25,
-        "ma50": 63.19,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          61.74,
-          63.27,
-          63.58
-        ],
-        "adx": 10.6,
-        "di_plus": 33.7,
-        "di_minus": 28.2,
-        "supertrend": "bearish",
-        "st_value": 64.71,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.0267,
-        "strength_score": 6,
-        "strength_grade": "中性"
-      },
-      {
-        "symbol": "LITE",
-        "price": 826.26,
-        "day_chg": -2.73,
-        "ma20": 761.01,
-        "ma50": 819.67,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          779.89,
-          849.47,
-          826.26
-        ],
-        "adx": 10.6,
-        "di_plus": 29.4,
-        "di_minus": 24.4,
-        "supertrend": "bullish",
-        "st_value": 603.65,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 8.4884,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "MP",
-        "price": 47.91,
-        "day_chg": 0.93,
-        "ma20": 45.64,
-        "ma50": 53.77,
-        "above_ma20": true,
-        "above_ma50": false,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          43.84,
-          47.47,
-          47.91
-        ],
-        "adx": 32.8,
-        "di_plus": 22.6,
-        "di_minus": 24.9,
-        "supertrend": "bearish",
-        "st_value": 48.14,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.8209,
-        "strength_score": 5,
-        "strength_grade": "中性"
-      },
-      {
-        "symbol": "NEE",
-        "price": 85.91,
-        "day_chg": -1.48,
-        "ma20": 88.31,
-        "ma50": 87.13,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          86.55,
-          87.2,
-          85.91
-        ],
-        "adx": 15.7,
-        "di_plus": 14.4,
-        "di_minus": 20.7,
-        "supertrend": "bullish",
-        "st_value": 85.24,
-        "sqz_on": true,
-        "sqz_dir": "down",
-        "sqz_mom": -0.2383,
-        "strength_score": 1,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "NVDA",
-        "price": 219.22,
-        "day_chg": 3.43,
-        "ma20": 205.36,
-        "ma50": 205.73,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          206.64,
-          211.94,
-          219.22
-        ],
-        "adx": 14.3,
-        "di_plus": 30.7,
-        "di_minus": 16.6,
-        "supertrend": "bullish",
-        "st_value": 194.59,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.3824,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "PLTR",
-        "price": 158.43,
-        "day_chg": -2.6,
-        "ma20": 131.43,
-        "ma50": 131.42,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          125.65,
-          162.66,
-          158.43
-        ],
-        "adx": 17.1,
-        "di_plus": 44.5,
-        "di_minus": 16.7,
-        "supertrend": "bullish",
-        "st_value": 133.75,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.6313,
-        "strength_score": 7,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "PWR",
-        "price": 682.99,
-        "day_chg": -1.44,
-        "ma20": 644.43,
-        "ma50": 679.15,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          680.2,
-          693.0,
-          682.99
-        ],
-        "adx": 24.2,
-        "di_plus": 27.4,
-        "di_minus": 24.8,
-        "supertrend": "bullish",
-        "st_value": 575.57,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 8.0031,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "VRT",
-        "price": 277.94,
-        "day_chg": 2.97,
-        "ma20": 284.62,
-        "ma50": 302.61,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": true,
-        "dn3": false,
-        "last3": [
-          263.05,
-          269.93,
-          277.94
-        ],
-        "adx": 18.0,
-        "di_plus": 23.9,
-        "di_minus": 30.2,
-        "supertrend": "bearish",
-        "st_value": 296.21,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 0.8479,
-        "strength_score": 2,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "VST",
-        "price": 140.58,
-        "day_chg": -1.85,
-        "ma20": 155.31,
-        "ma50": 155.88,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          155.94,
-          143.23,
-          140.58
-        ],
-        "adx": 13.3,
-        "di_plus": 18.1,
-        "di_minus": 26.5,
-        "supertrend": "bearish",
-        "st_value": 168.61,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -0.4945,
-        "strength_score": 0,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "MPWR",
-        "price": 1345.45,
-        "day_chg": 0.78,
-        "ma20": 1342.17,
-        "ma50": 1431.05,
-        "above_ma20": true,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          1344.37,
-          1335.03,
-          1345.45
-        ],
-        "adx": 16.2,
-        "di_plus": 24.3,
-        "di_minus": 25.5,
-        "supertrend": "bearish",
-        "st_value": 1510.94,
-        "sqz_on": true,
-        "sqz_dir": "up",
-        "sqz_mom": 8.8134,
-        "strength_score": 3,
-        "strength_grade": "偏弱"
-      },
-      {
-        "symbol": "ADI",
-        "price": 377.69,
-        "day_chg": -0.68,
-        "ma20": 377.7,
-        "ma50": 396.29,
-        "above_ma20": false,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          361.88,
-          380.29,
-          377.69
-        ],
-        "adx": 21.8,
-        "di_plus": 20.9,
-        "di_minus": 25.6,
-        "supertrend": "bearish",
-        "st_value": 400.59,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 2.4739,
-        "strength_score": 1,
-        "strength_grade": "弱势"
-      },
-      {
-        "symbol": "GOOG",
-        "price": 360.13,
-        "day_chg": -4.05,
-        "ma20": 347.98,
-        "ma50": 355.87,
-        "above_ma20": true,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          372.47,
-          375.35,
-          360.13
-        ],
-        "adx": 16.1,
-        "di_plus": 33.8,
-        "di_minus": 23.5,
-        "supertrend": "bullish",
-        "st_value": 330.92,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 1.041,
-        "strength_score": 8,
-        "strength_grade": "强势"
-      },
-      {
-        "symbol": "NBIS",
-        "price": 218.99,
-        "day_chg": -2.99,
-        "ma20": 197.89,
-        "ma50": 224.31,
-        "above_ma20": true,
-        "above_ma50": false,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          212.58,
-          225.74,
-          218.99
-        ],
-        "adx": 11.8,
-        "di_plus": 24.5,
-        "di_minus": 22.3,
-        "supertrend": "bearish",
-        "st_value": 232.65,
-        "sqz_on": false,
-        "sqz_dir": "up",
-        "sqz_mom": 6.3826,
-        "strength_score": 4,
-        "strength_grade": "偏弱"
-      },
-      {
-        "symbol": "MPC",
-        "price": 297.75,
-        "day_chg": -4.75,
-        "ma20": 306.62,
-        "ma50": 277.17,
-        "above_ma20": false,
-        "above_ma50": true,
-        "up3": false,
-        "dn3": false,
-        "last3": [
-          307.03,
-          312.61,
-          297.75
-        ],
-        "adx": 33.5,
-        "di_plus": 19.4,
-        "di_minus": 18.0,
-        "supertrend": "bullish",
-        "st_value": 295.51,
-        "sqz_on": false,
-        "sqz_dir": "down",
-        "sqz_mom": -3.9115,
-        "strength_score": 6,
-        "strength_grade": "中性"
-      }
-    ],
+    "date": "2026-08-06",
+    "generated_at": "2026-08-06 12:15 ET",
+    "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
     "inflow_sectors": [
       "XLV",
       "XLF",
@@ -873,198 +195,1057 @@
       }
     },
     "results_by_sector": {
-      "XLV": [
-        {
-          "symbol": "JNJ",
-          "price": 257.59,
-          "day_change_pct": 1.04,
-          "market_cap_b": 620.77,
-          "ma20": 256.64,
-          "ma50": 246.63,
-          "ma150": 235.57,
-          "ret_2m": 12.89,
-          "ni_q": [
-            5534.0,
-            5235.0,
-            5116.0
-          ],
-          "supertrend": "bullish",
-          "adx": 18.6,
-          "sector": "XLV"
-        },
-        {
-          "symbol": "LLY",
-          "price": 1169.86,
-          "day_change_pct": 4.86,
-          "market_cap_b": 1043.21,
-          "ma20": 1172.55,
-          "ma50": 1152.95,
-          "ma150": 1044.25,
-          "ret_2m": 3.96,
-          "ni_q": [
-            7396.0,
-            6637.7,
-            5582.5
-          ],
-          "supertrend": "bearish",
-          "adx": 17.9,
-          "sector": "XLV"
-        },
-        {
-          "symbol": "CI",
-          "price": 270.5,
-          "day_change_pct": -1.3,
-          "market_cap_b": 71.48,
-          "ma20": 288.66,
-          "ma50": 285.77,
-          "ma150": 279.35,
-          "ret_2m": -3.63,
-          "ni_q": [
-            1660.0,
-            1654.0,
-            1234.0
-          ],
-          "supertrend": "bearish",
-          "adx": 13.6,
-          "sector": "XLV"
-        }
-      ],
-      "XLF": [
-        {
-          "symbol": "SCHW",
-          "price": 108.02,
-          "day_change_pct": 1.57,
-          "market_cap_b": 187.86,
-          "ma20": 103.35,
-          "ma50": 96.16,
-          "ma150": 95.73,
-          "ret_2m": 22.75,
-          "ni_q": [
-            2479.0,
-            2459.0,
-            2358.0
-          ],
-          "supertrend": "bullish",
-          "adx": 35.1,
-          "sector": "XLF"
-        },
-        {
-          "symbol": "AXP",
-          "price": 348.99,
-          "day_change_pct": 0.66,
-          "market_cap_b": 235.68,
-          "ma20": 345.92,
-          "ma50": 335.26,
-          "ma150": 330.17,
-          "ret_2m": 11.97,
-          "ni_q": [
-            3110.0,
-            2971.0,
-            2462.0
-          ],
-          "supertrend": "bearish",
-          "adx": 18.5,
-          "sector": "XLF"
-        },
-        {
-          "symbol": "MS",
-          "price": 218.27,
-          "day_change_pct": 0.57,
-          "market_cap_b": 343.12,
-          "ma20": 215.42,
-          "ma50": 214.24,
-          "ma150": 189.07,
-          "ret_2m": 0.55,
-          "ni_q": [
-            5581.0,
-            5567.0,
-            4397.0
-          ],
-          "supertrend": "bearish",
-          "adx": 15.4,
-          "sector": "XLF"
-        }
-      ],
-      "XLK": [
-        {
-          "symbol": "ANET",
-          "price": 197.31,
-          "day_change_pct": 3.57,
-          "market_cap_b": 248.45,
-          "ma20": 176.82,
-          "ma50": 169.17,
-          "ma150": 150.31,
-          "ret_2m": 18.85,
-          "ni_q": [
-            1022.9,
-            955.8,
-            853.0
-          ],
-          "supertrend": "bullish",
-          "adx": 15.8,
-          "sector": "XLK"
-        }
-      ],
-      "SMH": [],
-      "XLI": [
-        {
-          "symbol": "RTX",
-          "price": 222.31,
-          "day_change_pct": 2.01,
-          "market_cap_b": 299.62,
-          "ma20": 205.42,
-          "ma50": 193.02,
-          "ma150": 192.41,
-          "ret_2m": 23.91,
-          "ni_q": [
-            2139.0,
-            2059.0,
-            1622.0
-          ],
-          "supertrend": "bullish",
-          "adx": 34.7,
-          "sector": "XLI"
-        },
-        {
-          "symbol": "EMR",
-          "price": 162.47,
-          "day_change_pct": 2.29,
-          "market_cap_b": 91.0,
-          "ma20": 144.64,
-          "ma50": 143.33,
-          "ma150": 141.88,
-          "ret_2m": 14.37,
-          "ni_q": [
-            718.0,
-            618.0,
-            605.0
-          ],
-          "supertrend": "bullish",
-          "adx": 24.0,
-          "sector": "XLI"
-        },
-        {
-          "symbol": "PH",
-          "price": 996.9,
-          "day_change_pct": 0.43,
-          "market_cap_b": 125.7,
-          "ma20": 970.03,
-          "ma50": 937.61,
-          "ma150": 935.06,
-          "ret_2m": 14.29,
-          "ni_q": [
-            904.0,
-            845.0,
-            808.0
-          ],
-          "supertrend": "bullish",
-          "adx": 16.8,
-          "sector": "XLI"
-        }
-      ]
+      "XLV": {
+        "current": [
+          {
+            "symbol": "JNJ",
+            "price": 256.16,
+            "day_change_pct": -0.56,
+            "market_cap_b": 617.32,
+            "ma20": 256.49,
+            "ma50": 247.15,
+            "ma150": 235.91,
+            "ma_aligned": true,
+            "ret_2m": 10.05,
+            "ni_q": [
+              5534.0,
+              5235.0,
+              5116.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLV"
+          },
+          {
+            "symbol": "LLY",
+            "price": 1175.65,
+            "day_change_pct": 0.49,
+            "market_cap_b": 1048.38,
+            "ma20": 1170.48,
+            "ma50": 1155.17,
+            "ma150": 1044.92,
+            "ma_aligned": true,
+            "ret_2m": 3.91,
+            "ni_q": [
+              7396.0,
+              6637.7,
+              5582.5
+            ],
+            "supertrend": "bearish",
+            "sector": "XLV"
+          },
+          {
+            "symbol": "CI",
+            "price": 272.97,
+            "day_change_pct": 0.91,
+            "market_cap_b": 72.13,
+            "ma20": 287.72,
+            "ma50": 285.64,
+            "ma150": 279.35,
+            "ma_aligned": true,
+            "ret_2m": -5.7,
+            "ni_q": [
+              1660.0,
+              1654.0,
+              1234.0
+            ],
+            "supertrend": "bearish",
+            "sector": "XLV"
+          }
+        ],
+        "potential": [
+          {
+            "symbol": "ISRG",
+            "price": 374.32,
+            "day_change_pct": -0.23,
+            "market_cap_b": 134.11,
+            "ma20": 365.74,
+            "ma50": 393.99,
+            "ma150": 455.63,
+            "ma_aligned": false,
+            "ret_2m": -11.31,
+            "ni_q": [
+              818.1,
+              821.5,
+              794.8
+            ],
+            "supertrend": "bearish",
+            "sector": "XLV"
+          }
+        ]
+      },
+      "XLF": {
+        "current": [
+          {
+            "symbol": "SCHW",
+            "price": 107.25,
+            "day_change_pct": -0.71,
+            "market_cap_b": 186.52,
+            "ma20": 103.62,
+            "ma50": 96.51,
+            "ma150": 95.78,
+            "ma_aligned": true,
+            "ret_2m": 20.72,
+            "ni_q": [
+              2479.0,
+              2459.0,
+              2358.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLF"
+          },
+          {
+            "symbol": "AXP",
+            "price": 344.8,
+            "day_change_pct": -1.2,
+            "market_cap_b": 232.85,
+            "ma20": 345.82,
+            "ma50": 335.96,
+            "ma150": 330.0,
+            "ma_aligned": true,
+            "ret_2m": 11.29,
+            "ni_q": [
+              3110.0,
+              2971.0,
+              2462.0
+            ],
+            "supertrend": "bearish",
+            "sector": "XLF"
+          },
+          {
+            "symbol": "MS",
+            "price": 216.48,
+            "day_change_pct": -0.82,
+            "market_cap_b": 340.31,
+            "ma20": 215.2,
+            "ma50": 214.56,
+            "ma150": 189.34,
+            "ma_aligned": true,
+            "ret_2m": 2.71,
+            "ni_q": [
+              5581.0,
+              5567.0,
+              4397.0
+            ],
+            "supertrend": "bearish",
+            "sector": "XLF"
+          }
+        ],
+        "potential": []
+      },
+      "XLK": {
+        "current": [
+          {
+            "symbol": "ANET",
+            "price": 191.76,
+            "day_change_pct": -2.81,
+            "market_cap_b": 241.46,
+            "ma20": 177.17,
+            "ma50": 169.85,
+            "ma150": 150.7,
+            "ma_aligned": true,
+            "ret_2m": 24.3,
+            "ni_q": [
+              1022.9,
+              955.8,
+              853.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLK"
+          },
+          {
+            "symbol": "NVDA",
+            "price": 218.23,
+            "day_change_pct": -0.45,
+            "market_cap_b": 5285.75,
+            "ma20": 206.13,
+            "ma50": 205.8,
+            "ma150": 196.1,
+            "ma_aligned": true,
+            "ret_2m": 6.4,
+            "ni_q": [
+              58321.0,
+              42960.0,
+              31910.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLK"
+          }
+        ],
+        "potential": [
+          {
+            "symbol": "AMAT",
+            "price": 530.23,
+            "day_change_pct": -0.75,
+            "market_cap_b": 420.98,
+            "ma20": 537.77,
+            "ma50": 551.35,
+            "ma150": 424.28,
+            "ma_aligned": false,
+            "ret_2m": 17.05,
+            "ni_q": [
+              2806.0,
+              2026.0,
+              1897.0
+            ],
+            "supertrend": "bearish",
+            "sector": "XLK"
+          },
+          {
+            "symbol": "PLTR",
+            "price": 155.73,
+            "day_change_pct": -1.7,
+            "market_cap_b": 373.33,
+            "ma20": 132.77,
+            "ma50": 131.81,
+            "ma150": 142.67,
+            "ma_aligned": false,
+            "ret_2m": 14.9,
+            "ni_q": [
+              870.5,
+              608.7,
+              475.6
+            ],
+            "supertrend": "bullish",
+            "sector": "XLK"
+          },
+          {
+            "symbol": "INTU",
+            "price": 319.57,
+            "day_change_pct": -2.55,
+            "market_cap_b": 87.41,
+            "ma20": 301.5,
+            "ma50": 290.74,
+            "ma150": 391.26,
+            "ma_aligned": false,
+            "ret_2m": 8.16,
+            "ni_q": [
+              3064.0,
+              693.0,
+              446.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLK"
+          }
+        ]
+      },
+      "SMH": {
+        "current": [
+          {
+            "symbol": "NVDA",
+            "price": 218.23,
+            "day_change_pct": -0.45,
+            "market_cap_b": 5285.75,
+            "ma20": 206.13,
+            "ma50": 205.8,
+            "ma150": 196.1,
+            "ma_aligned": true,
+            "ret_2m": 6.4,
+            "ni_q": [
+              58321.0,
+              42960.0,
+              31910.0
+            ],
+            "supertrend": "bullish",
+            "sector": "SMH"
+          }
+        ],
+        "potential": [
+          {
+            "symbol": "AMAT",
+            "price": 530.23,
+            "day_change_pct": -0.75,
+            "market_cap_b": 420.98,
+            "ma20": 537.77,
+            "ma50": 551.35,
+            "ma150": 424.28,
+            "ma_aligned": false,
+            "ret_2m": 17.05,
+            "ni_q": [
+              2806.0,
+              2026.0,
+              1897.0
+            ],
+            "supertrend": "bearish",
+            "sector": "SMH"
+          },
+          {
+            "symbol": "MU",
+            "price": 890.73,
+            "day_change_pct": -0.28,
+            "market_cap_b": 1005.98,
+            "ma20": 893.81,
+            "ma50": 972.06,
+            "ma150": 629.33,
+            "ma_aligned": false,
+            "ret_2m": 3.11,
+            "ni_q": [
+              28243.0,
+              13785.0,
+              5240.0
+            ],
+            "supertrend": "bearish",
+            "sector": "SMH"
+          },
+          {
+            "symbol": "LRCX",
+            "price": 308.65,
+            "day_change_pct": 0.4,
+            "market_cap_b": 386.21,
+            "ma20": 310.09,
+            "ma50": 337.97,
+            "ma150": 272.71,
+            "ma_aligned": false,
+            "ret_2m": 1.84,
+            "ni_q": [
+              1825.5,
+              1594.0,
+              1568.7
+            ],
+            "supertrend": "bearish",
+            "sector": "SMH"
+          }
+        ]
+      },
+      "XLI": {
+        "current": [
+          {
+            "symbol": "RTX",
+            "price": 222.38,
+            "day_change_pct": 0.03,
+            "market_cap_b": 299.71,
+            "ma20": 206.78,
+            "ma50": 193.89,
+            "ma150": 192.67,
+            "ma_aligned": true,
+            "ret_2m": 22.87,
+            "ni_q": [
+              2139.0,
+              2059.0,
+              1622.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
+            "symbol": "PH",
+            "price": 1060.82,
+            "day_change_pct": 6.41,
+            "market_cap_b": 133.75,
+            "ma20": 975.61,
+            "ma50": 941.47,
+            "ma150": 936.23,
+            "ma_aligned": true,
+            "ret_2m": 20.23,
+            "ni_q": [
+              904.0,
+              845.0,
+              808.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
+            "symbol": "EMR",
+            "price": 157.15,
+            "day_change_pct": -3.27,
+            "market_cap_b": 87.66,
+            "ma20": 145.61,
+            "ma50": 143.66,
+            "ma150": 142.04,
+            "ma_aligned": true,
+            "ret_2m": 13.78,
+            "ni_q": [
+              718.0,
+              618.0,
+              605.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          }
+        ],
+        "potential": [
+          {
+            "symbol": "LMT",
+            "price": 582.82,
+            "day_change_pct": 0.9,
+            "market_cap_b": 134.51,
+            "ma20": 550.06,
+            "ma50": 532.97,
+            "ma150": 568.32,
+            "ma_aligned": false,
+            "ret_2m": 11.28,
+            "ni_q": [
+              1836.0,
+              1488.0,
+              1344.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
+            "symbol": "HON",
+            "price": 241.89,
+            "day_change_pct": -2.51,
+            "market_cap_b": 76.66,
+            "ma20": 236.42,
+            "ma50": 234.63,
+            "ma150": 234.82,
+            "ma_aligned": false,
+            "ret_2m": 7.79,
+            "ni_q": [
+              5682.0,
+              821.0,
+              -115.0
+            ],
+            "supertrend": "bullish",
+            "sector": "XLI"
+          },
+          {
+            "symbol": "CAT",
+            "price": 865.55,
+            "day_change_pct": -0.63,
+            "market_cap_b": 398.67,
+            "ma20": 873.48,
+            "ma50": 917.15,
+            "ma150": 801.35,
+            "ma_aligned": false,
+            "ret_2m": -4.11,
+            "ni_q": [
+              2549.0,
+              2402.0,
+              2300.0
+            ],
+            "supertrend": "bearish",
+            "sector": "XLI"
+          }
+        ]
+      }
     }
   },
   "history": [
+    {
+      "date": "2026-08-06",
+      "generated_at": "2026-08-06 12:15 ET",
+      "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
+      "inflow_sectors": [
+        "XLV",
+        "XLF",
+        "XLK",
+        "SMH",
+        "XLI"
+      ],
+      "sector_flow": {
+        "XLV": {
+          "cn": "医疗保健",
+          "en": "Health Care",
+          "emoji": "💊",
+          "rs_m3": 6.85,
+          "m3_pct": 13.48,
+          "ytd_pct": 6.95,
+          "day_pct": 1.27,
+          "flow_cn": "强势流入",
+          "flow_tone": "green",
+          "is_inflow": true,
+          "has_stocks": true
+        },
+        "XLF": {
+          "cn": "金融",
+          "en": "Financials",
+          "emoji": "🏦",
+          "rs_m3": 6.19,
+          "m3_pct": 12.82,
+          "ytd_pct": 6.81,
+          "day_pct": 0.21,
+          "flow_cn": "强势流入",
+          "flow_tone": "green",
+          "is_inflow": true,
+          "has_stocks": true
+        },
+        "XLK": {
+          "cn": "科技",
+          "en": "Technology",
+          "emoji": "💻",
+          "rs_m3": 5.75,
+          "m3_pct": 12.38,
+          "ytd_pct": 29.45,
+          "day_pct": -0.53,
+          "flow_cn": "强势流入",
+          "flow_tone": "green",
+          "is_inflow": true,
+          "has_stocks": true
+        },
+        "SMH": {
+          "cn": "半导体",
+          "en": "Semiconductors",
+          "emoji": "🔬",
+          "rs_m3": 2.36,
+          "m3_pct": 8.99,
+          "ytd_pct": 58.19,
+          "day_pct": -1.04,
+          "flow_cn": "流入",
+          "flow_tone": "green",
+          "is_inflow": true,
+          "has_stocks": true
+        },
+        "XLI": {
+          "cn": "工业",
+          "en": "Industrials",
+          "emoji": "🏭",
+          "rs_m3": 1.72,
+          "m3_pct": 8.35,
+          "ytd_pct": 20.77,
+          "day_pct": -0.03,
+          "flow_cn": "流入",
+          "flow_tone": "green",
+          "is_inflow": true,
+          "has_stocks": true
+        },
+        "XLRE": {
+          "cn": "房地产",
+          "en": "Real Estate",
+          "emoji": "🏠",
+          "rs_m3": -3.4,
+          "m3_pct": 3.23,
+          "ytd_pct": 13.76,
+          "day_pct": 0.07,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "XLB": {
+          "cn": "材料",
+          "en": "Materials",
+          "emoji": "🧱",
+          "rs_m3": -4.09,
+          "m3_pct": 2.54,
+          "ytd_pct": 17.03,
+          "day_pct": 1.23,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "XLP": {
+          "cn": "必需消费",
+          "en": "Cons. Staples",
+          "emoji": "🧴",
+          "rs_m3": -4.41,
+          "m3_pct": 2.22,
+          "ytd_pct": 11.23,
+          "day_pct": -0.05,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "XLY": {
+          "cn": "非必需消费",
+          "en": "Cons. Discretionary",
+          "emoji": "🛍️",
+          "rs_m3": -5.95,
+          "m3_pct": 0.68,
+          "ytd_pct": -0.25,
+          "day_pct": 0.3,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "TLT": {
+          "cn": "长期国债",
+          "en": "Long Treasuries",
+          "emoji": "🏛️",
+          "rs_m3": -8.34,
+          "m3_pct": -1.71,
+          "ytd_pct": -2.22,
+          "day_pct": 0.22,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": false
+        },
+        "XLE": {
+          "cn": "能源",
+          "en": "Energy",
+          "emoji": "⚡",
+          "rs_m3": -9.53,
+          "m3_pct": -2.9,
+          "ytd_pct": 29.95,
+          "day_pct": -2.07,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "XLC": {
+          "cn": "通信服务",
+          "en": "Communication",
+          "emoji": "📡",
+          "rs_m3": -10.5,
+          "m3_pct": -3.87,
+          "ytd_pct": -5.27,
+          "day_pct": -1.04,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "XLU": {
+          "cn": "公用事业",
+          "en": "Utilities",
+          "emoji": "🔌",
+          "rs_m3": -11.87,
+          "m3_pct": -5.24,
+          "ytd_pct": 3.64,
+          "day_pct": -1.02,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        },
+        "GLD": {
+          "cn": "黄金",
+          "en": "Gold",
+          "emoji": "🥇",
+          "rs_m3": -13.47,
+          "m3_pct": -6.84,
+          "ytd_pct": -1.68,
+          "day_pct": 4.14,
+          "flow_cn": "明显流出",
+          "flow_tone": "red",
+          "is_inflow": false,
+          "has_stocks": true
+        }
+      },
+      "results_by_sector": {
+        "XLV": {
+          "current": [
+            {
+              "symbol": "JNJ",
+              "price": 256.16,
+              "day_change_pct": -0.56,
+              "market_cap_b": 617.32,
+              "ma20": 256.49,
+              "ma50": 247.15,
+              "ma150": 235.91,
+              "ma_aligned": true,
+              "ret_2m": 10.05,
+              "ni_q": [
+                5534.0,
+                5235.0,
+                5116.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLV"
+            },
+            {
+              "symbol": "LLY",
+              "price": 1175.65,
+              "day_change_pct": 0.49,
+              "market_cap_b": 1048.38,
+              "ma20": 1170.48,
+              "ma50": 1155.17,
+              "ma150": 1044.92,
+              "ma_aligned": true,
+              "ret_2m": 3.91,
+              "ni_q": [
+                7396.0,
+                6637.7,
+                5582.5
+              ],
+              "supertrend": "bearish",
+              "sector": "XLV"
+            },
+            {
+              "symbol": "CI",
+              "price": 272.97,
+              "day_change_pct": 0.91,
+              "market_cap_b": 72.13,
+              "ma20": 287.72,
+              "ma50": 285.64,
+              "ma150": 279.35,
+              "ma_aligned": true,
+              "ret_2m": -5.7,
+              "ni_q": [
+                1660.0,
+                1654.0,
+                1234.0
+              ],
+              "supertrend": "bearish",
+              "sector": "XLV"
+            }
+          ],
+          "potential": [
+            {
+              "symbol": "ISRG",
+              "price": 374.32,
+              "day_change_pct": -0.23,
+              "market_cap_b": 134.11,
+              "ma20": 365.74,
+              "ma50": 393.99,
+              "ma150": 455.63,
+              "ma_aligned": false,
+              "ret_2m": -11.31,
+              "ni_q": [
+                818.1,
+                821.5,
+                794.8
+              ],
+              "supertrend": "bearish",
+              "sector": "XLV"
+            }
+          ]
+        },
+        "XLF": {
+          "current": [
+            {
+              "symbol": "SCHW",
+              "price": 107.25,
+              "day_change_pct": -0.71,
+              "market_cap_b": 186.52,
+              "ma20": 103.62,
+              "ma50": 96.51,
+              "ma150": 95.78,
+              "ma_aligned": true,
+              "ret_2m": 20.72,
+              "ni_q": [
+                2479.0,
+                2459.0,
+                2358.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLF"
+            },
+            {
+              "symbol": "AXP",
+              "price": 344.8,
+              "day_change_pct": -1.2,
+              "market_cap_b": 232.85,
+              "ma20": 345.82,
+              "ma50": 335.96,
+              "ma150": 330.0,
+              "ma_aligned": true,
+              "ret_2m": 11.29,
+              "ni_q": [
+                3110.0,
+                2971.0,
+                2462.0
+              ],
+              "supertrend": "bearish",
+              "sector": "XLF"
+            },
+            {
+              "symbol": "MS",
+              "price": 216.48,
+              "day_change_pct": -0.82,
+              "market_cap_b": 340.31,
+              "ma20": 215.2,
+              "ma50": 214.56,
+              "ma150": 189.34,
+              "ma_aligned": true,
+              "ret_2m": 2.71,
+              "ni_q": [
+                5581.0,
+                5567.0,
+                4397.0
+              ],
+              "supertrend": "bearish",
+              "sector": "XLF"
+            }
+          ],
+          "potential": []
+        },
+        "XLK": {
+          "current": [
+            {
+              "symbol": "ANET",
+              "price": 191.76,
+              "day_change_pct": -2.81,
+              "market_cap_b": 241.46,
+              "ma20": 177.17,
+              "ma50": 169.85,
+              "ma150": 150.7,
+              "ma_aligned": true,
+              "ret_2m": 24.3,
+              "ni_q": [
+                1022.9,
+                955.8,
+                853.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLK"
+            },
+            {
+              "symbol": "NVDA",
+              "price": 218.23,
+              "day_change_pct": -0.45,
+              "market_cap_b": 5285.75,
+              "ma20": 206.13,
+              "ma50": 205.8,
+              "ma150": 196.1,
+              "ma_aligned": true,
+              "ret_2m": 6.4,
+              "ni_q": [
+                58321.0,
+                42960.0,
+                31910.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLK"
+            }
+          ],
+          "potential": [
+            {
+              "symbol": "AMAT",
+              "price": 530.23,
+              "day_change_pct": -0.75,
+              "market_cap_b": 420.98,
+              "ma20": 537.77,
+              "ma50": 551.35,
+              "ma150": 424.28,
+              "ma_aligned": false,
+              "ret_2m": 17.05,
+              "ni_q": [
+                2806.0,
+                2026.0,
+                1897.0
+              ],
+              "supertrend": "bearish",
+              "sector": "XLK"
+            },
+            {
+              "symbol": "PLTR",
+              "price": 155.73,
+              "day_change_pct": -1.7,
+              "market_cap_b": 373.33,
+              "ma20": 132.77,
+              "ma50": 131.81,
+              "ma150": 142.67,
+              "ma_aligned": false,
+              "ret_2m": 14.9,
+              "ni_q": [
+                870.5,
+                608.7,
+                475.6
+              ],
+              "supertrend": "bullish",
+              "sector": "XLK"
+            },
+            {
+              "symbol": "INTU",
+              "price": 319.57,
+              "day_change_pct": -2.55,
+              "market_cap_b": 87.41,
+              "ma20": 301.5,
+              "ma50": 290.74,
+              "ma150": 391.26,
+              "ma_aligned": false,
+              "ret_2m": 8.16,
+              "ni_q": [
+                3064.0,
+                693.0,
+                446.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLK"
+            }
+          ]
+        },
+        "SMH": {
+          "current": [
+            {
+              "symbol": "NVDA",
+              "price": 218.23,
+              "day_change_pct": -0.45,
+              "market_cap_b": 5285.75,
+              "ma20": 206.13,
+              "ma50": 205.8,
+              "ma150": 196.1,
+              "ma_aligned": true,
+              "ret_2m": 6.4,
+              "ni_q": [
+                58321.0,
+                42960.0,
+                31910.0
+              ],
+              "supertrend": "bullish",
+              "sector": "SMH"
+            }
+          ],
+          "potential": [
+            {
+              "symbol": "AMAT",
+              "price": 530.23,
+              "day_change_pct": -0.75,
+              "market_cap_b": 420.98,
+              "ma20": 537.77,
+              "ma50": 551.35,
+              "ma150": 424.28,
+              "ma_aligned": false,
+              "ret_2m": 17.05,
+              "ni_q": [
+                2806.0,
+                2026.0,
+                1897.0
+              ],
+              "supertrend": "bearish",
+              "sector": "SMH"
+            },
+            {
+              "symbol": "MU",
+              "price": 890.73,
+              "day_change_pct": -0.28,
+              "market_cap_b": 1005.98,
+              "ma20": 893.81,
+              "ma50": 972.06,
+              "ma150": 629.33,
+              "ma_aligned": false,
+              "ret_2m": 3.11,
+              "ni_q": [
+                28243.0,
+                13785.0,
+                5240.0
+              ],
+              "supertrend": "bearish",
+              "sector": "SMH"
+            },
+            {
+              "symbol": "LRCX",
+              "price": 308.65,
+              "day_change_pct": 0.4,
+              "market_cap_b": 386.21,
+              "ma20": 310.09,
+              "ma50": 337.97,
+              "ma150": 272.71,
+              "ma_aligned": false,
+              "ret_2m": 1.84,
+              "ni_q": [
+                1825.5,
+                1594.0,
+                1568.7
+              ],
+              "supertrend": "bearish",
+              "sector": "SMH"
+            }
+          ]
+        },
+        "XLI": {
+          "current": [
+            {
+              "symbol": "RTX",
+              "price": 222.38,
+              "day_change_pct": 0.03,
+              "market_cap_b": 299.71,
+              "ma20": 206.78,
+              "ma50": 193.89,
+              "ma150": 192.67,
+              "ma_aligned": true,
+              "ret_2m": 22.87,
+              "ni_q": [
+                2139.0,
+                2059.0,
+                1622.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
+              "symbol": "PH",
+              "price": 1060.82,
+              "day_change_pct": 6.41,
+              "market_cap_b": 133.75,
+              "ma20": 975.61,
+              "ma50": 941.47,
+              "ma150": 936.23,
+              "ma_aligned": true,
+              "ret_2m": 20.23,
+              "ni_q": [
+                904.0,
+                845.0,
+                808.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
+              "symbol": "EMR",
+              "price": 157.15,
+              "day_change_pct": -3.27,
+              "market_cap_b": 87.66,
+              "ma20": 145.61,
+              "ma50": 143.66,
+              "ma150": 142.04,
+              "ma_aligned": true,
+              "ret_2m": 13.78,
+              "ni_q": [
+                718.0,
+                618.0,
+                605.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            }
+          ],
+          "potential": [
+            {
+              "symbol": "LMT",
+              "price": 582.82,
+              "day_change_pct": 0.9,
+              "market_cap_b": 134.51,
+              "ma20": 550.06,
+              "ma50": 532.97,
+              "ma150": 568.32,
+              "ma_aligned": false,
+              "ret_2m": 11.28,
+              "ni_q": [
+                1836.0,
+                1488.0,
+                1344.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
+              "symbol": "HON",
+              "price": 241.89,
+              "day_change_pct": -2.51,
+              "market_cap_b": 76.66,
+              "ma20": 236.42,
+              "ma50": 234.63,
+              "ma150": 234.82,
+              "ma_aligned": false,
+              "ret_2m": 7.79,
+              "ni_q": [
+                5682.0,
+                821.0,
+                -115.0
+              ],
+              "supertrend": "bullish",
+              "sector": "XLI"
+            },
+            {
+              "symbol": "CAT",
+              "price": 865.55,
+              "day_change_pct": -0.63,
+              "market_cap_b": 398.67,
+              "ma20": 873.48,
+              "ma50": 917.15,
+              "ma150": 801.35,
+              "ma_aligned": false,
+              "ret_2m": -4.11,
+              "ni_q": [
+                2549.0,
+                2402.0,
+                2300.0
+              ],
+              "supertrend": "bearish",
+              "sector": "XLI"
+            }
+          ]
+        }
+      }
+    },
     {
       "date": "2026-08-05",
       "generated_at": "2026-08-05 19:12 ET",
@@ -22759,589 +22940,7 @@
         ],
         "Utilities": []
       }
-    },
-    {
-      "date": "2026-05-19",
-      "generated_at": "2026-05-19 18:43 ET",
-      "watchlist": [
-        {
-          "symbol": "ALB",
-          "price": 169.0,
-          "day_chg": -3.84,
-          "ma20": 192.81,
-          "ma50": 183.14,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            180.38,
-            175.74,
-            169.0
-          ]
-        },
-        {
-          "symbol": "ANET",
-          "price": 141.58,
-          "day_chg": -0.09,
-          "ma20": 157.26,
-          "ma50": 146.44,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            141.97,
-            141.71,
-            141.58
-          ]
-        },
-        {
-          "symbol": "AVGO",
-          "price": 411.07,
-          "day_chg": -2.29,
-          "ma20": 420.03,
-          "ma50": 372.39,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            425.19,
-            420.71,
-            411.07
-          ]
-        },
-        {
-          "symbol": "BDRY",
-          "price": 12.65,
-          "day_chg": -1.56,
-          "ma20": 12.14,
-          "ma50": 11.16,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            13.18,
-            12.85,
-            12.65
-          ]
-        },
-        {
-          "symbol": "CEG",
-          "price": 260.67,
-          "day_chg": -0.51,
-          "ma20": 296.83,
-          "ma50": 294.6,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            267.2,
-            262.0,
-            260.67
-          ]
-        },
-        {
-          "symbol": "CIEN",
-          "price": 541.92,
-          "day_chg": 3.32,
-          "ma20": 537.49,
-          "ma50": 469.84,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            554.46,
-            524.53,
-            541.92
-          ]
-        },
-        {
-          "symbol": "COHR",
-          "price": 353.63,
-          "day_chg": -2.54,
-          "ma20": 346.49,
-          "ma50": 302.62,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            382.45,
-            362.83,
-            353.63
-          ]
-        },
-        {
-          "symbol": "COPX",
-          "price": 79.37,
-          "day_chg": -3.03,
-          "ma20": 82.87,
-          "ma50": 80.36,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            83.05,
-            81.85,
-            79.37
-          ]
-        },
-        {
-          "symbol": "ETHA",
-          "price": 15.93,
-          "day_chg": -0.44,
-          "ma20": 17.26,
-          "ma50": 16.8,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            16.76,
-            16.0,
-            15.93
-          ]
-        },
-        {
-          "symbol": "FRO",
-          "price": 37.44,
-          "day_chg": -0.79,
-          "ma20": 37.01,
-          "ma50": 35.28,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            36.66,
-            37.74,
-            37.44
-          ]
-        },
-        {
-          "symbol": "GEV",
-          "price": 1011.8,
-          "day_chg": -0.04,
-          "ma20": 1079.51,
-          "ma50": 974.53,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            1049.23,
-            1012.25,
-            1011.8
-          ]
-        },
-        {
-          "symbol": "GS",
-          "price": 928.74,
-          "day_chg": -1.86,
-          "ma20": 933.55,
-          "ma50": 885.63,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            948.47,
-            946.36,
-            928.74
-          ]
-        },
-        {
-          "symbol": "HEWJ",
-          "price": 60.48,
-          "day_chg": -0.88,
-          "ma20": 59.87,
-          "ma50": 58.33,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            60.92,
-            61.02,
-            60.48
-          ]
-        },
-        {
-          "symbol": "LITE",
-          "price": 890.09,
-          "day_chg": 0.58,
-          "ma20": 924.93,
-          "ma50": 830.49,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            970.7,
-            884.98,
-            890.09
-          ]
-        },
-        {
-          "symbol": "MP",
-          "price": 54.93,
-          "day_chg": -3.07,
-          "ma20": 64.36,
-          "ma50": 59.14,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            61.27,
-            56.67,
-            54.93
-          ]
-        },
-        {
-          "symbol": "NEE",
-          "price": 90.06,
-          "day_chg": 1.15,
-          "ma20": 94.39,
-          "ma50": 93.01,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            93.36,
-            89.04,
-            90.06
-          ]
-        },
-        {
-          "symbol": "NVDA",
-          "price": 220.61,
-          "day_chg": -0.77,
-          "ma20": 212.35,
-          "ma50": 194.72,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            225.32,
-            222.32,
-            220.61
-          ]
-        },
-        {
-          "symbol": "PLTR",
-          "price": 135.26,
-          "day_chg": 0.09,
-          "ma20": 138.72,
-          "ma50": 143.54,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            133.99,
-            135.14,
-            135.26
-          ]
-        },
-        {
-          "symbol": "PWR",
-          "price": 714.13,
-          "day_chg": -1.23,
-          "ma20": 717.85,
-          "ma50": 630.36,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            769.99,
-            723.03,
-            714.13
-          ]
-        },
-        {
-          "symbol": "VRT",
-          "price": 322.63,
-          "day_chg": -5.03,
-          "ma20": 338.31,
-          "ma50": 299.76,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            370.94,
-            339.73,
-            322.63
-          ]
-        },
-        {
-          "symbol": "VST",
-          "price": 134.71,
-          "day_chg": -1.49,
-          "ma20": 152.37,
-          "ma50": 155.22,
-          "above_ma20": false,
-          "above_ma50": false,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            139.68,
-            136.75,
-            134.71
-          ]
-        },
-        {
-          "symbol": "MPWR",
-          "price": 1468.11,
-          "day_chg": -1.23,
-          "ma20": 1579.13,
-          "ma50": 1344.75,
-          "above_ma20": false,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            1550.02,
-            1486.33,
-            1468.11
-          ]
-        },
-        {
-          "symbol": "ADI",
-          "price": 414.31,
-          "day_chg": -1.02,
-          "ma20": 407.22,
-          "ma50": 360.33,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": false,
-          "last3": [
-            417.49,
-            418.58,
-            414.31
-          ]
-        },
-        {
-          "symbol": "GOOG",
-          "price": 384.9,
-          "day_chg": -2.09,
-          "ma20": 375.79,
-          "ma50": 334.26,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            393.32,
-            393.11,
-            384.9
-          ]
-        },
-        {
-          "symbol": "NBIS",
-          "price": 197.73,
-          "day_chg": -1.07,
-          "ma20": 174.76,
-          "ma50": 144.88,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": false,
-          "dn3": true,
-          "last3": [
-            219.94,
-            199.86,
-            197.73
-          ]
-        },
-        {
-          "symbol": "MPC",
-          "price": 263.02,
-          "day_chg": 1.34,
-          "ma20": 244.46,
-          "ma50": 237.06,
-          "above_ma20": true,
-          "above_ma50": true,
-          "up3": true,
-          "dn3": false,
-          "last3": [
-            255.03,
-            259.53,
-            263.02
-          ]
-        }
-      ],
-      "leading_sectors": [
-        "Energy",
-        "Utilities",
-        "Consumer Staples"
-      ],
-      "sector_perf": {
-        "Energy": {
-          "pct": 1.17,
-          "price": 61.29,
-          "etf": "XLE",
-          "etf_name": "Energy Select Sector SPDR",
-          "emoji": "⛽",
-          "is_leading": true
-        },
-        "Industrials": {
-          "pct": -1.18,
-          "price": 168.74,
-          "etf": "XLI",
-          "etf_name": "Industrial Select Sector SPDR",
-          "emoji": "🏗️",
-          "is_leading": false
-        },
-        "Utilities": {
-          "pct": 0.91,
-          "price": 44.34,
-          "etf": "XLU",
-          "etf_name": "Utilities Select Sector SPDR",
-          "emoji": "🔌",
-          "is_leading": true
-        },
-        "Materials": {
-          "pct": -2.35,
-          "price": 49.04,
-          "etf": "XLB",
-          "etf_name": "Materials Select Sector SPDR",
-          "emoji": "⚗️",
-          "is_leading": false
-        },
-        "Consumer Staples": {
-          "pct": 0.22,
-          "price": 86.09,
-          "etf": "XLP",
-          "etf_name": "Consumer Staples Select Sector SPDR",
-          "emoji": "🛒",
-          "is_leading": true
-        },
-        "Gold": {
-          "pct": -1.66,
-          "price": 411.5,
-          "etf": "GLD",
-          "etf_name": "SPDR Gold Shares",
-          "emoji": "🥇",
-          "is_leading": false
-        },
-        "Copper": {
-          "pct": -3.03,
-          "price": 79.37,
-          "etf": "COPX",
-          "etf_name": "Global X Copper Miners ETF",
-          "emoji": "🔶",
-          "is_leading": false
-        }
-      },
-      "results_by_sector": {
-        "Energy": [
-          {
-            "price": 262.62,
-            "market_cap_b": 78.0,
-            "avg_volume": 3142646,
-            "day_change_pct": 1.59,
-            "eps": 13.7,
-            "ma25": 242.74,
-            "pct_above_ma25": 8.19,
-            "ma50": 241.19,
-            "pct_above_ma50": 8.89,
-            "ma125": 207.1,
-            "pct_above_ma125": 26.81,
-            "symbol": "VLO",
-            "sector": "Energy"
-          },
-          {
-            "price": 182.38,
-            "market_cap_b": 73.1,
-            "avg_volume": 2755217,
-            "day_change_pct": 1.43,
-            "eps": 10.12,
-            "ma25": 168.49,
-            "pct_above_ma25": 8.24,
-            "ma50": 170.51,
-            "pct_above_ma50": 6.96,
-            "ma125": 153.17,
-            "pct_above_ma125": 19.07,
-            "symbol": "PSX",
-            "sector": "Energy"
-          },
-          {
-            "price": 263.02,
-            "market_cap_b": 76.8,
-            "avg_volume": 2256784,
-            "day_change_pct": 1.34,
-            "eps": 15.18,
-            "ma25": 239.47,
-            "pct_above_ma25": 9.83,
-            "ma50": 237.06,
-            "pct_above_ma50": 10.95,
-            "ma125": 206.46,
-            "pct_above_ma125": 27.39,
-            "symbol": "MPC",
-            "sector": "Energy"
-          }
-        ],
-        "Utilities": [],
-        "Consumer Staples": [
-          {
-            "price": 1094.32,
-            "market_cap_b": 485.5,
-            "avg_volume": 2263573,
-            "day_change_pct": 1.66,
-            "eps": 19.27,
-            "ma25": 1014.62,
-            "pct_above_ma25": 7.86,
-            "ma50": 1003.73,
-            "pct_above_ma50": 9.03,
-            "ma125": 961.29,
-            "pct_above_ma125": 13.84,
-            "symbol": "COST",
-            "sector": "Consumer Staples"
-          },
-          {
-            "price": 134.2,
-            "market_cap_b": 1069.7,
-            "avg_volume": 20451973,
-            "day_change_pct": 0.64,
-            "eps": 2.73,
-            "ma25": 129.67,
-            "pct_above_ma25": 3.49,
-            "ma50": 126.77,
-            "pct_above_ma50": 5.86,
-            "ma125": 121.31,
-            "pct_above_ma125": 10.62,
-            "symbol": "WMT",
-            "sector": "Consumer Staples"
-          },
-          {
-            "price": 191.57,
-            "market_cap_b": 298.6,
-            "avg_volume": 5698278,
-            "day_change_pct": 0.04,
-            "eps": 7.1,
-            "ma25": 170.92,
-            "pct_above_ma25": 12.08,
-            "ma50": 167.52,
-            "pct_above_ma50": 14.36,
-            "ma125": 166.63,
-            "pct_above_ma125": 14.97,
-            "symbol": "PM",
-            "sector": "Consumer Staples"
-          }
-        ]
-      }
     }
   ],
-  "updated_at": "2026-08-05 19:12 ET"
+  "updated_at": "2026-08-06 12:15 ET"
 }

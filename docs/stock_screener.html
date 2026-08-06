@@ -105,47 +105,11 @@
 <body>
 
 <div class="header">
-  <h1>📊 每日股票分析</h1>
+  <h1>🚀 板块强势股筛选</h1>
   <div class="sub" id="updated-at">加载中...</div>
 </div>
 
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('watchlist')">📋 自选股技术分析</button>
-  <button class="tab-btn" onclick="switchTab('screener')">📈 板块强势股</button>
-</div>
-
-<!-- ── Tab A: Watchlist ── -->
-<div class="tab-panel active" id="tab-watchlist">
-  <div class="wl-summary" id="wl-summary"><div class="loading">加载中...</div></div>
-  <div class="tbl-wrap">
-    <table id="wl-table" style="display:none">
-      <thead>
-        <tr>
-          <th>股票</th>
-          <th class="r">价格</th>
-          <th class="r">今日</th>
-          <th class="r">MA20</th>
-          <th>vs MA20</th>
-          <th class="r">MA50</th>
-          <th>vs MA50</th>
-          <th>3日涨</th>
-          <th>3日跌</th>
-          <th>近3收盘</th>
-          <th class="r">ADX</th>
-          <th class="r">DI+</th>
-          <th class="r">DI-</th>
-          <th>趋势</th>
-          <th>SQZ</th>
-          <th>评分</th>
-        </tr>
-      </thead>
-      <tbody id="wl-tbody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ── Tab B: Screener ── -->
-<div class="tab-panel" id="tab-screener">
+<div id="tab-screener">
   <div id="screen-criteria" style="font-size:0.68rem;color:#8b949e;margin-bottom:12px;padding:8px 12px;background:#161b22;border:1px solid #30363d;border-radius:8px">筛选条件加载中…</div>
   <div class="etf-bar" id="etf-bar"><div class="loading">加载中...</div></div>
   <div class="sectors-grid" id="sectors-grid"></div>
@@ -165,14 +129,6 @@ function badge(above) {
     : '<span class="badge below">Below</span>';
 }
 
-function switchTab(t) {
-  document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['watchlist','screener'][i] === t);
-  });
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-}
-
 async function load() {
   try {
     const res  = await fetch('./data/stock_screener.json?t=' + Date.now());
@@ -180,8 +136,7 @@ async function load() {
     const data = await res.json();
     render(data.latest);
   } catch(e) {
-    document.getElementById('wl-summary').innerHTML =
-      `<div class="loading">⚠️ ${e.message}<br><small>每个交易日自动更新</small></div>`;
+    document.getElementById('screen-criteria').textContent = `⚠️ ${e.message}（每个交易日自动更新）`;
     document.getElementById('etf-bar').innerHTML = '';
   }
 }
@@ -189,90 +144,7 @@ async function load() {
 function render(r) {
   if (!r) return;
   document.getElementById('updated-at').textContent = '更新时间: ' + r.generated_at;
-  renderWatchlist(r.watchlist || []);
   renderScreener(r);
-}
-
-// ── Watchlist ──────────────────────────────────
-function renderWatchlist(wl) {
-  const ok     = wl.filter(r => !r.error && r.price != null);
-  const upBoth = ok.filter(r => r.above_ma20 && r.above_ma50);
-  const dnBoth = ok.filter(r => r.above_ma20 === false && r.above_ma50 === false);
-  const up3s   = ok.filter(r => r.up3);
-  const dn3s   = ok.filter(r => r.dn3);
-
-  document.getElementById('wl-summary').innerHTML = `
-    <div class="wl-card green">
-      <div class="wl-card-label">✅ MA20+MA50均上方 (${upBoth.length})</div>
-      <div class="wl-card-tickers">${upBoth.map(r=>r.symbol).join(' · ') || '无'}</div>
-    </div>
-    <div class="wl-card red">
-      <div class="wl-card-label">❌ MA20+MA50均下方 (${dnBoth.length})</div>
-      <div class="wl-card-tickers">${dnBoth.map(r=>r.symbol).join(' · ') || '无'}</div>
-    </div>
-    <div class="wl-card up">
-      <div class="wl-card-label">📈 连续3日收涨 (${up3s.length})</div>
-      <div class="wl-card-tickers">${up3s.map(r=>r.symbol).join(' · ') || '无'}</div>
-    </div>
-    <div class="wl-card dn">
-      <div class="wl-card-label">📉 连续3日收跌 (${dn3s.length})</div>
-      <div class="wl-card-tickers">${dn3s.map(r=>r.symbol).join(' · ') || '无'}</div>
-    </div>`;
-
-  // Top 5 strongest stocks card
-  const ranked = ok.slice().sort((a,b) => (b.strength_score||0) - (a.strength_score||0));
-  const top5   = ranked.slice(0, 5);
-  document.getElementById('wl-summary').innerHTML += `
-    <div class="wl-card fire" style="min-width:200px">
-      <div class="wl-card-label">🔥 强势排行 Top 5</div>
-      <div class="wl-card-tickers">${top5.map(r => `${r.symbol}<span style="color:#8b949e;font-weight:400"> ${r.strength_score||0}分</span>`).join(' · ') || '无'}</div>
-    </div>`;
-
-  const tbody = document.getElementById('wl-tbody');
-  const sorted = wl.slice().sort((a,b) => (b.strength_score||0) - (a.strength_score||0));
-  tbody.innerHTML = sorted.map(r => {
-    if (r.error) return `<tr><td class="sym">${r.symbol}</td><td colspan="15" class="neu" style="font-size:11px">${r.error}</td></tr>`;
-    const dc    = r.day_chg ?? 0;
-    const last3 = (r.last3 || []).map(v => '$'+v.toFixed(2)).join(' → ');
-
-    const adx = r.adx;
-    const dip = r.di_plus;
-    const dim = r.di_minus;
-    const adxCls   = adx == null ? 'neu' : adx >= 25 ? 'pos' : 'neu';
-    const dipHtml  = dip != null ? `<span class="${dip > (dim||0) ? 'pos' : 'neu'}">${dip.toFixed(1)}</span>` : '<span class="neu">—</span>';
-    const dimHtml  = dim != null ? `<span class="${dim > (dip||0) ? 'neg' : 'neu'}">${dim.toFixed(1)}</span>` : '<span class="neu">—</span>';
-    const stBadge  = r.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
-                   : r.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '<span class="neu">—</span>';
-    const sqzBadge = r.sqz_on == null ? '<span class="neu">—</span>'
-                   : r.sqz_on ? `<span class="badge-sqz">挤压${r.sqz_dir==='up'?' ↑':' ↓'}</span>`
-                               : `<span class="badge-nsqz">${r.sqz_dir==='up'?'↑动':'↓动'}</span>`;
-
-    const sc = r.strength_score ?? null;
-    const scClass = sc == null ? 'score-s1' : sc >= 9 ? 'score-s5' : sc >= 7 ? 'score-s4' : sc >= 5 ? 'score-s3' : sc >= 3 ? 'score-s2' : 'score-s1';
-    const scLabel = r.strength_grade || '—';
-    const scHtml  = sc != null ? `<span class="score-chip ${scClass}">${sc}/10 ${scLabel}</span>` : '<span class="neu">—</span>';
-
-    return `<tr>
-      <td class="sym">${r.symbol}</td>
-      <td class="r">$${(r.price||0).toFixed(2)}</td>
-      <td class="r ${pCls(dc)}">${pStr(dc)}</td>
-      <td class="r neu">${r.ma20 != null ? '$'+r.ma20.toFixed(2) : '—'}</td>
-      <td>${badge(r.above_ma20)}</td>
-      <td class="r neu">${r.ma50 != null ? '$'+r.ma50.toFixed(2) : '—'}</td>
-      <td>${badge(r.above_ma50)}</td>
-      <td style="text-align:center">${r.up3 ? '<span class="streak-up">📈</span>' : '<span class="neu">—</span>'}</td>
-      <td style="text-align:center">${r.dn3 ? '<span class="streak-dn">📉</span>' : '<span class="neu">—</span>'}</td>
-      <td class="neu" style="font-size:11px">${last3}</td>
-      <td class="r ${adxCls}" style="font-weight:600">${adx != null ? adx.toFixed(1) : '—'}</td>
-      <td class="r">${dipHtml}</td>
-      <td class="r">${dimHtml}</td>
-      <td>${stBadge}</td>
-      <td>${sqzBadge}</td>
-      <td>${scHtml}</td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('wl-table').style.display = 'table';
 }
 
 // ── Screener v4：资金流入板块 强势股 ───────────────
@@ -284,11 +156,46 @@ function money(m) {
   return a >= 1000 ? `${sign}$${(a/1000).toFixed(1)}B` : `${sign}$${Math.round(a)}M`;
 }
 
+// 单只个股行；isCurrent=true 显示「多头排列✓」，false（潜在）显示「待多头排列」
+function stockRow(s, i, isCurrent) {
+  const mcap = s.market_cap_b != null ? `<span style="color:#8b949e;font-weight:400;font-size:0.62rem"> ${s.market_cap_b}B</span>` : '';
+  const stPill = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
+               : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
+  // 净利润 3 季（ni_q=[最新,上季,上上季] $M）→ 展示 上上→上→最新
+  const niTxt = Array.isArray(s.ni_q) && s.ni_q.length === 3
+    ? `净利 ${money(s.ni_q[2])}→${money(s.ni_q[1])}→${money(s.ni_q[0])}` : '';
+  const maPill = isCurrent
+    ? '<span class="ma-pill">20&gt;50&gt;150MA ✓</span>'
+    : '<span class="badge na" style="font-size:0.6rem">待多头排列</span>';
+  return `<div class="stock-row">
+    <div class="rank">${RANK[i]||'#'+(i+1)}</div>
+    <div class="stock-main">
+      <div class="stock-symbol">${s.symbol}${mcap}</div>
+      <div class="stock-metas">
+        ${maPill}
+        ${niTxt ? `<span class="ma-pill" style="background:#1a1c22;color:#8b949e">${niTxt}</span>` : ''}
+        ${stPill}
+      </div>
+    </div>
+    <div class="stock-right">
+      <div class="day-chg ${pCls(s.ret_2m)}">2月 ${pStr(s.ret_2m)}</div>
+      <div class="stock-price">$${s.price} · 今日 <span class="${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</span></div>
+    </div>
+  </div>`;
+}
+
+function bucket(label, stocks, isCurrent, emptyMsg) {
+  const head = `<div style="padding:7px 14px;font-size:0.68rem;font-weight:700;color:${isCurrent?'#3fb950':'#d4a017'};background:#0d1117;border-bottom:0.5px solid #21262d">${label}</div>`;
+  const body = (stocks && stocks.length)
+    ? stocks.map((s,i) => stockRow(s, i, isCurrent)).join('')
+    : `<div class="no-stocks">${emptyMsg}</div>`;
+  return head + body;
+}
+
 function renderScreener(r) {
-  // 条件说明
   const crit = document.getElementById('screen-criteria');
   if (crit) crit.textContent = r.screen_criteria
-    || '资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 近3季净利润递增 · 按2月涨幅取前3';
+    || '资金流入板块 · 潜在强势股=市值>2亿+近3季净利增/平 · 现有强势股=潜在+20MA>50MA>150MA';
 
   // 板块强弱条（全部板块，按 RS 降序；绿=资金流入）
   const bar  = document.getElementById('etf-bar');
@@ -305,7 +212,7 @@ function renderScreener(r) {
         </div>`;
     });
 
-  // 流入板块个股卡片
+  // 流入板块个股卡片（现有 / 潜在 两档）
   const grid   = document.getElementById('sectors-grid');
   const inflow = r.inflow_sectors || [];
   grid.innerHTML = '';
@@ -315,41 +222,17 @@ function renderScreener(r) {
   }
 
   inflow.forEach(tk => {
-    const info   = flow[tk] || {};
-    const stocks = (r.results_by_sector||{})[tk] || [];
-    const rows = stocks.length === 0
-      ? `<div class="no-stocks">无个股满足条件（多头排列 + 逐月递增）</div>`
-      : stocks.map((s,i) => {
-          const mcap = s.market_cap_b != null ? `<span style="color:#8b949e;font-weight:400;font-size:0.62rem"> ${s.market_cap_b}B</span>` : '';
-          const stPill = s.supertrend === 'bullish' ? '<span class="badge-bull">↑多</span>'
-                       : s.supertrend === 'bearish'  ? '<span class="badge-bear">↓空</span>' : '';
-          // 净利润 3 季趋势（ni_q = [最新, 上季, 上上季] $M）→ 展示为 上上→上→最新
-          const niTxt = Array.isArray(s.ni_q) && s.ni_q.length === 3
-            ? `净利↑ ${money(s.ni_q[2])}→${money(s.ni_q[1])}→${money(s.ni_q[0])}` : '';
-          return `<div class="stock-row">
-            <div class="rank">${RANK[i]||'#'+(i+1)}</div>
-            <div class="stock-main">
-              <div class="stock-symbol">${s.symbol}${mcap}</div>
-              <div class="stock-metas">
-                <span class="ma-pill">20&gt;50&gt;150MA ✓</span>
-                ${niTxt ? `<span class="ma-pill">${niTxt}</span>` : ''}
-                ${stPill}
-              </div>
-            </div>
-            <div class="stock-right">
-              <div class="day-chg ${pCls(s.ret_2m)}">2月 ${pStr(s.ret_2m)}</div>
-              <div class="stock-price">$${s.price} · 今日 <span class="${pCls(s.day_change_pct)}">${pStr(s.day_change_pct)}</span></div>
-            </div>
-          </div>`;
-        }).join('');
-
+    const info    = flow[tk] || {};
+    const buckets = (r.results_by_sector||{})[tk] || {};
+    const cur = buckets.current || [], pot = buckets.potential || [];
     grid.innerHTML += `
       <div class="sector-block">
         <div class="sector-header">
           <div class="sector-title">${info.emoji||''} ${info.cn||tk}</div>
           <div class="etf-badge">${tk} · <span class="${pCls(info.rs_m3 ?? 0)}" style="font-weight:700">${rsStr(info.rs_m3)}</span>${info.m3_pct!=null?` · 3月${pStr(info.m3_pct)}`:''}</div>
         </div>
-        ${rows}
+        ${bucket('✅ 现有强势股（+多头排列）', cur, true,  '暂无（无多头排列个股）')}
+        ${bucket('🔍 潜在强势股（仅基本面）', pot, false, '暂无')}
       </div>`;
   });
 }

@@ -48,11 +48,10 @@ WATCHLIST = [
 # 模块 A 配置 — 资金流入板块 强势股筛选（v4.0）
 # ═══════════════════════════════════════════════
 #
-# 【新规则】从 sector_board 的「资金流入板块」中，每个板块取前 3 名：
-#   1. 市值 > 2 亿美元（$200M）
-#   2. 20MA > 50MA > 150MA（多头排列）
-#   3. 最近 3 个季度净利润呈增长趋势（最新季 > 上季 > 上上季，且最新季 > 0）
-#   排序：按 2 个月价格涨幅（动量）降序取前 3。
+# 【规则 v4.1】从 sector_board 的「资金流入板块」中，每个板块分两档，各按2月涨幅取前3：
+#   潜在强势股：① 市值 > 2 亿美元  ② 近3季净利润「增加或持平」（最新季>0）
+#   现有强势股：潜在 + ③ 20MA > 50MA > 150MA（多头排列）
+#   （现有 ⊂ 潜在；「持平」= 净利润环比降幅 ≤2%）
 #
 # 「资金流入板块」= sector_board 中 flow.tone == 'green'（相对大盘 3 月 RS ≥ 0）。
 # 候选股池 = 各板块 ETF 的代表性成分股（大/中盘）。
@@ -61,7 +60,9 @@ SCREEN = {
     "min_market_cap_usd": 200_000_000,   # 2 亿美元
     "mom_month_days": 21,                 # 1 个月 ≈ 21 交易日
     "top_per_sector": 3,
-    "min_hist": 155,                      # 需 ≥150 根算 MA150
+    "min_hist_rank": 45,                  # 至少 2 个月历史（供动量排序）
+    "ma_hist": 150,                       # ≥150 根才判多头排列
+    "ni_flat_tol": 0.02,                  # 净利润环比降幅 ≤2% 视为「持平」
 }
 
 # sector_board ticker → 候选成分股（TLT 无股票，跳过）
@@ -481,19 +482,25 @@ def net_income_trend(t):
     if len(vals) < 3:
         return None
     q0, q1, q2 = vals[0], vals[1], vals[2]
-    return {"q": [round(q0 / 1e6, 1), round(q1 / 1e6, 1), round(q2 / 1e6, 1)],
-            "growing": bool(q0 > q1 > q2 and q0 > 0)}
+
+    # 「增加或持平」：环比降幅 ≤2% 视为持平（净利润近乎不变）
+    def nondec(newer, older):
+        return newer >= older - abs(older) * SCREEN["ni_flat_tol"]
+
+    ok = bool(q0 > 0 and nondec(q0, q1) and nondec(q1, q2))
+    return {"q": [round(q0 / 1e6, 1), round(q1 / 1e6, 1), round(q2 / 1e6, 1)], "ok": ok}
 
 
 def screen_stock(symbol):
-    """按新三条件筛选单只股票；通过则返回 metrics，否则 None。"""
+    """结构过滤（市值 + 近3季净利润增/平）。通过返回 metrics（含 ma_aligned 标记）；否则 None。
+    ma_aligned = 20MA>50MA>150MA（多头排列）→ 用于区分「现有强势股」/「潜在强势股」。"""
     t, hist = get_hist(symbol, "1y")
-    if hist is None or len(hist) < SCREEN["min_hist"]:
+    if hist is None:
         return None
     closes = hist["Close"].dropna()
-    if len(closes) < SCREEN["min_hist"]:
-        return None
     cl = closes.values.astype(float)
+    if len(cl) < SCREEN["min_hist_rank"]:      # 至少 2 个月，供动量排序
+        return None
 
     # 现价 / 今日涨幅（实时优先）
     price, day_chg = get_realtime_change(t)
@@ -510,17 +517,19 @@ def screen_stock(symbol):
     if mcap and mcap < SCREEN["min_market_cap_usd"]:
         return None
 
-    # 2) 20MA > 50MA > 150MA（多头排列）
-    ma20  = float(np.mean(cl[-20:]))
-    ma50  = float(np.mean(cl[-50:]))
-    ma150 = float(np.mean(cl[-150:]))
-    if not (ma20 > ma50 > ma150):
+    # 2) 最近 3 个季度净利润「增加或持平」（且最新季 > 0）
+    ni = net_income_trend(t)
+    if ni is None or not ni["ok"]:
         return None
 
-    # 3) 最近 3 个季度净利润呈增长趋势（q0>q1>q2 且 q0>0）
-    ni = net_income_trend(t)
-    if ni is None or not ni["growing"]:
-        return None
+    # 多头排列判定（历史 ≥150 根才算；不足则视为未确认 → 潜在）
+    ma20 = ma50 = ma150 = None
+    ma_aligned = False
+    if len(cl) >= SCREEN["ma_hist"]:
+        ma20  = float(np.mean(cl[-20:]))
+        ma50  = float(np.mean(cl[-50:]))
+        ma150 = float(np.mean(cl[-150:]))
+        ma_aligned = ma20 > ma50 > ma150
 
     # 排序键：2 个月价格涨幅（动量）
     md = SCREEN["mom_month_days"]
@@ -530,21 +539,21 @@ def screen_stock(symbol):
     metrics = {
         "symbol": symbol, "price": round(price, 2), "day_change_pct": day_chg,
         "market_cap_b": round(mcap / 1e9, 2) if mcap else None,
-        "ma20": round(ma20, 2), "ma50": round(ma50, 2), "ma150": round(ma150, 2),
+        "ma20": round(ma20, 2) if ma20 else None,
+        "ma50": round(ma50, 2) if ma50 else None,
+        "ma150": round(ma150, 2) if ma150 else None,
+        "ma_aligned": ma_aligned,
         "ret_2m": ret_2m,
         "ni_q": ni["q"],              # [最新, 上季, 上上季] 净利润($M)
     }
     st_d = calc_supertrend(hist)
     if st_d:
         metrics["supertrend"] = st_d["direction"]
-    adx_d = calc_adx_di(hist)
-    if adx_d:
-        metrics["adx"] = adx_d["adx"]
     return metrics
 
 
 def screen_sector(sec):
-    """筛选单个流入板块，返回按 2 个月涨幅降序的前 3 名。"""
+    """筛选单个流入板块 → {current:[现有强势股], potential:[潜在强势股]}，各按2月涨幅降序取前N。"""
     tk = sec["ticker"]
     candidates = SECTOR_UNIVERSE.get(tk, [])
     print(f"\n  🔍 {sec['emoji']} {sec['cn']} ({tk}, {len(candidates)} 只候选)  RS={sec['rs_m3']}...")
@@ -555,11 +564,15 @@ def screen_sector(sec):
             if m:
                 m["sector"] = tk
                 passed.append(m)
-                print(f"    ✅ {symbol}: 2月{m['ret_2m']:+.1f}%  今日{m['day_change_pct']:+.2f}%")
+                tag = "现有" if m["ma_aligned"] else "潜在"
+                print(f"    ✅[{tag}] {symbol}: 2月{m['ret_2m']:+.1f}%  今日{m['day_change_pct']:+.2f}%")
         except Exception as e:
             print(f"    ⚠️ {symbol}: {e}")
     passed.sort(key=lambda x: x.get("ret_2m", -999), reverse=True)
-    return passed[:SCREEN["top_per_sector"]]
+    n = SCREEN["top_per_sector"]
+    current   = [m for m in passed if m["ma_aligned"]][:n]     # 现有强势股（+多头排列）
+    potential = [m for m in passed if not m["ma_aligned"]][:n]  # 潜在强势股（仅基本面）
+    return {"current": current, "potential": potential}
 
 
 # ═══════════════════════════════════════════════
@@ -576,15 +589,11 @@ def run_all():
         return None
 
     print(f"\n{'═'*55}")
-    print(f"🚀 Stock Screener v4.0 — {today_str}")
+    print(f"🚀 Stock Screener v4.1 — {today_str}")
     print(f"{'═'*55}")
 
-    # ── 模块 B：Watchlist 技术分析（无条件每日运行）──
-    watchlist_results = analyze_watchlist()
-
-    # ── 模块 A：资金流入板块 强势股筛选 ──
-    print(f"\n{'─'*55}")
-    print("📊 模块 A — 资金流入板块 强势股（市值>2亿 · 20>50>150MA · 近3季净利润递增 · 按2月涨幅取前3）")
+    # ── 资金流入板块 强势股筛选（潜在 / 现有 两档）──
+    print("📊 资金流入板块 强势股（潜在=市值>2亿+近3季净利增/平；现有=潜在+多头排列）")
     sb = load_sector_board()
     inflow = get_inflow_sectors(sb)
 
@@ -594,7 +603,7 @@ def run_all():
         for s in inflow:
             results_by_sector[s["ticker"]] = screen_sector(s)
     else:
-        print("⚠️ 无资金流入板块（或 sector_board 缺失），模块 A 跳过")
+        print("⚠️ 无资金流入板块（或 sector_board 缺失），跳过")
 
     # sector_board 全部板块（含流出）供前端「板块强弱条」展示
     sector_flow = {}
@@ -614,13 +623,10 @@ def run_all():
     report = {
         "date":         today_str,
         "generated_at": today.strftime("%Y-%m-%d %H:%M ET"),
-        "screen_criteria": "资金流入板块 · 市值>2亿 · 20MA>50MA>150MA · 近3季净利润递增（最新季>上季>上上季且>0）· 按2月涨幅取前3",
-        # 模块 B
-        "watchlist": watchlist_results,
-        # 模块 A（v4.0）
+        "screen_criteria": "资金流入板块 · 潜在强势股=市值>2亿+近3季净利润增/平 · 现有强势股=潜在+20MA>50MA>150MA · 各按2月涨幅取前3",
         "inflow_sectors":    [s["ticker"] for s in inflow],
         "sector_flow":       sector_flow,
-        "results_by_sector": results_by_sector,
+        "results_by_sector": results_by_sector,   # {tk:{current:[...],potential:[...]}}
     }
     return report
 
@@ -660,35 +666,24 @@ def save_json(report, path="docs/data/stock_screener.json"):
 # ═══════════════════════════════════════════════
 
 def build_message(report):
-    lines = [f"📊 每日股票分析 {report['date']}", ""]
+    lines = [f"📊 每日强势股筛选 {report['date']}", ""]
 
-    # ── 模块 B 摘要 ──
-    wl = [r for r in report.get("watchlist", []) if "error" not in r]
-
-    up_both = [r["symbol"] for r in wl if r.get("above_ma20") and r.get("above_ma50")]
-    dn_both = [r["symbol"] for r in wl if r.get("above_ma20") == False and r.get("above_ma50") == False]
-    up3s    = [r["symbol"] for r in wl if r.get("up3")]
-    dn3s    = [r["symbol"] for r in wl if r.get("dn3")]
-
-    lines.append("📋 自选股技术分析")
-    lines.append(f"  ✅ MA20+MA50均上方 ({len(up_both)}只): {', '.join(up_both) or '无'}")
-    lines.append(f"  ❌ MA20+MA50均下方 ({len(dn_both)}只): {', '.join(dn_both) or '无'}")
-    lines.append(f"  📈 连续3日收涨 ({len(up3s)}只): {', '.join(up3s) or '无'}")
-    lines.append(f"  📉 连续3日收跌 ({len(dn3s)}只): {', '.join(dn3s) or '无'}")
-    lines.append("")
-
-    # ── 模块 A 摘要 ──
     inflow = report.get("inflow_sectors", [])
     flow   = report.get("sector_flow", {})
     if inflow:
-        lines.append("📈 资金流入板块 强势股（2月涨幅前3）")
+        lines.append("📈 资金流入板块 强势股（现有=多头排列 / 潜在=仅基本面）")
         for tk in inflow:
             info   = flow.get(tk, {})
-            stocks = report["results_by_sector"].get(tk, [])
+            buckets = report["results_by_sector"].get(tk, {}) or {}
+            cur, pot = buckets.get("current", []), buckets.get("potential", [])
             rs = info.get("rs_m3")
             lines.append(f"  {info.get('emoji','')} {info.get('cn',tk)} | {tk} RS{('%+.1f'%rs) if rs is not None else '—'}%")
-            for i, st in enumerate(stocks, 1):
-                lines.append(f"    #{i} {st['symbol']}  ${st['price']}  2月{st['ret_2m']:+.1f}%")
+            if cur:
+                lines.append("    现有: " + " · ".join(f"{s['symbol']}({s['ret_2m']:+.0f}%)" for s in cur))
+            if pot:
+                lines.append("    潜在: " + " · ".join(f"{s['symbol']}({s['ret_2m']:+.0f}%)" for s in pot))
+            if not cur and not pot:
+                lines.append("    （无）")
         lines.append("")
 
     lines += ["⚠️ 仅供参考，不构成投资建议",
