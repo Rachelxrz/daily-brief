@@ -81,12 +81,15 @@ def _ma(cl, n):
     return float(np.mean(cl[-n:])) if len(cl) >= n else None
 
 
-def evaluate() -> dict:
+def evaluate(promote: bool = False) -> dict:
+    """promote=False（每日）：只做「移出到 Secondary Watchlist」（跌破周线200MA）。
+    promote=True（每周）：额外复查 Secondary Watchlist 里的标的能否重回主 watchlist。"""
     data = wm.load_watchlist()
     suspended = wm.get_suspended_tickers()
     # core_holdings（GLD/QQQ/TLT/WTI 等战略锚仓，无财报）豁免本闸门，只对个股(long_term+screener)生效
     exempt = {(h.get("ticker") if isinstance(h, dict) else h) for h in data.get("core_holdings", [])}
-    universe  = sorted((set(wm.get_full_watchlist()) | suspended) - exempt)
+    active   = set(wm.get_full_watchlist()) - exempt         # 主 watchlist 候选（查移出）
+    universe = sorted(active | (suspended if promote else set()))
 
     to_suspend, to_resume, skipped = [], [], []
     for tk in universe:
@@ -103,15 +106,15 @@ def evaluate() -> dict:
             is_susp = tk in suspended
 
             if not is_susp:
-                # 活跃 → 是否跌破200周MA
+                # 主 watchlist 活跃 → 是否跌破200周MA → 移入 Secondary Watchlist
                 if ma200 is not None and close < ma200:
                     to_suspend.append({
                         "ticker": tk, "source": wm.ticker_source(data, tk),
                         "reason": "周线跌破200MA",
                         "detail": f"周收{close:.1f} < 200wMA {ma200:.1f}",
                     })
-            else:
-                # 暂停中 → 是否满足全部恢复条件
+            elif promote:
+                # Secondary Watchlist 复查（仅每周）→ 满足全部条件才重回主 watchlist
                 if ma150 is None or ma20 is None:
                     continue
                 price_ok = close > ma150 and close > ma20
@@ -133,12 +136,18 @@ def evaluate() -> dict:
     return res
 
 
-def run():
-    r = evaluate()
-    print(f"🚦 watchlist_gate：暂停 {r['suspended']} | 恢复 {r['resumed']} | 跳过(数据不足) {len(r['skipped'])}只")
+def run(promote: bool = False):
+    mode = "每周复查(含回归)" if promote else "每日(仅移出)"
+    r = evaluate(promote=promote)
+    print(f"🚦 watchlist_gate [{mode}]：移出 {r['suspended']} | 回归 {r['resumed']} | 跳过(数据不足) {len(r['skipped'])}只")
     return r
 
 
 if __name__ == "__main__":
+    import argparse
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    run()
+    ap = argparse.ArgumentParser(description="watchlist 周线200MA 移出/回归闸门")
+    ap.add_argument("--promote", action="store_true",
+                    help="每周复查 Secondary Watchlist 能否重回主 watchlist（默认只做每日移出）")
+    args = ap.parse_args()
+    run(promote=args.promote)

@@ -1,0 +1,48 @@
+name: 🔁 Weekly Secondary-Watchlist Review
+
+# 每周复查 Secondary Watchlist（跌破周线200MA被移出的标的）能否重回主 watchlist。
+# 恢复条件：周线收盘 > 150周MA 且 > 20周MA 且 近2季度净利润>0并上升（ETF仅看价格）。
+# 周线K在周五收盘定型 → 周六复查最合适。移出(demote)仍由 daily_brief 每日及时处理。
+on:
+  schedule:
+    - cron: '0 14 * * 6'   # 每周六 14:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: daily-brief-main-push
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install yfinance pandas numpy pytz
+      - name: 复查 Secondary Watchlist（回归主 watchlist）
+        run: python watchlist_gate.py --promote
+      - name: Commit & push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/watchlist.json docs/watchlist_changelog.json
+          if git diff --staged --quiet; then
+            echo "无变更，跳过提交"; exit 0
+          fi
+          git commit -m "🔁 Secondary Watchlist 周复查 $(date -u +'%Y-%m-%d')"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "✅ 已推送（第 $i 次尝试）"; exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "⚠️ 第 $i 次推送失败，5s 后重试…"; sleep 5
+          done
+          echo "❌ 重试后仍失败"; exit 1

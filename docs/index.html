@@ -1353,10 +1353,10 @@ function renderMaSignal(day) {
     ? `<span style="font-size:0.62rem;border:1px solid var(--border);border-radius:4px;padding:0 4px;color:var(--gold)">${t('筛选','Screener')}</span>`
     : `<span style="font-size:0.62rem;border:1px solid var(--border);border-radius:4px;padding:0 4px;color:var(--muted)">${t('自选','Manual')}</span>`;
   if (suspended.length) {
-    html += `<h2 style="margin-top:0.5rem">⏸️ ${t('已暂停（跌破周线200MA）','Suspended (below 200-week MA)')}（${suspended.length}）</h2>`;
+    html += `<h2 style="margin-top:0.5rem">🗂️ ${t('二级观察名单 · Secondary Watchlist','Secondary Watchlist')}（${suspended.length}）</h2>`;
     html += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
-          + t('这些标的周线跌破200MA，已停止买卖信号；需回到周线150MA与20MA上方、且连续2季度盈利并上升才恢复。',
-              'Below the 200-week MA — buy/sell signals paused until price reclaims the 150- and 20-week MAs with 2 consecutive rising profitable quarters.')
+          + t('周线跌破200MA被移出主 watchlist，已停止买卖信号（每日检测移出）。每周复查一次：回到周线150MA与20MA上方、且连续2季度盈利并上升，才重回主 watchlist。',
+              'Removed from the main watchlist after closing below the 200-week MA — signals paused (checked daily). Reviewed weekly: returns to the main watchlist once price reclaims the 150- and 20-week MAs with 2 consecutive rising profitable quarters.')
           + `</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0.4rem">`;
     for (const s of suspended) {
       html += `<span style="border:1px solid var(--border);border-left:3px solid var(--red);border-radius:8px;padding:5px 10px;font-size:0.9rem">`

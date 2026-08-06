@@ -4,6 +4,12 @@
 
 ## 2026-08-07
 
+### 新增：Secondary Watchlist（二级观察名单）+ 移出/回归分频
+- 把「跌破周线200MA被移出」的标的正式命名为 **Secondary Watchlist**（页面标题、说明更新）。
+- **移出**（主→二级）：仍每日检测（`daily_brief` 里 `watchlist_gate.py`）。
+- **回归复查**（二级→主）：改为**每周一次**——新增 `.github/workflows/watchlist_promote.yml`（每周六 `watchlist_gate.py --promote`）。
+- `watchlist_gate.py` 加 `--promote` 开关：默认仅移出；`--promote` 才复查回归。
+
 ### 变更：强势股筛选 新增「周线价格 > 120周MA」基础条件
 - 潜在/现有两档的基础条件都加入 **周线收盘 > 120周MA**（价格站上长期周线均线；周线不足120根淘汰）。
 - 副作用（好事）：上升趋势中 120周MA 高于 200周MA，故入选股天然在周线200MA之上，不会再被 watchlist 闸门暂停——消除了「刚筛出又被暂停」的矛盾。
