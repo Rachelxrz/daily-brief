@@ -232,27 +232,11 @@
       "sector": "XLV"
     },
     {
-      "ticker": "CI",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
-      "bucket": "current",
-      "sector": "XLV"
-    },
-    {
       "ticker": "LLY",
       "added_date": "2026-08-07",
       "last_seen": "2026-08-07",
       "expires": "2026-09-06",
       "bucket": "current",
-      "sector": "XLV"
-    },
-    {
-      "ticker": "ISRG",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
-      "bucket": "potential",
       "sector": "XLV"
     },
     {
@@ -310,14 +294,6 @@
       "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "SMH"
-    },
-    {
-      "ticker": "INTU",
-      "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
-      "expires": "2026-09-06",
-      "bucket": "potential",
-      "sector": "XLK"
     },
     {
       "ticker": "ADI",
@@ -382,6 +358,43 @@
       "expires": "2026-09-06",
       "bucket": "potential",
       "sector": "XLI"
+    }
+  ],
+  "suspended": [
+    {
+      "ticker": "ALB",
+      "source": "manual",
+      "since": "2026-08-07",
+      "reason": "周线跌破200MA",
+      "detail": "周收126.9 < 200wMA 137.8"
+    },
+    {
+      "ticker": "CI",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "周线跌破200MA",
+      "detail": "周收275.5 < 200wMA 291.3"
+    },
+    {
+      "ticker": "COIN",
+      "source": "manual",
+      "since": "2026-08-07",
+      "reason": "周线跌破200MA",
+      "detail": "周收146.7 < 200wMA 181.8"
+    },
+    {
+      "ticker": "INTU",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "周线跌破200MA",
+      "detail": "周收318.9 < 200wMA 540.0"
+    },
+    {
+      "ticker": "ISRG",
+      "source": "screener",
+      "since": "2026-08-07",
+      "reason": "周线跌破200MA",
+      "detail": "周收374.1 < 200wMA 414.1"
     }
   ]
 }

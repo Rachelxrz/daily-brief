@@ -1,0 +1,45 @@
+{
+  "events": [
+    {
+      "date": "2026-08-07",
+      "ticker": "ISRG",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "周线跌破200MA",
+      "detail": "周收374.1 < 200wMA 414.1"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "INTU",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "周线跌破200MA",
+      "detail": "周收318.9 < 200wMA 540.0"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "COIN",
+      "action": "suspend",
+      "source": "manual",
+      "reason": "周线跌破200MA",
+      "detail": "周收146.7 < 200wMA 181.8"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "CI",
+      "action": "suspend",
+      "source": "screener",
+      "reason": "周线跌破200MA",
+      "detail": "周收275.5 < 200wMA 291.3"
+    },
+    {
+      "date": "2026-08-07",
+      "ticker": "ALB",
+      "action": "suspend",
+      "source": "manual",
+      "reason": "周线跌破200MA",
+      "detail": "周收126.9 < 200wMA 137.8"
+    }
+  ],
+  "updated": "2026-08-07"
+}

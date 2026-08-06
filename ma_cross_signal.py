@@ -97,13 +97,19 @@ def _now_cst() -> str:
     return datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M CST")
 
 
-def load_tickers() -> list:
-    """core_holdings + long_term，按出现顺序去重。"""
+def _load_wl() -> dict:
     try:
-        wl = json.loads(WATCHLIST_FILE.read_text(encoding="utf-8"))
+        return json.loads(WATCHLIST_FILE.read_text(encoding="utf-8"))
     except Exception as e:
-        log.warning(f"读取 watchlist.json 失败，回退空列表：{e}")
-        return []
+        log.warning(f"读取 watchlist.json 失败：{e}")
+        return {}
+
+
+def load_tickers() -> list:
+    """活跃跟踪清单 = core_holdings + long_term + screener_signals，去重；
+    已暂停(周线破200MA)的标的排除，不再计算买卖信号。"""
+    wl = _load_wl()
+    suspended = {s.get("ticker") for s in wl.get("suspended", []) if isinstance(s, dict)}
     tickers = []
     for h in wl.get("core_holdings", []):
         t = h.get("ticker") if isinstance(h, dict) else h
@@ -112,18 +118,38 @@ def load_tickers() -> list:
     for t in wl.get("long_term", []):
         if t:
             tickers.append(str(t).upper())
-    # 强势股筛选自动加入的标的（screener_signals 层，30天过期）→ 一并跟踪均线信号
-    for s in wl.get("screener_signals", []):
+    for s in wl.get("screener_signals", []):   # 强势股筛选自动加入的标的
         t = s.get("ticker") if isinstance(s, dict) else s
         if t:
             tickers.append(str(t).upper())
-    # 去重保序 + 排除
     seen, out = set(), []
     for t in tickers:
-        if t not in seen and t not in EXCLUDE:
+        if t not in seen and t not in EXCLUDE and t not in suspended:
             seen.add(t)
             out.append(t)
     return out
+
+
+def watchlist_meta() -> tuple:
+    """返回 (source_map, suspended_list)。source_map: {ticker: 'screener'|'manual'}；
+    suspended_list: [{ticker,source,reason,detail,since}]。供前端标记来源/展示已暂停。"""
+    wl = _load_wl()
+    src = {}
+    for h in wl.get("core_holdings", []):
+        t = (h.get("ticker") if isinstance(h, dict) else h)
+        if t:
+            src[str(t).upper()] = "manual"
+    for t in wl.get("long_term", []):
+        if t:
+            src[str(t).upper()] = "manual"
+    for s in wl.get("screener_signals", []):
+        t = s.get("ticker") if isinstance(s, dict) else s
+        if t:
+            src.setdefault(str(t).upper(), "screener")
+    susp = [{"ticker": s.get("ticker"), "source": s.get("source"),
+             "reason": s.get("reason"), "detail": s.get("detail"), "since": s.get("since")}
+            for s in wl.get("suspended", []) if isinstance(s, dict)]
+    return src, susp
 
 
 # ── ETF/个股分类（yfinance quoteType，缓存到 etf_flags.json）────────────────
@@ -495,7 +521,16 @@ def build_recent(rows: list, today: str, days: int = RECENT_DAYS) -> list:
     return recent
 
 
-def save_web(rows: list, today: str, recent: list):
+def _recent_wl_changes(n: int = 30) -> list:
+    """读取 watchlist 变更审计日志的最近 n 条（newest first）。"""
+    f = DOCS_DIR / "watchlist_changelog.json"
+    try:
+        return json.loads(f.read_text(encoding="utf-8")).get("events", [])[:n]
+    except Exception:
+        return []
+
+
+def save_web(rows: list, today: str, recent: list, suspended: list = None):
     data = {}
     if DATA_FILE.exists():
         try:
@@ -519,6 +554,8 @@ def save_web(rows: list, today: str, recent: list):
         "recent_days": RECENT_DAYS,
         "gate_votes": GATE_VOTES,          # 当日市场结构红灯数(0-6),供策略C
         "c_threshold": C_RED_THRESHOLD,    # 红灯≥此值,跌破150MA才清仓
+        "suspended": suspended or [],      # 周线破200MA暂停(不给信号)的标的
+        "wl_changes": _recent_wl_changes(30),  # watchlist 变更日志(近30条)
         "tickers": rows,
     }
 
@@ -597,6 +634,11 @@ def run(dry_run: bool = False):
             log.info(f"  {t:<6} [{res.get('tf','')}] {res['signal']:<8} ${res['price']}  "
                      f"MA20 {res['ma20']} / MA50 {res['ma50']}  ST{res['st_dir']}")
 
+    # 来源标记（筛选/自选）+ 已暂停清单（周线破200MA）
+    src_map, suspended = watchlist_meta()
+    for r in rows:
+        r["source"] = src_map.get(r.get("ticker"), "manual")
+
     rows.sort(key=lambda r: (_SIG_ORDER.get(r["signal"], 9), -(r.get("ma_gap_pct") or -999)))
     recent = build_recent(rows, today)
 
@@ -609,7 +651,7 @@ def run(dry_run: bool = False):
 
     save_etf_cache(cache)
     save_history(hist)
-    save_web(rows, today, recent)
+    save_web(rows, today, recent, suspended)
     cnt = {"buy": 0, "sell_half": 0, "sell_all": 0, "neutral": 0, "no_data": 0}
     _m = {"BUY": "buy", "SELL_HALF": "sell_half", "SELL_ALL": "sell_all", "NEUTRAL": "neutral", "NO_DATA": "no_data"}
     for r in rows:

@@ -69,6 +69,7 @@ def load_watchlist() -> dict:
         "long_term":       list(LONG_TERM_DEFAULT),
         "congress_signals": [],
         "screener_signals": [],
+        "suspended":        [],   # 跌破周线200MA被暂停跟踪的标的（记住以便恢复）
         "wheel_positions": [],
     }
 
@@ -161,44 +162,127 @@ def remove_expired_tickers() -> list:
 # ── screener_signals 管理（强势股筛选自动进出）────────────────────────────
 
 def sync_screener_signals(entries: list) -> dict:
-    """批量刷新 screener_signals 层：本次入选的刷新过期时间（30天），未入选的到期后自动移除。
-    entries: [{"ticker","sector","bucket"(current/potential)}]。一次 load/save，避免多次写盘。
-    返回 {"added":[...], "refreshed":[...], "removed":[...]}。"""
-    today = _today()
-    data  = load_watchlist()
-    sigs  = data.setdefault("screener_signals", [])
-    by_tk = {s["ticker"]: s for s in sigs}
+    """批量刷新 screener_signals 层。入选即加入并常驻（不再按30天过期）；
+    移除只由「周线跌破200MA」触发（见 watchlist_gate.py）。已暂停(suspended)的标的不重复加入。
+    entries: [{"ticker","sector","bucket"(current/potential)}]。返回 {"added","refreshed"}。"""
+    today   = _today()
+    data    = load_watchlist()
+    sigs    = data.setdefault("screener_signals", [])
+    susp_tk = {s["ticker"] for s in data.get("suspended", [])}
+    by_tk   = {s["ticker"]: s for s in sigs}
     added, refreshed = [], []
     for e in entries or []:
         tk = str(e.get("ticker") or "").upper()
-        if not tk or tk in ("", "N/A", "NONE"):
+        if not tk or tk in ("", "N/A", "NONE") or tk in susp_tk:
             continue
         if tk in by_tk:
             s = by_tk[tk]
-            s["expires"]   = _expiry_days(today, SCREENER_EXPIRY_DAYS)
             s["last_seen"] = today
             s["bucket"]    = e.get("bucket")
             s["sector"]    = e.get("sector")
+            s.pop("expires", None)      # 清掉旧的过期字段
             refreshed.append(tk)
         else:
-            new = {
-                "ticker":     tk,
-                "added_date": today,
-                "last_seen":  today,
-                "expires":    _expiry_days(today, SCREENER_EXPIRY_DAYS),
-                "bucket":     e.get("bucket"),
-                "sector":     e.get("sector"),
-            }
-            sigs.append(new)
-            by_tk[tk] = new
+            sigs.append({"ticker": tk, "added_date": today, "last_seen": today,
+                         "bucket": e.get("bucket"), "sector": e.get("sector")})
+            by_tk[tk] = sigs[-1]
             added.append(tk)
-    # 过期清理（expires < today）
-    before = len(sigs)
-    data["screener_signals"] = [s for s in sigs if s.get("expires", "") >= today]
-    removed_n = before - len(data["screener_signals"])
     save_watchlist(data)
-    log.info(f"   📝 screener_signals: 新增{len(added)} 刷新{len(refreshed)} 过期移除{removed_n}")
-    return {"added": added, "refreshed": refreshed, "removed": removed_n}
+    if added:
+        log_watchlist_changes([{"ticker": tk, "action": "add", "source": "screener",
+                                 "reason": "强势股筛选入选"} for tk in added])
+    log.info(f"   📝 screener_signals: 新增{len(added)} 刷新{len(refreshed)}（常驻，仅周线破200MA才移除）")
+    return {"added": added, "refreshed": refreshed}
+
+
+# ── suspended 管理（周线跌破200MA暂停；来源标记；审计日志）─────────────────
+
+CHANGELOG_FILE = Path(__file__).parent / "docs" / "watchlist_changelog.json"
+
+
+def ticker_source(data: dict, ticker: str) -> str:
+    """判断标的来源：manual（core_holdings/long_term，我自己加的）或 screener（强势股筛选）。"""
+    tk = ticker.upper()
+    if any((h.get("ticker") if isinstance(h, dict) else h) == tk for h in data.get("core_holdings", [])):
+        return "manual"
+    if tk in [str(x).upper() for x in data.get("long_term", [])]:
+        return "manual"
+    if any(s["ticker"] == tk for s in data.get("screener_signals", [])):
+        return "screener"
+    return "manual"
+
+
+def get_suspended_tickers() -> set:
+    return {s["ticker"] for s in load_watchlist().get("suspended", [])}
+
+
+def get_active_watchlist() -> list:
+    """活跃跟踪清单 = 完整清单 − 已暂停。均线信号页只对这些打买卖信号。"""
+    susp = get_suspended_tickers()
+    return [t for t in get_full_watchlist() if t not in susp]
+
+
+def log_watchlist_changes(events: list) -> None:
+    """把 watchlist 变动（add/remove/suspend/resume）写入审计日志（newest first，封顶2000条）。"""
+    if not events:
+        return
+    today = _today()
+    try:
+        doc = json.loads(CHANGELOG_FILE.read_text(encoding="utf-8")) if CHANGELOG_FILE.exists() else {}
+    except Exception:
+        doc = {}
+    log_list = doc.get("events", [])
+    for e in events:
+        log_list.insert(0, {"date": today, **e})
+    doc["events"] = log_list[:2000]
+    doc["updated"] = today
+    CHANGELOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CHANGELOG_FILE.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def apply_suspension(suspend: list, resume: list) -> dict:
+    """应用暂停/恢复结果（watchlist_gate.py 计算后调用）。
+    suspend: [{ticker,source,reason,detail}]  resume: [{ticker,source,reason,detail}]
+    暂停：从 screener_signals 物理移出（若属于该层）+ 记入 suspended（记住来源以便恢复）。
+    恢复：移出 suspended；若来源是 screener，重新放回 screener_signals。"""
+    today = _today()
+    data  = load_watchlist()
+    susp_layer = data.setdefault("suspended", [])
+    susp_map   = {s["ticker"]: s for s in susp_layer}
+    sigs       = data.setdefault("screener_signals", [])
+    events     = []
+
+    for e in suspend:
+        tk = e["ticker"].upper()
+        if tk in susp_map:
+            continue
+        src = e.get("source") or ticker_source(data, tk)
+        # 从 screener_signals 物理移出（若在）
+        data["screener_signals"] = [s for s in data["screener_signals"] if s["ticker"] != tk]
+        entry = {"ticker": tk, "source": src, "since": today,
+                 "reason": e.get("reason", "周线跌破200MA"), "detail": e.get("detail", "")}
+        susp_layer.append(entry); susp_map[tk] = entry
+        events.append({"ticker": tk, "action": "suspend", "source": src,
+                       "reason": entry["reason"], "detail": entry["detail"]})
+
+    for e in resume:
+        tk = e["ticker"].upper()
+        if tk not in susp_map:
+            continue
+        src = susp_map[tk].get("source", "manual")
+        data["suspended"] = [s for s in data["suspended"] if s["ticker"] != tk]
+        susp_layer = data["suspended"]
+        if src == "screener" and not any(s["ticker"] == tk for s in data["screener_signals"]):
+            data["screener_signals"].append({"ticker": tk, "added_date": today,
+                                              "last_seen": today, "bucket": "resumed", "sector": ""})
+        events.append({"ticker": tk, "action": "resume", "source": src,
+                       "reason": e.get("reason", "回到周线150/20MA上方且连续2季盈利上升"),
+                       "detail": e.get("detail", "")})
+
+    save_watchlist(data)
+    log_watchlist_changes(events)
+    log.info(f"   ⏸️ 暂停{len(suspend)} ▶️ 恢复{len(resume)}")
+    return {"suspended": [e['ticker'] for e in suspend], "resumed": [e['ticker'] for e in resume]}
 
 
 # ── wheel_positions 管理 ──────────────────────────────────────────────────
@@ -252,6 +336,7 @@ def _init_file() -> None:
         "long_term":       list(LONG_TERM_DEFAULT),
         "congress_signals": existing.get("congress_signals", []),
         "screener_signals": existing.get("screener_signals", []),
+        "suspended":        existing.get("suspended", []),
         "wheel_positions":  existing.get("wheel_positions", []),
     }
     save_watchlist(data)
