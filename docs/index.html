@@ -1270,8 +1270,49 @@ function renderSectorBoard(sb) {
   return h;
 }
 
+// 🧭 三体制监测 · 模型总览与使用范围（说明三个正交模型各测什么、何时看、不管什么、如何合用）
+function renderRegimeOverview() {
+  const en = currentNewsLang === 'en';
+  const row = (emoji, name, tests, when, trig, ignores) =>
+    `<tr><td style="white-space:nowrap"><b>${emoji} ${escHtml(name)}</b></td>`
+    + `<td>${escHtml(tests)}</td><td>${escHtml(when)}</td><td>${escHtml(trig)}</td>`
+    + `<td style="color:var(--muted)">${escHtml(ignores)}</td></tr>`;
+  const rows = en ? [
+    row('🚦','macro_gate · Six-factor recession gate','Recession / credit regime (fundamental bear market)','Deciding whether to de-risk QQQ ahead of a recession','≥2 votes sustained ~2 weeks → crash regime → sell QQQ','1987-style flash crashes; how big the bubble is'),
+    row('🔥','fragility_gate · Fragility + crash diagnostic','Positioning/mechanical fragility (1987/Burry type) + the nature of a crash on the day','Gauging "dry tinder"; on a crash day, telling mechanical vs recession','High score = lots of tinder (NOT a trade signal)','Timing; it emits no buy/sell signal; recession itself'),
+    row('🫧','dalio_bubble · Dalio bubble indicator','How big the bubble is + when a monetary "pin" pricks it','Judging late-stage bubble; melt-up vs pop','Bubble high + tightening → pop risk; high + no pin → melt-up first','Recession; single-day flash crashes'),
+  ].join('') : [
+    row('🚦','macro_gate · 六因子衰退闸门','衰退 / 信用体制(基本面熊市)','判断是否清仓 QQQ 以避开衰退熊市','≥2 票连续约2周 → 崩盘体制 → 清仓 QQQ','不管 1987 型闪崩、不管泡沫多大'),
+    row('🔥','fragility_gate · 脆弱性+崩盘诊断','仓位机械脆弱(1987/Burry 型)+ 崩盘当天的性质','评估"干柴"多少;崩盘当天判机械 vs 衰退','高分 = 干柴多(非买卖信号)','不预测时点、不发买卖信号、不管衰退本身'),
+    row('🫧','dalio_bubble · 达利欧泡沫指标','泡沫有多大 + 何时被货币"针"戳破','判断是否晚期泡沫;该融涨还是破裂','泡沫高+货币收紧→破裂风险;高+无针→先融涨','不测衰退、不测单日闪崩'),
+  ].join('');
+  const combineCN = `<b>如何一起用（三者正交、互不混票，任一为绿不代表另两者安全）：</b>`
+    + `<ul style="margin:6px 0 0;padding-left:1.1rem;line-height:1.7">`
+    + `<li><b>全绿</b>：正常持有 / 按 20% 波动率目标定仓。</li>`
+    + `<li><b>达利欧泡沫高 + 无收紧针</b>：达利欧式「先融涨」——分散 + 5–15% 黄金，勿裸空（此时衰退闸门与脆弱性可能仍绿）。</li>`
+    + `<li><b>脆弱性高</b>：留意闪崩「干柴」；真到崩盘当天，用崩盘诊断判性质 → 机械/1987 型（能扛别恐慌割）vs 衰退型（需真减仓）。</li>`
+    + `<li><b>衰退闸门 ≥2 票</b>：衰退主导，清仓 QQQ 优先——这类带衰退的熊市恢复以年计。</li>`
+    + `</ul><p style="margin:6px 0 0">一句话：<b>macro_gate</b> 答「会不会衰退熊」，<b>fragility_gate</b> 答「会不会/是不是机械闪崩」，<b>dalio_bubble</b> 答「泡沫多大、何时破」。</p>`;
+  const combineEN = `<b>How to use together (orthogonal — one being green does not clear the other two):</b>`
+    + `<ul style="margin:6px 0 0;padding-left:1.1rem;line-height:1.7">`
+    + `<li><b>All green</b>: hold normally / size by the 20% vol target.</li>`
+    + `<li><b>Dalio bubble high + no pin</b>: Dalio "melt-up first" — diversify + 5–15% gold, don't naked-short (recession gate & fragility may still be green).</li>`
+    + `<li><b>Fragility high</b>: watch the flash-crash tinder; on a crash day use the diagnostic — mechanical/1987 (sit tight) vs recession (actually de-risk).</li>`
+    + `<li><b>Recession gate ≥2 votes</b>: recession dominates, sell QQQ first — these bears recover over years.</li>`
+    + `</ul><p style="margin:6px 0 0">In one line: <b>macro_gate</b> = "recession bear?", <b>fragility_gate</b> = "mechanical flash-crash?", <b>dalio_bubble</b> = "how big a bubble, and when it pops".</p>`;
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧭 三体制监测 · 模型总览与使用范围', '🧭 Three-Regime Monitor · Models & When to Use Them')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）三个正交模型各测什么、何时看、不管什么', '(expand) what each orthogonal model tests, when to use, what it ignores')}</span></summary>`
+    + `<div style="overflow-x:auto;margin-top:8px"><table class="ma-tbl"><thead><tr>`
+    + `<th>${t('模型','Model')}</th><th>${t('测什么','Tests')}</th><th>${t('何时看它','When to use')}</th><th>${t('触发/高读数=意味着','Trigger / high reading')}</th><th>${t('它不管','Ignores')}</th></tr></thead>`
+    + `<tbody>${rows}</tbody></table></div>`
+    + `<div style="margin-top:10px;font-size:0.9rem">${en ? combineEN : combineCN}</div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${t('三模型均不构成投资建议 · 详见 notes/1987型崩盘_vs_六因子闸门.md', 'None of these are investment advice · see notes/1987型崩盘_vs_六因子闸门.md')}</p>`
+    + `</details></div></div></div>`;
+}
+
 function renderMonitor(day) {
   const el = document.getElementById('monitor-content');
+  const overviewHtml = renderRegimeOverview();
   const allDates = Object.keys(allData).sort().reverse();
   // QQQ 六因子体制闸门：取最新一个有 macro_gate 的日期（每交易日盘后生成）
   let gate = day.macro_gate;
@@ -1297,7 +1338,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = gateHtml + fragHtml + dbubHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1307,7 +1348,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = gateHtml + fragHtml + dbubHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
