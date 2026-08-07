@@ -184,17 +184,8 @@
     ]
   },
   "CIEN": {
-    "last_state": "SELL_HALF",
+    "last_state": "SELL_ALL",
     "signals": [
-      {
-        "type": "SELL_ALL",
-        "date": "2026-07-24",
-        "price": 390.96,
-        "ma20": 430.39,
-        "ma50": 483.17,
-        "ma150": 398.32,
-        "st_value": 501.83
-      },
       {
         "type": "SELL_HALF",
         "date": "2026-08-04",
@@ -202,6 +193,15 @@
         "ma20": 401.52,
         "ma50": 456.71,
         "ma150": 405.02,
+        "st_value": 457.16
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-08-06",
+        "price": 403.76,
+        "ma20": 396.98,
+        "ma50": 449.24,
+        "ma150": 407.25,
         "st_value": 457.16
       }
     ]
@@ -299,17 +299,8 @@
     ]
   },
   "GEV": {
-    "last_state": "NEUTRAL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "BUY",
-        "date": "2026-07-08",
-        "price": 1070.99,
-        "ma20": 1046.41,
-        "ma50": 1039.21,
-        "ma150": 870.78,
-        "st_value": 933.91
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-07-29",
@@ -317,6 +308,15 @@
         "ma20": 1050.08,
         "ma50": 1025.65,
         "ma150": 909.48,
+        "st_value": 1184.17
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-06",
+        "price": 1000.3,
+        "ma20": 1019.73,
+        "ma50": 1022.0,
+        "ma150": 923.12,
         "st_value": 1184.17
       }
     ]
@@ -437,7 +437,7 @@
     ]
   },
   "NVDA": {
-    "last_state": "SELL_HALF",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL_ALL",
@@ -1965,5 +1965,83 @@
   "SPCX": {
     "last_state": null,
     "signals": []
+  },
+  "AXP": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "SCHW": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-08-06",
+        "price": 107.66,
+        "ma20": 103.64,
+        "ma50": 96.52,
+        "ma150": 95.78,
+        "st_value": 99.21
+      }
+    ]
+  },
+  "MS": {
+    "last_state": "NEUTRAL",
+    "signals": []
+  },
+  "CSCO": {
+    "last_state": "SELL_HALF",
+    "signals": [
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-06",
+        "price": 120.88,
+        "ma20": 115.26,
+        "ma50": 117.61,
+        "ma150": 95.06,
+        "st_value": 126.27
+      }
+    ]
+  },
+  "GD": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-08-06",
+        "price": 386.92,
+        "ma20": 378.43,
+        "ma50": 362.45,
+        "ma150": 351.32,
+        "st_value": 360.63
+      }
+    ]
+  },
+  "RTX": {
+    "last_state": "BUY",
+    "signals": [
+      {
+        "type": "BUY",
+        "date": "2026-08-06",
+        "price": 223.25,
+        "ma20": 206.82,
+        "ma50": 193.91,
+        "ma150": 192.68,
+        "st_value": 201.77
+      }
+    ]
+  },
+  "CAT": {
+    "last_state": "SELL_HALF",
+    "signals": [
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-06",
+        "price": 856.96,
+        "ma20": 873.05,
+        "ma50": 916.98,
+        "ma150": 801.29,
+        "st_value": 970.08
+      }
+    ]
   }
 }
