@@ -57,6 +57,7 @@ BAND_MID  = 60      # ≥ 偏高
 # 货币收紧扳机阈值
 FFR_RISE_TH  = 0.25     # 联邦基金 6 月上行(个百分点)
 REAL_RISE_TH = 0.25     # 10y 实际利率 3 月上行(个百分点)
+ISSUANCE_PIN_PCTL = 0.85  # IPO/发行热分位阈值(达利欧 2026「供给针」代理)
 
 
 def _today_et() -> str:
@@ -227,32 +228,48 @@ def compute() -> dict:
     if bubble_pct is None:
         band, band_color = "数据不足", "muted"
     elif bubble_pct >= BAND_HIGH:
-        band, band_color = "晚期泡沫(类 1929/2000)", "red"
+        band, band_color = "晚期泡沫（≥80,1929/2000≈100）", "red"
     elif bubble_pct >= BAND_MID:
-        band, band_color = "偏高", "amber"
+        band, band_color = "偏高（≥60,2021≈77）", "amber"
     else:
-        band, band_color = "中性 / 低", "green"
+        band, band_color = "中性 / 低（2024≈52）", "green"
+
+    # 达利欧「领先对」：新买家(表3)+看多情绪(表4) —— 2021 年这两表先于综合读数亮起
+    g_newbuyers = gauges[2]["score"]
+    g_sentiment = gauges[3]["score"]
+    early_warning = bool(g_newbuyers is not None and g_sentiment is not None
+                         and g_newbuyers >= 0.75 and g_sentiment >= 0.75)
 
     # ── 货币收紧扳机(pin)──
     ffr_chg = _change_over(ffr, 182)
     real_chg = _change_over(real10, 92)
     ffr_rising = (not np.isnan(ffr_chg)) and ffr_chg >= FFR_RISE_TH
     real_rising = (not np.isnan(real_chg)) and real_chg >= REAL_RISE_TH
-    pin_on = bool(ffr_rising or real_rising)
+    # 达利欧 2026 新增的第二根「针」:发行/IPO 供给潮吸走流动性(用 IPO ETF 6月分位≥85 作代理)
+    issuance_hot = (not np.isnan(ipo_pct)) and ipo_pct >= ISSUANCE_PIN_PCTL
+    pin_on = bool(ffr_rising or real_rising or issuance_hot)
     pin = {
         "on": pin_on,
+        "monetary_on": bool(ffr_rising or real_rising),
+        "issuance_on": bool(issuance_hot),
         "ffr_now": None if np.isnan(_last(ffr)) else round(_last(ffr), 2),
         "ffr_chg_6m": None if np.isnan(ffr_chg) else round(ffr_chg, 2),
         "real10_now": None if np.isnan(_last(real10)) else round(_last(real10), 2),
         "real10_chg_3m": None if np.isnan(real_chg) else round(real_chg, 2),
-        "detail": "联邦基金6月 ≥+0.25% 或 10y实际利率3月 ≥+0.25% → 收紧",
+        "ipo_pctile": None if np.isnan(ipo_pct) else round(ipo_pct * 100),
+        "detail": "货币针:联邦基金6月≥+0.25% 或 10y实际利率3月≥+0.25%;供给针:IPO/发行热≥85分位(达利欧2026新增)",
     }
 
     # ── 判读 ──
     high = (bubble_pct is not None) and bubble_pct >= BAND_MID
     if not high:
-        verdict = "🟢 泡沫读数不高——按达利欧框架,尚无晚期泡沫特征。"
-        vcolor = "green"
+        if early_warning:
+            verdict = ("🟡 综合读数尚未到偏高,但『领先对』(新买家+看多情绪)已亮 → 达利欧 2021 式早期预警,"
+                       "这两表历史上先于综合读数亮起,值得盯。")
+            vcolor = "amber"
+        else:
+            verdict = "🟢 泡沫读数不高——按达利欧框架,尚无晚期泡沫特征。"
+            vcolor = "green"
     elif not pin_on:
         verdict = ("🫧 泡沫偏高但货币尚未收紧 → 达利欧:『泡沫在被货币收紧戳破前不会真正破裂』,"
                    "预期先融涨(melt-up)、再回调;应对是分散配置 + 5–15% 黄金,而非裸空。")
@@ -271,11 +288,13 @@ def compute() -> dict:
         "band": band,
         "band_color": band_color,
         "gauges": gauges,
+        "early_warning": early_warning,
         "pin": pin,
         "verdict": verdict,
         "verdict_color": vcolor,
-        "note": ("达利欧『泡沫指标』6 表(均值)+ 货币收紧扳机 · 与衰退闸门/脆弱性侧栏正交 · "
-                 "巴菲特指标/利率来自 FRED,涨势/情绪/杠杆来自 yfinance,远期建设为人工档 · "
+        "note": ("达利欧『泡沫指标』6 表(均值,**近似**其多指标百分位合成)+ 货币针/供给针 · "
+                 "锚点:1929/2000≈100、2021≈77、2024≈52 分位 · 表3新买家+表4情绪为达利欧「领先对」 · "
+                 "与衰退闸门/脆弱性侧栏正交 · 巴菲特指标/利率来自 FRED,涨势/情绪/杠杆/发行来自 yfinance,远期建设为人工档 · "
                  "详见 notes/1987型崩盘_vs_六因子闸门.md · 不构成投资建议"),
     }
 

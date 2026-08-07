@@ -59,6 +59,22 @@ ANALYSTS = [
     # ── 逆向 / 泡沫预警(2026-08 增补)──
     ("Ray Dalio",           "Bridgewater",     '"Ray Dalio"'),
     ("Michael Burry",       "Scion Asset Mgmt",'"Michael Burry"'),
+    # ── 泡沫/崩盘框架印证(2026-08 增补,按三体制模型分桶)──
+    #    A 估值/泡沫
+    ("Jeremy Grantham",     "GMO",             '"Jeremy Grantham"'),
+    ("John Hussman",        "Hussman Funds",   '"John Hussman"'),
+    ("Jim Chanos",          "Chanos & Co",     '"Jim Chanos"'),
+    ("Howard Marks",        "Oaktree",         '"Howard Marks" Oaktree'),
+    #    B 仓位/尾部
+    ("Mark Spitznagel",     "Universa",        '"Mark Spitznagel"'),
+    ("David Einhorn",       "Greenlight",      '"David Einhorn"'),
+    #    C 债务/货币
+    ("Stanley Druckenmiller","Duquesne",       '"Stanley Druckenmiller"'),
+    ("Paul Tudor Jones",    "Tudor",           '"Paul Tudor Jones"'),
+    ("Jamie Dimon",         "JPMorgan",        '"Jamie Dimon" markets'),
+    ("Albert Edwards",      "Societe Generale",'"Albert Edwards" Societe Generale'),
+    #    看多制衡
+    ("Tom Lee",             "Fundstrat",       '"Tom Lee" Fundstrat'),
 ]
 
 ITEMS_PER_ANALYST = 3      # 每条记录引用几个来源标题

@@ -1222,8 +1222,10 @@ function renderDalioBubble(db) {
     + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px;margin:8px 0">${grows}</div>`
     // 扳机
     + `<div style="border:1px solid var(--border);border-left:4px solid ${p.on ? 'var(--red)' : 'var(--green)'};border-radius:8px;padding:8px 12px;margin:6px 0">`
-    + `<b>${t('货币收紧扳机', 'Monetary pin')}：</b><span style="color:${p.on ? 'var(--red)' : 'var(--green)'};font-weight:600">${p.on ? t('ON · 戳破催化剂已现', 'ON · pin present') : t('off · 尚未收紧', 'off · not tightening')}</span> `
-    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('联邦基金', 'Fed funds')} ${p.ffr_now ?? '—'}%（6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}）· ${t('10y实际利率', '10y real')} ${p.real10_now ?? '—'}%（3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）</span></div>`
+    + `<b>${t('戳破扳机（针）', 'Pin')}：</b><span style="color:${p.on ? 'var(--red)' : 'var(--green)'};font-weight:600">${p.on ? t('ON · 戳破催化剂已现', 'ON · pin present') : t('off · 尚无', 'off · none')}</span> `
+    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('货币针', 'Monetary')} <b style="color:${p.monetary_on ? 'var(--red)' : 'var(--muted)'}">${p.monetary_on ? 'ON' : 'off'}</b>（${t('联邦基金', 'FF')} ${p.ffr_now ?? '—'}%,6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}；${t('10y实际', '10y real')} ${p.real10_now ?? '—'}%,3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）`
+    + ` · ${t('供给针', 'Issuance')} <b style="color:${p.issuance_on ? 'var(--red)' : 'var(--muted)'}">${p.issuance_on ? 'ON' : 'off'}</b>（IPO ${p.ipo_pctile ?? '—'}${p.ipo_pctile == null ? '' : '%ile'}${t('，达利欧2026新增', ', Dalio 2026')}）</span></div>`
+    + (db.early_warning ? `<div style="border:1px solid var(--amber);border-radius:8px;padding:6px 12px;margin:6px 0;background:color-mix(in srgb,var(--amber) 10%,transparent);font-size:0.85rem">⚠️ <b>${t('领先对已亮', 'Leading pair lit')}</b>：${t('新买家 + 看多情绪同高 — 达利欧口径下这两表先于综合读数亮起（2021 年即如此）', 'new buyers + bullish sentiment both high — the Dalio leading pair, which lit before the composite in 2021')}</div>` : '')
     // 判读
     + `<div style="border:1px solid var(--border);border-left:5px solid ${vCol};border-radius:10px;padding:10px 14px;margin:6px 0">`
     + `<div style="color:${vCol};font-weight:600">${escHtml(db.verdict || '')}</div></div>`
@@ -1300,12 +1302,28 @@ function renderRegimeOverview() {
     + `<li><b>Fragility high</b>: watch the flash-crash tinder; on a crash day use the diagnostic — mechanical/1987 (sit tight) vs recession (actually de-risk).</li>`
     + `<li><b>Recession gate ≥2 votes</b>: recession dominates, sell QQQ first — these bears recover over years.</li>`
     + `</ul><p style="margin:6px 0 0">In one line: <b>macro_gate</b> = "recession bear?", <b>fragility_gate</b> = "mechanical flash-crash?", <b>dalio_bubble</b> = "how big a bubble, and when it pops".</p>`;
+  // 各家印证（2025–2026，按框架分桶，来自专项调研）
+  const voice = (label, col, names) =>
+    `<div style="margin:5px 0"><span style="display:inline-block;background:color-mix(in srgb,${col} 16%,transparent);color:${col};border:1px solid color-mix(in srgb,${col} 40%,transparent);border-radius:5px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-right:6px">${label}</span><span style="font-size:0.85rem">${names}</span></div>`;
+  const voicesCN = `<div style="margin-top:12px"><b>🔎 各家印证 · 谁在同一框架下预警（2025–2026）</b>`
+    + voice('印证 🫧 泡沫读数', 'var(--amber)', 'Grantham(GMO,史上最大泡沫/~70%下行) · Hussman(估值+内部结构,50–70%) · Slok(Apollo,前十~50×PE) · Chanos(AI资本开支&gt;互联网/会计存疑) · Covello(高盛,$1T投入回报不足) · Cahn(红杉,$600B收入缺口) · PTJ(市值/GDP 252%) · Buffett(创纪录$381B现金)')
+    + voice('印证 🫧 货币针/债务', 'var(--blue)', 'Dalio(债务周期末期) · Dimon(债市危机风险) · Druckenmiller(财政失序+流动性抽离) · Edwards(财政主导+通胀)')
+    + voice('印证 🔥 脆弱/1987', 'var(--red)', 'Burry(被动/流动性错配「剧场拥挤、出口未变」,2019即提) · Spitznagel(先狂欢后~80%崩) · Taleb(数十年最脆弱) · Einhorn(被动流「打破价格发现」) · Hussman(内部结构级联)')
+    + voice('看多制衡', 'var(--green)', 'Tom Lee(SPX 2026→7700) · Dan Ives(AI「第三局」,+15%) · Mike Wilson(仓位已出清=买点,同框架反结论)')
+    + `<p style="color:var(--muted);font-size:0.78rem;margin:6px 0 0">⚠️ <b>重机制、轻择时</b>：多位为长期空头,过往择时屡错(Hussman、Grantham 2022 超级泡沫、Kolanovic)——用其机制给模型定性,别据其喊话择时。多桶重叠者(PTJ=估值+债务、Spitznagel/Taleb=仓位机制+债务成因)可视为「同时多框架预警=更强印证」。</p></div>`;
+  const voicesEN = `<div style="margin-top:12px"><b>🔎 Corroborating voices by framework (2025–2026)</b>`
+    + voice('backs 🫧 bubble', 'var(--amber)', 'Grantham (largest bubble/~70% downside) · Hussman (valuation+internals) · Slok (top-10 ~50×PE) · Chanos (AI capex/accounting) · Covello (GS, $1T low ROI) · Cahn (Sequoia $600B gap) · PTJ (mktcap/GDP 252%) · Buffett (record cash)')
+    + voice('backs 🫧 pin/debt', 'var(--blue)', 'Dalio (late debt cycle) · Dimon (bond-crisis risk) · Druckenmiller (fiscal+liquidity) · Edwards (fiscal dominance)')
+    + voice('backs 🔥 fragility/1987', 'var(--red)', 'Burry (passive/illiquidity, "crowded theater, same exit", since 2019) · Spitznagel (blow-off then ~80%) · Taleb (most fragile in decades) · Einhorn (passive "broke price discovery") · Hussman (internals cascade)')
+    + voice('bull ballast', 'var(--green)', 'Tom Lee (SPX 7700) · Dan Ives (AI "3rd inning", +15%) · Mike Wilson (positioning washed out = buy — same lens, opposite call)')
+    + `<p style="color:var(--muted);font-size:0.78rem;margin:6px 0 0">⚠️ <b>Mechanism over timing</b>: several are perma-bears whose past timing missed (Hussman, Grantham 2022, Kolanovic) — use their mechanism to characterize the models, not to time entries. Multi-bucket names (PTJ = valuation+debt; Spitznagel/Taleb = positioning mechanism + debt cause) count as stronger corroboration.</p></div>`;
   return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
-    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧭 三体制监测 · 模型总览与使用范围', '🧭 Three-Regime Monitor · Models & When to Use Them')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）三个正交模型各测什么、何时看、不管什么', '(expand) what each orthogonal model tests, when to use, what it ignores')}</span></summary>`
+    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧭 三体制监测 · 模型总览与使用范围', '🧭 Three-Regime Monitor · Models & When to Use Them')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）各测什么、何时看、不管什么 + 各家印证', '(expand) what each tests, when to use, what it ignores + corroborating voices')}</span></summary>`
     + `<div style="overflow-x:auto;margin-top:8px"><table class="ma-tbl"><thead><tr>`
     + `<th>${t('模型','Model')}</th><th>${t('测什么','Tests')}</th><th>${t('何时看它','When to use')}</th><th>${t('触发/高读数=意味着','Trigger / high reading')}</th><th>${t('它不管','Ignores')}</th></tr></thead>`
     + `<tbody>${rows}</tbody></table></div>`
     + `<div style="margin-top:10px;font-size:0.9rem">${en ? combineEN : combineCN}</div>`
+    + `<div style="font-size:0.9rem">${en ? voicesEN : voicesCN}</div>`
     + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${t('三模型均不构成投资建议 · 详见 notes/1987型崩盘_vs_六因子闸门.md', 'None of these are investment advice · see notes/1987型崩盘_vs_六因子闸门.md')}</p>`
     + `</details></div></div></div>`;
 }
@@ -1407,9 +1425,10 @@ function renderAnalysts(day) {
   // 分析师类型标注
   const TYPE = {};
   const setType = (names, l, c) => names.forEach(n => TYPE[n] = { l, c });
-  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic','Ray Dalio'], t('宏观','Macro'), 'var(--blue)');
+  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic','Ray Dalio','Stanley Druckenmiller','Paul Tudor Jones','Jamie Dimon','Albert Edwards'], t('宏观·债务','Macro/Debt'), 'var(--blue)');
   setType(['Dan Ives','Stacy Rasgon','Gene Munster'], t('AI·科技','AI/Tech'), 'var(--gold)');
-  setType(['Michael Burry'], t('逆向·空头','Contrarian'), 'var(--red)');
+  setType(['Jeremy Grantham','John Hussman','Jim Chanos','Howard Marks'], t('估值·泡沫','Valuation'), 'var(--amber)');
+  setType(['Michael Burry','Mark Spitznagel','David Einhorn'], t('逆向·空头','Contrarian'), 'var(--red)');
   setType(['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz'], t('策略','Strategy'), 'var(--green)');
 
   const runDate = (a.updated || '').slice(0, 10);
