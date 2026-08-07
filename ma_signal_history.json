@@ -184,17 +184,8 @@
     ]
   },
   "CIEN": {
-    "last_state": "SELL_ALL",
+    "last_state": "SELL_HALF",
     "signals": [
-      {
-        "type": "SELL_HALF",
-        "date": "2026-08-04",
-        "price": 411.13,
-        "ma20": 401.52,
-        "ma50": 456.71,
-        "ma150": 405.02,
-        "st_value": 457.16
-      },
       {
         "type": "SELL_ALL",
         "date": "2026-08-06",
@@ -203,11 +194,20 @@
         "ma50": 449.24,
         "ma150": 407.25,
         "st_value": 457.16
+      },
+      {
+        "type": "SELL_HALF",
+        "date": "2026-08-07",
+        "price": 412.39,
+        "ma20": 394.57,
+        "ma50": 445.84,
+        "ma150": 408.44,
+        "st_value": 457.16
       }
     ]
   },
   "COHR": {
-    "last_state": "SELL_HALF",
+    "last_state": "NEUTRAL",
     "signals": [
       {
         "type": "SELL_ALL",
@@ -437,17 +437,8 @@
     ]
   },
   "NVDA": {
-    "last_state": "NEUTRAL",
+    "last_state": "BUY",
     "signals": [
-      {
-        "type": "SELL_ALL",
-        "date": "2026-07-29",
-        "price": 190.01,
-        "ma20": 203.13,
-        "ma50": 207.06,
-        "ma150": 195.27,
-        "st_value": 221.2
-      },
       {
         "type": "SELL_HALF",
         "date": "2026-07-31",
@@ -456,6 +447,15 @@
         "ma50": 206.12,
         "ma150": 195.42,
         "st_value": 221.2
+      },
+      {
+        "type": "BUY",
+        "date": "2026-08-07",
+        "price": 223.96,
+        "ma20": 206.82,
+        "ma50": 206.05,
+        "ma150": 196.36,
+        "st_value": 191.96
       }
     ]
   },
@@ -506,17 +506,8 @@
     ]
   },
   "VRT": {
-    "last_state": "SELL_HALF",
+    "last_state": "SELL_ALL",
     "signals": [
-      {
-        "type": "SELL_ALL",
-        "date": "2026-07-29",
-        "price": 223.04,
-        "ma20": 298.31,
-        "ma50": 309.58,
-        "ma150": 268.8,
-        "st_value": 324.15
-      },
       {
         "type": "SELL_HALF",
         "date": "2026-08-05",
@@ -524,6 +515,15 @@
         "ma20": 284.62,
         "ma50": 302.61,
         "ma150": 271.79,
+        "st_value": 320.63
+      },
+      {
+        "type": "SELL_ALL",
+        "date": "2026-08-07",
+        "price": 272.4,
+        "ma20": 279.86,
+        "ma50": 300.69,
+        "ma150": 273.26,
         "st_value": 320.63
       }
     ]
