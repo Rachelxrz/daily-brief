@@ -85,6 +85,12 @@ ETF/宏观: XMMO · IWM · BNO · UTES · REMX · GDX · USD
 
 ## 🚧 开发中模块
 
+- [ ] **专项研究课题：市场判断 → 可用模型** (`research/`)
+  - 章程与实施计划: `research/README.md`(双语,5 阶段)
+  - 分析师分框架报告: `research/analyst_frameworks_report.md`(双语,A估值/B仓位/C债务)
+  - 目标: 持续收集分析师/机构对金融·证券·经济·货币的判断 → 溯因 → 建模 → **回测 + 预测**
+  - 优先级: **高**(三体制模型的延续与集成)
+
 - [ ] **动态Watchlist管理** (`watchlist_manager.py`)
   - 规格详见: `modules/watchlist/spec.md`
   - 优先级: **最高**，其他模块依赖此模块

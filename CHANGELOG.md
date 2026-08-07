@@ -4,6 +4,13 @@
 
 ## 2026-08-07
 
+### 立项：专项研究课题「市场判断 → 可用模型」+ 分析师分框架报告
+- **新目录 `research/`**：
+  - `research/README.md` — 课题章程（双语）：目标（采集各方对金融/证券/经济/货币的判断 → 溯因 → 建模 → 回测 → 预测）+ 5 阶段实施计划（Phase 0 已完成三体制；Phase 1 采集结构化；Phase 2 框架建模；Phase 3 统一回测 `backtest.py`；Phase 4 预测记分卡；Phase 5 信念叠加集成）+ 交付物/成功指标/数据源/风险。
+  - `research/analyst_frameworks_report.md` — 分析师分框架说明报告（双语）：按 A 估值/B 仓位/C 债务分桶，逐位给「主要观点 / 监测方法 / 值得借鉴」（Grantham/Hussman/Chanos/Marks/Slok/Covello/Cahn/Buffett/Burry/Spitznagel/Taleb/Einhorn/Dalio/Dimon/Druckenmiller/Edwards/PTJ + 看多制衡 Tom Lee/Ives/Wilson），末附「综合借鉴→我们的模型」映射表。
+- 复用现有基建：`analyst_watch`（检查点机制）、`prediction_watch.py`/`prediction_snapshots.jsonl`（预测记账）。
+- CLAUDE.md「开发中模块」新增本课题。
+
 ### 深化：三体制模型调研丰富 + 网页模型说明与各家印证
 - **调研**（Dalio/Burry 方法论 + 其他基金经理）落地：
   - `dalio_bubble.py`：分档校准到达利欧百分位锚点（1929/2000≈100、2021≈77、2024≈52）；新增**供给针**（IPO 发行热 ≥85 分位,达利欧 2026 新增,与货币针并列）；新增**领先对早期预警**（新买家+情绪同高,先于综合读数亮）；note 标注等权均值为其多指标百分位的近似。合成测试加「供给针单独触发」「发行冷→melt-up」场景。
