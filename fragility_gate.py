@@ -98,10 +98,13 @@ def _col(df: pd.DataFrame, name: str) -> pd.Series:
 
 def _rsi(s: pd.Series, n: int = 14) -> float:
     delta = s.diff()
-    up = delta.clip(lower=0).rolling(n).mean()
-    dn = (-delta.clip(upper=0)).rolling(n).mean()
-    rs = up / dn.replace(0, np.nan)
-    return float((100 - 100 / (1 + rs)).iloc[-1])
+    up = float(delta.clip(lower=0).rolling(n).mean().iloc[-1])
+    dn = float((-delta.clip(upper=0)).rolling(n).mean().iloc[-1])
+    if np.isnan(up) or np.isnan(dn):
+        return float("nan")                     # 窗口不足
+    if dn == 0:                                 # 窗口内全涨/全平 → 不能除零
+        return 100.0 if up > 0 else 50.0        # 全涨=极度超买=100;全平=50
+    return 100 - 100 / (1 + up / dn)
 
 
 def _last(s: pd.Series):
@@ -145,7 +148,9 @@ def compute() -> dict:
     for t in BURRY_SHORTS:
         if t in basket.columns and basket[t].notna().sum() > 30:
             try:
-                rsis.append(_rsi(basket[t].dropna()))
+                r = _rsi(basket[t].dropna())
+                if np.isfinite(r):              # 排除非有限值,单只 NaN 不得毒化整篮中位数
+                    rsis.append(r)
             except Exception:
                 pass
     basket_rsi = float(np.median(rsis)) if rsis else float("nan")
@@ -191,14 +196,14 @@ def compute() -> dict:
     _eq_parts = [r for r in (spy_r, ndx_r) if not np.isnan(r)]
     worst_eq = float(np.min(_eq_parts)) if _eq_parts else float("nan")
 
-    # 读当日衰退闸门票数(若已由 macro_gate 写入 data.json)
+    # 只读「当日」衰退闸门票数(若 macro_gate 当日失败则留空,该 tell 直接省略,
+    # 绝不回退到旧日票数——陈旧的 0 或 ≥2 会误导当日崩盘性质判定)
     gate_votes = None
     try:
         data0 = json.loads(DATA_FILE.read_text(encoding="utf-8"))
-        for d in sorted(data0.keys(), reverse=True):
-            g = data0[d].get("macro_gate")
-            if g and "votes" in g:
-                gate_votes = int(g["votes"]); break
+        g = data0.get(_today_et(), {}).get("macro_gate")
+        if g and "votes" in g:
+            gate_votes = int(g["votes"])
     except Exception:
         pass
 
