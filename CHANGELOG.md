@@ -4,6 +4,10 @@
 
 ## 2026-08-07
 
+### 新增：watchlist 系统规则写入 watchlist.json 的 `spec` 节
+- 把完整定义(构成/进入/分档/移出/回归/复检频率)固化进 `docs/watchlist.json` 顶层 `spec` 键，规则随数据走。
+- 各 load-modify-save 流程(classifier/gate/screener)均保留该键，已验证。改规则请同步更新 `spec`。
+
 ### 新增：用QQQ替代低效稳定核心（3年跑不过QQQ→移入 Secondary）
 - `stock_classifier.py` 计算每股近3年价格年化(r3y)与 QQQ 对比(beats_qqq)。
 - **稳定核心 若近3年年化 < QQQ → 移入 Secondary Watchlist**（reason=「3年回报低于QQQ」），停止买卖信号；回到QQQ之上再放回。由半年分类任务复查，不走周线MA回归。
