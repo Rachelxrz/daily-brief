@@ -1,0 +1,5 @@
+{
+  "_comment": "达利欧泡沫模型中无法用免费市场数据自动量化的档位,由策略端(Claude/用户)手动设定 0-1。见 dalio_bubble.py 与 modules/dalio_bubble/spec.md。",
+  "forward_buildout": 0.85,
+  "forward_buildout_note": "远期建设/超前购买:AI 基建资本开支远超当前变现(超前建产能)。2026-08 设为偏高 0.85。无免费数据源,人工季度校准。"
+}

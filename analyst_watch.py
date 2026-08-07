@@ -56,6 +56,9 @@ ANALYSTS = [
     ("Dan Ives",            "Wedbush",         '"Dan Ives" Wedbush'),
     ("Stacy Rasgon",        "Bernstein",       '"Stacy Rasgon" Bernstein'),
     ("Gene Munster",        "Deepwater",       '"Gene Munster"'),
+    # ── 逆向 / 泡沫预警(2026-08 增补)──
+    ("Ray Dalio",           "Bridgewater",     '"Ray Dalio"'),
+    ("Michael Burry",       "Scion Asset Mgmt",'"Michael Burry"'),
 ]
 
 ITEMS_PER_ANALYST = 3      # 每条记录引用几个来源标题

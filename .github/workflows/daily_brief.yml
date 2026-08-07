@@ -363,6 +363,9 @@ jobs:
       - name: Run 脆弱性/拥挤度侧栏 + 崩盘性质诊断（读 macro_gate 票数，须在其后）
         run: python fragility_gate.py
         continue-on-error: true
+      - name: Run 达利欧泡沫指标 + 货币收紧扳机
+        run: python dalio_bubble.py
+        continue-on-error: true
       - name: Run 板块强弱·资金流向面板
         run: python sector_board.py
         continue-on-error: true

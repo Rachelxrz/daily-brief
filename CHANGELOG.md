@@ -4,6 +4,23 @@
 
 ## 2026-08-07
 
+### 新增：达利欧泡沫预测模型 `dalio_bubble.py`（泡沫「多大」+「何时被戳破」）
+- 操作化 Ray Dalio 两条框架：**6 表泡沫指标**（估值=巴菲特指标 Wilshire/GDP、涨势=纳指12月回报分位、新买家=IPO ETF 6月回报分位、情绪=1−VIX分位、杠杆=1−实现波动分位[代理]、远期建设=`dalio_config.json` 人工档）取均值 → 泡沫读数 %（≥80 晚期泡沫/≥60 偏高/<60 中性）。
+- **货币收紧「扳机」**：FEDFUNDS 6月变化 + DFII10 3月变化 ≥+0.25% → pin.on。核心论断「泡沫在货币收紧前不会真正破裂」。
+- 判读：泡沫高+无pin→🫧melt-up(分散+黄金,勿裸空)；泡沫高+有pin→📌破裂风险；泡沫低→🟢。
+- 写入 `data.json` 的 `dalio_bubble`，网页 `renderDalioBubble()`（脆弱性侧栏下方，中英双语，带 60/80 门槛线）；接入 `daily_brief.yml`+`macro_gate.yml`（排 fragility_gate 之后）。合成数据测三体制判读+pin+纯函数分位均通过。规格见 `modules/dalio_bubble/`。
+
+### 新增：脆弱性/拥挤度侧栏 + 崩盘性质诊断 `fragility_gate.py`（PR #1，已合并）
+- 与六因子衰退闸门**正交、不混票、不发买卖信号**：脆弱性评分 0–5（VIX低位/期限结构contango/实现波动低分位/QQQ拉伸/Burry篮子RSI拥挤）+ 崩盘当天读跨资产联动（VIX期限结构/TLT/HYG/GLD/防御vs科技/闸门票数）判「机械1987型 vs 衰退型」。
+- 网页 `renderFragilityGate()`，接入两个 workflow（排 macro_gate 之后读当日票数）。新增 `.gitignore`。Code review（Codex）三条修复：RSI全涨=100不毒化中位、闸门票数只读当日、补模块 spec/status。规格见 `modules/fragility_gate/`。
+
+### 新增：分析师板块纳入 Ray Dalio + Michael Burry（含监测时间）
+- `analyst_watch.py` 追踪名单增补 Dalio(Bridgewater)、Burry(Scion)；网页徽章：Dalio=宏观、Burry=逆向·空头。
+- 策展记录写入 `analyst_history.jsonl`：**Burry**（发言 2026-08-04，1987型闪崩+做空半导体/AI，测试 SMH 低于发言日收盘，检查点 **2026-11-04**）；**Dalio**（泡沫高但先融涨、2026–2028危险期、5–15%黄金，测试 GLD 跑赢 SPY，检查点 **2027-02-04**）。
+
+### 新增：分析备忘录 `notes/1987型崩盘_vs_六因子闸门.md`
+- 八节：六因子 vs Burry 逻辑、闸门为何抓不到1987型、1987崩盘程度与恢复、崩盘性质×恢复时间对照、组合敞口、**Burry vs 达利欧框架对比**（债务周期/主权宏观 vs 仓位反身性）、**崩盘当天性质判读法则**、模块落地。
+
 ### 新增：均线信号按分档差异化 + 每只标注分档
 - `ma_cross_signal` 新增 `archetype_signal()`：按每只股票分档给出信号(payload 增 `signal_arch`/`rule`)。
   - 🔵稳定核心 = 买入持有(MA50>MA150且价格>150MA买,回调≤MA50加仓,**不出卖出信号**,止损交给周线150MA/QQQ闸门)

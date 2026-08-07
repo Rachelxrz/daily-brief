@@ -1184,6 +1184,53 @@ function renderFragilityGate(fgd) {
     + `</div></div></div>`;
 }
 
+// 🫧 达利欧泡沫指标 + 货币收紧扳机（与衰退闸门/脆弱性侧栏正交：泡沫「多大」+「何时被戳破」）
+function renderDalioBubble(db) {
+  if (!db) return '';
+  const en = currentNewsLang === 'en';
+  const colMap = { red: 'var(--red)', amber: 'var(--amber)', green: 'var(--green)', muted: 'var(--muted)' };
+  const bandCol = colMap[db.band_color] || 'var(--muted)';
+  const vCol = colMap[db.verdict_color] || 'var(--muted)';
+  const pct = db.bubble_pct == null ? null : db.bubble_pct;
+  // 6 表网格（带 0–100% 小条）
+  const grows = (db.gauges || []).map(x => {
+    const sc = x.score == null ? null : Math.round(x.score * 100);
+    const bar = sc == null ? '' :
+      `<div style="height:5px;border-radius:3px;background:var(--border);margin-top:4px;overflow:hidden">`
+      + `<div style="height:100%;width:${sc}%;background:${sc >= 80 ? 'var(--red)' : sc >= 60 ? 'var(--amber)' : 'var(--green)'}"></div></div>`;
+    return `<div style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface)">`
+      + `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">`
+      + `<span style="font-size:0.86rem">${escHtml(x.name)}</span>`
+      + `<span style="color:var(--muted);font-size:0.8rem;white-space:nowrap">${escHtml(x.value)}</span></div>`
+      + bar
+      + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${escHtml(x.detail)} <span style="opacity:0.7">· ${escHtml(x.src)}</span></div></div>`;
+  }).join('');
+  const p = db.pin || {};
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<h1>${t('🫧 达利欧泡沫指标', '🫧 Dalio Bubble Indicator')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('6 表 + 货币收紧扳机 · 泡沫「多大」与「何时被戳破」', 'six gauges + monetary pin · how big, and when it gets pricked')}</span></h1>`
+    // 泡沫读数条
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${bandCol};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
+    + `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">`
+    + `<span style="font-size:1.3rem;font-weight:700;color:${bandCol}">${pct == null ? '—' : pct + '%'}</span>`
+    + `<span style="font-weight:600;color:${bandCol}">${escHtml(db.band || '')}</span></div>`
+    + (pct == null ? '' : `<div style="height:8px;border-radius:4px;background:var(--border);margin-top:8px;position:relative;overflow:hidden">`
+        + `<div style="height:100%;width:${pct}%;background:${bandCol}"></div>`
+        + `<div style="position:absolute;left:60%;top:0;bottom:0;border-left:1px dashed var(--muted)"></div>`
+        + `<div style="position:absolute;left:80%;top:0;bottom:0;border-left:1px dashed var(--muted)"></div></div>`
+        + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${t('虚线 = 60% 偏高 / 80% 晚期泡沫（1929·2000）门槛', 'dashed = 60% elevated / 80% late-bubble (1929·2000) thresholds')}</div>`)
+    + `</div>`
+    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px;margin:8px 0">${grows}</div>`
+    // 扳机
+    + `<div style="border:1px solid var(--border);border-left:4px solid ${p.on ? 'var(--red)' : 'var(--green)'};border-radius:8px;padding:8px 12px;margin:6px 0">`
+    + `<b>${t('货币收紧扳机', 'Monetary pin')}：</b><span style="color:${p.on ? 'var(--red)' : 'var(--green)'};font-weight:600">${p.on ? t('ON · 戳破催化剂已现', 'ON · pin present') : t('off · 尚未收紧', 'off · not tightening')}</span> `
+    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('联邦基金', 'Fed funds')} ${p.ffr_now ?? '—'}%（6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}）· ${t('10y实际利率', '10y real')} ${p.real10_now ?? '—'}%（3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）</span></div>`
+    // 判读
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${vCol};border-radius:10px;padding:10px 14px;margin:6px 0">`
+    + `<div style="color:${vCol};font-weight:600">${escHtml(db.verdict || '')}</div></div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml(db.note || '')}<br>${t('更新', 'Updated')}：${escHtml(db.updated || '')}</p>`
+    + `</div></div></div>`;
+}
+
 // 📊 板块强弱 · 资金流向面板（真实价格：今日/3月/YTD + 相对大盘推算流入流出）
 function renderSectorBoard(sb) {
   if (!sb || !Array.isArray(sb.sectors) || !sb.sectors.length) return '';
@@ -1236,6 +1283,10 @@ function renderMonitor(day) {
   let frag = day.fragility_gate;
   if (!frag) { for (const d of allDates) { if (allData[d].fragility_gate) { frag = allData[d].fragility_gate; break; } } }
   const fragHtml = frag ? renderFragilityGate(frag) : '';
+  // 🫧 达利欧泡沫指标：脆弱性侧栏下方（当日无则回退到最近一期）
+  let dbub = day.dalio_bubble;
+  if (!dbub) { for (const d of allDates) { if (allData[d].dalio_bubble) { dbub = allData[d].dalio_bubble; break; } } }
+  const dbubHtml = dbub ? renderDalioBubble(dbub) : '';
   // 📊 板块强弱面板：结果闸门正下方（当日无则回退到最近一期）
   let sb = day.sector_board;
   if (!sb) { for (const d of allDates) { if (allData[d].sector_board) { sb = allData[d].sector_board; break; } } }
@@ -1246,7 +1297,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = gateHtml + fragHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = gateHtml + fragHtml + dbubHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1256,7 +1307,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = gateHtml + fragHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = gateHtml + fragHtml + dbubHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
@@ -1315,8 +1366,9 @@ function renderAnalysts(day) {
   // 分析师类型标注
   const TYPE = {};
   const setType = (names, l, c) => names.forEach(n => TYPE[n] = { l, c });
-  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic'], t('宏观','Macro'), 'var(--blue)');
+  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic','Ray Dalio'], t('宏观','Macro'), 'var(--blue)');
   setType(['Dan Ives','Stacy Rasgon','Gene Munster'], t('AI·科技','AI/Tech'), 'var(--gold)');
+  setType(['Michael Burry'], t('逆向·空头','Contrarian'), 'var(--red)');
   setType(['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz'], t('策略','Strategy'), 'var(--green)');
 
   const runDate = (a.updated || '').slice(0, 10);

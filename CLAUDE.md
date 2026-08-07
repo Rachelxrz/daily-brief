@@ -79,6 +79,7 @@ ETF/宏观: XMMO · IWM · BNO · UTES · REMX · GDX · USD
 - [x] **市场结构监控** — 10个核心指标（GLD/WTI/QQQ/TLT/DXY），3日连续数据表
 - [x] **AI 双语简报** — Claude API 生成中英文投资洞察，推送企业微信
 - [x] **风险分析仪表板** — 每资产 VaR/CVaR/最大回撤/ADX/RSI，相关性矩阵
+- [x] **三体制监测（正交）** — ①`macro_gate` 六因子衰退闸门 ②`fragility_gate` 脆弱性侧栏+崩盘性质诊断（Burry/1987型）③`dalio_bubble` 达利欧泡沫指标+货币收紧扳机（债务周期型）。三者互不混票，见 `notes/1987型崩盘_vs_六因子闸门.md`
 
 ---
 
