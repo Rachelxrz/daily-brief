@@ -1132,6 +1132,58 @@ function renderMacroGate(g) {
     + `</div></div></div>`;
 }
 
+// 🔥 脆弱性/拥挤度侧栏 + 崩盘性质诊断（与六因子衰退闸门正交，只量化「干柴」不发信号）
+function renderFragilityGate(fgd) {
+  if (!fgd) return '';
+  const en = currentNewsLang === 'en';
+  const colMap = { red: 'var(--red)', green: 'var(--green)', amber: 'var(--amber)', muted: 'var(--muted)' };
+  const FF_EN = {
+    'VIX 绝对低位': 'VIX absolute low', '期限结构 VIX3M/VIX': 'Term structure VIX3M/VIX',
+    '实现波动分位(1y)': 'Realized-vol %ile (1y)', 'QQQ 高于 200日线': 'QQQ above 200-DMA',
+    'Burry 篮子 RSI 中位': 'Burry-short basket median RSI',
+  };
+  const ffn = f => en ? (FF_EN[f.name] || f.name) : f.name;
+  const fCol = colMap[fgd.frag_color] || 'var(--muted)';
+  // A) 脆弱性因子网格
+  const frows = (fgd.factors || []).map(f =>
+    `<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;`
+    + `padding:6px 10px;border-radius:8px;border:1px solid var(--border);`
+    + `border-left:3px solid ${f.fragile ? 'var(--amber)' : 'var(--border)'};background:var(--surface)">`
+    + `<span style="white-space:nowrap">${f.fragile ? '🔥' : '·'} ${escHtml(ffn(f))}</span>`
+    + `<span style="color:var(--muted);font-size:0.85rem;text-align:right">${escHtml(f.value)}</span></div>`
+  ).join('');
+  // B) 崩盘诊断
+  const cd = fgd.crash_diag || {};
+  const natCol = colMap[cd.nature_color] || 'var(--muted)';
+  const leanMap = { mech: ['机械', 'Mech', 'var(--amber)'], reco: ['衰退', 'Reco', 'var(--red)'],
+                    stress: ['急性', 'Stress', 'var(--red)'], neutral: ['中性', 'Neutral', 'var(--muted)'] };
+  const trows = (cd.tells || []).map(x => {
+    const lm = leanMap[x.lean] || leanMap.neutral;
+    return `<tr><td style="white-space:nowrap"><b style="color:${lm[2]}">${en ? lm[1] : lm[0]}</b></td>`
+      + `<td>${escHtml(x.name)}</td><td style="text-align:right;white-space:nowrap">${escHtml(x.value)}</td>`
+      + `<td style="color:var(--muted);font-size:0.82rem">${escHtml(x.why)}</td></tr>`;
+  }).join('');
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<h1>${t('🔥 脆弱性 / 拥挤度侧栏', '🔥 Fragility / Crowding Sidebar')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('与衰退闸门正交 · 只量化「干柴」不发买卖信号', 'Orthogonal to the recession gate · gauges dry-tinder only, not a trade signal')}</span></h1>`
+    // A) 脆弱性评分条
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${fCol};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
+    + `<div style="font-size:1.05rem;font-weight:700;color:${fCol}">${escHtml(fgd.frag_label)}</div>`
+    + `<div style="color:var(--muted);margin-top:4px;font-size:0.9rem">${t('脆弱性评分', 'Fragility score')} <b style="color:${fCol}">${fgd.frag_score}/${fgd.frag_max}</b> · ${t('高分=一旦有火星火会烧多大,不预测火星何时来', 'high = how big a fire if a spark hits, not when the spark comes')}</div></div>`
+    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin:8px 0">${frows}</div>`
+    // B) 崩盘性质诊断
+    + `<h1 style="margin-top:14px">${t('🩺 崩盘性质诊断', '🩺 Crash-Nature Diagnostic')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('即便没预判到,崩的当天读盘面也能判性质', 'even unpredicted, the tape on the day reveals the type')}</span></h1>`
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${natCol};border-radius:10px;padding:10px 14px;margin:8px 0">`
+    + `<div style="font-size:0.95rem;color:var(--text)">${escHtml(cd.headline || '')}</div>`
+    + `<div style="margin-top:6px;font-size:1.05rem;font-weight:700;color:${natCol}">${escHtml(cd.nature || '')} `
+    + `<span style="font-size:0.85rem;font-weight:400;color:var(--muted)">（${t('机械', 'Mech')} ${cd.mech_score} vs ${t('衰退', 'Reco')} ${cd.reco_score}）</span></div>`
+    + `<div style="color:var(--muted);margin-top:5px;font-size:0.85rem">${renderMd(cd.nature_note || '')}</div></div>`
+    + `<div style="overflow-x:auto"><table class="ma-tbl"><thead><tr>`
+    + `<th>${t('倾向', 'Lean')}</th><th>${t('盘面信号', 'Tape tell')}</th><th>${t('读数', 'Read')}</th><th>${t('含义', 'Meaning')}</th></tr></thead>`
+    + `<tbody>${trows}</tbody></table></div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${escHtml(fgd.note || '')}<br>${t('更新', 'Updated')}：${escHtml(fgd.updated || '')}</p>`
+    + `</div></div></div>`;
+}
+
 // 📊 板块强弱 · 资金流向面板（真实价格：今日/3月/YTD + 相对大盘推算流入流出）
 function renderSectorBoard(sb) {
   if (!sb || !Array.isArray(sb.sectors) || !sb.sectors.length) return '';
@@ -1180,6 +1232,10 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].macro_gate) { gate = allData[d].macro_gate; break; } }
   }
   const gateHtml = gate ? renderMacroGate(gate) : '';
+  // 🔥 脆弱性/拥挤度侧栏：紧贴衰退闸门下方（当日无则回退到最近一期）
+  let frag = day.fragility_gate;
+  if (!frag) { for (const d of allDates) { if (allData[d].fragility_gate) { frag = allData[d].fragility_gate; break; } } }
+  const fragHtml = frag ? renderFragilityGate(frag) : '';
   // 📊 板块强弱面板：结果闸门正下方（当日无则回退到最近一期）
   let sb = day.sector_board;
   if (!sb) { for (const d of allDates) { if (allData[d].sector_board) { sb = allData[d].sector_board; break; } } }
@@ -1190,7 +1246,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = gateHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = gateHtml + fragHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1200,7 +1256,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = gateHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = gateHtml + fragHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
