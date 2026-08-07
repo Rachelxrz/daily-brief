@@ -25,7 +25,7 @@
 
 | # | 表 | 计算 | 数据源 |
 |---|----|------|--------|
-| 1 | 估值 | 巴菲特指标 Wilshire5000/GDP，历史分位 | FRED `WILL5000INDFC` / `GDP` |
+| 1 | 估值 | 市值/GDP（**非金融企业股权市值** / 名义 GDP），历史分位。用市值序列而非价格指数，保证与 GDP 同为美元口径 | FRED `NCBEILQ027S` / `GDP` |
 | 2 | 涨势不可持续 | 纳指 `^NDX` 近 12 月回报的历史分位 | yfinance |
 | 3 | 新买家 / 发行热 | IPO ETF（`IPO`，退化用 `ARKK`）近 6 月回报的历史分位 | yfinance |
 | 4 | 看多情绪 | VIX 低位 = 自满 → 1 − VIX 分位 | yfinance |
@@ -43,6 +43,9 @@
 - **货币针**：`FEDFUNDS` 近 6 月变化 ≥ +0.25% 或 10 年期实际利率 `DFII10` 近 3 月变化 ≥ +0.25% → `pin.monetary_on`
 - **供给针（达利欧 2026 新增）**：IPO/发行热 ≥ 85 分位（IPO ETF 6 月回报分位作代理）→ `pin.issuance_on`。达利欧强调大型 IPO（SpaceX/OpenAI/Anthropic 级）供给潮吸走流动性。
 - 任一成立 → `pin.on = True`
+- **货币「未知」态**：若两条利率数据都取不到，`pin.monetary_known = False`；此时**不得**把「未评估」误报为 melt-up——判读转为「暂缓结论、待数据恢复」。
+- **判读措辞**据实际触发的针（`monetary_on`/`issuance_on`）生成，供给针单独触发时不写「货币在收紧」。
+- **双语**：`band/verdict/note` 与各表 `name/detail` 均输出 `_en` 变体，网页按语言选用。
 
 ## 判读（达利欧式，区别于择时）
 

@@ -151,8 +151,10 @@ def compute() -> dict:
     cfg = _load_config()
 
     # ── 数据 ──
-    wil = fred("WILL5000INDFC")        # Wilshire 5000 全市值指数(水平)
-    gdp = fred("GDP")                  # 名义 GDP(季度)
+    # 估值用「市值序列」而非价格指数:NCBEILQ027S = 非金融企业股权市值(Z.1,季度,$百万),
+    # 与名义 GDP 同为美元口径,构成正当的巴菲特式比率(避免用价格指数除以 GDP 的量纲不匹配)。
+    mcap = fred("NCBEILQ027S")         # 非金融企业股权市值($百万)
+    gdp = fred("GDP")                  # 名义 GDP(季度,$十亿)
     ffr = fred("FEDFUNDS")             # 联邦基金有效利率(月)
     real10 = fred("DFII10")            # 10 年期 TIPS 实际利率(日)
     ndx = _yf_close("^NDX", "max")
@@ -161,47 +163,51 @@ def compute() -> dict:
     if ipo.dropna().empty:
         ipo = _yf_close("ARKK", "max") # 退化代理:投机成长
 
-    # ── 6 表 ──
-    def g(name, val_str, score, detail, src):
-        return {"name": name, "value": val_str, "score": None if (score is None or np.isnan(score)) else round(float(score), 2),
-                "detail": detail, "src": src}
+    # ── 6 表(双语)──
+    def g(name, name_en, val_str, score, detail, detail_en, src):
+        return {"name": name, "name_en": name_en, "value": val_str,
+                "score": None if (score is None or np.isnan(score)) else round(float(score), 2),
+                "detail": detail, "detail_en": detail_en, "src": src}
 
     gauges = []
 
-    # 1) 估值:巴菲特指标 Wilshire/GDP,历史分位
-    buf_pct = float("nan"); buf_val = float("nan")
-    if not wil.empty and not gdp.empty:
-        gdp_d = gdp.reindex(wil.index, method="ffill")
-        ratio = (wil / gdp_d).dropna()
-        buf_val = _last(ratio)
-        buf_pct = _pctile(ratio, buf_val)
-    gauges.append(g("估值 · 巴菲特指标(Wilshire/GDP)",
-                    f"{buf_val:.2f}·{buf_pct*100:.0f}%ile" if not np.isnan(buf_pct) else "—",
-                    buf_pct, "占 GDP 比重的历史分位,越高越贵", "FRED"))
+    # 1) 估值:市值/GDP(非金融企业股权市值 / 名义 GDP),历史分位
+    buf_pct = float("nan")
+    if not mcap.empty and not gdp.empty:
+        gdp_d = gdp.reindex(mcap.index, method="ffill")
+        ratio = (mcap / gdp_d).dropna()
+        buf_pct = _pctile(ratio, _last(ratio))
+    gauges.append(g("估值 · 市值/GDP(非金融企业股权)", "Valuation · Mktcap/GDP (nonfin. equities)",
+                    f"{buf_pct*100:.0f}%ile" if not np.isnan(buf_pct) else "—",
+                    buf_pct, "股权市值占 GDP 的历史分位,越高越贵",
+                    "Equity mktcap-to-GDP historical percentile; higher = richer", "FRED"))
 
     # 2) 涨势不可持续:纳指近12月回报的历史分位
     r12 = _ret_over(ndx, 365)
     r12_hist = ndx.pct_change(252).dropna() if len(ndx) > 300 else pd.Series(dtype=float)
     ext_pct = _pctile(r12_hist, r12)
-    gauges.append(g("涨势 · 纳指近12月回报分位",
+    gauges.append(g("涨势 · 纳指近12月回报分位", "Momentum · Nasdaq 12m-return percentile",
                     f"{r12*100:+.0f}%·{ext_pct*100:.0f}%ile" if not np.isnan(ext_pct) else "—",
-                    ext_pct, "近一年涨幅在自身历史中的分位,越高越像加速赶顶", "yfinance"))
+                    ext_pct, "近一年涨幅在自身历史中的分位,越高越像加速赶顶",
+                    "1-yr gain's percentile in its own history; higher = more of a blow-off", "yfinance"))
 
     # 3) 新买家/发行热:IPO ETF 近6月回报的历史分位
     ipo_r6 = _ret_over(ipo, 182)
     ipo_hist = ipo.pct_change(126).dropna() if len(ipo) > 180 else pd.Series(dtype=float)
     ipo_pct = _pctile(ipo_hist, ipo_r6)
-    gauges.append(g("新买家 · 打新/投机胃口(IPO ETF 近6月)",
+    gauges.append(g("新买家 · 打新/投机胃口(IPO ETF 近6月)", "New buyers · IPO appetite (IPO ETF 6m)",
                     f"{ipo_r6*100:+.0f}%·{ipo_pct*100:.0f}%ile" if not np.isnan(ipo_pct) else "—",
-                    ipo_pct, "新发行/投机资产表现的历史分位(新买家入场代理)", "yfinance"))
+                    ipo_pct, "新发行/投机资产表现的历史分位(新买家入场代理)",
+                    "percentile of new-issue/speculative performance (new-buyer proxy)", "yfinance"))
 
     # 4) 看多情绪:VIX 低 = 自满 → 1 − 分位
     vix_now = _last(vix)
     vix_pct = _pctile(vix, vix_now)
     sent = (1 - vix_pct) if not np.isnan(vix_pct) else float("nan")
-    gauges.append(g("情绪 · VIX 自满度(1−VIX分位)",
+    gauges.append(g("情绪 · VIX 自满度(1−VIX分位)", "Sentiment · VIX complacency (1−VIX pct)",
                     f"VIX {vix_now:.0f}·{sent*100:.0f}%" if not np.isnan(sent) else "—",
-                    sent, "VIX 越低越自满,情绪越亢奋", "yfinance"))
+                    sent, "VIX 越低越自满,情绪越亢奋",
+                    "lower VIX = more complacent/euphoric", "yfinance"))
 
     # 5) 杠杆买入:实现波动极低 → 系统/vol-target 加杠杆(1 − 波动分位)
     lev = float("nan"); rvol_now = float("nan")
@@ -210,29 +216,31 @@ def compute() -> dict:
         rvol_now = _last(rvol)
         rvol_pct = _pctile(rvol.tail(756) if len(rvol) > 756 else rvol, rvol_now)
         lev = (1 - rvol_pct) if not np.isnan(rvol_pct) else float("nan")
-    gauges.append(g("杠杆 · 低波动加杠杆代理(1−实现波动分位)",
+    gauges.append(g("杠杆 · 低波动加杠杆代理(1−实现波动分位)", "Leverage · low-vol leverage proxy (1−realized-vol pct)",
                     f"{rvol_now*100:.0f}%·{lev*100:.0f}%" if not np.isnan(lev) else "—",
-                    lev, "实现波动越低,系统/vol-target 越加杠杆(FINRA保证金无免费源,此为代理)", "yfinance·代理"))
+                    lev, "实现波动越低,系统/vol-target 越加杠杆(FINRA保证金无免费源,此为代理)",
+                    "lower realized vol → more systematic/vol-target leverage (proxy; no free FINRA margin)", "yfinance·代理"))
 
     # 6) 远期建设:人工档(AI 资本开支超前)
     fb = cfg.get("forward_buildout", None)
     fb = float(fb) if isinstance(fb, (int, float)) else float("nan")
-    gauges.append(g("远期建设 · AI 资本开支超前(人工档)",
+    gauges.append(g("远期建设 · AI 资本开支超前(人工档)", "Forward buildout · AI capex ahead (manual)",
                     f"{fb*100:.0f}%" if not np.isnan(fb) else "—",
-                    fb, "超前建产能/远期购买;无免费数据,dalio_config.json 人工季度校准", "config·人工"))
+                    fb, "超前建产能/远期购买;无免费数据,dalio_config.json 人工季度校准",
+                    "capacity/forward buying ahead of demand; no free data, manual in dalio_config.json", "config·人工"))
 
     scores = [x["score"] for x in gauges if x["score"] is not None]
     bubble_pct = round(float(np.mean(scores)) * 100) if scores else None
     n_used = len(scores)
 
     if bubble_pct is None:
-        band, band_color = "数据不足", "muted"
+        band, band_en, band_color = "数据不足", "Insufficient data", "muted"
     elif bubble_pct >= BAND_HIGH:
-        band, band_color = "晚期泡沫（≥80,1929/2000≈100）", "red"
+        band, band_en, band_color = "晚期泡沫（≥80,1929/2000≈100）", "Late-stage bubble (≥80, 1929/2000≈100)", "red"
     elif bubble_pct >= BAND_MID:
-        band, band_color = "偏高（≥60,2021≈77）", "amber"
+        band, band_en, band_color = "偏高（≥60,2021≈77）", "Elevated (≥60, 2021≈77)", "amber"
     else:
-        band, band_color = "中性 / 低（2024≈52）", "green"
+        band, band_en, band_color = "中性 / 低（2024≈52）", "Neutral / low (2024≈52)", "green"
 
     # 达利欧「领先对」：新买家(表3)+看多情绪(表4) —— 2021 年这两表先于综合读数亮起
     g_newbuyers = gauges[2]["score"]
@@ -240,18 +248,22 @@ def compute() -> dict:
     early_warning = bool(g_newbuyers is not None and g_sentiment is not None
                          and g_newbuyers >= 0.75 and g_sentiment >= 0.75)
 
-    # ── 货币收紧扳机(pin)──
+    # ── 戳破扳机(pin):货币针 + 供给针 ──
     ffr_chg = _change_over(ffr, 182)
     real_chg = _change_over(real10, 92)
+    # 货币「已知」当且仅当至少一个利率变化可得;若两者皆缺,货币针状态为「未知」而非「off」
+    monetary_known = (not np.isnan(ffr_chg)) or (not np.isnan(real_chg))
     ffr_rising = (not np.isnan(ffr_chg)) and ffr_chg >= FFR_RISE_TH
     real_rising = (not np.isnan(real_chg)) and real_chg >= REAL_RISE_TH
+    monetary_on = bool(ffr_rising or real_rising)
     # 达利欧 2026 新增的第二根「针」:发行/IPO 供给潮吸走流动性(用 IPO ETF 6月分位≥85 作代理)
     issuance_hot = (not np.isnan(ipo_pct)) and ipo_pct >= ISSUANCE_PIN_PCTL
-    pin_on = bool(ffr_rising or real_rising or issuance_hot)
+    pin_on = bool(monetary_on or issuance_hot)
     pin = {
         "on": pin_on,
-        "monetary_on": bool(ffr_rising or real_rising),
-        "issuance_on": bool(issuance_hot),
+        "monetary_on": monetary_on,
+        "monetary_known": monetary_known,
+        "issuance_on": issuance_hot,
         "ffr_now": None if np.isnan(_last(ffr)) else round(_last(ffr), 2),
         "ffr_chg_6m": None if np.isnan(ffr_chg) else round(ffr_chg, 2),
         "real10_now": None if np.isnan(_last(real10)) else round(_last(real10), 2),
@@ -260,24 +272,49 @@ def compute() -> dict:
         "detail": "货币针:联邦基金6月≥+0.25% 或 10y实际利率3月≥+0.25%;供给针:IPO/发行热≥85分位(达利欧2026新增)",
     }
 
-    # ── 判读 ──
+    # ── 判读(双语)──
     high = (bubble_pct is not None) and bubble_pct >= BAND_MID
     if not high:
         if early_warning:
             verdict = ("🟡 综合读数尚未到偏高,但『领先对』(新买家+看多情绪)已亮 → 达利欧 2021 式早期预警,"
                        "这两表历史上先于综合读数亮起,值得盯。")
+            verdict_en = ("🟡 Composite not yet elevated, but the leading pair (new buyers + sentiment) is lit → "
+                          "a Dalio-2021-style early warning; these two led the composite in 2021, worth watching.")
             vcolor = "amber"
         else:
             verdict = "🟢 泡沫读数不高——按达利欧框架,尚无晚期泡沫特征。"
+            verdict_en = "🟢 Bubble reading is low — no late-stage bubble features under Dalio's framework."
             vcolor = "green"
+    elif not pin_on and not monetary_known:
+        # 关键:货币针数据缺失时,不得把「未评估」误报为 melt-up
+        verdict = ("🟡 泡沫偏高,但货币针数据缺失(FRED 利率未取到),无法评估是否收紧 → "
+                   "暂不给 melt-up 结论,待利率数据恢复后再判。")
+        verdict_en = ("🟡 Bubble elevated, but monetary-pin data is missing (FRED rates unavailable), so tightening "
+                      "could not be evaluated → withholding the melt-up verdict until rate data returns.")
+        vcolor = "amber"
     elif not pin_on:
         verdict = ("🫧 泡沫偏高但货币尚未收紧 → 达利欧:『泡沫在被货币收紧戳破前不会真正破裂』,"
                    "预期先融涨(melt-up)、再回调;应对是分散配置 + 5–15% 黄金,而非裸空。")
+        verdict_en = ("🫧 Elevated but money not yet tightening → Dalio: bubbles don't truly pop until pricked by "
+                      "tightening; expect a melt-up first, then a correction; response is diversify + 5–15% gold, not naked shorts.")
         vcolor = "amber"
     else:
-        verdict = ("📌 泡沫偏高 且 货币在收紧 → 达利欧所述『戳破泡沫的针』已出现,"
+        pins_cn = "+".join([p for p, on in [("货币针", monetary_on), ("供给针", issuance_hot)] if on])
+        pins_en = "+".join([p for p, on in [("monetary", monetary_on), ("issuance", issuance_hot)] if on])
+        verdict = (f"📌 泡沫偏高 且 {pins_cn}已现 → 达利欧所述『戳破泡沫的针』出现,"
                    "破裂/去杠杆风险显著上升;分散、降杠杆、重视黄金/硬资产对冲。")
+        verdict_en = (f"📌 Elevated and the {pins_en} pin has fired → Dalio's pricking pin is present; "
+                      "pop/deleveraging risk rises materially; diversify, cut leverage, favor gold/hard-asset hedges.")
         vcolor = "red"
+
+    note_cn = ("达利欧『泡沫指标』6 表(均值,**近似**其多指标百分位合成)+ 货币针/供给针 · "
+               "锚点:1929/2000≈100、2021≈77、2024≈52 分位 · 表3新买家+表4情绪为达利欧「领先对」 · "
+               "与衰退闸门/脆弱性侧栏正交 · 市值/GDP、利率来自 FRED,涨势/情绪/杠杆/发行来自 yfinance,远期建设为人工档 · "
+               "详见 notes/1987型崩盘_vs_六因子闸门.md · 不构成投资建议")
+    note_en = ("Dalio's 6-gauge bubble indicator (mean — an **approximation** of his multi-stat percentile blend) + "
+               "monetary/issuance pins · anchors: 1929/2000≈100, 2021≈77, 2024≈52 · gauges 3+4 are Dalio's leading pair · "
+               "orthogonal to the recession gate / fragility sidebar · mktcap/GDP & rates from FRED, momentum/sentiment/leverage/issuance from yfinance, forward-buildout is manual · "
+               "see notes/1987型崩盘_vs_六因子闸门.md · not investment advice")
 
     return {
         "date": _today_et(),
@@ -286,16 +323,16 @@ def compute() -> dict:
         "gauges_used": n_used,
         "gauges_total": len(gauges),
         "band": band,
+        "band_en": band_en,
         "band_color": band_color,
         "gauges": gauges,
         "early_warning": early_warning,
         "pin": pin,
         "verdict": verdict,
+        "verdict_en": verdict_en,
         "verdict_color": vcolor,
-        "note": ("达利欧『泡沫指标』6 表(均值,**近似**其多指标百分位合成)+ 货币针/供给针 · "
-                 "锚点:1929/2000≈100、2021≈77、2024≈52 分位 · 表3新买家+表4情绪为达利欧「领先对」 · "
-                 "与衰退闸门/脆弱性侧栏正交 · 巴菲特指标/利率来自 FRED,涨势/情绪/杠杆/发行来自 yfinance,远期建设为人工档 · "
-                 "详见 notes/1987型崩盘_vs_六因子闸门.md · 不构成投资建议"),
+        "note": note_cn,
+        "note_en": note_en,
     }
 
 

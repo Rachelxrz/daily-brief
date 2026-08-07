@@ -1200,19 +1200,19 @@ function renderDalioBubble(db) {
       + `<div style="height:100%;width:${sc}%;background:${sc >= 80 ? 'var(--red)' : sc >= 60 ? 'var(--amber)' : 'var(--green)'}"></div></div>`;
     return `<div style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface)">`
       + `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">`
-      + `<span style="font-size:0.86rem">${escHtml(x.name)}</span>`
+      + `<span style="font-size:0.86rem">${escHtml(en ? (x.name_en || x.name) : x.name)}</span>`
       + `<span style="color:var(--muted);font-size:0.8rem;white-space:nowrap">${escHtml(x.value)}</span></div>`
       + bar
-      + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${escHtml(x.detail)} <span style="opacity:0.7">· ${escHtml(x.src)}</span></div></div>`;
+      + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${escHtml(en ? (x.detail_en || x.detail) : x.detail)} <span style="opacity:0.7">· ${escHtml(x.src)}</span></div></div>`;
   }).join('');
   const p = db.pin || {};
   return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
-    + `<h1>${t('🫧 达利欧泡沫指标', '🫧 Dalio Bubble Indicator')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('6 表 + 货币收紧扳机 · 泡沫「多大」与「何时被戳破」', 'six gauges + monetary pin · how big, and when it gets pricked')}</span></h1>`
+    + `<h1>${t('🫧 达利欧泡沫指标', '🫧 Dalio Bubble Indicator')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('6 表 + 双针（货币/供给）· 泡沫「多大」与「何时被戳破」', 'six gauges + dual pins (monetary/issuance) · how big, and when it gets pricked')}</span></h1>`
     // 泡沫读数条
     + `<div style="border:1px solid var(--border);border-left:5px solid ${bandCol};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
     + `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">`
     + `<span style="font-size:1.3rem;font-weight:700;color:${bandCol}">${pct == null ? '—' : pct + '%'}</span>`
-    + `<span style="font-weight:600;color:${bandCol}">${escHtml(db.band || '')}</span></div>`
+    + `<span style="font-weight:600;color:${bandCol}">${escHtml((en ? (db.band_en || db.band) : db.band) || '')}</span></div>`
     + (pct == null ? '' : `<div style="height:8px;border-radius:4px;background:var(--border);margin-top:8px;position:relative;overflow:hidden">`
         + `<div style="height:100%;width:${pct}%;background:${bandCol}"></div>`
         + `<div style="position:absolute;left:60%;top:0;bottom:0;border-left:1px dashed var(--muted)"></div>`
@@ -1223,13 +1223,13 @@ function renderDalioBubble(db) {
     // 扳机
     + `<div style="border:1px solid var(--border);border-left:4px solid ${p.on ? 'var(--red)' : 'var(--green)'};border-radius:8px;padding:8px 12px;margin:6px 0">`
     + `<b>${t('戳破扳机（针）', 'Pin')}：</b><span style="color:${p.on ? 'var(--red)' : 'var(--green)'};font-weight:600">${p.on ? t('ON · 戳破催化剂已现', 'ON · pin present') : t('off · 尚无', 'off · none')}</span> `
-    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('货币针', 'Monetary')} <b style="color:${p.monetary_on ? 'var(--red)' : 'var(--muted)'}">${p.monetary_on ? 'ON' : 'off'}</b>（${t('联邦基金', 'FF')} ${p.ffr_now ?? '—'}%,6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}；${t('10y实际', '10y real')} ${p.real10_now ?? '—'}%,3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）`
+    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('货币针', 'Monetary')} <b style="color:${p.monetary_known === false ? 'var(--muted)' : (p.monetary_on ? 'var(--red)' : 'var(--muted)')}">${p.monetary_known === false ? t('未知·数据缺', 'n.a.') : (p.monetary_on ? 'ON' : 'off')}</b>（${t('联邦基金', 'FF')} ${p.ffr_now ?? '—'}%,6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}；${t('10y实际', '10y real')} ${p.real10_now ?? '—'}%,3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）`
     + ` · ${t('供给针', 'Issuance')} <b style="color:${p.issuance_on ? 'var(--red)' : 'var(--muted)'}">${p.issuance_on ? 'ON' : 'off'}</b>（IPO ${p.ipo_pctile ?? '—'}${p.ipo_pctile == null ? '' : '%ile'}${t('，达利欧2026新增', ', Dalio 2026')}）</span></div>`
     + (db.early_warning ? `<div style="border:1px solid var(--amber);border-radius:8px;padding:6px 12px;margin:6px 0;background:color-mix(in srgb,var(--amber) 10%,transparent);font-size:0.85rem">⚠️ <b>${t('领先对已亮', 'Leading pair lit')}</b>：${t('新买家 + 看多情绪同高 — 达利欧口径下这两表先于综合读数亮起（2021 年即如此）', 'new buyers + bullish sentiment both high — the Dalio leading pair, which lit before the composite in 2021')}</div>` : '')
     // 判读
     + `<div style="border:1px solid var(--border);border-left:5px solid ${vCol};border-radius:10px;padding:10px 14px;margin:6px 0">`
-    + `<div style="color:${vCol};font-weight:600">${escHtml(db.verdict || '')}</div></div>`
-    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml(db.note || '')}<br>${t('更新', 'Updated')}：${escHtml(db.updated || '')}</p>`
+    + `<div style="color:${vCol};font-weight:600">${escHtml((en ? (db.verdict_en || db.verdict) : db.verdict) || '')}</div></div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml((en ? (db.note_en || db.note) : db.note) || '')}<br>${t('更新', 'Updated')}：${escHtml(db.updated || '')}</p>`
     + `</div></div></div>`;
 }
 
