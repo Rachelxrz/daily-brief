@@ -104,37 +104,43 @@ def format_wecom_markdown(news_data: dict) -> str:
     return "\n".join(lines)
 
 
-def format_text_message(news_data: dict) -> str:
-    """格式化为纯文本消息（用于Server酱 / WxPusher）。"""
-    tz_cst = timezone(timedelta(hours=8))
-    now_str = datetime.now(tz_cst).strftime("%Y/%m/%d %H:%M")
-    
-    lines = [f"📰 每日智识简报 · {now_str}", ""]
-    
+def format_text_message(news_data: dict, stamp: str = "") -> str:
+    """格式化为 Markdown 消息（Server酱 / WxPusher 均按 Markdown 渲染）。
+    标题做成可点击链接（不再另起一行贴长网址），来源做成小标签，摘要用引用块，分类之间加分隔线。"""
+    tz_cst  = timezone(timedelta(hours=8))
+    now_str = stamp or datetime.now(tz_cst).strftime("%Y/%m/%d %H:%M")
+    total   = sum(len(v) for v in news_data.values())
+
+    lines = [
+        "# 📰 每日智识简报",
+        f"`{now_str} CST · AI聚合 · {total}条精选 · 可与网页对照`",
+        "",
+    ]
+
     for cat_key, meta in CATEGORY_META.items():
         items = news_data.get(cat_key, [])
         if not items:
             continue
-        
-        lines.append(f"{meta['emoji']} {meta['title']}")
-        lines.append("─" * 30)
-        
-        for i, item in enumerate(items[:10], 1):
-            title   = item.get('title', '').replace('\n', ' ')
-            summary = item.get('summary', '')[:100] + '…' if item.get('summary', '') else ''
-            source  = item.get('source', '')
-            url     = item.get('url', '')
-            
-            lines.append(f"{i:02d}. [{source}] {title}")
-            if summary:
-                lines.append(f"    {summary}")
-            if url:
-                lines.append(f"    🔗 {url}")
-            lines.append("")
-        
+        lines.append(f"## {meta['emoji']} {meta['title']}")
         lines.append("")
-    
-    lines.append("🤖 每日08:00自动推送 | Daily Intelligence Brief")
+        for i, item in enumerate(items[:10], 1):
+            title   = (item.get('title', '') or '').replace('\n', ' ').strip()
+            summary = (item.get('summary', '') or '').replace('\n', ' ').strip()
+            source  = (item.get('source', '') or '').strip()
+            url     = (item.get('url', '') or '').strip()
+
+            head = f"**{i}.** [{title}]({url})" if url else f"**{i}.** {title}"
+            if source:
+                head += f"　`{source}`"
+            lines.append(head)
+            if summary:
+                summary = summary[:120] + ('…' if len(summary) > 120 else '')
+                lines.append(f"> {summary}")
+            lines.append("")
+        lines.append("---")
+        lines.append("")
+
+    lines.append("🤖 每日 08:00 / 18:00 自动推送 · Daily Intelligence Brief")
     return "\n".join(lines)
 
 
@@ -240,15 +246,12 @@ def push_wxpusher(news_data: dict) -> bool:
         return False
     
     content = format_text_message(news_data)
-    
-    # WxPusher 支持 HTML 格式
-    html_content = content.replace('\n', '<br>')
-    
+
     payload = {
         "appToken": app_token,
-        "content": html_content,
+        "content": content,
         "summary": f"📰 每日智识简报 · {datetime.now().strftime('%m/%d')}",
-        "contentType": 2,  # 2=HTML
+        "contentType": 3,  # 3=Markdown（与 Server酱 同一份 Markdown，标题可点击）
         "uids": uids,
         "url": "",
     }
@@ -287,9 +290,8 @@ def push_serverchan(news_data: dict) -> bool:
         return False
     
     _cst = datetime.now(timezone(timedelta(hours=8)))
-    stamp = _cst.strftime("%m-%d %H:%M")
-    # 本次抓取时间戳,便于和网页对齐是否同一轮快照
-    content = f"🕐 本次抓取：{stamp} CST（可与网页对照）\n\n" + format_text_message(news_data)
+    # 抓取时间戳并入标题行，便于和网页对齐是否同一轮快照
+    content = format_text_message(news_data, stamp=_cst.strftime("%Y/%m/%d %H:%M"))
     now_str = _cst.strftime("%Y/%m/%d")
     
     try:

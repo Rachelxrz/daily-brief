@@ -1437,16 +1437,16 @@ function renderMaSignal(day) {
         + `<th>MA20</th><th>MA50</th><th>MA150</th><th>${t('均线差','MA gap')}</th><th>Supertrend(10,4)</th>`
         + `<th>${t('最近两次信号','Last 2 signals')}</th></tr></thead><tbody>`;
 
-  for (const r of m.tickers) {
+  const renderRow = (r) => {
     const sig = r.signal_arch || r.signal || 'NO_DATA';
     const ruleHint = r.rule ? `<br><span style="font-size:0.66rem;color:var(--muted)">${escHtml(r.rule)}</span>` : '';
     const tf = r.tf || '';
+    const nameCell = `<td><b>${escHtml(r.ticker)}</b>${r.source === 'screener' ? ' ' + srcBadge('screener') : ''}${archBadge(r.archetype)}</td>`;
     if (sig === 'NO_DATA') {
-      html += `<tr><td><b>${escHtml(r.ticker)}</b></td>`
+      return `<tr>${nameCell}`
             + `<td style="color:var(--muted)">${escHtml(tfTxt(tf))}</td>`
             + `<td style="color:var(--muted)">${sigCn[sig]}</td>`
             + `<td colspan="8" style="color:var(--muted)">${t('数据不足','No data')}</td></tr>`;
-      continue;
     }
     const dayChg = (r.day_chg >= 0 ? '+' : '') + (r.day_chg ?? 0).toFixed(2) + '%';
     const gap = (r.ma_gap_pct >= 0 ? '+' : '') + (r.ma_gap_pct ?? 0).toFixed(2) + '%';
@@ -1457,14 +1457,11 @@ function renderMaSignal(day) {
       `<span style="color:${sigColor[h.type]}">${histLab[h.type] || h.type}</span> `
       + `<span style="color:var(--muted)">${escHtml(h.date)}</span>`
     ).join(' ＜ ') || '<span style="color:var(--muted)">—</span>';
-    // MA150 地板：跌破标红（策略1 清仓触发）
     const ma150Cell = r.ma150 == null
       ? '<td style="color:var(--muted)">—</td>'
       : `<td style="color:${r.below_ma150 ? 'var(--red)' : 'var(--muted)'};font-weight:${r.below_ma150 ? 600 : 400}">`
         + `${r.ma150}${r.below_ma150 ? ' ⚠' : ''}</td>`;
-
-    html += '<tr>'
-          + `<td><b>${escHtml(r.ticker)}</b>${r.source === 'screener' ? ' ' + srcBadge('screener') : ''}${archBadge(r.archetype)}</td>`
+    return '<tr>' + nameCell
           + `<td style="color:var(--muted)">${escHtml(tfTxt(tf))}</td>`
           + `<td style="color:${sigColor[sig]};font-weight:600">${sigCn[sig]}${ruleHint}</td>`
           + `<td>$${(r.price ?? 0).toFixed(2)}</td>`
@@ -1476,6 +1473,25 @@ function renderMaSignal(day) {
           + `<td style="color:${r.st_dir === 'UP' ? 'var(--green)' : 'var(--red)'}">${stTxt}</td>`
           + `<td>${hist}</td>`
           + '</tr>';
+  };
+
+  // 按分档分组：股票在前(按档排序)，ETF/基金放到最后
+  const TG_ORDER = ['成长性核心', '稳定核心', '趋势成长', '题材投机', '其它', 'ETF/基金'];
+  const TG_LABEL = { '成长性核心': ['🟢 成长核心','🟢 Growth-core'], '稳定核心': ['🔵 稳定核心','🔵 Stable-core'],
+                     '趋势成长': ['🟡 趋势成长','🟡 Trend'], '题材投机': ['🔴 题材投机','🔴 Speculative'],
+                     '其它': ['⚪ 其它 / 无数据','⚪ Other'], 'ETF/基金': ['📦 ETF / 基金','📦 ETF / Fund'] };
+  const STOCK_ARCH = ['成长性核心', '稳定核心', '趋势成长', '题材投机'];
+  const tgroups = {}; TG_ORDER.forEach(g => tgroups[g] = []);
+  for (const r of m.tickers) {
+    let g = r.archetype;
+    if (g !== 'ETF/基金' && !STOCK_ARCH.includes(g)) g = '其它';
+    tgroups[g].push(r);
+  }
+  for (const g of TG_ORDER) {
+    const gr = tgroups[g];
+    if (!gr.length) continue;
+    html += `<tr><td colspan="11" style="background:rgba(255,255,255,0.04);font-weight:700;padding:6px 10px">${t(TG_LABEL[g][0], TG_LABEL[g][1])}（${gr.length}）</td></tr>`;
+    for (const r of gr) html += renderRow(r);
   }
   html += '</tbody></table></div>';
   const noteCN = '<b>信号按分档差异化</b>（每只股票的类别见名字旁徽章）：<br>'
