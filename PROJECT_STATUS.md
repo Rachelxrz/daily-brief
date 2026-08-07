@@ -16,7 +16,7 @@
 
 <!-- AUTO:START — 程序生成，请勿手改 -->
 
-**自动刷新时间**：2026-08-08 05:08 CST
+**自动刷新时间**：2026-08-08 06:03 CST
 **data.json 今日更新**：—
 
 **今日各模块产出状态**（依据 `docs/data.json`）：
@@ -26,14 +26,9 @@
 - Wheel Strategy (wheel_strategy.py)：⚪ 今日无产出
 
 **自上次刷新以来的开发变更**（git commit，已过滤每日数据提交）：
-- `645d96d` 2026-08-07 — macro_gate intraday refresh 2026-08-07 20:36Z
-- `92b5a94` 2026-08-07 — macro_gate intraday refresh 2026-08-07 19:49Z
-- `ad481fc` 2026-08-07 — macro_gate intraday refresh 2026-08-07 18:49Z
-- `58c325d` 2026-08-07 — 均线表按分档分组(ETF放最后) + 微信推送改用干净Markdown
-- `ba9e50c` 2026-08-07 — 均线页:Secondary Watchlist移到最后 + 近7天信号按分档分组
-- `04a76a4` 2026-08-07 — macro_gate intraday refresh 2026-08-07 17:44Z
-- `7cfc06b` 2026-08-07 — macro_gate intraday refresh 2026-08-07 16:49Z
-- `0477cb5` 2026-08-07 — macro_gate intraday refresh 2026-08-07 15:52Z
+- `3f9f346` 2026-08-07 — macro_gate intraday refresh 2026-08-07 21:34Z
+- `7e2f665` 2026-08-07 — 新增脆弱性/拥挤度侧栏 + 崩盘性质诊断（fragility_gate）(#1)
+- `b54494a` 2026-08-07 — congress_tracker 2026-08-07
 
 <!-- AUTO:END -->
 
