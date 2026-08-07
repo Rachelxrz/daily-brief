@@ -4,6 +4,12 @@
 
 ## 2026-08-07
 
+### 修复：PR #2 code review（dalio_bubble）+ fragility 面板双语化
+- **P1** 估值表改用市值序列 `NCBEILQ027S`(非金融企业股权)/GDP,替换价格指数 `WILL5000INDFC`(量纲不匹配)。
+- **P1** 货币针数据缺失时保留「未知」态(`monetary_known`),不再把未评估误报为 off→melt-up;判读转「暂缓结论」。
+- **P2** 判读措辞据实际触发的针生成(货币针/供给针),供给针单独触发不再误写「货币在收紧」。
+- **P2** `dalio_bubble` + `fragility_gate` 两个面板**全字段双语化**(band/verdict/note/表名/说明/tell/性质/恢复提示均输出 `_en`),网页按语言选用;EN 无中文泄漏已验证。
+
 ### 立项：专项研究课题「市场判断 → 可用模型」+ 分析师分框架报告
 - **新目录 `research/`**：
   - `research/README.md` — 课题章程（双语）：目标（采集各方对金融/证券/经济/货币的判断 → 溯因 → 建模 → 回测 → 预测）+ 5 阶段实施计划（Phase 0 已完成三体制；Phase 1 采集结构化；Phase 2 框架建模；Phase 3 统一回测 `backtest.py`；Phase 4 预测记分卡；Phase 5 信念叠加集成）+ 交付物/成功指标/数据源/风险。
