@@ -1364,56 +1364,68 @@ function renderMaSignal(day) {
     const m = ARCH[a]; if (!m) return '';
     return `<span style="font-size:0.62rem;border:1px solid ${m[2]};border-radius:4px;padding:0 4px;color:${m[2]};margin-left:3px">${t(m[0], m[1])}</span>`;
   };
+  // 🗂️ Secondary Watchlist —— 内容先存起来，放到页面最后
+  let secondaryHtml = '';
   if (suspended.length) {
-    html += `<h2 style="margin-top:0.5rem">🗂️ ${t('二级观察名单 · Secondary Watchlist','Secondary Watchlist')}（${suspended.length}）</h2>`;
-    html += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
+    secondaryHtml += `<h2 style="margin-top:1rem">🗂️ ${t('二级观察名单 · Secondary Watchlist','Secondary Watchlist')}（${suspended.length}）</h2>`;
+    secondaryHtml += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
           + t('被移出主 watchlist、停止买卖信号,两种原因:①周线跌破150MA(每日检测;每周复查,回到周线150MA与20MA上方且连续2季盈利上升才回归);②稳定核心近3年回报低于QQQ(半年复查,回到QQQ之上才回归,否则不如直接持有QQQ)。',
               'Removed from the main watchlist (signals paused) for two reasons: (1) weekly close below the 150-week MA (checked daily; returns weekly once back above the 150- & 20-week MAs with 2 rising profitable quarters); (2) a stable-core name whose 3-yr return trails QQQ (reviewed semiannually; returns once it beats QQQ again).')
           + `</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0.4rem">`;
     for (const s of suspended) {
-      html += `<span style="border:1px solid var(--border);border-left:3px solid var(--red);border-radius:8px;padding:5px 10px;font-size:0.9rem">`
+      secondaryHtml += `<span style="border:1px solid var(--border);border-left:3px solid var(--red);border-radius:8px;padding:5px 10px;font-size:0.9rem">`
             + `<b>${escHtml(s.ticker)}</b> ${srcBadge(s.source)} `
             + `<span style="color:var(--muted);font-size:0.8rem">${escHtml(s.detail || s.reason || '')}</span></span>`;
     }
-    html += `</div>`;
+    secondaryHtml += `</div>`;
   }
 
-  // 📝 watchlist 变更日志（近期自动增删/暂停/恢复）
+  // 📝 watchlist 变更日志 —— 同样放到最后
   const wlc = m.wl_changes || [];
+  let changelogHtml = '';
   if (wlc.length) {
-    const actCn = { add: '➕ 加入', remove: '➖ 移除', suspend: '⏸️ 暂停', resume: '▶️ 恢复' };
-    const actEn = { add: '➕ Added', remove: '➖ Removed', suspend: '⏸️ Suspended', resume: '▶️ Resumed' };
-    html += `<details style="margin:0.3rem 0 0.5rem"><summary style="cursor:pointer;font-size:0.9rem;color:var(--muted)">📝 ${t('watchlist 变更日志','Watchlist change log')}（${wlc.length}）</summary>`;
-    html += `<div style="max-height:220px;overflow-y:auto;margin-top:0.3rem;font-size:0.8rem">`;
+    const actCn = { add: '➕ 加入', remove: '➖ 移除', suspend: '⏸️ 暂停', resume: '▶️ 恢复', reclassify: '🏷️ 重新分档' };
+    const actEn = { add: '➕ Added', remove: '➖ Removed', suspend: '⏸️ Suspended', resume: '▶️ Resumed', reclassify: '🏷️ Reclassified' };
+    changelogHtml += `<details style="margin:0.5rem 0"><summary style="cursor:pointer;font-size:0.9rem;color:var(--muted)">📝 ${t('watchlist 变更日志','Watchlist change log')}（${wlc.length}）</summary>`;
+    changelogHtml += `<div style="max-height:220px;overflow-y:auto;margin-top:0.3rem;font-size:0.8rem">`;
     for (const e of wlc) {
       const act = (currentNewsLang === 'en' ? actEn : actCn)[e.action] || e.action;
-      html += `<div style="padding:3px 0;border-bottom:0.5px solid var(--border)">`
+      changelogHtml += `<div style="padding:3px 0;border-bottom:0.5px solid var(--border)">`
             + `<span style="color:var(--muted)">${escHtml(e.date||'')}</span> ${act} `
             + `<b>${escHtml(e.ticker||'')}</b> ${srcBadge(e.source)} `
             + `<span style="color:var(--muted)">${escHtml(e.reason||'')}</span></div>`;
     }
-    html += `</div></details>`;
+    changelogHtml += `</div></details>`;
   }
 
-  // 📢 近一周买卖信号
+  // 📢 近一周买卖信号 —— 按分档分组
   const recent = m.recent || [];
   const rdays = m.recent_days || 7;
   html += `<h2 style="margin-top:0.4rem">${t(`📢 近${rdays}天买卖信号（${recent.length}）`, `📢 Signals in last ${rdays}d (${recent.length})`)}</h2>`;
   if (recent.length) {
-    html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0.4rem 0 0.2rem">';
-    for (const x of recent) {
-      const col = sigColor[x.type] || 'var(--muted)';
-      const lab = sigCn[x.type] || x.type;
-      const prev = (x.prev_type && x.prev_date)
-        ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
-        : '';
-      const ab = archBadge(x.archetype);
-      html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
-            + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
-            + `<b>${escHtml(x.ticker)}</b>${ab ? ' ' + ab : ''} <span style="color:${col}">${lab}</span> `
-            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}</span>`;
+    const GORDER = ['成长性核心', '稳定核心', '趋势成长', '题材投机', '其它'];
+    const GLABEL = { '成长性核心': ['🟢 成长核心','🟢 Growth-core'], '稳定核心': ['🔵 稳定核心','🔵 Stable-core'],
+                     '趋势成长': ['🟡 趋势成长','🟡 Trend'], '题材投机': ['🔴 题材投机','🔴 Speculative'], '其它': ['⚪ 其它/ETF','⚪ Other'] };
+    const groups = {}; GORDER.forEach(g => groups[g] = []);
+    for (const x of recent) groups[GORDER.includes(x.archetype) ? x.archetype : '其它'].push(x);
+    for (const g of GORDER) {
+      const items = groups[g];
+      if (!items.length) continue;
+      html += `<div style="font-size:0.82rem;font-weight:600;margin:0.5rem 0 0.15rem">${t(GLABEL[g][0], GLABEL[g][1])}（${items.length}）</div>`;
+      html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0.2rem">';
+      for (const x of items) {
+        const col = sigColor[x.type] || 'var(--muted)';
+        const lab = sigCn[x.type] || x.type;
+        const prev = (x.prev_type && x.prev_date)
+          ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
+          : '';
+        html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
+              + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
+              + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
+              + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}</span>`;
+      }
+      html += '</div>';
     }
-    html += '</div>';
   } else {
     html += `<p style="color:var(--muted)">${t('近一周无新的买入/卖出翻转。', 'No new buy/sell flips in the last week.')}</p>`;
   }
@@ -1477,6 +1489,8 @@ function renderMaSignal(day) {
         + '🟡<b>Trend</b> / 🔴<b>Speculative</b> = Strategy C, clears on <b>MA50&lt;MA150</b>: buy = MA20&gt;MA50 &amp; ST↑; death cross trims half; clear on MA50&lt;MA150 or (close&lt;MA150 &amp; red≥3), else 🟡Hold.<br>'
         + 'Red-lights from the 6-factor gate on the Structure page. ETF weekly, stocks/leveraged daily. ⚠️ Not investment advice.';
   html += `<p style="color:var(--muted);font-size:0.8rem;margin-top:0.6rem">${_en ? noteEN : noteCN}</p>`;
+  // 页面最后：Secondary Watchlist + 变更日志
+  html += secondaryHtml + changelogHtml;
   html += '</div></div>';
   el.innerHTML = html;
 }
