@@ -243,6 +243,7 @@ def _compute(ticker: str, bars: dict) -> dict:
     ma_gap_pct = round((ma20 / ma50 - 1) * 100, 2) if ma50 else 0.0
     # MA150 地板（历史不足 150 根则为 None，不触发清仓）
     ma150 = round(float(np.mean(close[-MA_LONG:])), 2) if len(close) >= MA_LONG else None
+    ma200 = round(float(np.mean(close[-200:])), 2) if len(close) >= 200 else None
     last_close = float(close[-1])
 
     st = calc_supertrend(calc, period=ST_PERIOD, multiplier=ST_MULTIPLIER)
@@ -289,8 +290,10 @@ def _compute(ticker: str, bars: dict) -> dict:
         "ma20":       ma20,
         "ma50":       ma50,
         "ma150":      ma150,
+        "ma200":      ma200,
         "below_ma150": below150,
         "ma50_below_ma150": ma_cross,
+        "ma50_below_ma200": (ma200 is not None and ma50 < ma200),
         "ma_gap_pct": ma_gap_pct,
         "st_dir":     st_dir,
         "st_value":   st_value,
@@ -306,6 +309,39 @@ def analyze(ticker: str, cache: dict) -> dict:
     if bars is None:
         return {"ticker": ticker, "signal": "NO_DATA"}
     return _compute(ticker, bars)
+
+
+def archetype_signal(r: dict, arch: str, votes) -> tuple:
+    """按分档给出差异化买卖信号，返回 (signal, rule_label)。
+       稳定核心 = 买入持有(不出卖出信号)；成长核心 = 策略C 但清仓用 MA50<MA200；
+       趋势成长/题材投机/其它 = 策略C(清仓 MA50<MA150)。"""
+    ma20, ma50, ma150, ma200 = r.get("ma20"), r.get("ma50"), r.get("ma150"), r.get("ma200")
+    price = r.get("price")
+    st_up = r.get("st_dir") == "UP"; st_dn = r.get("st_dir") == "DOWN"
+    below150 = r.get("below_ma150")
+    if ma150 is None or ma50 is None:
+        return r.get("signal_c"), "策略C"                       # 历史不足 → 退回策略C
+
+    if arch == "稳定核心":                                       # 买入持有：只出买/持有，不出卖
+        if ma50 > ma150 and not below150:
+            return ("BUY" if (price is not None and price <= ma50) else "HOLD"), "买入持有"
+        return "NEUTRAL", "买入持有"
+
+    if arch == "成长性核心":
+        clear = (ma200 is not None and ma50 < ma200) or (below150 and (votes is None or votes >= C_RED_THRESHOLD))
+        rule = "策略C·50×200"
+    else:                                                        # 趋势成长 / 题材投机 / 其它
+        clear = (ma50 < ma150) or (below150 and (votes is None or votes >= C_RED_THRESHOLD))
+        rule = "策略C·50×150"
+    if clear:
+        return "SELL_ALL", rule
+    if ma20 < ma50 and st_dn:
+        return "SELL_HALF", rule
+    if ma20 > ma50 and st_up and not below150:
+        return "BUY", rule
+    if below150:
+        return "HOLD", rule
+    return "NEUTRAL", rule
 
 
 def _supertrend_series(df, period: int = ST_PERIOD, multiplier: float = ST_MULTIPLIER):
@@ -514,6 +550,8 @@ def build_recent(rows: list, today: str, days: int = RECENT_DAYS) -> list:
                 "price":     r.get("price"),
                 "signal":    r.get("signal"),   # 当前状态（旧策略A）
                 "signal_c":  r.get("signal_c"), # 策略C 当前建议
+                "signal_arch": r.get("signal_arch"),
+                "archetype": r.get("archetype"),
                 "below_ma150": r.get("below_ma150"),
                 "prev_type": prev["type"] if prev else None,   # 上次信号类型
                 "prev_date": prev["date"] if prev else None,   # 上次信号时间
@@ -540,17 +578,17 @@ def save_web(rows: list, today: str, recent: list, suspended: list = None):
         except Exception:
             data = {}
 
-    counts = {"buy": 0, "sell_half": 0, "sell_all": 0, "neutral": 0, "no_data": 0}
+    counts = {"buy": 0, "sell_half": 0, "sell_all": 0, "hold": 0, "neutral": 0, "no_data": 0}
     _cmap = {"BUY": "buy", "SELL_HALF": "sell_half", "SELL_ALL": "sell_all",
-             "NEUTRAL": "neutral", "NO_DATA": "no_data"}
+             "HOLD": "hold", "NEUTRAL": "neutral", "NO_DATA": "no_data"}
     for r in rows:
-        counts[_cmap.get(r["signal"], "no_data")] += 1
+        counts[_cmap.get(r.get("signal_arch", r.get("signal")), "no_data")] += 1
 
     payload = {
         "date":    today,
         "updated": _now_cst(),
-        "rule":    "BUY = MA20>MA50 且 ST(10,4)↑（全仓）；SELL_HALF = MA20<MA50 且 ST↓（死叉减半）；"
-                   "SELL_ALL = 收盘<MA150（跌破150均线清仓）。ETF 周线，个股/杠杆ETF 日线。",
+        "rule":    "按分档差异化：稳定核心=买入持有(MA50>MA150且价格>150MA买/回调≤MA50加仓，不卖，交给周线闸门)；"
+                   "成长核心=策略C但清仓用 MA50<MA200；趋势成长/题材=策略C 清仓 MA50<MA150(跌破150MA红灯≥3清，红灯<3扛)。",
         "counts":  counts,
         "recent":  recent,
         "recent_days": RECENT_DAYS,
@@ -636,11 +674,15 @@ def run(dry_run: bool = False):
             log.info(f"  {t:<6} [{res.get('tf','')}] {res['signal']:<8} ${res['price']}  "
                      f"MA20 {res['ma20']} / MA50 {res['ma50']}  ST{res['st_dir']}")
 
-    # 来源标记（筛选/自选）+ 已暂停清单（周线破200MA）+ 个股分档
+    # 来源标记（筛选/自选）+ 已暂停清单（周线破150MA）+ 个股分档 + 分档差异化信号
     src_map, suspended, class_map = watchlist_meta()
     for r in rows:
         r["source"] = src_map.get(r.get("ticker"), "manual")
         r["archetype"] = class_map.get(r.get("ticker"))
+        if r.get("signal") == "NO_DATA":
+            r["signal_arch"], r["rule"] = "NO_DATA", ""
+        else:
+            r["signal_arch"], r["rule"] = archetype_signal(r, r.get("archetype"), GATE_VOTES)
 
     rows.sort(key=lambda r: (_SIG_ORDER.get(r["signal"], 9), -(r.get("ma_gap_pct") or -999)))
     recent = build_recent(rows, today)

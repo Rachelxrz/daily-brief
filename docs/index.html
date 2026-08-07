@@ -1327,11 +1327,12 @@ function renderMaSignal(day) {
 
   let html = '<div class="report-card"><div class="report-card-body"><div class="md">';
   html += `<h1>${t('🔀 均线买卖信号', '🔀 MA Buy/Sell Signals')}</h1>`;
-  const ruleTxt = t('买入=MA20>MA50 且 ST(10,4)↑（全仓）；减半=死叉；清仓=收盘跌破 MA150。ETF 周线，个股/杠杆ETF 日线。',
-                    'Buy = MA20>MA50 & ST(10,4)↑ (full); Trim ½ = death cross; Exit = close below MA150. ETF weekly, stocks/leveraged-ETF daily.');
-  html += `<p style="color:var(--muted)">${escHtml(ruleTxt)}</p>`;
+  const ruleTxt = t('信号按每只股票的分档差异化：🔵稳定核心=买入持有(MA50>MA150且价格>150MA买，回调≤MA50加仓，不出卖出信号，止损交给周线闸门)；🟢成长核心=策略C但清仓用 MA50<MA200；🟡趋势成长/🔴题材=策略C，清仓 MA50<MA150(跌破150MA红灯≥3清，红灯<3扛住)。',
+                    'Signals differ by each stock’s tier: 🔵Stable-core = buy&hold (buy when MA50>MA150 & price>150MA, add on pullback ≤MA50, no sell — exit handled by the weekly gate); 🟢Growth-core = Strategy C but clears on MA50<MA200; 🟡Trend/🔴Speculative = Strategy C, clears on MA50<MA150 (below 150MA: clear if red≥3, else hold).');
+  html += `<p style="color:var(--muted);font-size:0.86rem">${escHtml(ruleTxt)}</p>`;
   html += `<p style="color:var(--muted)">${t('更新', 'Updated')}：${escHtml(m.updated || '')} · `
         + `<span style="color:var(--green)">${t('买入', 'Buy')} ${c.buy||0}</span> · `
+        + `<span style="color:var(--gold)">${t('持有', 'Hold')} ${c.hold||0}</span> · `
         + `<span style="color:var(--amber)">${t('减半', 'Trim')} ${c.sell_half||0}</span> · `
         + `<span style="color:var(--red)">${t('清仓', 'Exit')} ${c.sell_all||0}</span> · `
         + `${t('无信号', 'None')} ${c.neutral||0}${c.no_data ? ' · ' + t('数据不足', 'No data') + ' ' + c.no_data : ''}</p>`;
@@ -1394,23 +1395,6 @@ function renderMaSignal(day) {
     html += `</div></details>`;
   }
 
-  // 🔀 策略C 与旧策略分歧(全部标的,不限7天)——最有价值:旧清仓 vs C减半/持有
-  const diverge = (m.tickers || []).filter(r => r.signal_c && r.signal && r.signal_c !== r.signal && r.signal !== 'NO_DATA');
-  if (diverge.length) {
-    html += `<h2 style="margin-top:0.5rem">🔀 ${t('策略C 与旧策略分歧','Strategy C differs from old')}（${diverge.length}）</h2>`;
-    html += `<p style="color:var(--muted);font-size:0.82rem;margin:0.1rem 0 0.3rem">`
-          + t('这些标的旧策略与C不同（多为：价格已跌破150MA、旧策略🔴清仓，但 MA50 未跌破 150 或红灯<3，C 建议先减半/持有，别急着清）',
-              'Old strategy vs C differs here (usually: price already below MA150 → old 🔴Exit, but MA50 still above 150 or red-lights<3 → C suggests Trim/Hold instead)')
-          + `</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0.4rem">`;
-    for (const r of diverge) {
-      html += `<span style="border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:0.9rem">`
-            + `<b>${escHtml(r.ticker)}</b> `
-            + `<span style="color:${sigColor[r.signal]||'var(--muted)'}">${sigCn[r.signal]||r.signal}</span> → `
-            + `<b style="color:${sigColor[r.signal_c]||'var(--muted)'}">${sigCn[r.signal_c]||r.signal_c}</b></span>`;
-    }
-    html += `</div>`;
-  }
-
   // 📢 近一周买卖信号
   const recent = m.recent || [];
   const rdays = m.recent_days || 7;
@@ -1423,28 +1407,11 @@ function renderMaSignal(day) {
       const prev = (x.prev_type && x.prev_date)
         ? ` <span style="color:var(--muted);font-size:0.8rem">· ${t('上次','prev')} <span style="color:${sigColor[x.prev_type]||'var(--muted)'}">${sigCn[x.prev_type]||x.prev_type}</span> ${escHtml(x.prev_date)}</span>`
         : '';
-      // 策略C 建议(与当前旧信号不同时高亮)：说明「红灯 gv<阈值 → C 不清仓，维持上次建议」
-      const cCol = sigColor[x.signal_c] || 'var(--muted)';
-      let cRec = '';
-      if (x.signal_c && x.signal && x.signal_c !== x.signal) {
-        const cLab = `<b style="color:${cCol}">${sigCn[x.signal_c]||x.signal_c}</b>`;
-        const keep = (x.prev_type && x.prev_date && x.signal_c === x.prev_type);
-        const cnBody = (gv != null)
-          ? (keep
-              ? `红灯 <b>${gv}&lt;${cth}</b>，策略C 维持 ${escHtml(x.prev_date)} 的建议：${cLab}`
-              : `红灯 <b>${gv}&lt;${cth}</b>，策略C 建议：${cLab}`)
-          : `策略C：${cLab}`;
-        const enBody = (gv != null)
-          ? (keep
-              ? `Red lights <b>${gv}&lt;${cth}</b> → Strategy C keeps ${escHtml(x.prev_date)} call: ${cLab}`
-              : `Red lights <b>${gv}&lt;${cth}</b> → Strategy C: ${cLab}`)
-          : `Strategy C: ${cLab}`;
-        cRec = `<br><span style="font-size:0.82rem">→ ${t(cnBody, enBody)}</span>`;
-      }
+      const ab = archBadge(x.archetype);
       html += `<span style="border:1px solid var(--border);border-left:3px solid ${col};`
             + `border-radius:8px;padding:5px 10px;font-size:0.9rem">`
-            + `<b>${escHtml(x.ticker)}</b> <span style="color:${col}">${lab}</span> `
-            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}${cRec}</span>`;
+            + `<b>${escHtml(x.ticker)}</b>${ab ? ' ' + ab : ''} <span style="color:${col}">${lab}</span> `
+            + `<span style="color:var(--muted)">${escHtml(x.date)} · ${escHtml(tfTxt(x.tf||''))}</span>${prev}</span>`;
     }
     html += '</div>';
   } else {
@@ -1459,7 +1426,8 @@ function renderMaSignal(day) {
         + `<th>${t('最近两次信号','Last 2 signals')}</th></tr></thead><tbody>`;
 
   for (const r of m.tickers) {
-    const sig = r.signal || 'NO_DATA';
+    const sig = r.signal_arch || r.signal || 'NO_DATA';
+    const ruleHint = r.rule ? `<br><span style="font-size:0.66rem;color:var(--muted)">${escHtml(r.rule)}</span>` : '';
     const tf = r.tf || '';
     if (sig === 'NO_DATA') {
       html += `<tr><td><b>${escHtml(r.ticker)}</b></td>`
@@ -1486,7 +1454,7 @@ function renderMaSignal(day) {
     html += '<tr>'
           + `<td><b>${escHtml(r.ticker)}</b>${r.source === 'screener' ? ' ' + srcBadge('screener') : ''}${archBadge(r.archetype)}</td>`
           + `<td style="color:var(--muted)">${escHtml(tfTxt(tf))}</td>`
-          + `<td style="color:${sigColor[sig]};font-weight:600">${sigCn[sig]}</td>`
+          + `<td style="color:${sigColor[sig]};font-weight:600">${sigCn[sig]}${ruleHint}</td>`
           + `<td>$${(r.price ?? 0).toFixed(2)}</td>`
           + `<td style="color:${r.day_chg >= 0 ? 'var(--green)' : 'var(--red)'}">${dayChg}</td>`
           + `<td>${r.ma20 ?? '—'}</td>`
@@ -1498,17 +1466,15 @@ function renderMaSignal(day) {
           + '</tr>';
   }
   html += '</tbody></table></div>';
-  const noteCN = '<b>信号规则</b>：🟢买入=MA20&gt;MA50 且 ST(10,4)↑（全仓）；🟠减半=MA20&lt;MA50 且 ST↓（死叉，卖一半）。<br>'
-        + '<b>清仓两套口径</b>：<b>旧策略(A)</b> 收盘跌破 <b>MA150</b> 即清仓；'
-        + '<b>策略C(闸门融合·回测更优)</b> = <b>MA50&lt;MA150</b> 清仓，或 收盘&lt;MA150 <b>且</b> 市场结构红灯 ≥3（确认崩盘）清仓——'
-        + '若跌破 MA150 但红灯 &lt;3 只是噪音回调，<b>🟡 继续持有</b>，等 MA50 跌破 MA150 再清。<br>'
-        + '所以近7天里看到"旧🔴清仓 → 策略C🟡持有"，意思是价格虽破150线、但宏观没确认崩盘，C 建议扛住。'
+  const noteCN = '<b>信号按分档差异化</b>（每只股票的类别见名字旁徽章）：<br>'
+        + '🔵<b>稳定核心</b> = <b>买入持有</b>：MA50&gt;MA150 且 价格&gt;150MA 时买入，回调到 ≤MA50 加仓；<b>不出卖出信号</b>，止损交给周线150MA/QQQ闸门（Secondary Watchlist）。<br>'
+        + '🟢<b>成长核心</b> = 策略C，但清仓用 <b>MA50&lt;MA200</b>（更宽，骑久一点）。<br>'
+        + '🟡<b>趋势成长</b> / 🔴<b>题材投机</b> = 策略C，清仓用 <b>MA50&lt;MA150</b>：买入=MA20&gt;MA50且ST↑；死叉减半；MA50&lt;MA150 或（收盘&lt;MA150 且红灯≥3）清仓，红灯&lt;3 则🟡持有。<br>'
         + '红灯数来自「结构监控」页六因子闸门(0-6)。ETF 用<b>周线</b>，个股/杠杆ETF 用<b>日线</b>。⚠️ 仅供参考，不构成投资建议。';
-  const noteEN = '<b>Signals</b>: 🟢Buy = MA20&gt;MA50 &amp; ST(10,4)↑ (full); 🟠Trim ½ = MA20&lt;MA50 &amp; ST↓ (death cross).<br>'
-        + '<b>Two exit rules</b>: <b>Old (A)</b> = sell all once close &lt; <b>MA150</b>. '
-        + '<b>Strategy C (regime hybrid, better in backtest)</b> = sell all when <b>MA50&lt;MA150</b>, OR close&lt;MA150 <b>and</b> red-lights ≥3; '
-        + 'if below MA150 but red-lights &lt;3, it is just noise → <b>🟡 Hold</b> until MA50&lt;MA150.<br>'
-        + '"Old 🔴Exit → C 🟡Hold" means price is below MA150 but the macro gate has not confirmed a crash. '
+  const noteEN = '<b>Signals differ by tier</b> (each stock’s tier shown as a badge by its name):<br>'
+        + '🔵<b>Stable-core</b> = <b>buy&amp;hold</b>: buy when MA50&gt;MA150 &amp; price&gt;150MA, add on pullback ≤MA50; <b>no sell signal</b> — exit handled by the weekly 150MA / QQQ gate (Secondary Watchlist).<br>'
+        + '🟢<b>Growth-core</b> = Strategy C but clears on <b>MA50&lt;MA200</b> (wider, rides longer).<br>'
+        + '🟡<b>Trend</b> / 🔴<b>Speculative</b> = Strategy C, clears on <b>MA50&lt;MA150</b>: buy = MA20&gt;MA50 &amp; ST↑; death cross trims half; clear on MA50&lt;MA150 or (close&lt;MA150 &amp; red≥3), else 🟡Hold.<br>'
         + 'Red-lights from the 6-factor gate on the Structure page. ETF weekly, stocks/leveraged daily. ⚠️ Not investment advice.';
   html += `<p style="color:var(--muted);font-size:0.8rem;margin-top:0.6rem">${_en ? noteEN : noteCN}</p>`;
   html += '</div></div>';
