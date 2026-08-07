@@ -226,49 +226,49 @@
     {
       "ticker": "LLY",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
       "sector": "XLV"
     },
     {
       "ticker": "AXP",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
       "sector": "XLF"
     },
     {
       "ticker": "SCHW",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
       "sector": "XLF"
     },
     {
       "ticker": "MS",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
       "sector": "XLF"
     },
     {
       "ticker": "NVDA",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
-      "sector": "SMH"
+      "sector": "XLK"
     },
     {
       "ticker": "ANET",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "current",
       "sector": "XLK"
     },
     {
       "ticker": "CSCO",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "potential",
       "sector": "XLK"
     },
@@ -310,7 +310,7 @@
     {
       "ticker": "PLTR",
       "added_date": "2026-08-07",
-      "last_seen": "2026-08-07",
+      "last_seen": "2026-08-08",
       "bucket": "potential",
       "sector": "XLK"
     }
