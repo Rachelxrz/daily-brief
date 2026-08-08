@@ -61,10 +61,13 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 - [x] 分析师分框架报告（`research/analyst_frameworks_report.md`）
 - [x] 网页模型总览 + 各家印证
 
-### Phase 1 — 采集与结构化 · Collect & structure（下一步 Next）
-- [ ] 扩充 `analyst_watch` 名单至**机构研究**（GS/JPM/MS/BofA/Apollo 首席）与银行观点。
-- [ ] 为每位补齐结构化字段：`framework(A/B/C)`、`method`、`falsifiable_check`、`horizon`。
-- [ ] 建 `research/registry.jsonl`：一人一档（框架/方法/历史判断/命中记录）。
+### Phase 1 — 采集与结构化 · Collect & structure（进行中 In progress）
+- [x] 建 `research/registry.jsonl`：一人一档,20 位,把「判断→框架→监测方法→**可算代理**→可证伪检查点→对应模型」结构化(双语)。
+- [x] 结构化字段:`framework(A/B/C/bull)`、`primary_framework`、`stance`、`method`、`computable_proxy`、`action`、`maps_to_model`、`check{ticker,check,horizon}`、`tracked`。
+- [x] 加载/查询器 `research/registry.py`（按框架/模型/立场过滤 + 汇总;`load()/by_framework()/by_model()`）。
+- [x] 已覆盖机构研究:GS(Covello)、Apollo(Slok)、JPM(Dimon)、MS(Wilson)、GMO/红杉/Universa 等。
+- [ ] 继续扩充 `analyst_watch` 至更多机构首席(BofA/花旗/大摩经济学家)并回填其 registry 档案。
+- [ ] 把 registry 的 `check` 自动同步进 `analyst_history.jsonl` 的检查点机制。
 
 ### Phase 2 — 框架化建模 · Frameworks → models
 - [ ] **A 估值表**：CAPE / 市值-GDP（巴菲特指标已在 dalio_bubble）/ AI 资本开支 ROI 子信号。
@@ -90,7 +93,7 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 | # | 交付物 Deliverable | 位置 Location |
 |---|---|---|
 | D1 | 分析师分框架报告（滚动） | `research/analyst_frameworks_report.md` |
-| D2 | 分析师/机构档案库 | `research/registry.jsonl`（Phase 1） |
+| D2 | 分析师/机构档案库 + 加载器 | `research/registry.jsonl` + `research/registry.py` ✅ Phase 1 |
 | D3 | 新增框架模型 | 各 `*.py` + `modules/*/spec.md` |
 | D4 | 统一回测框架 + 报告 | `research/backtest.py` + `research/backtests/` |
 | D5 | 预测记分卡 | `prediction_snapshots.jsonl` + 网页 |

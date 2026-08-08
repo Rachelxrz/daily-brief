@@ -2,6 +2,15 @@
 
 系统功能改动记录。watchlist 每日自动增删/暂停的**数据审计**见 `docs/watchlist_changelog.json`（网页「均线信号」页可展开查看）。
 
+
+## 2026-08-08
+
+### 研究课题 Phase 1:分析师档案库 `research/registry.jsonl` + 加载器
+- **`research/registry.jsonl`**:一人一档 20 位(GMO/Hussman/Chanos/Marks/Slok/Covello/Cahn/Buffett · Burry/Spitznagel/Taleb/Einhorn · Dalio/Dimon/Druckenmiller/Edwards/PTJ · Tom Lee/Ives/Wilson),把「判断→框架→监测方法→**可算代理**→可证伪检查点→对应模型」结构化(双语)。字段:framework/primary_framework/stance/method/computable_proxy/action/maps_to_model/check{ticker,check,horizon}/tracked。
+- **`research/registry.py`**:加载/查询器(按 framework/model/stance 过滤 + 汇总;`load()/by_framework()/by_model()`)。
+- 按主框架:A 估值 8 · B 仓位 4 · C 债务 5 · 看多 3;已自动追踪 16/20;映射 dalio_bubble 11 / fragility_gate 6 / macro_gate 1 / 看多制衡 2。
+- `research/README.md` Phase 1 勾选;交付物 D2 完成。
+
 ## 2026-08-07
 
 ### 修复：PR #2 code review（dalio_bubble）+ fragility 面板双语化
