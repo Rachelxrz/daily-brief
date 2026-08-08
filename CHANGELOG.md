@@ -5,6 +5,10 @@
 
 ## 2026-08-08
 
+### 研究项目状态快照 + 已知问题清单(见 research/README §10)
+- 汇总 Phase 0/1/2 已完成部分、Phase 2 剩余与 Phase 3/4/5 未开始项。
+- **已知问题**:①新模型 dalio_bubble/market_breadth 线上尚无数据(需确认下次 Actions 产出);②未回测→阈值未验证(最大方法论空缺);③模型口径多为代理/近似(已在各 spec 标注);④检查点多月精度;⑤名单偏空需防单边;⑥Actions bot 推进 main 造成合并冲突、沙箱封 Yahoo/FRED。
+
 ### 研究课题 Phase 2(开工):市场广度/集中度信号 `market_breadth.py`
 - 把多位分析师**共用**的「内部结构/集中度/拥挤」方法**可计算化**(只用流动 ETF):**Hussman 内部结构一致性 · Slok/Kolanovic 集中度 · Burry 拥挤**。
 - 三信号:`RSP÷SPY` 近3月(等权/市值)、`IWM÷SPY` 近3月(小盘/大盘)、11 板块站上 200 日线的广度;`narrow_score` 0–3(只在有数据的信号里计分)→ 红/黄/绿/muted。
