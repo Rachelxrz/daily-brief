@@ -47,8 +47,10 @@ def perf_stats(returns: pd.Series, rf: float = 0.0) -> dict:
     cagr = float(equity.iloc[-1] ** (TRADING_DAYS / n) - 1.0)
     vol = float(r.std(ddof=0) * np.sqrt(TRADING_DAYS))
     sharpe = float((r.mean() * TRADING_DAYS - rf) / vol) if vol > 0 else float("nan")
+    # 回撤须含初始本金 1.0 为首个峰值,否则首日下跌会被当成起点而漏计
+    eq_with_base = pd.concat([pd.Series([1.0]), equity.reset_index(drop=True)], ignore_index=True)
     return {"cagr": round(cagr, 4), "vol": round(vol, 4),
-            "sharpe": round(sharpe, 3), "maxdd": round(max_drawdown(equity), 4), "days": n}
+            "sharpe": round(sharpe, 3), "maxdd": round(max_drawdown(eq_with_base), 4), "days": n}
 
 
 def backtest(prices: pd.Series, weight: pd.Series, lag: int = 1, rf_daily: float = 0.0) -> dict:
@@ -56,7 +58,10 @@ def backtest(prices: pd.Series, weight: pd.Series, lag: int = 1, rf_daily: float
     weight 按 lag 滞后执行(无前视);未投资部分按 rf_daily(默认 0)计。"""
     prices = prices.astype(float).dropna()
     rets = prices.pct_change()
-    w = weight.reindex(prices.index).ffill().shift(lag).clip(0, 1).fillna(0.0)
+    # 先在「信号日∪价格日」的并集上 ffill,再取价格日 —— 否则落在非交易日(如周末的月度宏观观测)的
+    # 稀疏权重更新会被 reindex 直接丢弃、永不生效。
+    w = (weight.reindex(weight.index.union(prices.index)).ffill()
+               .reindex(prices.index).shift(lag).clip(0, 1).fillna(0.0))
     strat_r = (w * rets + (1 - w) * rf_daily).dropna()
     bh_r = rets.dropna()
 
@@ -89,11 +94,14 @@ def event_eval(prices: pd.Series, risk_off: pd.Series, fwd: int = 63) -> dict:
     fwd_ret = prices.shift(-fwd) / prices - 1.0
     # 前瞻窗口内最大回撤(相对起点)
     fwd_dd = pd.Series(index=prices.index, dtype=float)
-    vals = prices.values
+    vals = prices.values.astype(float)
     for i in range(len(prices)):
         window = vals[i:i + fwd + 1]
         if len(window) >= 2:
-            fwd_dd.iloc[i] = float(window.min() / window[0] - 1.0)
+            # 窗口内真·峰谷回撤(相对滚动峰值),而非仅和起点比 ——
+            # 否则「涨后再崩但没跌破起点」(如 100→150→105)会被漏计。
+            running_peak = np.maximum.accumulate(window)
+            fwd_dd.iloc[i] = float((window / running_peak - 1.0).min())
     on = ro & fwd_ret.notna()
     off = (~ro) & fwd_ret.notna()
     n_on = int(on.sum())
@@ -108,9 +116,10 @@ def event_eval(prices: pd.Series, risk_off: pd.Series, fwd: int = 63) -> dict:
     arr = ro.values
     for i in range(len(arr)):
         if arr[i] and (i == 0 or not arr[i - 1]):        # 一段示警的起点
-            window = vals[i:i + fwd + 1]
-            if len(window) >= 2:
-                leads.append(int(np.argmin(window)))
+            # 仅计有**完整 fwd+1 窗口**的示警段;末尾被右删失(截断)的段不计,
+            # 否则会把「当前已观察到的最低点」误当成完成的低点,把领先时间拉短。
+            if i + fwd < len(vals):
+                leads.append(int(np.argmin(vals[i:i + fwd + 1])))
     lead = float(np.mean(leads)) if leads else float("nan")
 
     return {
