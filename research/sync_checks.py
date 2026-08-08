@@ -3,9 +3,11 @@
 research/sync_checks.py — 把 registry.jsonl 的可证伪 check 物化成「带绝对到期日」的检查点,
 写入 research/registry_checks.jsonl(预测记账台账,供 Phase 3 回测 / Phase 4 打分)。
 
-- 到期日 = 该人 registry 的 `latest`(YYYY-MM)+ `horizon` 换算的月数。
+- 到期日 = 该人 registry 的**确切发言日** `stated_date`(YYYY-MM-DD)+ `horizon` 换算月数,**保留发言日的「日」**
+  (确切日已知的标 `date_precision:day`,如 Burry 2026-08-04;仅知月份的锚到当月 1 号并标 `month`)。
 - horizon 解析:"3m"→3、"6-12m"→取上界12、"12-24m"→24、"long"/"open"→24(默认)。
 - 确定性(不依赖当前时间),完全可复现;与 analyst_history 的策展记录分离,不污染网页分析师板。
+  用确切日 → 与 analyst_history 已有的同一预测**同日**,`checks_due()` 据 (analyst,date,ticker,check) 去重,不会重复计。
 
 用法:
   python research/sync_checks.py            # 生成/刷新 registry_checks.jsonl 并打印汇总
@@ -14,7 +16,7 @@ research/sync_checks.py — 把 registry.jsonl 的可证伪 check 物化成「�
 import argparse
 import json
 import re
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 BASE = Path(__file__).parent
@@ -51,27 +53,35 @@ def _horizon_months(h: str) -> int:
     return max(nums)          # 区间(如 6-12m / 12-24m)取上界
 
 
-def _add_months(y: int, m: int, n: int) -> date:
-    """YYYY-MM 的 15 号 + n 个月(月末安全,统一取 15 号避免跨月边界)。"""
-    total = (y * 12 + (m - 1)) + n
+def _add_months_keepday(d: date, n: int) -> date:
+    """d + n 个月,保留原「日」(月末安全:如 1/31 + 1m → 2/28)。"""
+    total = (d.year * 12 + (d.month - 1)) + n
     ny, nm = total // 12, total % 12 + 1
-    return date(ny, nm, 15)
+    day = d.day
+    # 回退到该月最后一个合法日
+    while True:
+        try:
+            return date(ny, nm, day)
+        except ValueError:
+            day -= 1
 
 
-def _check_date(latest: str, horizon: str) -> str:
-    """latest 'YYYY-MM' + horizon → 'YYYY-MM-DD'。latest 缺失/异常返回空串。"""
-    m = re.fullmatch(r"(\d{4})-(\d{1,2})", (latest or "").strip())
+def _check_date(stated_date: str, horizon: str):
+    """从**确切发言日** stated_date 'YYYY-MM-DD' + horizon 计算到期日,保留发言日的「日」。
+    返回 'YYYY-MM-DD';stated_date 异常返回空串。"""
+    m = re.fullmatch(r"(\d{4})-(\d{1,2})-(\d{1,2})", (stated_date or "").strip())
     if not m:
         return ""
-    y, mo = int(m.group(1)), int(m.group(2))
-    return _add_months(y, mo, _horizon_months(horizon)).isoformat()
+    d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    return _add_months_keepday(d, _horizon_months(horizon)).isoformat()
 
 
 def build() -> list:
     rows = []
     for r in _load_registry():
         c = r.get("check", {})
-        cd = _check_date(r.get("latest", ""), c.get("horizon", ""))
+        stated = r.get("stated_date", "")
+        cd = _check_date(stated, c.get("horizon", ""))
         if not cd:
             continue
         rows.append({
@@ -79,10 +89,12 @@ def build() -> list:
             "framework": r.get("primary_framework"), "stance": r.get("stance"),
             "maps_to_model": r.get("maps_to_model"),
             "ticker": c.get("ticker", ""),
+            # 与 analyst_history 对齐的键:用 check_cn 作为 "check",便于统一去重
+            "check": c.get("check_cn", ""),
             "check_cn": c.get("check_cn", ""), "check_en": c.get("check_en", ""),
             "horizon": c.get("horizon", ""),
-            "stated": r.get("latest", ""), "check_date": cd,
-            "source": "registry",
+            "stated": stated, "date_precision": r.get("date_precision", "month"),
+            "check_date": cd, "source": "registry",
         })
     rows.sort(key=lambda x: x["check_date"])
     return rows

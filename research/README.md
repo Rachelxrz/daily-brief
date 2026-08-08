@@ -66,7 +66,7 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 - [x] 结构化字段:`framework(A/B/C/bull)`、`primary_framework`、`stance`、`method`、`computable_proxy`、`action`、`maps_to_model`、`check{ticker,check,horizon}`、`tracked`。
 - [x] 加载/查询器 `research/registry.py`（按框架/模型/立场过滤 + 汇总;`load()/by_framework()/by_model()`）。
 - [x] 已覆盖机构研究:GS(Covello)、Apollo(Slok)、JPM(Dimon)、MS(Wilson)、GMO/红杉/Universa 等。
-- [x] 把 registry 的 `check` **物化为带绝对到期日的台账**:`research/sync_checks.py` → `research/registry_checks.jsonl`(latest+horizon 换算,确定性,不污染网页分析师板);`registry.checks_due()` 统一合并「analyst_history + registry 台账」两源并去重。
+- [x] 把 registry 的 `check` **物化为带绝对到期日的台账**:`research/sync_checks.py` → `research/registry_checks.jsonl`(**确切发言日 `stated_date`** + horizon,保留发言日的「日」,`date_precision` 标 day/month,确定性,不污染网页分析师板);`registry.checks_due()` 统一合并「analyst_history + registry 台账」两源,按 (analyst,date,ticker,**check 文本**) 去重(保留同人同日的不同/相反预测)。
 - [x] 扩充机构首席:新增 **Michael Hartnett(BofA · Bull & Bear Indicator)** 入 registry + analyst_watch(21 人)。
 - [ ] 继续扩充更多机构首席(花旗/大摩/德银经济学家)并回填 registry。
 

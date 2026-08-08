@@ -85,13 +85,16 @@ def checks_due(today: str = None, recs=None) -> list:
             continue
         analyst = h.get("analyst")
         ticker = h.get("ticker")
-        key = (analyst, cd, ticker)
+        check_text = h.get("check") or h.get("check_cn") or ""
+        # 键含 check 文本:同一人/同日/同标的可能有多条不同(甚至相反)的预测,
+        # 只按 (analyst,date,ticker) 去重会静默丢弃这些不同判断。含 check 才只折叠真正重复项。
+        key = (analyst, cd, ticker, check_text)
         if key in seen:
             continue
         seen.add(key)
         out.append({
             "analyst": analyst, "check_date": cd, "ticker": ticker,
-            "check": h.get("check") or h.get("check_cn"),
+            "check": check_text or None,
             "framework": h.get("framework") or reg.get(analyst, {}).get("primary_framework"),
             "source": src,
         })
