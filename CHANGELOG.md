@@ -5,6 +5,11 @@
 
 ## 2026-08-08
 
+### 研究课题 Phase 2(开工):市场广度/集中度信号 `market_breadth.py`
+- 把多位分析师**共用**的「内部结构/集中度/拥挤」方法**可计算化**(只用流动 ETF):**Hussman 内部结构一致性 · Slok/Kolanovic 集中度 · Burry 拥挤**。
+- 三信号:`RSP÷SPY` 近3月(等权/市值)、`IWM÷SPY` 近3月(小盘/大盘)、11 板块站上 200 日线的广度;`narrow_score` 0–3(只在有数据的信号里计分)→ 红/黄/绿/muted。
+- 与三体制正交,印证 `fragility_gate`(B 仓位)与 `dalio_bubble` 内部(A 估值)。写入 `data.json` 的 `market_breadth`;网页 `renderMarketBreadth()`(达利欧面板下方,中英双语);接入 `daily_brief.yml`+`macro_gate.yml`(排 dalio 之后)。合成测试狭窄/健康/中性/空数据全过。规格见 `modules/market_breadth/`。
+
 ### 研究课题 Phase 1(续):检查点台账 + 统一到期查询 + BofA 入库
 - **`research/sync_checks.py` → `research/registry_checks.jsonl`**:把 registry 每条 `check` 物化为**带绝对到期日**的检查点(`latest`+`horizon` 换算,区间取上界,long/open 默认 24m),确定性可复现;作为 Phase 4 预测记账台账,**不污染网页分析师板**。
 - **`registry.checks_due()` 升级**:统一合并「`analyst_history.jsonl` 策展/自动记录 + `registry_checks.jsonl` 台账」两源,按 (analyst, check_date, ticker) 去重;`--due` CLI。

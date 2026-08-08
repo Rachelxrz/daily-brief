@@ -366,6 +366,9 @@ jobs:
       - name: Run 达利欧泡沫指标 + 货币收紧扳机
         run: python dalio_bubble.py
         continue-on-error: true
+      - name: Run 市场广度/集中度信号（Phase 2）
+        run: python market_breadth.py
+        continue-on-error: true
       - name: Run 板块强弱·资金流向面板
         run: python sector_board.py
         continue-on-error: true

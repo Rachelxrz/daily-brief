@@ -32,6 +32,9 @@ jobs:
       - name: Run dalio_bubble（达利欧泡沫指标 + 货币收紧扳机）
         run: python dalio_bubble.py
         continue-on-error: true
+      - name: Run market_breadth（市场广度/集中度信号 · Phase 2）
+        run: python market_breadth.py
+        continue-on-error: true
       - name: Commit & push（merge_data 合并,不覆盖其它 job 的数据）
         run: |
           git config user.name  "github-actions[bot]"
