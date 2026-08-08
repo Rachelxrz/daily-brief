@@ -1137,12 +1137,7 @@ function renderFragilityGate(fgd) {
   if (!fgd) return '';
   const en = currentNewsLang === 'en';
   const colMap = { red: 'var(--red)', green: 'var(--green)', amber: 'var(--amber)', muted: 'var(--muted)' };
-  const FF_EN = {
-    'VIX 绝对低位': 'VIX absolute low', '期限结构 VIX3M/VIX': 'Term structure VIX3M/VIX',
-    '实现波动分位(1y)': 'Realized-vol %ile (1y)', 'QQQ 高于 200日线': 'QQQ above 200-DMA',
-    'Burry 篮子 RSI 中位': 'Burry-short basket median RSI',
-  };
-  const ffn = f => en ? (FF_EN[f.name] || f.name) : f.name;
+  const ffn = f => en ? (f.name_en || f.name) : f.name;
   const fCol = colMap[fgd.frag_color] || 'var(--muted)';
   // A) 脆弱性因子网格
   const frows = (fgd.factors || []).map(f =>
@@ -1160,27 +1155,76 @@ function renderFragilityGate(fgd) {
   const trows = (cd.tells || []).map(x => {
     const lm = leanMap[x.lean] || leanMap.neutral;
     return `<tr><td style="white-space:nowrap"><b style="color:${lm[2]}">${en ? lm[1] : lm[0]}</b></td>`
-      + `<td>${escHtml(x.name)}</td><td style="text-align:right;white-space:nowrap">${escHtml(x.value)}</td>`
-      + `<td style="color:var(--muted);font-size:0.82rem">${escHtml(x.why)}</td></tr>`;
+      + `<td>${escHtml(en ? (x.name_en || x.name) : x.name)}</td><td style="text-align:right;white-space:nowrap">${escHtml(en ? (x.value_en || x.value) : x.value)}</td>`
+      + `<td style="color:var(--muted);font-size:0.82rem">${escHtml(en ? (x.why_en || x.why) : x.why)}</td></tr>`;
   }).join('');
   return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
     + `<h1>${t('🔥 脆弱性 / 拥挤度侧栏', '🔥 Fragility / Crowding Sidebar')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('与衰退闸门正交 · 只量化「干柴」不发买卖信号', 'Orthogonal to the recession gate · gauges dry-tinder only, not a trade signal')}</span></h1>`
     // A) 脆弱性评分条
     + `<div style="border:1px solid var(--border);border-left:5px solid ${fCol};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
-    + `<div style="font-size:1.05rem;font-weight:700;color:${fCol}">${escHtml(fgd.frag_label)}</div>`
+    + `<div style="font-size:1.05rem;font-weight:700;color:${fCol}">${escHtml(en ? (fgd.frag_label_en || fgd.frag_label) : fgd.frag_label)}</div>`
     + `<div style="color:var(--muted);margin-top:4px;font-size:0.9rem">${t('脆弱性评分', 'Fragility score')} <b style="color:${fCol}">${fgd.frag_score}/${fgd.frag_max}</b> · ${t('高分=一旦有火星火会烧多大,不预测火星何时来', 'high = how big a fire if a spark hits, not when the spark comes')}</div></div>`
     + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin:8px 0">${frows}</div>`
     // B) 崩盘性质诊断
     + `<h1 style="margin-top:14px">${t('🩺 崩盘性质诊断', '🩺 Crash-Nature Diagnostic')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('即便没预判到,崩的当天读盘面也能判性质', 'even unpredicted, the tape on the day reveals the type')}</span></h1>`
     + `<div style="border:1px solid var(--border);border-left:5px solid ${natCol};border-radius:10px;padding:10px 14px;margin:8px 0">`
-    + `<div style="font-size:0.95rem;color:var(--text)">${escHtml(cd.headline || '')}</div>`
-    + `<div style="margin-top:6px;font-size:1.05rem;font-weight:700;color:${natCol}">${escHtml(cd.nature || '')} `
+    + `<div style="font-size:0.95rem;color:var(--text)">${escHtml((en ? (cd.headline_en || cd.headline) : cd.headline) || '')}</div>`
+    + `<div style="margin-top:6px;font-size:1.05rem;font-weight:700;color:${natCol}">${escHtml((en ? (cd.nature_en || cd.nature) : cd.nature) || '')} `
     + `<span style="font-size:0.85rem;font-weight:400;color:var(--muted)">（${t('机械', 'Mech')} ${cd.mech_score} vs ${t('衰退', 'Reco')} ${cd.reco_score}）</span></div>`
-    + `<div style="color:var(--muted);margin-top:5px;font-size:0.85rem">${renderMd(cd.nature_note || '')}</div></div>`
+    + `<div style="color:var(--muted);margin-top:5px;font-size:0.85rem">${renderMd((en ? (cd.nature_note_en || cd.nature_note) : cd.nature_note) || '')}</div></div>`
     + `<div style="overflow-x:auto"><table class="ma-tbl"><thead><tr>`
     + `<th>${t('倾向', 'Lean')}</th><th>${t('盘面信号', 'Tape tell')}</th><th>${t('读数', 'Read')}</th><th>${t('含义', 'Meaning')}</th></tr></thead>`
     + `<tbody>${trows}</tbody></table></div>`
-    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${escHtml(fgd.note || '')}<br>${t('更新', 'Updated')}：${escHtml(fgd.updated || '')}</p>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${escHtml((en ? (fgd.note_en || fgd.note) : fgd.note) || '')}<br>${t('更新', 'Updated')}：${escHtml(fgd.updated || '')}</p>`
+    + `</div></div></div>`;
+}
+
+// 🫧 达利欧泡沫指标 + 货币收紧扳机（与衰退闸门/脆弱性侧栏正交：泡沫「多大」+「何时被戳破」）
+function renderDalioBubble(db) {
+  if (!db) return '';
+  const en = currentNewsLang === 'en';
+  const colMap = { red: 'var(--red)', amber: 'var(--amber)', green: 'var(--green)', muted: 'var(--muted)' };
+  const bandCol = colMap[db.band_color] || 'var(--muted)';
+  const vCol = colMap[db.verdict_color] || 'var(--muted)';
+  const pct = db.bubble_pct == null ? null : db.bubble_pct;
+  // 6 表网格（带 0–100% 小条）
+  const grows = (db.gauges || []).map(x => {
+    const sc = x.score == null ? null : Math.round(x.score * 100);
+    const bar = sc == null ? '' :
+      `<div style="height:5px;border-radius:3px;background:var(--border);margin-top:4px;overflow:hidden">`
+      + `<div style="height:100%;width:${sc}%;background:${sc >= 80 ? 'var(--red)' : sc >= 60 ? 'var(--amber)' : 'var(--green)'}"></div></div>`;
+    return `<div style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface)">`
+      + `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">`
+      + `<span style="font-size:0.86rem">${escHtml(en ? (x.name_en || x.name) : x.name)}</span>`
+      + `<span style="color:var(--muted);font-size:0.8rem;white-space:nowrap">${escHtml(x.value)}</span></div>`
+      + bar
+      + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${escHtml(en ? (x.detail_en || x.detail) : x.detail)} <span style="opacity:0.7">· ${escHtml(x.src)}</span></div></div>`;
+  }).join('');
+  const p = db.pin || {};
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<h1>${t('🫧 达利欧泡沫指标', '🫧 Dalio Bubble Indicator')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('6 表 + 双针（货币/供给）· 泡沫「多大」与「何时被戳破」', 'six gauges + dual pins (monetary/issuance) · how big, and when it gets pricked')}</span></h1>`
+    // 泡沫读数条
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${bandCol};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
+    + `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">`
+    + `<span style="font-size:1.3rem;font-weight:700;color:${bandCol}">${pct == null ? '—' : pct + '%'}</span>`
+    + `<span style="font-weight:600;color:${bandCol}">${escHtml((en ? (db.band_en || db.band) : db.band) || '')}</span></div>`
+    + (pct == null ? '' : `<div style="height:8px;border-radius:4px;background:var(--border);margin-top:8px;position:relative;overflow:hidden">`
+        + `<div style="height:100%;width:${pct}%;background:${bandCol}"></div>`
+        + `<div style="position:absolute;left:60%;top:0;bottom:0;border-left:1px dashed var(--muted)"></div>`
+        + `<div style="position:absolute;left:80%;top:0;bottom:0;border-left:1px dashed var(--muted)"></div></div>`
+        + `<div style="color:var(--muted);font-size:0.72rem;margin-top:3px">${t('虚线 = 60% 偏高 / 80% 晚期泡沫（1929·2000）门槛', 'dashed = 60% elevated / 80% late-bubble (1929·2000) thresholds')}</div>`)
+    + `</div>`
+    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px;margin:8px 0">${grows}</div>`
+    // 扳机
+    + `<div style="border:1px solid var(--border);border-left:4px solid ${p.on ? 'var(--red)' : 'var(--green)'};border-radius:8px;padding:8px 12px;margin:6px 0">`
+    + `<b>${t('戳破扳机（针）', 'Pin')}：</b><span style="color:${p.on ? 'var(--red)' : 'var(--green)'};font-weight:600">${p.on ? t('ON · 戳破催化剂已现', 'ON · pin present') : t('off · 尚无', 'off · none')}</span> `
+    + `<span style="color:var(--muted);font-size:0.82rem">· ${t('货币针', 'Monetary')} <b style="color:${p.monetary_known === false ? 'var(--muted)' : (p.monetary_on ? 'var(--red)' : 'var(--muted)')}">${p.monetary_known === false ? t('未知·数据缺', 'n.a.') : (p.monetary_on ? 'ON' : 'off')}</b>（${t('联邦基金', 'FF')} ${p.ffr_now ?? '—'}%,6m ${p.ffr_chg_6m == null ? '—' : (p.ffr_chg_6m > 0 ? '+' : '') + p.ffr_chg_6m}；${t('10y实际', '10y real')} ${p.real10_now ?? '—'}%,3m ${p.real10_chg_3m == null ? '—' : (p.real10_chg_3m > 0 ? '+' : '') + p.real10_chg_3m}）`
+    + ` · ${t('供给针', 'Issuance')} <b style="color:${p.issuance_on ? 'var(--red)' : 'var(--muted)'}">${p.issuance_on ? 'ON' : 'off'}</b>（IPO ${p.ipo_pctile ?? '—'}${p.ipo_pctile == null ? '' : '%ile'}${t('，达利欧2026新增', ', Dalio 2026')}）</span></div>`
+    + (db.early_warning ? `<div style="border:1px solid var(--amber);border-radius:8px;padding:6px 12px;margin:6px 0;background:color-mix(in srgb,var(--amber) 10%,transparent);font-size:0.85rem">⚠️ <b>${t('领先对已亮', 'Leading pair lit')}</b>：${t('新买家 + 看多情绪同高 — 达利欧口径下这两表先于综合读数亮起（2021 年即如此）', 'new buyers + bullish sentiment both high — the Dalio leading pair, which lit before the composite in 2021')}</div>` : '')
+    // 判读
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${vCol};border-radius:10px;padding:10px 14px;margin:6px 0">`
+    + `<div style="color:${vCol};font-weight:600">${escHtml((en ? (db.verdict_en || db.verdict) : db.verdict) || '')}</div></div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml((en ? (db.note_en || db.note) : db.note) || '')}<br>${t('更新', 'Updated')}：${escHtml(db.updated || '')}</p>`
     + `</div></div></div>`;
 }
 
@@ -1223,8 +1267,65 @@ function renderSectorBoard(sb) {
   return h;
 }
 
+// 🧭 三体制监测 · 模型总览与使用范围（说明三个正交模型各测什么、何时看、不管什么、如何合用）
+function renderRegimeOverview() {
+  const en = currentNewsLang === 'en';
+  const row = (emoji, name, tests, when, trig, ignores) =>
+    `<tr><td style="white-space:nowrap"><b>${emoji} ${escHtml(name)}</b></td>`
+    + `<td>${escHtml(tests)}</td><td>${escHtml(when)}</td><td>${escHtml(trig)}</td>`
+    + `<td style="color:var(--muted)">${escHtml(ignores)}</td></tr>`;
+  const rows = en ? [
+    row('🚦','macro_gate · Six-factor recession gate','Recession / credit regime (fundamental bear market)','Deciding whether to de-risk QQQ ahead of a recession','≥2 votes sustained ~2 weeks → crash regime → sell QQQ','1987-style flash crashes; how big the bubble is'),
+    row('🔥','fragility_gate · Fragility + crash diagnostic','Positioning/mechanical fragility (1987/Burry type) + the nature of a crash on the day','Gauging "dry tinder"; on a crash day, telling mechanical vs recession','High score = lots of tinder (NOT a trade signal)','Timing; it emits no buy/sell signal; recession itself'),
+    row('🫧','dalio_bubble · Dalio bubble indicator','How big the bubble is + when a monetary "pin" pricks it','Judging late-stage bubble; melt-up vs pop','Bubble high + tightening → pop risk; high + no pin → melt-up first','Recession; single-day flash crashes'),
+  ].join('') : [
+    row('🚦','macro_gate · 六因子衰退闸门','衰退 / 信用体制(基本面熊市)','判断是否清仓 QQQ 以避开衰退熊市','≥2 票连续约2周 → 崩盘体制 → 清仓 QQQ','不管 1987 型闪崩、不管泡沫多大'),
+    row('🔥','fragility_gate · 脆弱性+崩盘诊断','仓位机械脆弱(1987/Burry 型)+ 崩盘当天的性质','评估"干柴"多少;崩盘当天判机械 vs 衰退','高分 = 干柴多(非买卖信号)','不预测时点、不发买卖信号、不管衰退本身'),
+    row('🫧','dalio_bubble · 达利欧泡沫指标','泡沫有多大 + 何时被货币"针"戳破','判断是否晚期泡沫;该融涨还是破裂','泡沫高+货币收紧→破裂风险;高+无针→先融涨','不测衰退、不测单日闪崩'),
+  ].join('');
+  const combineCN = `<b>如何一起用（三者正交、互不混票，任一为绿不代表另两者安全）：</b>`
+    + `<ul style="margin:6px 0 0;padding-left:1.1rem;line-height:1.7">`
+    + `<li><b>全绿</b>：正常持有 / 按 20% 波动率目标定仓。</li>`
+    + `<li><b>达利欧泡沫高 + 无收紧针</b>：达利欧式「先融涨」——分散 + 5–15% 黄金，勿裸空（此时衰退闸门与脆弱性可能仍绿）。</li>`
+    + `<li><b>脆弱性高</b>：留意闪崩「干柴」；真到崩盘当天，用崩盘诊断判性质 → 机械/1987 型（能扛别恐慌割）vs 衰退型（需真减仓）。</li>`
+    + `<li><b>衰退闸门 ≥2 票</b>：衰退主导，清仓 QQQ 优先——这类带衰退的熊市恢复以年计。</li>`
+    + `</ul><p style="margin:6px 0 0">一句话：<b>macro_gate</b> 答「会不会衰退熊」，<b>fragility_gate</b> 答「会不会/是不是机械闪崩」，<b>dalio_bubble</b> 答「泡沫多大、何时破」。</p>`;
+  const combineEN = `<b>How to use together (orthogonal — one being green does not clear the other two):</b>`
+    + `<ul style="margin:6px 0 0;padding-left:1.1rem;line-height:1.7">`
+    + `<li><b>All green</b>: hold normally / size by the 20% vol target.</li>`
+    + `<li><b>Dalio bubble high + no pin</b>: Dalio "melt-up first" — diversify + 5–15% gold, don't naked-short (recession gate & fragility may still be green).</li>`
+    + `<li><b>Fragility high</b>: watch the flash-crash tinder; on a crash day use the diagnostic — mechanical/1987 (sit tight) vs recession (actually de-risk).</li>`
+    + `<li><b>Recession gate ≥2 votes</b>: recession dominates, sell QQQ first — these bears recover over years.</li>`
+    + `</ul><p style="margin:6px 0 0">In one line: <b>macro_gate</b> = "recession bear?", <b>fragility_gate</b> = "mechanical flash-crash?", <b>dalio_bubble</b> = "how big a bubble, and when it pops".</p>`;
+  // 各家印证（2025–2026，按框架分桶，来自专项调研）
+  const voice = (label, col, names) =>
+    `<div style="margin:5px 0"><span style="display:inline-block;background:color-mix(in srgb,${col} 16%,transparent);color:${col};border:1px solid color-mix(in srgb,${col} 40%,transparent);border-radius:5px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-right:6px">${label}</span><span style="font-size:0.85rem">${names}</span></div>`;
+  const voicesCN = `<div style="margin-top:12px"><b>🔎 各家印证 · 谁在同一框架下预警（2025–2026）</b>`
+    + voice('印证 🫧 泡沫读数', 'var(--amber)', 'Grantham(GMO,史上最大泡沫/~70%下行) · Hussman(估值+内部结构,50–70%) · Slok(Apollo,前十~50×PE) · Chanos(AI资本开支&gt;互联网/会计存疑) · Covello(高盛,$1T投入回报不足) · Cahn(红杉,$600B收入缺口) · PTJ(市值/GDP 252%) · Buffett(创纪录$381B现金)')
+    + voice('印证 🫧 货币针/债务', 'var(--blue)', 'Dalio(债务周期末期) · Dimon(债市危机风险) · Druckenmiller(财政失序+流动性抽离) · Edwards(财政主导+通胀)')
+    + voice('印证 🔥 脆弱/1987', 'var(--red)', 'Burry(被动/流动性错配「剧场拥挤、出口未变」,2019即提) · Spitznagel(先狂欢后~80%崩) · Taleb(数十年最脆弱) · Einhorn(被动流「打破价格发现」) · Hussman(内部结构级联)')
+    + voice('看多制衡', 'var(--green)', 'Tom Lee(SPX 2026→7700) · Dan Ives(AI「第三局」,+15%) · Mike Wilson(仓位已出清=买点,同框架反结论)')
+    + `<p style="color:var(--muted);font-size:0.78rem;margin:6px 0 0">⚠️ <b>重机制、轻择时</b>：多位为长期空头,过往择时屡错(Hussman、Grantham 2022 超级泡沫、Kolanovic)——用其机制给模型定性,别据其喊话择时。多桶重叠者(PTJ=估值+债务、Spitznagel/Taleb=仓位机制+债务成因)可视为「同时多框架预警=更强印证」。</p></div>`;
+  const voicesEN = `<div style="margin-top:12px"><b>🔎 Corroborating voices by framework (2025–2026)</b>`
+    + voice('backs 🫧 bubble', 'var(--amber)', 'Grantham (largest bubble/~70% downside) · Hussman (valuation+internals) · Slok (top-10 ~50×PE) · Chanos (AI capex/accounting) · Covello (GS, $1T low ROI) · Cahn (Sequoia $600B gap) · PTJ (mktcap/GDP 252%) · Buffett (record cash)')
+    + voice('backs 🫧 pin/debt', 'var(--blue)', 'Dalio (late debt cycle) · Dimon (bond-crisis risk) · Druckenmiller (fiscal+liquidity) · Edwards (fiscal dominance)')
+    + voice('backs 🔥 fragility/1987', 'var(--red)', 'Burry (passive/illiquidity, "crowded theater, same exit", since 2019) · Spitznagel (blow-off then ~80%) · Taleb (most fragile in decades) · Einhorn (passive "broke price discovery") · Hussman (internals cascade)')
+    + voice('bull ballast', 'var(--green)', 'Tom Lee (SPX 7700) · Dan Ives (AI "3rd inning", +15%) · Mike Wilson (positioning washed out = buy — same lens, opposite call)')
+    + `<p style="color:var(--muted);font-size:0.78rem;margin:6px 0 0">⚠️ <b>Mechanism over timing</b>: several are perma-bears whose past timing missed (Hussman, Grantham 2022, Kolanovic) — use their mechanism to characterize the models, not to time entries. Multi-bucket names (PTJ = valuation+debt; Spitznagel/Taleb = positioning mechanism + debt cause) count as stronger corroboration.</p></div>`;
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧭 三体制监测 · 模型总览与使用范围', '🧭 Three-Regime Monitor · Models & When to Use Them')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）各测什么、何时看、不管什么 + 各家印证', '(expand) what each tests, when to use, what it ignores + corroborating voices')}</span></summary>`
+    + `<div style="overflow-x:auto;margin-top:8px"><table class="ma-tbl"><thead><tr>`
+    + `<th>${t('模型','Model')}</th><th>${t('测什么','Tests')}</th><th>${t('何时看它','When to use')}</th><th>${t('触发/高读数=意味着','Trigger / high reading')}</th><th>${t('它不管','Ignores')}</th></tr></thead>`
+    + `<tbody>${rows}</tbody></table></div>`
+    + `<div style="margin-top:10px;font-size:0.9rem">${en ? combineEN : combineCN}</div>`
+    + `<div style="font-size:0.9rem">${en ? voicesEN : voicesCN}</div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:8px">${t('三模型均不构成投资建议 · 详见 notes/1987型崩盘_vs_六因子闸门.md', 'None of these are investment advice · see notes/1987型崩盘_vs_六因子闸门.md')}</p>`
+    + `</details></div></div></div>`;
+}
+
 function renderMonitor(day) {
   const el = document.getElementById('monitor-content');
+  const overviewHtml = renderRegimeOverview();
   const allDates = Object.keys(allData).sort().reverse();
   // QQQ 六因子体制闸门：取最新一个有 macro_gate 的日期（每交易日盘后生成）
   let gate = day.macro_gate;
@@ -1236,6 +1337,10 @@ function renderMonitor(day) {
   let frag = day.fragility_gate;
   if (!frag) { for (const d of allDates) { if (allData[d].fragility_gate) { frag = allData[d].fragility_gate; break; } } }
   const fragHtml = frag ? renderFragilityGate(frag) : '';
+  // 🫧 达利欧泡沫指标：脆弱性侧栏下方（当日无则回退到最近一期）
+  let dbub = day.dalio_bubble;
+  if (!dbub) { for (const d of allDates) { if (allData[d].dalio_bubble) { dbub = allData[d].dalio_bubble; break; } } }
+  const dbubHtml = dbub ? renderDalioBubble(dbub) : '';
   // 📊 板块强弱面板：结果闸门正下方（当日无则回退到最近一期）
   let sb = day.sector_board;
   if (!sb) { for (const d of allDates) { if (allData[d].sector_board) { sb = allData[d].sector_board; break; } } }
@@ -1246,7 +1351,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = gateHtml + fragHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1256,7 +1361,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = gateHtml + fragHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
@@ -1315,8 +1420,10 @@ function renderAnalysts(day) {
   // 分析师类型标注
   const TYPE = {};
   const setType = (names, l, c) => names.forEach(n => TYPE[n] = { l, c });
-  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic'], t('宏观','Macro'), 'var(--blue)');
+  setType(['Jan Hatzius','Torsten Slok','Mohamed El-Erian','Ed Yardeni','David Rosenberg','Claudia Sahm','Marko Papic','Ray Dalio','Stanley Druckenmiller','Paul Tudor Jones','Jamie Dimon','Albert Edwards'], t('宏观·债务','Macro/Debt'), 'var(--blue)');
   setType(['Dan Ives','Stacy Rasgon','Gene Munster'], t('AI·科技','AI/Tech'), 'var(--gold)');
+  setType(['Jeremy Grantham','John Hussman','Jim Chanos','Howard Marks'], t('估值·泡沫','Valuation'), 'var(--amber)');
+  setType(['Michael Burry','Mark Spitznagel','David Einhorn'], t('逆向·空头','Contrarian'), 'var(--red)');
   setType(['Michael Arone','Mike Wilson','Savita Subramanian','John Stoltzfus','Scott Chronert','Ryan Detrick','Chris Harvey','Sam Stovall','Michael Kantrowitz'], t('策略','Strategy'), 'var(--green)');
 
   const runDate = (a.updated || '').slice(0, 10);

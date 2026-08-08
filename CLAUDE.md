@@ -79,10 +79,17 @@ ETF/宏观: XMMO · IWM · BNO · UTES · REMX · GDX · USD
 - [x] **市场结构监控** — 10个核心指标（GLD/WTI/QQQ/TLT/DXY），3日连续数据表
 - [x] **AI 双语简报** — Claude API 生成中英文投资洞察，推送企业微信
 - [x] **风险分析仪表板** — 每资产 VaR/CVaR/最大回撤/ADX/RSI，相关性矩阵
+- [x] **三体制监测（正交）** — ①`macro_gate` 六因子衰退闸门 ②`fragility_gate` 脆弱性侧栏+崩盘性质诊断（Burry/1987型）③`dalio_bubble` 达利欧泡沫指标+货币收紧扳机（债务周期型）。三者互不混票，见 `notes/1987型崩盘_vs_六因子闸门.md`
 
 ---
 
 ## 🚧 开发中模块
+
+- [ ] **专项研究课题：市场判断 → 可用模型** (`research/`)
+  - 章程与实施计划: `research/README.md`(双语,5 阶段)
+  - 分析师分框架报告: `research/analyst_frameworks_report.md`(双语,A估值/B仓位/C债务)
+  - 目标: 持续收集分析师/机构对金融·证券·经济·货币的判断 → 溯因 → 建模 → **回测 + 预测**
+  - 优先级: **高**(三体制模型的延续与集成)
 
 - [ ] **动态Watchlist管理** (`watchlist_manager.py`)
   - 规格详见: `modules/watchlist/spec.md`
