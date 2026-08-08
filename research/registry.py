@@ -13,9 +13,11 @@ research/registry.py — 分析师/机构档案库的加载与查询(专项研�
 """
 import argparse
 import json
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 REGISTRY_FILE = Path(__file__).parent / "registry.jsonl"
+HISTORY_FILE = Path(__file__).parent.parent / "analyst_history.jsonl"
 
 FRAMEWORK_LABEL = {
     "A": "估值/泡沫 Valuation", "B": "仓位/尾部 Positioning",
@@ -53,6 +55,35 @@ def by_stance(stance: str, recs=None) -> list:
     return [r for r in recs if r.get("stance") == stance]
 
 
+def checks_due(today: str = None, recs=None) -> list:
+    """返回 analyst_history.jsonl 中检查点已到期(check_date <= today)的记录,
+    并关联 registry 里该人的框架。把档案库与其可证伪检查点的到期状态打通。
+    today 缺省用美东当日(YYYY-MM-DD)。"""
+    if today is None:
+        today = datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
+    reg = {r["name"]: r for r in (recs if recs is not None else load())}
+    out = []
+    if not HISTORY_FILE.exists():
+        return out
+    for line in HISTORY_FILE.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            h = json.loads(line)
+        except Exception:
+            continue
+        cd = h.get("check_date")
+        if cd and cd <= today:
+            out.append({
+                "analyst": h.get("analyst"), "check_date": cd,
+                "ticker": h.get("ticker"), "check": h.get("check"),
+                "framework": reg.get(h.get("analyst"), {}).get("primary_framework"),
+            })
+    out.sort(key=lambda x: x["check_date"])
+    return out
+
+
 def summary(recs=None) -> dict:
     recs = recs if recs is not None else load()
     fw, mdl, st, tracked = {}, {}, {}, 0
@@ -85,10 +116,17 @@ def main():
     ap.add_argument("--framework", choices=["A", "B", "C", "bull"], help="按框架过滤")
     ap.add_argument("--model", help="按对应模型过滤(dalio_bubble/fragility_gate/macro_gate/counterweight)")
     ap.add_argument("--stance", choices=["bear", "cautious", "bull"], help="按立场过滤")
+    ap.add_argument("--due", action="store_true", help="列出已到期的检查点(读 analyst_history.jsonl)")
     args = ap.parse_args()
     recs = load()
     if not recs:
         print("registry.jsonl 为空或缺失"); return
+    if args.due:
+        due = checks_due(recs=recs)
+        print(f"已到期检查点:{len(due)} 条")
+        for d in due:
+            print(f"  ⏰ {d['check_date']} · {d['analyst']} [{d.get('framework') or '—'}] {d.get('ticker','')}: {d.get('check','')}")
+        return
     if args.framework:
         recs = by_framework(args.framework, recs)
     if args.model:
