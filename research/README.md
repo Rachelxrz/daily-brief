@@ -125,5 +125,27 @@ yfinance（价格/波动/ETF）· FRED（利率/信用/宏观/GDP/Wilshire）· 
 
 ---
 
+## 10. 当前状态快照与已知问题 · Status Snapshot & Known Issues（2026-08-08）
+
+### ✅ 已完成 Done
+- **Phase 0**：三体制模型 `macro_gate`(衰退闸门) · `fragility_gate`(脆弱+崩盘诊断) · `dalio_bubble`(泡沫 6 表+双针+领先对) —— 全部上线。
+- **Phase 1**：`registry.jsonl`(21 人档案) + `registry.py`(加载/`checks_due`) + `registry_checks.jsonl` + `sync_checks.py`(检查点台账) + 分框架报告 + 机构扩充(BofA)。
+- **Phase 2(开工)**：`market_breadth`(广度/集中度信号 = Hussman/Slok/Kolanovic/Burry 方法可计算化)。
+- 网页：三体制总览+各家印证说明页、各模型双语面板。备忘录 `notes/1987型崩盘_vs_六因子闸门.md`(10 节)。
+
+### ⏳ 未完成 Pending
+- **Phase 2 剩余**：A 估值表(CAPE/AI-ROI) · C 债务信号(私人信贷/期限溢价/DXY) · Burry「薄名字」流动性硬 tell(需全市场成分表)。
+- **Phase 3 回测 `backtest.py`（未开始）** · **Phase 4 预测记分卡（未开始）** · **Phase 5 信念叠加集成（未开始）**。
+
+### ⚠️ 已知问题 Known Issues
+1. **【最该盯】新模型线上尚无数据**：`dalio_bubble` / `market_breadth` 在 `docs/data.json` 里 **0 天**、`fragility_gate` 仅 1 天。需确认下一次定时 Actions 是否成功跑出;若持续为空,排查:①FRED/yfinance 在 Actions 是否受限 ②workflow 是否触发(周末不跑) ③`continue-on-error` 吞掉的报错(看 Actions 日志)。
+2. **未回测 = 阈值未验证**:所有模型的分档/触发线(dalio 60/80、fragility 各阈值、breadth 63日/50%/7板块、K=2/PERSIST=10)**均未经历史验证**,命中率/领先时间/规避回撤全未知 —— 这是最大方法论空缺(待 Phase 3)。
+3. **模型口径为近似/代理**:dalio 表5杠杆=低波动代理(非 FINRA 保证金)、表6=人工档、等权=多指标百分位的近似、供给针=IPO ETF 代理;breadth=ETF 比率(非真·全市场广度)。均已在各 spec 标注。
+4. **检查点多为月精度**:registry 多数 `date_precision=month`;相对表现类 check(如"GLD 跑赢 SPY")需起始价基准,Phase 4 打分器需处理。
+5. **收录偏空**:名单多为长期看空者、过往择时屡错 —— 集成时须防单边看空(重机制轻择时)。
+6. **流程**:每日 Actions bot 推进 `main`(data.json/analyst_history)会造成 PR 合并冲突(已多次手动解);沙箱封 Yahoo/FRED,数据类模型只能 Actions 端到端跑,本地仅合成单测。
+
+---
+
 *本课题为滚动研究，按 Phase 推进；每完成一阶段更新本文件与 `CHANGELOG.md`。*
 *A rolling research project advanced by phase; update this file and `CHANGELOG.md` at each milestone.*
