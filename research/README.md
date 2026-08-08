@@ -76,10 +76,10 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 - [ ] **B 流动性错配**：Burry 成分股日成交额分布「薄名字」计数（需全市场成分表）；被动流反转。
 - [ ] **C 债务/货币**：私人信贷压力、期限溢价、DXY/美债供需，补强货币针。
 
-### Phase 3 — 回测 · Backtest
-- [ ] 建**统一回测框架** `research/backtest.py`：输入信号序列 → 输出命中率/领先时间/规避回撤/Sharpe。
-- [ ] 对每个模型跑样本内 + 样本外；记录并对比（含基准：买入持有 / 六因子闸门）。
-- [ ] 校准阈值（如 dalio 分位锚点、fragility 触发线），避免过拟合（记录被丢弃的尝试）。
+### Phase 3 — 回测 · Backtest（进行中 In progress）
+- [x] 建**统一回测框架** `research/backtest.py`:`perf_stats`(CAGR/vol/Sharpe/MaxDD)、`backtest`(仓位型择时 vs 买入持有 + 规避回撤/敞口/换手,信号按 lag 滞后**无前视**)、`event_eval`(事件型:命中率/判别力/规避回撤/**领先时间**)。合成数据单测锁定指标正确性 + 无前视。
+- [ ] 对每个模型跑样本内 + 样本外(需在 Actions 用历史 FRED/yfinance 重算各模型历史读数,再喂入本框架);记录并对比(基准:买入持有 / 六因子闸门)。
+- [ ] 校准阈值(如 dalio 分位锚点、fragility 触发线),避免过拟合(记录被丢弃的尝试)。
 
 ### Phase 4 — 预测与打分 · Forecast & score
 - [ ] 每个模型产出**带检查点的前瞻判断**，写入 `prediction_snapshots.jsonl`。
@@ -138,8 +138,8 @@ yfinance（价格/波动/ETF）· FRED（利率/信用/宏观/GDP/Wilshire）· 
 - **Phase 3 回测 `backtest.py`（未开始）** · **Phase 4 预测记分卡（未开始）** · **Phase 5 信念叠加集成（未开始）**。
 
 ### ⚠️ 已知问题 Known Issues
-1. **【最该盯】新模型线上尚无数据**：`dalio_bubble` / `market_breadth` 在 `docs/data.json` 里 **0 天**、`fragility_gate` 仅 1 天。需确认下一次定时 Actions 是否成功跑出;若持续为空,排查:①FRED/yfinance 在 Actions 是否受限 ②workflow 是否触发(周末不跑) ③`continue-on-error` 吞掉的报错(看 Actions 日志)。
-2. **未回测 = 阈值未验证**:所有模型的分档/触发线(dalio 60/80、fragility 各阈值、breadth 63日/50%/7板块、K=2/PERSIST=10)**均未经历史验证**,命中率/领先时间/规避回撤全未知 —— 这是最大方法论空缺(待 Phase 3)。
+1. ~~**新模型线上尚无数据**~~ **✅ 已解决(2026-08-08)**:原因不是失败,而是 `dalio_bubble`/`market_breadth` 合并到 main **晚于**当日最后一次定时运行(`macro_gate.yml` 仅周一~五 14–21 UTC)。手动 `workflow_dispatch` 触发后,main 已产出 `dalio_bubble`(72% 偏高·双针 ON)与 `market_breadth`(narrow 0/3·广度健康)。FRED/yfinance 在 Actions 正常 —— 之后定时运行自动保持更新。
+2. **未回测 = 阈值未验证**（Phase 3 引擎已建 `backtest.py`,下一步用它把各模型跑历史）:所有模型的分档/触发线(dalio 60/80、fragility 各阈值、breadth 63日/50%/7板块、K=2/PERSIST=10)**均未经历史验证**,命中率/领先时间/规避回撤全未知 —— 这是最大方法论空缺(待 Phase 3)。
 3. **模型口径为近似/代理**:dalio 表5杠杆=低波动代理(非 FINRA 保证金)、表6=人工档、等权=多指标百分位的近似、供给针=IPO ETF 代理;breadth=ETF 比率(非真·全市场广度)。均已在各 spec 标注。
 4. **检查点多为月精度**:registry 多数 `date_precision=month`;相对表现类 check(如"GLD 跑赢 SPY")需起始价基准,Phase 4 打分器需处理。
 5. **收录偏空**:名单多为长期看空者、过往择时屡错 —— 集成时须防单边看空(重机制轻择时)。
