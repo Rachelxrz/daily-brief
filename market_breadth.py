@@ -35,6 +35,7 @@ DATA_FILE = BASE_DIR / "docs" / "data.json"
 SECTORS = ["XLK", "XLF", "XLE", "XLV", "XLI", "XLY", "XLP", "XLU", "XLB", "XLRE", "XLC"]
 TREND_DAYS = 63          # ~3 个月交易日
 BREADTH_WEAK = 0.50      # 站上200日线比例 < 50% = 广度差
+MIN_SECTORS = 7          # 至少 7/11 板块有效才计广度(防个别 ETF 拉取失败时用 1 只误判成"广度差")
 
 
 def _today_et() -> str:
@@ -98,7 +99,8 @@ def compute() -> dict:
             ma200 = float(c.rolling(200).mean().iloc[-1])
             if not np.isnan(ma200) and float(c.iloc[-1]) > ma200:
                 above += 1
-    breadth = (above / total) if total else float("nan")
+    # 有效板块数不足(个别 ETF 拉取失败)→ 广度不可用,不参与计分,避免用 1 只误报"广度差"
+    breadth = (above / total) if total >= MIN_SECTORS else float("nan")
 
     def sig(name, name_en, val, weak, detail, detail_en):
         return {"name": name, "name_en": name_en, "value": val, "weak": bool(weak),
