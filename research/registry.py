@@ -17,6 +17,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 REGISTRY_FILE = Path(__file__).parent / "registry.jsonl"
+REGISTRY_CHECKS_FILE = Path(__file__).parent / "registry_checks.jsonl"
 HISTORY_FILE = Path(__file__).parent.parent / "analyst_history.jsonl"
 
 FRAMEWORK_LABEL = {
@@ -55,31 +56,48 @@ def by_stance(stance: str, recs=None) -> list:
     return [r for r in recs if r.get("stance") == stance]
 
 
-def checks_due(today: str = None, recs=None) -> list:
-    """返回 analyst_history.jsonl 中检查点已到期(check_date <= today)的记录,
-    并关联 registry 里该人的框架。把档案库与其可证伪检查点的到期状态打通。
-    today 缺省用美东当日(YYYY-MM-DD)。"""
-    if today is None:
-        today = datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
-    reg = {r["name"]: r for r in (recs if recs is not None else load())}
-    out = []
-    if not HISTORY_FILE.exists():
-        return out
-    for line in HISTORY_FILE.read_text(encoding="utf-8").splitlines():
+def _iter_jsonl(path: Path):
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line:
             continue
         try:
-            h = json.loads(line)
+            yield json.loads(line)
         except Exception:
             continue
+
+
+def checks_due(today: str = None, recs=None) -> list:
+    """返回检查点已到期(check_date <= today)的记录,并关联 registry 框架。
+    合并两个来源:①analyst_history.jsonl 的策展/自动记录 ②registry_checks.jsonl 的
+    registry 物化台账(sync_checks.py 生成)。按 (analyst, check_date, ticker) 去重。
+    today 缺省用美东当日(YYYY-MM-DD)。"""
+    if today is None:
+        today = datetime.now(timezone(timedelta(hours=-4))).strftime("%Y-%m-%d")
+    reg = {r["name"]: r for r in (recs if recs is not None else load())}
+    seen, out = set(), []
+    for src, h in ([("history", x) for x in _iter_jsonl(HISTORY_FILE)]
+                   + [("registry", x) for x in _iter_jsonl(REGISTRY_CHECKS_FILE)]):
         cd = h.get("check_date")
-        if cd and cd <= today:
-            out.append({
-                "analyst": h.get("analyst"), "check_date": cd,
-                "ticker": h.get("ticker"), "check": h.get("check"),
-                "framework": reg.get(h.get("analyst"), {}).get("primary_framework"),
-            })
+        if not (cd and cd <= today):
+            continue
+        analyst = h.get("analyst")
+        ticker = h.get("ticker")
+        check_text = h.get("check") or h.get("check_cn") or ""
+        # 键含 check 文本:同一人/同日/同标的可能有多条不同(甚至相反)的预测,
+        # 只按 (analyst,date,ticker) 去重会静默丢弃这些不同判断。含 check 才只折叠真正重复项。
+        key = (analyst, cd, ticker, check_text)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({
+            "analyst": analyst, "check_date": cd, "ticker": ticker,
+            "check": check_text or None,
+            "framework": h.get("framework") or reg.get(analyst, {}).get("primary_framework"),
+            "source": src,
+        })
     out.sort(key=lambda x: x["check_date"])
     return out
 

@@ -66,8 +66,9 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 - [x] 结构化字段:`framework(A/B/C/bull)`、`primary_framework`、`stance`、`method`、`computable_proxy`、`action`、`maps_to_model`、`check{ticker,check,horizon}`、`tracked`。
 - [x] 加载/查询器 `research/registry.py`（按框架/模型/立场过滤 + 汇总;`load()/by_framework()/by_model()`）。
 - [x] 已覆盖机构研究:GS(Covello)、Apollo(Slok)、JPM(Dimon)、MS(Wilson)、GMO/红杉/Universa 等。
-- [ ] 继续扩充 `analyst_watch` 至更多机构首席(BofA/花旗/大摩经济学家)并回填其 registry 档案。
-- [ ] 把 registry 的 `check` 自动同步进 `analyst_history.jsonl` 的检查点机制。
+- [x] 把 registry 的 `check` **物化为带绝对到期日的台账**:`research/sync_checks.py` → `research/registry_checks.jsonl`(**确切发言日 `stated_date`** + horizon,保留发言日的「日」,`date_precision` 标 day/month,确定性,不污染网页分析师板);`registry.checks_due()` 统一合并「analyst_history + registry 台账」两源,按 (analyst,date,ticker,**check 文本**) 去重(保留同人同日的不同/相反预测)。
+- [x] 扩充机构首席:新增 **Michael Hartnett(BofA · Bull & Bear Indicator)** 入 registry + analyst_watch(21 人)。
+- [ ] 继续扩充更多机构首席(花旗/大摩/德银经济学家)并回填 registry。
 
 ### Phase 2 — 框架化建模 · Frameworks → models
 - [ ] **A 估值表**：CAPE / 市值-GDP（巴菲特指标已在 dalio_bubble）/ AI 资本开支 ROI 子信号。
@@ -93,7 +94,8 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 | # | 交付物 Deliverable | 位置 Location |
 |---|---|---|
 | D1 | 分析师分框架报告（滚动） | `research/analyst_frameworks_report.md` |
-| D2 | 分析师/机构档案库 + 加载器 | `research/registry.jsonl` + `research/registry.py` ✅ Phase 1 |
+| D2 | 分析师/机构档案库 + 加载器 | `research/registry.jsonl`(21人)+ `research/registry.py` ✅ Phase 1 |
+| D2b | 检查点台账(预测记账种子) | `research/registry_checks.jsonl` + `research/sync_checks.py` ✅ Phase 1 |
 | D3 | 新增框架模型 | 各 `*.py` + `modules/*/spec.md` |
 | D4 | 统一回测框架 + 报告 | `research/backtest.py` + `research/backtests/` |
 | D5 | 预测记分卡 | `prediction_snapshots.jsonl` + 网页 |

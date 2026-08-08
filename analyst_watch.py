@@ -73,6 +73,7 @@ ANALYSTS = [
     ("Paul Tudor Jones",    "Tudor",           '"Paul Tudor Jones"'),
     ("Jamie Dimon",         "JPMorgan",        '"Jamie Dimon" markets'),
     ("Albert Edwards",      "Societe Generale",'"Albert Edwards" Societe Generale'),
+    ("Michael Hartnett",    "BofA",            '"Michael Hartnett" Bank of America'),
     #    看多制衡
     ("Tom Lee",             "Fundstrat",       '"Tom Lee" Fundstrat'),
 ]

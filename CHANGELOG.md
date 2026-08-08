@@ -5,6 +5,11 @@
 
 ## 2026-08-08
 
+### 研究课题 Phase 1(续):检查点台账 + 统一到期查询 + BofA 入库
+- **`research/sync_checks.py` → `research/registry_checks.jsonl`**:把 registry 每条 `check` 物化为**带绝对到期日**的检查点(`latest`+`horizon` 换算,区间取上界,long/open 默认 24m),确定性可复现;作为 Phase 4 预测记账台账,**不污染网页分析师板**。
+- **`registry.checks_due()` 升级**:统一合并「`analyst_history.jsonl` 策展/自动记录 + `registry_checks.jsonl` 台账」两源,按 (analyst, check_date, ticker) 去重;`--due` CLI。
+- **扩充机构首席**:新增 **Michael Hartnett(BofA · Bull & Bear Indicator)** 入 `registry.jsonl`(21 人)+ `analyst_watch` 追踪 + 网页徽章(逆向·空头);映射 `fragility_gate`。
+
 ### 研究课题 Phase 1:分析师档案库 `research/registry.jsonl` + 加载器
 - **`research/registry.jsonl`**:一人一档 20 位(GMO/Hussman/Chanos/Marks/Slok/Covello/Cahn/Buffett · Burry/Spitznagel/Taleb/Einhorn · Dalio/Dimon/Druckenmiller/Edwards/PTJ · Tom Lee/Ives/Wilson),把「判断→框架→监测方法→**可算代理**→可证伪检查点→对应模型」结构化(双语)。字段:framework/primary_framework/stance/method/computable_proxy/action/maps_to_model/check{ticker,check,horizon}/tracked。
 - **`research/registry.py`**:加载/查询器(按 framework/model/stance 过滤 + 汇总;`load()/by_framework()/by_model()`)。
