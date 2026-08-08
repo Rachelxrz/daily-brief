@@ -70,9 +70,10 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 - [x] 扩充机构首席:新增 **Michael Hartnett(BofA · Bull & Bear Indicator)** 入 registry + analyst_watch(21 人)。
 - [ ] 继续扩充更多机构首席(花旗/大摩/德银经济学家)并回填 registry。
 
-### Phase 2 — 框架化建模 · Frameworks → models
+### Phase 2 — 框架化建模 · Frameworks → models（进行中 In progress）
+- [x] **市场广度/集中度信号 `market_breadth.py`**（首个 Phase 2 模型）：`RSP÷SPY`、`IWM÷SPY`、板块 200 日线广度 → `narrow_score`;把 **Hussman 内部结构 / Slok·Kolanovic 集中度 / Burry 拥挤** 可计算化(只用流动 ETF)。接入两 workflow + 网页面板(双语)。见 `modules/market_breadth/`。
 - [ ] **A 估值表**：CAPE / 市值-GDP（巴菲特指标已在 dalio_bubble）/ AI 资本开支 ROI 子信号。
-- [ ] **B 流动性错配**：Burry 成分股日成交额分布「薄名字」计数；内部结构广度；被动流反转。
+- [ ] **B 流动性错配**：Burry 成分股日成交额分布「薄名字」计数（需全市场成分表）；被动流反转。
 - [ ] **C 债务/货币**：私人信贷压力、期限溢价、DXY/美债供需，补强货币针。
 
 ### Phase 3 — 回测 · Backtest

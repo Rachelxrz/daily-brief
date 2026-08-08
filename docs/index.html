@@ -1228,6 +1228,29 @@ function renderDalioBubble(db) {
     + `</div></div></div>`;
 }
 
+// 📐 市场广度/集中度信号（Phase 2：Hussman 内部结构 / Slok·Kolanovic 集中度 / Burry 拥挤 → 可计算）
+function renderMarketBreadth(mbd) {
+  if (!mbd) return '';
+  const en = currentNewsLang === 'en';
+  const colMap = { red: 'var(--red)', amber: 'var(--amber)', green: 'var(--green)', muted: 'var(--muted)' };
+  const col = colMap[mbd.color] || 'var(--muted)';
+  const rows = (mbd.signals || []).map(s =>
+    `<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;`
+    + `padding:6px 10px;border-radius:8px;border:1px solid var(--border);`
+    + `border-left:3px solid ${s.weak ? 'var(--red)' : 'var(--green)'};background:var(--surface)">`
+    + `<span style="white-space:nowrap">${s.weak ? '⚠️' : '·'} ${escHtml(en ? (s.name_en || s.name) : s.name)}</span>`
+    + `<span style="color:var(--muted);font-size:0.85rem;text-align:right">${escHtml(s.value)}</span></div>`
+  ).join('');
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<h1>${t('📐 市场广度 / 集中度', '📐 Market Breadth / Concentration')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('涨势有多窄 · 内部结构(Hussman)/集中度(Slok)/拥挤(Burry)可计算化', 'how narrow the rally is · internals/concentration/crowding, made computable')}</span></h1>`
+    + `<div style="border:1px solid var(--border);border-left:5px solid ${col};border-radius:10px;padding:10px 14px;margin:8px 0 4px">`
+    + `<div style="font-weight:600;color:${col}">${escHtml((en ? (mbd.verdict_en || mbd.verdict) : mbd.verdict) || '')}</div>`
+    + `<div style="color:var(--muted);margin-top:4px;font-size:0.9rem">${t('狭窄计分', 'Narrow score')} <b style="color:${col}">${mbd.narrow_score}/${mbd.signals_used}</b>${mbd.breadth_pct == null ? '' : ` · ${t('板块广度', 'Sector breadth')} ${mbd.breadth_pct}%`}</div></div>`
+    + `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin:8px 0">${rows}</div>`
+    + `<p style="color:var(--muted);font-size:0.76rem;margin-top:6px">${escHtml((en ? (mbd.note_en || mbd.note) : mbd.note) || '')}<br>${t('更新', 'Updated')}：${escHtml(mbd.updated || '')}</p>`
+    + `</div></div></div>`;
+}
+
 // 📊 板块强弱 · 资金流向面板（真实价格：今日/3月/YTD + 相对大盘推算流入流出）
 function renderSectorBoard(sb) {
   if (!sb || !Array.isArray(sb.sectors) || !sb.sectors.length) return '';
@@ -1341,6 +1364,10 @@ function renderMonitor(day) {
   let dbub = day.dalio_bubble;
   if (!dbub) { for (const d of allDates) { if (allData[d].dalio_bubble) { dbub = allData[d].dalio_bubble; break; } } }
   const dbubHtml = dbub ? renderDalioBubble(dbub) : '';
+  // 📐 市场广度/集中度信号:达利欧泡沫下方（当日无则回退到最近一期）
+  let mbd = day.market_breadth;
+  if (!mbd) { for (const d of allDates) { if (allData[d].market_breadth) { mbd = allData[d].market_breadth; break; } } }
+  const mbdHtml = mbd ? renderMarketBreadth(mbd) : '';
   // 📊 板块强弱面板：结果闸门正下方（当日无则回退到最近一期）
   let sb = day.sector_board;
   if (!sb) { for (const d of allDates) { if (allData[d].sector_board) { sb = allData[d].sector_board; break; } } }
@@ -1351,7 +1378,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1361,7 +1388,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
