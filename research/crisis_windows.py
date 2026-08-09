@@ -40,6 +40,7 @@ DATA_FILE = REPO_DIR / "docs" / "data.json"
 WIN = 30          # 危机前的交易日数(≈6 周)
 SAMPLE = 3        # 路径采样步长(每 3 交易日取一点)
 FWD = 63          # onset 之后的前瞻窗口(算这次崩得多深,作为「危机严重度」上下文)
+LOOKBACK = 90     # 闸门「提前多少天报警」的回看窗(≈1 季度;捕捉在 onset 前曾 on 但已回落的预警)
 
 # 过去 ~30 年历次危机的「起点」(市场见顶 / 崩盘触发日;非交易日会自动向前对齐)
 CRISES = [
@@ -108,9 +109,18 @@ def _macro_block(macro: pd.DataFrame, onset_ts) -> dict:
     gate = macro["risk_off"].astype(bool)
     raw_off = (votes >= bm.MG.K)
     consec_gate = _consec_true_at(gate, pos)                # 连续闸门on天数(截至 onset)
-    # 闸门在 onset 前第几日就已 on:即当前 on-streak 的起点相对日(可早于 30 天窗口)。
-    # gate 在 onset 未 on → None。负值越大 = 越早报警。
-    first_gate_rel = -(consec_gate - 1) if bool(gate.iloc[pos]) else None
+    # 闸门在 onset 前第几日就已 on(负值越大=越早报警):
+    #  · onset 当日仍 on → 当前 on-streak 的起点相对日(可早于 30 天窗口)
+    #  · onset 当日已回落 → 在 ~1 季度回看窗内找最早的一次 on(捕捉「曾报警但已清除」,否则会误报「没预警」)
+    if bool(gate.iloc[pos]):
+        first_gate_rel = -(consec_gate - 1)
+    else:
+        first_gate_rel = None
+        for i in range(max(0, pos - LOOKBACK), pos + 1):
+            if bool(gate.iloc[i]):
+                first_gate_rel = i - pos
+                break
+    gate_warned_pre = first_gate_rel is not None            # 回看窗内是否曾报警(含已清除)
     win_votes = votes.iloc[max(0, pos - WIN): pos + 1]
     return {
         "available": True,
@@ -119,19 +129,31 @@ def _macro_block(macro: pd.DataFrame, onset_ts) -> dict:
         "gate_on_at_onset": bool(gate.iloc[pos]),
         "consec_votes_ge2_at_onset": _consec_true_at(raw_off, pos),   # 连续≥2票天数
         "consec_gate_on_at_onset": consec_gate,                       # 连续闸门on天数
-        "first_gate_on_rel_day": first_gate_rel,   # 闸门首次 on 相对 onset 的交易日(负=之前)
+        "first_gate_on_rel_day": first_gate_rel,   # 闸门首次 on 相对 onset 的交易日(负=之前;含已清除的预警)
+        "gate_warned_pre_onset": gate_warned_pre,  # onset 前(~1季度内)是否曾报警
         "path": _path(votes, pos),
     }
 
 
 def _score_block(df: pd.DataFrame, col: str, onset_ts, at_key: str) -> dict:
+    """计分型模型(fragility 0–5 / breadth 0–3)的窗口切片。
+    关键(回应 P1):**缺输入的因子不得当作「不脆弱/健康」计入分母** ——
+    读逐因子有效掩码 n_valid:全缺→unavailable;部分缺→partial 且以**真实分母 n_valid** 呈现,
+    绝不以满分制(/5、/3)展示被历史缺失(如 VIX3M<2007、RSP<2003)拉低的分。"""
     if df is None or onset_ts not in df.index:
         return {"available": False}
     pos = df.index.get_loc(onset_ts)
+    total = int(df["n_total"].iloc[pos]) if "n_total" in df.columns else None
+    nvalid = int(df["n_valid"].iloc[pos]) if "n_valid" in df.columns else total
+    if nvalid is not None and nvalid == 0:
+        return {"available": False, "reason": "components_missing"}
     s = df[col]
     win = s.iloc[max(0, pos - WIN): pos + 1]
-    return {"available": True, at_key: int(s.iloc[pos]), f"{at_key}_max": int(win.max()),
-            "path": _path(s, pos)}
+    out = {"available": True, at_key: int(s.iloc[pos]), f"{at_key}_max": int(win.max()),
+           "path": _path(s, pos)}
+    if total is not None:
+        out.update({"n_valid": nvalid, "n_total": total, "partial": nvalid < total})
+    return out
 
 
 def _dalio_block(dalio: pd.DataFrame, onset_ts) -> dict:
@@ -199,16 +221,25 @@ def run_live() -> dict:
                  f"macro 票 {m.get('votes_at_onset')}(峰{m.get('votes_max')})· 闸门{'on' if m.get('gate_on_at_onset') else 'off'}"
                  f"·连续≥2票 {m.get('consec_votes_ge2_at_onset')}日·首次on 相对日 {m.get('first_gate_on_rel_day')}")
 
+    # 回应 P2:数据抓取失败会让每个事件都被跳过 → crises 为空 / 无可用事件。
+    # 此时**主动失败**,不返回空结果,以免 save_results/workflow 用空报告覆盖上一份有效面板。
+    usable = sum(1 for e in events if e.get("available"))
+    if usable == 0:
+        raise RuntimeError(f"crisis_windows:0 个可用危机事件(共 {len(events)} 个,数据抓取可能失败)"
+                           "——拒绝以空结果覆盖既有面板")
+
     return {
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%MZ"),
         "window_trading_days": WIN, "fwd_days": FWD,
         "note": ("历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,无前视,仅按日期切片)。"
-                 "macro_gate 票数/连续/闸门首次 on 相对日;fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。"
-                 "数据早于某危机则标 unavailable(VIX≈1990、RSP≈2003、^VIX3M≈2007)。severity=onset 后 63 日峰谷回撤。不构成投资建议。"),
+                 "macro_gate 票数/连续/闸门首次 on 相对日(含 onset 前曾报警但已清除,回看~1季度);fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。"
+                 "**缺因子不当作健康**:某危机早于某分量(VIX3M≈2007、RSP≈2003)→ 该分以真实分母 n_valid 呈现并标 partial;全缺则 unavailable。"
+                 "severity=onset 后 63 日峰谷回撤。不构成投资建议。"),
         "note_en": ("For each crisis, the four models' daily values / consecutive counts over the 30 trading days into the onset "
-                    "(signals are point-in-time, no look-ahead; this only slices by date). macro_gate votes/persistence/first-gate-on; "
-                    "fragility score; dalio monthly reading + monetary pin; breadth narrow score. Marked unavailable where data predates "
-                    "the crisis (VIX≈1990, RSP≈2003, ^VIX3M≈2007). severity = peak-to-trough drawdown over 63d after onset. Not advice."),
+                    "(signals are point-in-time, no look-ahead; this only slices by date). macro_gate votes/persistence/first-gate-on (incl. a warning that fired pre-onset then cleared, ~1-quarter lookback); "
+                    "fragility score; dalio monthly reading + monetary pin; breadth narrow score. **Missing factors are not counted as healthy**: where a crisis predates a component "
+                    "(^VIX3M≈2007, RSP≈2003) the score is shown over its true denominator n_valid and flagged partial; fully missing → unavailable. "
+                    "severity = peak-to-trough drawdown over 63d after onset. Not advice."),
         "crises": events,
     }
 
@@ -257,6 +288,26 @@ def self_test():
     assert blk2["votes_at_onset"] == blk["votes_at_onset"] and \
            blk2["consec_votes_ge2_at_onset"] == blk["consec_votes_ge2_at_onset"], "切片受未来影响!"
     log.info("  ✅ onset 切片不依赖未来数据(截断到 onset 当日结果不变)")
+
+    # 闸门在 onset 前曾 on 但已回落(P2):应在回看窗内捕捉到预警,而非报「无预警」
+    gate2 = pd.Series(False, index=rng)
+    gate2.iloc[880:895] = True                      # onset(900)前曾 on 15 日,onset 时已 off
+    macro2 = pd.DataFrame({"votes": pd.Series(2, index=rng), "risk_off": gate2}, index=rng)
+    blk3 = _macro_block(macro2, rng[900])
+    assert blk3["gate_on_at_onset"] is False, blk3
+    assert blk3["first_gate_on_rel_day"] == 880 - 900 and blk3["gate_warned_pre_onset"] is True, blk3
+    log.info(f"  ✅ 闸门 onset 前曾 on 已回落:仍捕捉到预警 first_gate_on_rel_day={blk3['first_gate_on_rel_day']}")
+
+    # 计分型缺分量(P1):n_valid<n_total → partial;n_valid==0 → unavailable(不以满分制误报低分)
+    sc = pd.DataFrame({"frag_score": pd.Series(1, index=rng), "n_valid": pd.Series(3, index=rng),
+                       "n_total": pd.Series(5, index=rng)}, index=rng)
+    b_part = _score_block(sc, "frag_score", rng[900], "score_at_onset")
+    assert b_part["available"] and b_part["partial"] and b_part["n_valid"] == 3 and b_part["n_total"] == 5, b_part
+    sc0 = sc.copy(); sc0["n_valid"] = 0
+    b_none = _score_block(sc0, "frag_score", rng[900], "score_at_onset")
+    assert b_none["available"] is False and b_none.get("reason") == "components_missing", b_none
+    log.info("  ✅ 计分型缺分量:部分缺→partial(真实分母),全缺→unavailable(不以 /5 误报)")
+
     log.info("🎉 self-test 全过")
 
 

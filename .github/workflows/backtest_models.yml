@@ -41,8 +41,6 @@ jobs:
           cp research/backtest_results.json /tmp/bt.json 2>/dev/null || echo '{}' > /tmp/bt.json
           cp research/crisis_windows.json  /tmp/cw.json 2>/dev/null || echo '{}' > /tmp/cw.json
           git fetch origin main && git reset --hard origin/main
-          cp /tmp/bt.json research/backtest_results.json
-          cp /tmp/cw.json research/crisis_windows.json
           python - <<'PY'
           import json
           def load(p, default):
@@ -50,9 +48,20 @@ jobs:
                   return json.load(open(p, encoding='utf-8'))
               except Exception:
                   return default
+          bt = load('/tmp/bt.json', {})
+          cw = load('/tmp/cw.json', {})
           d = load('docs/data.json', {})
-          d['backtest_results'] = load('/tmp/bt.json', {})
-          d['crisis_windows'] = load('/tmp/cw.json', {})
+          # 只在**新结果非空**时覆盖(models/crises 有内容);抓取失败→空 → 保留 main 上的上一份有效结果,绝不清空面板
+          if bt.get('models'):
+              json.dump(bt, open('research/backtest_results.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+              d['backtest_results'] = bt
+          else:
+              print('⚠️ backtest 结果为空,保留既有 research/backtest_results.json + data 键')
+          if cw.get('crises'):
+              json.dump(cw, open('research/crisis_windows.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+              d['crisis_windows'] = cw
+          else:
+              print('⚠️ crisis 结果为空,保留既有 research/crisis_windows.json + data 键')
           json.dump(d, open('docs/data.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
           PY
           git add research/backtest_results.json research/crisis_windows.json docs/data.json

@@ -1401,13 +1401,17 @@ function renderCrisisWindows() {
       : `<span title="votes path">${_spark((mg.path || []).map(p => p[1]), 6)}</span> <b style="color:${mg.gate_on_at_onset ? 'var(--red)' : 'var(--muted)'}">${mg.votes_at_onset}/6</b>`
         + `<div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${mg.votes_max} · ${mg.gate_on_at_onset ? t('闸门ON', 'gate ON') : t('闸门off', 'gate off')}`
         + `${mg.first_gate_on_rel_day != null ? ' · ' + t('提前', 'lead') + ' ' + (-mg.first_gate_on_rel_day) + t('日', 'd') : ''}</div>`;
-    const frCell = !fr.available ? '—'
-      : `<span>${_spark((fr.path || []).map(p => p[1]), 5)}</span> <b>${fr.score_at_onset}/5</b><div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${fr.score_at_onset_max}</div>`;
+    const frDen = fr.n_valid != null ? fr.n_valid : 5;
+    const frCell = !fr.available ? `<span style="color:var(--muted)">${t('缺分量', 'missing')}</span>`
+      : `<span>${_spark((fr.path || []).map(p => p[1]), 5)}</span> <b>${fr.score_at_onset}/${frDen}</b>`
+        + `<div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${fr.score_at_onset_max}${fr.partial ? ' · ' + t('部分', 'partial') : ''}</div>`;
     const dbCell = !db.available ? '—'
       : `<b style="color:${db.reading_at_onset >= 80 ? 'var(--red)' : db.reading_at_onset >= 60 ? 'var(--amber)' : 'var(--muted)'}">${db.reading_at_onset == null ? '—' : db.reading_at_onset}</b>`
         + `<div style="font-size:0.72rem;color:var(--muted)">${db.pin_at_onset == null ? '' : (db.pin_at_onset ? t('针ON', 'pin ON') : t('无针', 'no pin'))}${db.n_gauges ? ' · ' + db.n_gauges + t('表', 'g') : ''}</div>`;
-    const bdCell = !bd.available ? '—'
-      : `<span>${_spark((bd.path || []).map(p => p[1]), 3)}</span> <b>${bd.narrow_at_onset}/3</b><div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${bd.narrow_at_onset_max}</div>`;
+    const bdDen = bd.n_valid != null ? bd.n_valid : 3;
+    const bdCell = !bd.available ? `<span style="color:var(--muted)">${t('缺分量', 'missing')}</span>`
+      : `<span>${_spark((bd.path || []).map(p => p[1]), 3)}</span> <b>${bd.narrow_at_onset}/${bdDen}</b>`
+        + `<div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${bd.narrow_at_onset_max}${bd.partial ? ' · ' + t('部分', 'partial') : ''}</div>`;
     return `<tr><td><b>${nm}</b><div style="font-size:0.72rem;color:var(--muted)">${escHtml(c.onset || '')}</div></td>`
       + `<td style="color:${sevC};text-align:right;font-weight:600">${sev == null ? '—' : sev + '%'}</td>`
       + `<td>${mgCell}</td><td>${frCell}</td><td>${dbCell}</td><td>${bdCell}</td></tr>`;
