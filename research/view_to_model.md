@@ -142,6 +142,50 @@
 
 ---
 
+## 附录二 · 实证:历史回测 + 危机前30天(数据怎么说)· Appendix II — Empirics: historical backtest + the 30 days into each crisis
+
+> 前面是「我们**声称**这些模型代表某观点」;这一节让**数据自己说话**。`research/backtest_models.py` 把四模型的历史信号(无前视)喂进回测引擎;`research/crisis_windows.py` 回放过去 ~30 年 10 次危机、看崩盘前 30 交易日仪表盘的真实读数。**结论既验证了主张,也诚实暴露了边界**。实时数字见网页「🧪 模型回测记分卡」「🧭 危机前30天」两面板 + `research/backtest_results.json`、`research/crisis_windows.json`。
+> The claims above are ours; this section lets the **data** speak. Full history fed through the backtest engine (no look-ahead), plus a replay of the 30 trading days into 10 crises over ~30 years. It both **confirms the claims and honestly exposes the limits**.
+
+### 回测记分卡(判别力:负=示警后更差=有效)· Backtest scorecard (discrimination: negative = effective)
+| 模型 · model | 判别力 discrim. | 规避回撤 DD-avoided | 超额CAGR | 读法 · reading |
+|---|---|---|---|---|
+| **macro_gate** | **−2.35%** ✅ | **+43pp** ✅ | **+0.84%** ✅ | **唯一真·风控**(且只对衰退熊) |
+| fragility ≥4 | −1.52% ✅ | +0pp | −0.11% | 轻微预警,非卖点 |
+| fragility ≥2 | −0.19% | +3.5pp | −2.4% ✗ | 太松,当卖点亏 |
+| dalio ≥60 | **+1.35%** ⚠️ | +0pp | −1.5% ✗ | 正=**融涨**(量级表非择时器) |
+| dalio ≥80 | **+2.47%** ⚠️ | +0pp | −0.27% | 越晚期越涨(纯融涨) |
+| **dalio ≥80 且货币针** | **+3.19%** ⚠️ | +0pp | +0.03% | **校准实验:针没能补上择时价值** |
+| breadth ≥2 | +0.10% | +0.6pp | −5.2% ✗ | 当卖点最亏 |
+
+### 危机前30天:四模型当时真显示什么 · What the models showed into each crisis
+| 危机 | 崩幅63d | 🚦macro | 🔥脆弱 | 🫧泡沫 | 📐狭窄 |
+|---|---|---|---|---|---|
+| 2001 9·11 | −12% | **4/6·闸门提前60日** | 1/4 | 10 | 2/2 |
+| **2008 雷曼** | **−40%** | **4/6·闸门提前146日** | 0/5 | 31 | 1/3 |
+| 2018 Q4 | −20% | 0/6 off | **3/5** | 73·针ON | 2/3 |
+| 2015 人民币 | −11% | 1/6 off | 2/5 | 76·针ON | 2/3 |
+| 2020 新冠 | −34% | 1/6 off | 2/5 | 60 | 2/3 |
+| 2000 互联网 | −11% | 0/6 off | 1/4* | 42* | 1/1* |
+*（`部分`:该危机早于 VIX3M 2007 / RSP 2003,按真实分母呈现。full table on the webpage.）
+
+### 五个诚实结论 · Five honest takeaways
+1. **macro_gate 精准预警了唯二的「真·衰退危机」——2001(提前60日)、2008(提前146日)**,且对所有机械/快速崩盘(2010/2020/2022)保持沉默。这不是漏报,正是设计:**它是衰退熊探测器,不是闪崩探测器**;与其 +43pp 规避回撤、唯一正超额一致。
+   *macro_gate pre-warned the only two recession crises (60d, 146d lead) and stayed silent for the mechanical/fast crashes — by design, a recession detector, not a flash-crash detector.*
+2. **fragility 抓住了 macro 漏掉的「自满型」抛售**——2018 Q4(3/5)、2015 / 2020(2/5),都是低波动/拥挤驱动。**两模型互补**,正如正文所述。
+   *fragility caught the low-vol/complacency selloffs macro misses — the two are complementary.*
+3. **没有任何单一模型能预警一切**:2020 新冠(−34%)是外生冲击,四表皆温和。**没有基本面模型能预见一次病毒冲击**——这是诚实边界,不是 bug。
+   *No single model warns of everything; COVID was exogenous — no fundamentals model foresees a virus.*
+4. **达利欧扩张分位读数在最早的泡沫上失真**:2000 互联网见顶读数仅 42(短历史可比样本少 + IPO 表 2013 才有)。**2013 后的读数(2015=76、2018=73)才可信**——这是扩张分位+短历史的已知伪影,如实标注。
+   *The expanding-percentile bubble reading is muted for the earliest bubbles (2000 = 42) — a known short-history artifact; only post-2013 readings are trustworthy.*
+5. **校准实验的诚实结果**:「泡沫≥80 **且**货币针」判别力仍为正(+3.19%)——**我们操作化的货币针没能把泡沫读数变成择时信号**。保留 dalio 为「量级参考」的定位,**货币针的操作化列为待细化**(粗代理「任意6月+0.25%加息」可能不够特异)。
+   *Calibration result, honestly: gating the bubble on our monetary-pin proxy did **not** turn it into a timer — the reading stays a magnitude gauge; the pin's operationalization is flagged as to-refine.*
+
+> 一句话:**数据证明了正文的核心分工**——macro_gate 是唯一能提前拉响的风控(且只对衰退熊),fragility 补机械崩,达利欧读数是「量级表」不是「闹钟」,而外生冲击谁都测不到。
+> In one line, the data confirms the division of labor the body argues: macro_gate is the only advance risk tool (recession bears only), fragility covers mechanical crashes, the Dalio reading is a magnitude gauge not an alarm clock, and exogenous shocks are beyond all of them.
+
+---
+
 ## 一句话总纲 · The through-line
 
 > 我们**只在能满足「机制对应 + 方向一致 + 可证伪」时才声称忠实**;满足不了的(Burry 流动性硬 tell、Chanos/Covello 的 ROI、Dimon 的私人信贷),一律在 ⑤ 标为「印证/待建」,**绝不用贴标签冒充建模**。这份「诚实的不完整」清单,本身就是 Phase 2/3 的施工图。
