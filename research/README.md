@@ -78,8 +78,8 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 
 ### Phase 3 — 回测 · Backtest（进行中 In progress）
 - [x] 建**统一回测框架** `research/backtest.py`:`perf_stats`(CAGR/vol/Sharpe/MaxDD)、`backtest`(仓位型择时 vs 买入持有 + 规避回撤/敞口/换手,信号按 lag 滞后**无前视**)、`event_eval`(事件型:命中率/判别力/规避回撤/**领先时间**)。合成数据单测锁定指标正确性 + 无前视。
-- [ ] 对每个模型跑样本内 + 样本外(需在 Actions 用历史 FRED/yfinance 重算各模型历史读数,再喂入本框架);记录并对比(基准:买入持有 / 六因子闸门)。
-- [ ] 校准阈值(如 dalio 分位锚点、fragility 触发线),避免过拟合(记录被丢弃的尝试)。
+- [x] **历史重算 + 回测** `research/backtest_models.py`:把 macro_gate / fragility / dalio_bubble / market_breadth 四模型的**历史信号序列**(point-in-time,**无前视**:分位一律用扩张/滚动窗口)喂入 `backtest.py`,产出各模型真实的**命中率 / 判别力 / 规避回撤 / 领先时间 / vs 买入持有**,写 `research/backtest_results.json` + `docs/data.json['backtest_results']`。阈值从各模型模块 import(不复制,防漂移);合成数据 self-test 断言无前视(前缀不变性)。由 `.github/workflows/backtest_models.yml`(月度 + 手动)在 Actions 用真实 FRED/yfinance 跑。诚实边界:dalio 略去表6(人工档)、breadth 受 ETF 历史限制(RSP≈2003)、fragility 期限结构受 ^VIX3M≈2007 限制。
+- [ ] 校准阈值(如 dalio 分位锚点、fragility 触发线),避免过拟合(记录被丢弃的尝试)—— **待回测结果产出后据此调**。
 
 ### Phase 4 — 预测与打分 · Forecast & score
 - [ ] 每个模型产出**带检查点的前瞻判断**，写入 `prediction_snapshots.jsonl`。
