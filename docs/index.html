@@ -8,12 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0a0b0d;
-    --surface:   #111318;
-    --border:    #1e2028;
+    /* 背景转白、正文转黑;其余强调色(金/绿/红/琥珀/蓝/muted)保持不变。
+       surface/border 为「背景层次」,须随背景转浅,否则黑字落在深色卡片上不可读。 */
+    --bg:        #ffffff;
+    --surface:   #f4f3ef;
+    --border:    #dcd8cf;
     --gold:      #c9a84c;
     --gold-dim:  #8a6e2f;
-    --text:      #e8e2d9;
+    --text:      #141414;
     --muted:     #6b6860;
     --green:     #4caf82;
     --red:       #e05c5c;
@@ -42,7 +44,7 @@
   /* ── Header ─────────────────────────────────── */
   header {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(10,11,13,0.92);
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
@@ -186,7 +188,7 @@
     font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
     transition: all 0.15s;
   }
-  .lang-btn.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .lang-btn.active { background: var(--gold); color: #0a0b0d; border-color: var(--gold); }
   .lang-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
 
   /* ── New candidates (screener) ──────────────────── */
