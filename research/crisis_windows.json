@@ -1,8 +1,8 @@
 {
-  "generated_utc": "2026-08-09 14:38Z",
+  "generated_utc": "2026-08-09 15:03Z",
   "window_trading_days": 30,
   "fwd_days": 63,
-  "note": "历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,无前视,仅按日期切片)。macro_gate 票数/连续/闸门首次 on 相对日(含 onset 前曾报警但已清除,回看~1季度);fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。**缺因子不当作健康**:某危机早于某分量(VIX3M≈2007、RSP≈2003)→ 该分以真实分母 n_valid 呈现并标 partial;全缺则 unavailable。severity=onset 后 63 日峰谷回撤。不构成投资建议。",
+  "note": "历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,仅按日期切片;月度/季度宏观已按发布滞后前移=无前视,但仍取最新修订值=非 ALFRED vintage,列为待办)。macro_gate 票数/连续/闸门首次 on 相对日(含 onset 前曾报警但已清除,回看~1季度);fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。**缺因子不当作健康**:某危机早于某分量(VIX3M≈2007、RSP≈2003)→ 该分以真实分母 n_valid 呈现并标 partial;全缺则 unavailable。severity=onset 后 63 日峰谷回撤。不构成投资建议。",
   "note_en": "For each crisis, the four models' daily values / consecutive counts over the 30 trading days into the onset (signals are point-in-time, no look-ahead; this only slices by date). macro_gate votes/persistence/first-gate-on (incl. a warning that fired pre-onset then cleared, ~1-quarter lookback); fragility score; dalio monthly reading + monetary pin; breadth narrow score. **Missing factors are not counted as healthy**: where a crisis predates a component (^VIX3M≈2007, RSP≈2003) the score is shown over its true denominator n_valid and flagged partial; fully missing → unavailable. severity = peak-to-trough drawdown over 63d after onset. Not advice.",
   "crises": [
     {
@@ -134,11 +134,11 @@
           ],
           [
             -2,
-            48
+            61
           ],
           [
             -1,
-            51
+            35
           ],
           [
             0,
@@ -213,14 +213,14 @@
         "votes_at_onset": 4,
         "votes_max": 4,
         "gate_on_at_onset": true,
-        "consec_votes_ge2_at_onset": 70,
-        "consec_gate_on_at_onset": 61,
-        "first_gate_on_rel_day": -60,
+        "consec_votes_ge2_at_onset": 49,
+        "consec_gate_on_at_onset": 40,
+        "first_gate_on_rel_day": -39,
         "gate_warned_pre_onset": true,
         "path": [
           [
             -30,
-            3
+            4
           ],
           [
             -27,
@@ -330,11 +330,11 @@
           ],
           [
             -2,
-            21
+            36
           ],
           [
             -1,
-            29
+            14
           ],
           [
             0,
@@ -516,17 +516,17 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 61,
+        "reading_at_onset": 67,
         "pin_at_onset": false,
-        "n_gauges": 3,
+        "n_gauges": 4,
         "month_path": [
           [
             -3,
-            66
+            71
           ],
           [
             -2,
-            61
+            53
           ],
           [
             -1,
@@ -534,7 +534,7 @@
           ],
           [
             0,
-            61
+            67
           ]
         ]
       },
@@ -605,9 +605,9 @@
         "votes_at_onset": 4,
         "votes_max": 4,
         "gate_on_at_onset": true,
-        "consec_votes_ge2_at_onset": 156,
-        "consec_gate_on_at_onset": 147,
-        "first_gate_on_rel_day": -146,
+        "consec_votes_ge2_at_onset": 136,
+        "consec_gate_on_at_onset": 127,
+        "first_gate_on_rel_day": -126,
         "gate_warned_pre_onset": true,
         "path": [
           [
@@ -722,11 +722,11 @@
           ],
           [
             -2,
-            22
+            33
           ],
           [
             -1,
-            33
+            26
           ],
           [
             0,
@@ -908,13 +908,13 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 59,
+        "reading_at_onset": 63,
         "pin_at_onset": false,
-        "n_gauges": 4,
+        "n_gauges": 3,
         "month_path": [
           [
             -3,
-            54
+            52
           ],
           [
             -2,
@@ -922,11 +922,11 @@
           ],
           [
             -1,
-            82
+            76
           ],
           [
             0,
-            59
+            63
           ]
         ]
       },
@@ -1104,17 +1104,17 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 63,
+        "reading_at_onset": 66,
         "pin_at_onset": false,
-        "n_gauges": 3,
+        "n_gauges": 4,
         "month_path": [
           [
             -3,
-            57
+            59
           ],
           [
             -2,
-            74
+            75
           ],
           [
             -1,
@@ -1122,7 +1122,7 @@
           ],
           [
             0,
-            63
+            66
           ]
         ]
       },
@@ -1300,13 +1300,13 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 76,
+        "reading_at_onset": 74,
         "pin_at_onset": true,
-        "n_gauges": 5,
+        "n_gauges": 4,
         "month_path": [
           [
             -3,
-            77
+            73
           ],
           [
             -2,
@@ -1314,11 +1314,11 @@
           ],
           [
             -1,
-            60
+            67
           ],
           [
             0,
-            76
+            74
           ]
         ]
       },
@@ -1496,17 +1496,17 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 73,
+        "reading_at_onset": 78,
         "pin_at_onset": true,
-        "n_gauges": 4,
+        "n_gauges": 5,
         "month_path": [
           [
             -3,
-            63
+            70
           ],
           [
             -2,
-            69
+            62
           ],
           [
             -1,
@@ -1514,7 +1514,7 @@
           ],
           [
             0,
-            73
+            78
           ]
         ]
       },
@@ -1692,13 +1692,13 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 60,
+        "reading_at_onset": 55,
         "pin_at_onset": false,
-        "n_gauges": 5,
+        "n_gauges": 4,
         "month_path": [
           [
             -3,
-            65
+            56
           ],
           [
             -2,
@@ -1706,11 +1706,11 @@
           ],
           [
             -1,
-            69
+            75
           ],
           [
             0,
-            60
+            55
           ]
         ]
       },
@@ -1888,17 +1888,17 @@
       },
       "dalio": {
         "available": true,
-        "reading_at_onset": 38,
+        "reading_at_onset": 51,
         "pin_at_onset": false,
-        "n_gauges": 4,
+        "n_gauges": 5,
         "month_path": [
           [
             -3,
-            52
+            62
           ],
           [
             -2,
-            76
+            70
           ],
           [
             -1,
@@ -1906,7 +1906,7 @@
           ],
           [
             0,
-            38
+            51
           ]
         ]
       },
