@@ -98,6 +98,48 @@
 
 ---
 
+## 附录 · 各模型「怎么算、跟什么比、哪个方向危险」详解 · Appendix: How each model computes, against what, and which direction is dangerous
+
+> 上文 ③ 说了「用哪个模型」;这一节把每个模型**拆到可复核的算法层**——**每个输入怎么变成分数 / 票、跟什么比、越高还是越低才危险、合成后对哪条档位线**,与达利欧那条同样的粒度。**诚实优先**:凡是「近似 / 代理 / 固定阈值 / 短历史」处一律点名,不美化。
+> Section ③ said *which* model; this appendix opens each one to the **auditable algorithm** — how each input becomes a score/vote, what it's compared against, whether higher or lower is dangerous, and which band the composite is judged by — at the same granularity as Dalio's. **Honesty first**: every approximation, proxy, fixed threshold, or short lookback is named, not smoothed over.
+
+### A · 🫧 `dalio_bubble` — 泡沫读数(0–100,越高越泡沫)· bubble reading (0–100, higher = more bubbly)
+- **怎么算**:6 表(估值/涨势/新买家/情绪/杠杆/远期建设),每表取「当前值在**它自己那段可得历史**中的百分位」;窗口各异(市值/GDP≈1945、纳指≈1985、IPO ETF 2013、VIX 5年、实现波动≈3年、远期建设人工无分位),情绪/杠杆取 `1−百分位`。**可用表百分位取均值 ×100 = 读数**。
+- **跟什么比 / 方向**:①表内——当前值 vs 自己历史分布(越高越极端);②合成后——读数 vs 固定档位 **60 / 80**。**越超过越泡沫**:>60 偏高、>80 晚期泡沫。
+- **诚实边界**:1929/2000≈100、2021≈77、2024≈52 是**软性参照档位、非真的重算回那些年**(底层数据不够长),故读数与历史锚点**不严格可比**;等权求均值是对其多指标百分位的**近似**;杠杆/远期建设/供给针均为代理。**+ 双针**(货币针 FEDFUNDS 6月Δ≥+0.25% 或 DFII10 3月Δ≥+0.25%;供给针 IPO 6月分位≥85)= 达利欧「戳破」条件,与读数**正交**(读数说「多大」,针说「何时破」)。
+- **How**: 6 gauges, each = current value's percentile **within its own available history** (windows differ widely; sentiment & leverage inverted as `1−pct`). Mean of available gauges ×100 = reading. **Against what / direction**: inside each gauge, current vs its own history (higher = more extreme); the composite vs fixed bands **60 / 80** — the more it *exceeds*, the more bubbly. **Honest edge**: the 1929/2000/2021/2024 anchors are soft reference bands, **not a recompute**, so the reading is **not strictly comparable** to them; equal-weight mean is an approximation; leverage/buildout/issuance are proxies. The **dual pin** (monetary + issuance) is orthogonal — the reading says *how big*, the pin says *when it pops*.
+
+### B · 🚦 `macro_gate` — 六因子衰退闸门(0–6 票,越多越像衰退熊)· six-factor recession gate (0–6 votes)
+- **怎么算**:6 因子,每条命中 = 1 张 risk-off 票 —— ①VIX>28 ②收益率曲线 10Y-3M<0(倒挂) ③信用 Baa-10Y 利差的**3年滚动 z 分>1** ④Sahm:失业率3月均 − 近12月最低≥0.5 ⑤CFNAI 3月均<−0.7 ⑥趋势:纳指收盘<200日线**且** 200日线较~1季度前更低。
+- **跟什么比 / 方向**:每因子当前值 vs **固定阈值**(唯信用是 vs 自己近3年分布的 z 分)。数值朝衰退方向越过阈值 → 该票亮红。**票数越多越危险**。
+- **闸门与仓位**:票数 **≥2 且连续≥10 个交易日**(`PERSIST=10`,约2周)才 ON → 清仓 QQQ;<2 → 买回。连续要求专门**滤掉单日假警报**。仓位:ON→0;否则 `min(100%, 20%目标波动 ÷ QQQ 20日实现波动)`——波动越高仓位越低,**不加杠杆**。这是**唯一发仓位信号**的模型(其余三个只描述、不发买卖)。
+- **How**: 6 factors, each a risk-off vote against a **fixed threshold** (credit uses a 3-yr rolling z-score); more votes = more dangerous. **Gate**: votes **≥2 for ≥10 consecutive trading days** → sell QQQ; the persistence requirement filters single-day false alarms. Position = 0 when on, else `min(100%, 20% target-vol ÷ QQQ realized vol)`, never levered. **The only model that emits a position signal.**
+
+### C · 🔥 `fragility_gate` — 脆弱性侧栏(0–5,越高越脆)· fragility sidebar (0–5, higher = more fragile)
+- **怎么算**:5 个布尔「干柴」因子,命中各记 1 —— ①VIX<14 ②期限结构 VIX3M/VIX−1>12% **且** VIX<16 ③QQQ 20日实现波动处于近1年**<20 分位** ④QQQ 高于200日线>12%(拉伸) ⑤拥挤篮 RSI(14) 中位数>65。
+- **跟什么比 / 方向**:每项当前值 vs 固定阈值(③是 vs 自己近1年分布的分位)。**注意方向与直觉相反——低 VIX、低波动=更危险**,因为它们是「干柴」(波动卖方舒适、vol-target 加杠杆的温床)。命中数求和:≥4 高度脆弱、≥2 中度、否则低脆弱。
+- **诚实边界**:**高分 ≠ 卖出**——只量化「一旦有火星火会烧多大」,不预测火星何时来,**不发买卖信号**;当前**单向**(低分只给「🟢 低脆弱」,不判底)。⑤的拥挤篮是**项目自定义 AI/半导体代理**(9 票仅 NVDA/PLTR 是 Burry 登记空头),非其真实空头组合。
+- **How**: 5 Boolean "dry-tinder" flags vs fixed thresholds (realized-vol uses a 1-yr percentile). **Counter-intuitive direction: low VIX / low vol = *more* dangerous** (they are the tinder). Sum → ≥4 highly / ≥2 moderately / else low fragile. **High ≠ sell**: it gauges *how big the fire could get*, not *when the spark comes*; emits no buy/sell signal and is currently single-direction. The crowded basket is a **project-defined AI/semiconductor proxy**, not Burry's real short book.
+
+### C-2 · 🧭 崩盘性质诊断(崩盘当天读盘面)· crash-nature diagnostic (reads the same-day tape)
+- **怎么算**:SPY/QQQ 单日**≤−3%** 正式触发(平日显示「若今日崩会偏哪型」预演)。读同日 **6 个 tell**,各投「机械型 mech」或「衰退型 reco」:①VIX 期限结构骤然倒挂(<−5%)=急性恐慌(两型皆有) ②长债 TLT:涨≥+0.5%=避险=衰退 / 跌≤−0.3%=无差别抛售=机械 ③高收益信用 HYG 相对其对 SPY 的 beta(0.35)超跌>0.5%=信用走坏=衰退 ④黄金 GLD:跟跌≤−0.5%=流动性挤兑=机械 / 涨≥+0.5%=有序避险=衰退 ⑤防御 vs 科技(XLP/XLU 均值−XLK)>+2%=轮动=衰退 / 否则=同跌=机械 ⑥当日闸门票数:0=全绿里崩=机械 / ≥2=衰退语境。
+- **判读 / 方向**:mech 票 > reco → **机械/1987型**(不带衰退、恢复最快,约2年);reco > mech → **衰退型**(恢复最慢:2000≈7年、2008≈5.5年);打平=待确认。对应 Burry「机械踩踏」vs 基本面熊的区分——**答的是「崩的性质」,不是「会不会崩」**。
+- **How**: triggers at a same-day SPY/QQQ move **≤−3%**; reads 6 cross-asset tells, each voting *mechanical* or *recessionary* (bonds/gold/credit/defensives-vs-tech/term-structure/gate-votes). More mech → 1987-type (no recession, ~2-yr recovery); more reco → recession-type (slowest: ~7 yrs 2000, ~5.5 yrs 2008). It answers *what kind of crash*, not *whether* one comes.
+
+### D · 📐 `market_breadth` — 广度/集中度(0–3 狭窄计分,越高越窄)· breadth/concentration (0–3, higher = narrower)
+- **怎么算**:3 信号命中各记 1 —— ①RSP÷SPY(等权/市值)近 **63 交易日(~3月)变化<0** ②IWM÷SPY(小盘/大盘)近 63 交易日变化<0 ③板块广度:11 个 SPDR 站上各自 200日线的比例**<50%**(需≥7 板块有效才计)。
+- **跟什么比 / 方向**:①②是比率的**时间变化**(现在 vs 3月前,向下=涨势向权重股集中/小盘落后=变窄);③是**横截面比例** vs 50%。**越窄=内部结构越弱=反转时越脆**。命中数:≥2 狭窄、1 中性偏弱、0 健康;只在有数据的信号里计分。
+- **印证**:Hussman 内部结构一致性 / Slok·Kolanovic 前十大集中度 / Burry 拥挤;**与三体制正交、不发买卖**。
+- **How**: 3 signals — RSP÷SPY and IWM÷SPY **3-month ratio changes** (falling = narrowing) and the share of 11 SPDR sectors above their 200-DMA (**<50% = weak**, needs ≥7 valid). Narrower = weaker internals = more fragile on reversal. Corroborates Hussman/Slok/Burry; orthogonal, no buy/sell.
+
+### E · 🧪 `research/backtest.py` — 让「代表」从论证变成可证伪数据 · turning "represents" from argument into falsifiable data
+- **作用**:忠实三原则里的 **(c) 可证伪** 靠它落地。输入「价格序列 + 信号序列」→ 输出**命中率 / 领先时间 / 规避回撤 / Sharpe / vs 买入持有**。**无前视**:信号按 `lag=1` 滞后(今天的信号明天才调仓)。
+- **两种口径**:**事件型** `event_eval`——示警日之后 `fwd`(默认 63 交易日≈1季度)前瞻收益<0 的比例=命中率;示警 vs 非示警平均前瞻收益之差=判别力(**越负越有效**);示警起点→其后低点的交易日数=领先时间。**仓位型** `backtest`——weight∈[0,1] 择时 vs 买入持有,输出规避回撤 / 超额 CAGR / 在市比例 / 换手。
+- **意义**:前三个「描述型」模型(泡沫/脆弱/广度)本身不发买卖,但**能不能提前区分危险**是可检验的——这把「模型代表某分析师观点」从 ④ 的**文字论证**推进到 **Phase 3 的历史数据检验**。
+- **Role**: this is where faithfulness criterion **(c) falsifiable** actually lands. Price + signal → hit-rate / lead-time / drawdown-avoided / Sharpe / vs buy-hold, with **no look-ahead** (`lag=1`). Event mode scores whether warnings precede losses (discrimination, the more negative the better); position mode scores timing vs buy-hold. It moves "this model represents the analyst's view" from a **written argument (④)** to a **testable Phase-3 result**.
+
+---
+
 ## 一句话总纲 · The through-line
 
 > 我们**只在能满足「机制对应 + 方向一致 + 可证伪」时才声称忠实**;满足不了的(Burry 流动性硬 tell、Chanos/Covello 的 ROI、Dimon 的私人信贷),一律在 ⑤ 标为「印证/待建」,**绝不用贴标签冒充建模**。这份「诚实的不完整」清单,本身就是 Phase 2/3 的施工图。
