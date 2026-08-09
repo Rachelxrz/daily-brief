@@ -139,6 +139,14 @@ def rolling_pctile(s: pd.Series, window: int, min_count: int = 30) -> pd.Series:
     return s.rolling(window, min_periods=min_count).apply(_rank, raw=True)
 
 
+def _align(s, grid, ffill: bool = True) -> pd.Series:
+    """把序列对齐到 grid;**空/None → grid 上的全 NaN 序列**(而非崩溃)。
+    某数据源抓取失败时,让相关因子降级为「缺输入」(→ n_valid 少一项),不拖垮整块。"""
+    if s is None or len(s) == 0:
+        return pd.Series(np.nan, index=grid)
+    return s.reindex(grid, method="ffill" if ffill else None)
+
+
 def _rsi_series(s: pd.Series, n: int = 14) -> pd.Series:
     """Wilder RSI 全序列(每点只用截至当日的数据)。"""
     delta = s.diff()
@@ -156,12 +164,16 @@ def _rsi_series(s: pd.Series, n: int = 14) -> pd.Series:
 def macro_gate_series(ndx, vix, curve, baa, unrate, cfnai) -> pd.DataFrame:
     """复刻 macro_gate 的 6 因子 → daily votes + 持续性闸门(与 macro_gate.py 完全同口径)。"""
     grid = ndx.index
-    vix = vix.reindex(grid, method="ffill")
-    curve = curve.reindex(grid, method="ffill")
-    baa = baa.reindex(grid, method="ffill")
-    u3 = unrate.rolling(3, min_periods=1).mean()
-    sahm = (u3 - u3.rolling(12, min_periods=3).min()).reindex(grid, method="ffill")
-    cfnai3 = cfnai.rolling(3, min_periods=1).mean().reindex(grid, method="ffill")
+    vix = _align(vix, grid)
+    curve = _align(curve, grid)
+    baa = _align(baa, grid)
+    if unrate is not None and len(unrate):
+        u3 = unrate.rolling(3, min_periods=1).mean()
+        sahm = _align(u3 - u3.rolling(12, min_periods=3).min(), grid)
+    else:
+        sahm = pd.Series(np.nan, index=grid)
+    cfnai3 = _align(cfnai.rolling(3, min_periods=1).mean(), grid) if (cfnai is not None and len(cfnai)) \
+        else pd.Series(np.nan, index=grid)
 
     ma200 = ndx.rolling(200).mean()
     slope_dn = ma200 < ma200.shift(65)
@@ -188,8 +200,8 @@ def macro_gate_series(ndx, vix, curve, baa, unrate, cfnai) -> pd.DataFrame:
 def fragility_series(ndx, vix, vix3m, basket: pd.DataFrame) -> pd.DataFrame:
     """复刻 fragility 5 因子 → daily frag_score(0–5)。分位用**滚动 1 年**(无前视)。"""
     grid = ndx.index
-    vix = vix.reindex(grid, method="ffill")
-    vix3m = vix3m.reindex(grid, method="ffill")
+    vix = _align(vix, grid)
+    vix3m = _align(vix3m, grid)
     contango = vix3m / vix - 1.0
 
     rvol = ndx.pct_change().rolling(20).std() * np.sqrt(252)
@@ -210,7 +222,11 @@ def fragility_series(ndx, vix, vix3m, basket: pd.DataFrame) -> pd.DataFrame:
     f4 = (stretch > FG.STRETCH_TH).fillna(False)
     f5 = (basket_rsi > FG.BASKET_RSI).fillna(False)
     score = (f1.astype(int) + f2.astype(int) + f3.astype(int) + f4.astype(int) + f5.astype(int))
-    return pd.DataFrame({"frag_score": score,
+    # 逐因子「输入是否可得」掩码(缺输入 ≠ 不脆弱):供 crisis_windows 判「部分/不可用」,
+    # 避免历史早期(如 ^VIX3M<2007 → 期限结构缺)把缺失当 False 拉低分数、却以 /5 呈现。
+    n_valid = (vix.notna().astype(int) + contango.notna().astype(int) + rvol_pct.notna().astype(int)
+               + stretch.notna().astype(int) + basket_rsi.notna().astype(int))
+    return pd.DataFrame({"frag_score": score, "n_valid": n_valid, "n_total": 5,
                          "risk_off_hi": score >= 4,     # 高度脆弱
                          "risk_off_mod": score >= 2},   # 中度及以上
                         index=grid)
@@ -265,22 +281,39 @@ def dalio_series(mcap, gdp, ndx, ipo, vix, freq: str = "ME") -> pd.DataFrame:
                         index=idx)
 
 
+def monetary_pin_series(ffr, real10, idx, freq: str = "ME") -> pd.Series:
+    """达利欧「货币针」历史序列(月频,无前视):联邦基金 6 月变化≥+0.25%
+    或 10y 实际利率 3 月变化≥+0.25% → 收紧。DFII10(实际利率)约 2003 起。"""
+    pin = pd.Series(False, index=idx)
+    if ffr is not None and not ffr.empty:
+        ffr_m = ffr.resample(freq).last().reindex(idx, method="ffill")
+        ffr_chg = ffr_m - ffr_m.shift(6)                       # 近 6 月变化
+        pin = pin | (ffr_chg >= DB.FFR_RISE_TH).fillna(False)
+    if real10 is not None and not real10.empty:
+        real_m = real10.resample(freq).last().reindex(idx, method="ffill")
+        real_chg = real_m - real_m.shift(3)                    # 近 3 月变化
+        pin = pin | (real_chg >= DB.REAL_RISE_TH).fillna(False)
+    return pin
+
+
 def breadth_series(spy, rsp, iwm, sectors: pd.DataFrame) -> pd.DataFrame:
     """复刻 market_breadth 3 信号 → daily narrow_score(0–3)。全部 point-in-time。"""
     grid = spy.index
-    rsp = rsp.reindex(grid).ffill()
-    iwm = iwm.reindex(grid).ffill()
+    rsp = _align(rsp, grid)
+    iwm = _align(iwm, grid)
     d = MB.TREND_DAYS
     rsp_spy = (rsp / spy)
     iwm_spy = (iwm / spy)
-    s1 = (rsp_spy / rsp_spy.shift(d) - 1.0) < 0     # 等权/市值 3 月变化<0
-    s2 = (iwm_spy / iwm_spy.shift(d) - 1.0) < 0     # 小盘/大盘 3 月变化<0
+    rsp_chg = rsp_spy / rsp_spy.shift(d) - 1.0
+    iwm_chg = iwm_spy / iwm_spy.shift(d) - 1.0
+    s1 = rsp_chg < 0     # 等权/市值 3 月变化<0
+    s2 = iwm_chg < 0     # 小盘/大盘 3 月变化<0
 
     # 板块广度:每日站上各自 200 日线的比例(仅在≥MIN_SECTORS 只有效时计)
     above = pd.DataFrame(index=grid)
     valid = pd.DataFrame(index=grid)
     for c in sectors.columns:
-        col = sectors[c].reindex(grid).ffill()
+        col = _align(sectors[c], grid)
         ma200 = col.rolling(200).mean()
         above[c] = (col > ma200)
         valid[c] = col.notna() & ma200.notna()
@@ -293,7 +326,11 @@ def breadth_series(spy, rsp, iwm, sectors: pd.DataFrame) -> pd.DataFrame:
     s2 = s2.reindex(grid).fillna(False)
     s3 = s3.reindex(grid).fillna(False)
     score = s1.astype(int) + s2.astype(int) + s3.astype(int)
-    return pd.DataFrame({"narrow_score": score, "breadth": breadth,
+    # 逐信号「输入是否可得」掩码(RSP≈2003、IWM≈2000、板块广度需≥MIN_SECTORS):
+    # 缺输入 ≠ 广度健康,供 crisis_windows 判「部分/不可用」,避免以 /3 呈现被缺失拉低的分。
+    n_valid = (rsp_chg.reindex(grid).notna().astype(int) + iwm_chg.reindex(grid).notna().astype(int)
+               + breadth.reindex(grid).notna().astype(int))
+    return pd.DataFrame({"narrow_score": score, "breadth": breadth, "n_valid": n_valid, "n_total": 3,
                          "risk_off": score >= 2}, index=grid)
 
 
@@ -325,60 +362,83 @@ def _evaluate(name, name_en, price: pd.Series, risk_off: pd.Series, fwd: int, ba
     }
 
 
+def fetch_all() -> dict:
+    """一次性抓取四模型所需的全部原始序列(有网时用)。返回 dict,便于 backtest 与
+    crisis_windows 共用同一批数据、同一口径。"""
+    log.info("⬇️  抓取数据(yfinance + FRED)…")
+    breadth_px = _yf_many(["SPY", "RSP", "IWM"] + MB.SECTORS, "max")
+    return {
+        "ndx": _yf_close("^NDX", "max"),        # QQQ 等价(macro_gate/fragility 目标)
+        "spx": _yf_close("^GSPC", "max"),       # SPY 等价(dalio/breadth 广基)
+        "vix": _yf_close("^VIX", "max"),
+        "vix3m": _yf_close("^VIX3M", "max"),
+        "curve": _fred("T10Y3M"), "baa": _fred("BAA10Y"),
+        "unrate": _fred("UNRATE"), "cfnai": _fred("CFNAI"),
+        "basket": _yf_many(FG.BURRY_SHORTS, "max"),
+        "mcap": _fred("NCBEILQ027S"), "gdp": _fred("GDP"), "ipo": _yf_close("IPO", "max"),
+        "ffr": _fred("FEDFUNDS"), "real10": _fred("DFII10"),
+        "breadth_px": breadth_px,
+        "spy": breadth_px["SPY"].dropna() if "SPY" in getattr(breadth_px, "columns", []) else pd.Series(dtype=float),
+    }
+
+
+def build_series(d: dict) -> dict:
+    """由 fetch_all() 的原始数据构建四模型的历史信号 DataFrame(供 backtest 与 crisis 复用)。
+    绝不复制阈值——全部走各 *_series 构造器,构造器内部再引用各模型模块常量。"""
+    out = {}
+    if not d["ndx"].empty and not d["vix"].empty and not d["curve"].empty:
+        out["macro"] = macro_gate_series(d["ndx"], d["vix"], d["curve"], d["baa"], d["unrate"], d["cfnai"])
+    if not d["ndx"].empty and not d["vix"].empty:
+        out["frag"] = fragility_series(d["ndx"], d["vix"], d["vix3m"], d["basket"])
+    if not d["ndx"].empty:
+        db = dalio_series(d["mcap"], d["gdp"], d["ndx"], d["ipo"], d["vix"])
+        db["pin"] = monetary_pin_series(d["ffr"], d["real10"], db.index)
+        db["risk_off_hi_pin"] = db["risk_off_hi"] & db["pin"]     # 达利欧完整判据:晚期泡沫 + 货币针
+        out["dalio"] = db
+    bpx = d["breadth_px"]
+    if not d["spy"].empty and hasattr(bpx, "columns") and "RSP" in bpx.columns:
+        sect = bpx[[c for c in MB.SECTORS if c in bpx.columns]]
+        out["breadth"] = breadth_series(d["spy"], bpx["RSP"], bpx.get("IWM", pd.Series(dtype=float)), sect)
+    return out
+
+
 def run_live() -> dict:
     log.info("=" * 64)
     log.info("📊 Phase 3 续:四模型历史重算 + 回测(拉真实数据)")
     log.info("=" * 64)
-
-    # ── 基准价 ──
-    ndx = _yf_close("^NDX", "max")       # QQQ 等价,长历史(macro_gate/fragility 目标)
-    spx = _yf_close("^GSPC", "max")      # SPY 等价(dalio/breadth 广基)
-
-    # ── macro_gate 数据 ──
-    vix = _yf_close("^VIX", "max")
-    curve = _fred("T10Y3M"); baa = _fred("BAA10Y"); unrate = _fred("UNRATE"); cfnai = _fred("CFNAI")
-
-    # ── fragility 数据 ──
-    vix3m = _yf_close("^VIX3M", "max")
-    basket = _yf_many(FG.BURRY_SHORTS, "max")
-
-    # ── dalio 数据 ──
-    mcap = _fred("NCBEILQ027S"); gdp = _fred("GDP")
-    ipo = _yf_close("IPO", "max")
-
-    # ── breadth 数据 ──
-    breadth_px = _yf_many(["SPY", "RSP", "IWM"] + MB.SECTORS, "max")
-    spy = breadth_px["SPY"].dropna() if "SPY" in breadth_px.columns else spx
-
+    d = fetch_all()
+    s = build_series(d)
+    ndx, spx, spy = d["ndx"], d["spx"], d["spy"]
     results = []
 
-    if not ndx.empty and not vix.empty and not curve.empty:
-        mg = macro_gate_series(ndx, vix, curve, baa, unrate, cfnai)
+    if "macro" in s:
+        mg = s["macro"]
         results.append(_evaluate("macro_gate 六因子闸门", "macro_gate (6-factor)", ndx, mg["risk_off"],
                                  fwd=63, band_note="risk_off = 票数≥2 且连续≥10 交易日"))
         log.info(f"  ✅ macro_gate: 闸门 on {int(mg['risk_off'].sum())} 日 / {len(mg)} 日")
 
-    if not ndx.empty and not vix.empty:
-        fg = fragility_series(ndx, vix, vix3m, basket)
+    if "frag" in s:
+        fg = s["frag"]
         results.append(_evaluate("fragility 高度脆弱(≥4)", "fragility (score≥4)", ndx, fg["risk_off_hi"],
                                  fwd=63, band_note="risk_off = frag_score≥4"))
         results.append(_evaluate("fragility 中度+(≥2)", "fragility (score≥2)", ndx, fg["risk_off_mod"],
                                  fwd=63, band_note="risk_off = frag_score≥2"))
         log.info(f"  ✅ fragility: ≥4 共 {int(fg['risk_off_hi'].sum())} 日, ≥2 共 {int(fg['risk_off_mod'].sum())} 日")
 
-    if not ndx.empty and not spx.empty:
-        db = dalio_series(mcap, gdp, ndx, ipo, vix)
-        # 泡沫是慢变量:月频信号 ffill 到日,前瞻 126 日(≈6 月)
+    if "dalio" in s and not spx.empty:
+        db = s["dalio"]
         results.append(_evaluate("dalio 泡沫≥60(偏高)", "dalio bubble≥60", spx, db["risk_off_mid"],
                                  fwd=126, band_note="risk_off = 读数≥60(月频扩张分位)"))
         results.append(_evaluate("dalio 泡沫≥80(晚期)", "dalio bubble≥80", spx, db["risk_off_hi"],
                                  fwd=126, band_note="risk_off = 读数≥80(月频扩张分位)"))
-        log.info(f"  ✅ dalio: 读数样本 {int(db['reading'].notna().sum())} 月, "
-                 f"≥60 共 {int(db['risk_off_mid'].sum())} 月, ≥80 共 {int(db['risk_off_hi'].sum())} 月")
+        # 校准实验:达利欧完整判据 = 晚期泡沫(≥80)且货币针 ON —— 测「针」是否补上择时价值
+        results.append(_evaluate("dalio 泡沫≥80 且货币针(完整判据)", "dalio ≥80 & monetary pin", spx, db["risk_off_hi_pin"],
+                                 fwd=126, band_note="risk_off = 读数≥80 且货币针 ON(达利欧完整判据)"))
+        log.info(f"  ✅ dalio: ≥60 {int(db['risk_off_mid'].sum())} 月, ≥80 {int(db['risk_off_hi'].sum())} 月, "
+                 f"≥80+针 {int(db['risk_off_hi_pin'].sum())} 月")
 
-    if not spy.empty and "RSP" in breadth_px.columns:
-        sect = breadth_px[[c for c in MB.SECTORS if c in breadth_px.columns]]
-        bd = breadth_series(spy, breadth_px["RSP"], breadth_px.get("IWM", pd.Series(dtype=float)), sect)
+    if "breadth" in s:
+        bd = s["breadth"]
         results.append(_evaluate("market_breadth 狭窄(≥2)", "breadth narrow≥2", spy, bd["risk_off"],
                                  fwd=63, band_note="risk_off = narrow_score≥2"))
         log.info(f"  ✅ breadth: 狭窄≥2 共 {int(bd['risk_off'].sum())} 日 / {len(bd)} 日")

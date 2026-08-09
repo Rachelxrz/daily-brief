@@ -79,7 +79,8 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 ### Phase 3 — 回测 · Backtest（进行中 In progress）
 - [x] 建**统一回测框架** `research/backtest.py`:`perf_stats`(CAGR/vol/Sharpe/MaxDD)、`backtest`(仓位型择时 vs 买入持有 + 规避回撤/敞口/换手,信号按 lag 滞后**无前视**)、`event_eval`(事件型:命中率/判别力/规避回撤/**领先时间**)。合成数据单测锁定指标正确性 + 无前视。
 - [x] **历史重算 + 回测** `research/backtest_models.py`:把 macro_gate / fragility / dalio_bubble / market_breadth 四模型的**历史信号序列**(point-in-time,**无前视**:分位一律用扩张/滚动窗口)喂入 `backtest.py`,产出各模型真实的**命中率 / 判别力 / 规避回撤 / 领先时间 / vs 买入持有**,写 `research/backtest_results.json` + `docs/data.json['backtest_results']`。阈值从各模型模块 import(不复制,防漂移);合成数据 self-test 断言无前视(前缀不变性)。由 `.github/workflows/backtest_models.yml`(月度 + 手动)在 Actions 用真实 FRED/yfinance 跑。诚实边界:dalio 略去表6(人工档)、breadth 受 ETF 历史限制(RSP≈2003)、fragility 期限结构受 ^VIX3M≈2007 限制。
-- [ ] 校准阈值(如 dalio 分位锚点、fragility 触发线),避免过拟合(记录被丢弃的尝试)—— **待回测结果产出后据此调**。
+- [x] **危机前30天轨迹** `research/crisis_windows.py`:过去 ~30 年 10 次危机(2000/2001/2007/2008/2010/2011/2015/2018/2020/2022),逐日记录四模型的**数值 / 连续天数 / 闸门提前多少天报警** + onset 后 63 日峰谷回撤(危机严重度)→ `research/crisis_windows.json` + 网页「危机前30天」面板(火花线)。同一批数据、同一信号构造器,只按日期切片(无前视)。
+- [x] **校准结论(基于真实回测,非过拟合)**:首轮结果——**macro_gate 是唯一真·风控**(规避回撤 **+43pp**、超额 CAGR **+0.84%**、Sharpe 0.80>0.66),保留阈值;**达利欧读数 = 量级表非择时器**(判别力**为正** = 示警后反而更涨 = 融涨,恰印证其框架),故**不据其单独择时**——并新增「读数≥80 **且**货币针 ON」的**完整判据**回测,检验「针」是否补上择时价值;**fragility / breadth 判别力≈0**,确认为「情境 / 印证」信号,**刻意不为追回测收益去调其触发线**(那是过拟合)。诚实结论:**大多数阈值不动**,只把 dalio 明确降格为「量级参考」。被丢弃的尝试:把 fragility/breadth 当退出信号——数据显示当卖点均为负超额,舍弃。
 
 ### Phase 4 — 预测与打分 · Forecast & score
 - [ ] 每个模型产出**带检查点的前瞻判断**，写入 `prediction_snapshots.jsonl`。
