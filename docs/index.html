@@ -8,12 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0a0b0d;
-    --surface:   #111318;
-    --border:    #1e2028;
+    /* 背景转白、正文转黑;其余强调色(金/绿/红/琥珀/蓝/muted)保持不变。
+       surface/border 为「背景层次」,须随背景转浅,否则黑字落在深色卡片上不可读。 */
+    --bg:        #ffffff;
+    --surface:   #f4f3ef;
+    --border:    #dcd8cf;
     --gold:      #c9a84c;
     --gold-dim:  #8a6e2f;
-    --text:      #e8e2d9;
+    --text:      #141414;
     --muted:     #6b6860;
     --green:     #4caf82;
     --red:       #e05c5c;
@@ -42,7 +44,7 @@
   /* ── Header ─────────────────────────────────── */
   header {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(10,11,13,0.92);
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
@@ -186,7 +188,7 @@
     font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
     transition: all 0.15s;
   }
-  .lang-btn.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .lang-btn.active { background: var(--gold); color: #0a0b0d; border-color: var(--gold); }
   .lang-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
 
   /* ── New candidates (screener) ──────────────────── */
@@ -261,9 +263,9 @@
   .md h1 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: 0.5rem; font-weight: 400; }
   .md h2 { font-family: 'DM Mono', monospace; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
   .md h3 { font-family: 'Noto Serif SC', serif; font-size: 1rem; color: var(--muted); margin-bottom: 1rem; font-weight: 300; }
-  .md p { font-size: 1.05rem; line-height: 1.85; color: #c8c2b8; margin-bottom: 0.6rem; }
+  .md p { font-size: 1.05rem; line-height: 1.85; color: var(--text); margin-bottom: 0.6rem; }
   .md ul, .md ol { padding-left: 1.2rem; margin-bottom: 0.6rem; }
-  .md li { font-size: 1.05rem; line-height: 1.85; color: #c8c2b8; margin-bottom: 0.2rem; }
+  .md li { font-size: 1.05rem; line-height: 1.85; color: var(--text); margin-bottom: 0.2rem; }
   .md strong { color: var(--text); font-weight: 500; }
   .md a { color: #79c0ff; text-decoration: none; }
   .md a:hover { color: #a8d8ff; text-decoration: underline; }
@@ -279,7 +281,7 @@
     padding: 12px 0; border-top: 1px solid var(--border);
   }
   @media (max-width: 860px) { .analyst-row { grid-template-columns: 1fr; } }
-  .analyst-view { font-size: 1.05rem; line-height: 1.85; color: #c8c2b8; }
+  .analyst-view { font-size: 1.05rem; line-height: 1.85; color: var(--text); }
   .analyst-said { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em;
                   text-transform: uppercase; margin-bottom: 6px; }
   .analyst-test {
@@ -288,7 +290,7 @@
   }
   .analyst-test-label { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.12em;
                         text-transform: uppercase; margin-bottom: 8px; }
-  .analyst-test-item { font-size: 0.9rem; line-height: 1.7; color: #c8c2b8; }
+  .analyst-test-item { font-size: 0.9rem; line-height: 1.7; color: var(--text); }
   .analyst-test-item b { color: var(--gold); font-weight: 500; }
   .analyst-src { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
   .analyst-src a { color: #79c0ff; text-decoration: none; }
@@ -296,14 +298,14 @@
 
   .md table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.92rem; }
   .md th { background: rgba(201,168,76,0.08); color: var(--gold); font-weight: 500; padding: 0.5rem 0.75rem; text-align: left; border: 1px solid var(--border); letter-spacing: 0.05em; }
-  .md td { padding: 0.45rem 0.75rem; border: 1px solid var(--border); color: #c8c2b8; vertical-align: top; }
+  .md td { padding: 0.45rem 0.75rem; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
   .md tr:hover td { background: rgba(255,255,255,0.02); }
 
   /* ── MA×Supertrend 均线信号 table ───────────────── */
   .ma-tbl { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.9rem; white-space: nowrap; }
   .ma-tbl th { background: rgba(201,168,76,0.08); color: var(--gold); font-weight: 500;
                padding: 0.5rem 0.7rem; text-align: left; border: 1px solid var(--border); letter-spacing: 0.04em; }
-  .ma-tbl td { padding: 0.45rem 0.7rem; border: 1px solid var(--border); color: #c8c2b8; }
+  .ma-tbl td { padding: 0.45rem 0.7rem; border: 1px solid var(--border); color: var(--text); }
   .ma-tbl tbody tr:hover td { background: rgba(255,255,255,0.02); }
 
   /* Rating badges */
@@ -563,7 +565,7 @@
   .news-analysis-text {
     font-size: 1.05rem;
     line-height: 1.85;
-    color: #c8c2b8;
+    color: var(--text);
     white-space: normal;
   }
 
