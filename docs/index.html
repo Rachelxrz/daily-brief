@@ -92,9 +92,9 @@
   /* ── Tab nav ─────────────────────────────────── */
   /* WSJ 风格:衬线加粗标题、近黑 #222 文字、报纸米白底(参考 WSJ #f8f7f2 / #222) */
   .tab-nav {
-    display: flex; gap: 0; margin-bottom: 2rem;
+    display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 2rem;
     border: 1px solid var(--border); border-radius: 4px;
-    overflow: hidden; width: fit-content;
+    overflow: hidden; width: fit-content; max-width: 100%;
     background: var(--surface);
   }
   .tab-btn {
