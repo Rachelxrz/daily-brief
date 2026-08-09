@@ -1,0 +1,57 @@
+name: 模型历史回测·Phase 3 续
+
+# research/backtest_models.py 把四模型的历史信号(无前视)重算并喂进 research/backtest.py,
+# 产出 命中率/判别力/规避回撤/领先时间,写 research/backtest_results.json + docs/data.json。
+# 重活(拉数十年 FRED/yfinance + 扩张分位),月度跑一次即可;也可手动触发。
+on:
+  schedule:
+    - cron: '0 6 1 * *'          # 每月 1 号 06:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: backtest-models
+  cancel-in-progress: false
+
+jobs:
+  backtest-models:
+    name: 四模型历史重算 + 回测
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - run: mkdir -p logs docs research
+      - name: 自检(无前视断言,先跑一遍确保逻辑正确)
+        run: python research/backtest_models.py --self-test
+      - name: 历史重算 + 回测（写 research/backtest_results.json + docs/data.json）
+        run: python research/backtest_models.py
+        continue-on-error: true
+      - name: Commit & push（fresh main 上只回填 backtest_results,不覆盖其它 key）
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp research/backtest_results.json /tmp/bt.json 2>/dev/null || echo '{}' > /tmp/bt.json
+          git fetch origin main && git reset --hard origin/main
+          cp /tmp/bt.json research/backtest_results.json
+          python - <<'PY'
+          import json
+          bt = json.load(open('/tmp/bt.json', encoding='utf-8'))
+          try:
+              d = json.load(open('docs/data.json', encoding='utf-8'))
+          except Exception:
+              d = {}
+          d['backtest_results'] = bt
+          json.dump(d, open('docs/data.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+          PY
+          git add research/backtest_results.json docs/data.json
+          git diff --staged --quiet || git commit -m "backtest_models 历史回测刷新 $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-models-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 5
