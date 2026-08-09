@@ -132,13 +132,13 @@
 - **印证**:Hussman 内部结构一致性 / Slok·Kolanovic 前十大集中度 / Burry 拥挤;**与三体制正交、不发买卖**。
 - **How**: 3 signals — RSP÷SPY and IWM÷SPY **3-month ratio changes** (falling = narrowing) and the share of 11 SPDR sectors above their 200-DMA (**<50% = weak**, needs ≥7 valid). Narrower = weaker internals = more fragile on reversal. Corroborates Hussman/Slok/Burry; orthogonal, no buy/sell.
 
-### E · 🧪 `research/backtest.py` — 统一回测框架(**已在 PR #7 实现,尚未并入 main**)· unified backtest framework (**implemented in PR #7, not yet merged to main**)
-- **状态(诚实)**:框架代码 + 9 项合成单测已在 **PR #7** 写好,但**该文件尚未合并进 `main`**,故本 PR 所在分支的代码树里**还看不到**它;`research/README.md` 也仍把 Phase 3 列为未勾选。下述是它的**接口与设计口径**,**合并前不在流水线中运行**。
-- **作用(设计)**:承接忠实三原则里的 **(c) 可证伪**。输入「价格序列 + 信号序列」→ 输出**命中率 / 领先时间 / 规避回撤 / Sharpe / vs 买入持有**。**无前视**:信号按 `lag=1` 滞后(今天的信号明天才调仓)。
-- **两种口径(设计)**:**事件型** `event_eval`——示警日之后 `fwd`(默认 63 交易日≈1季度)前瞻收益<0 的比例=命中率;示警 vs 非示警平均前瞻收益之差=判别力(**越负越有效**);示警起点→其后低点的交易日数=领先时间。**仓位型** `backtest`——weight∈[0,1] 择时 vs 买入持有,输出规避回撤 / 超额 CAGR / 在市比例 / 换手。
-- **意义**:前三个「描述型」模型(泡沫/脆弱/广度)本身不发买卖,但**能不能提前区分危险**是可检验的——**PR #7 合并后**,这把「模型代表某分析师观点」从 ④ 的**文字论证**推进到 **Phase 3 的历史数据检验**。
-- **Status (honest)**: the framework and its 9 synthetic unit tests are written in **PR #7 but not yet merged to `main`**, so the file is **not present in this PR's tree**; `research/README.md` still lists Phase 3 unchecked. What follows is its **interface and intended semantics**, **not behavior currently running in the pipeline**.
-- **Role (by design)**: it is meant to land faithfulness criterion **(c) falsifiable**. Price + signal → hit-rate / lead-time / drawdown-avoided / Sharpe / vs buy-hold, with **no look-ahead** (`lag=1`). Event mode scores whether warnings precede losses (discrimination, the more negative the better); position mode scores timing vs buy-hold. **Once PR #7 merges**, it moves "this model represents the analyst's view" from a **written argument (④)** to a **testable Phase-3 result**.
+### E · 🧪 `research/backtest.py` — 统一回测框架(**已在 `main`**,经 PR #7 合并)· unified backtest framework (**now in `main`**, merged via PR #7)
+- **状态**:框架代码 + 合成数据单测已随 **PR #7 合并进 `main`**,`research/README.md` 的 Phase 3 已勾选「统一回测框架」。它是**研究工具**(手动/研究时跑,**不接**定时 workflow),下述为其接口与口径。
+- **作用**:承接忠实三原则里的 **(c) 可证伪**。输入「价格序列 + 信号序列」→ 输出**命中率 / 领先时间 / 规避回撤 / Sharpe / vs 买入持有**。**无前视**:信号按 `lag=1` 滞后(今天的信号明天才调仓)。
+- **两种口径**:**事件型** `event_eval`——示警日之后 `fwd`(默认 63 交易日≈1季度)前瞻收益<0 的比例=命中率;示警 vs 非示警平均前瞻收益之差=判别力(**越负越有效**);示警起点→其后低点的交易日数=领先时间。**仓位型** `backtest`——weight∈[0,1] 择时 vs 买入持有,输出规避回撤 / 超额 CAGR / 在市比例 / 换手。
+- **意义**:前三个「描述型」模型(泡沫/脆弱/广度)本身不发买卖,但**能不能提前区分危险**是可检验的——框架已在 `main`,**下一步(Phase 3 续)** 是在 Actions 用历史 FRED/yfinance 重算各模型读数喂入,把「模型代表某分析师观点」从 ④ 的**文字论证**推进到**可证伪的历史数据检验**。
+- **Status**: the framework and its synthetic unit tests are now **merged into `main` via PR #7**; `research/README.md` checks off the Phase-3 framework line. It is a **research tool** (run manually, **not** wired to a scheduled workflow); the following describes its interface and semantics.
+- **Role**: it lands faithfulness criterion **(c) falsifiable**. Price + signal → hit-rate / lead-time / drawdown-avoided / Sharpe / vs buy-hold, with **no look-ahead** (`lag=1`). Event mode scores whether warnings precede losses (discrimination, the more negative the better); position mode scores timing vs buy-hold. The framework is in `main`; the **next step (Phase 3 continued)** is to recompute each model's historical readings in Actions and feed them in, moving "this model represents the analyst's view" from a **written argument (④)** to a **testable historical result**.
 
 ---
 
