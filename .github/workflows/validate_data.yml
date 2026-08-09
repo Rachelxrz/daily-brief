@@ -1,0 +1,25 @@
+name: 数据校验·validate data
+
+# 三组件系统 C2:任何改动 data/*.jsonl 的 PR/push 必须过 schema 校验(故意写坏的记录须被拦截)。
+on:
+  pull_request:
+    paths: ['data/**', 'scripts/validate.py']
+  push:
+    branches: [main]
+    paths: ['data/**', 'scripts/validate.py']
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: validate data/*.jsonl(纯 stdlib,无依赖)
+        run: python scripts/validate.py
+      - name: append-only 检查(PR:相对 base,历史行不得改写/删除)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          python scripts/validate.py --append-only-base origin/${{ github.base_ref }}
