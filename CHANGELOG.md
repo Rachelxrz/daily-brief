@@ -5,6 +5,10 @@
 
 ## 2026-08-08
 
+### 解决「线上无数据」+ Phase 3 回测引擎 `research/backtest.py`
+- **已知问题#1 解决**:`dalio_bubble`/`market_breadth` 合并晚于当日最后一次定时运行,手动 `workflow_dispatch` 触发 macro_gate.yml 后 main 已产出真实读数(达利欧泡沫 **72% 偏高·货币针+供给针 ON**;广度 **narrow 0/3·健康**;衰退闸门 0/6)。FRED/yfinance 在 Actions 正常。
+- **Phase 3 统一回测框架** `research/backtest.py`:`perf_stats`(CAGR/vol/Sharpe/MaxDD)、`backtest`(仓位型择时 vs 买入持有,信号按 lag 滞后**无前视**,输出规避回撤/敞口/换手)、`event_eval`(事件型:**命中率/判别力/规避回撤/领先时间**)。合成数据单测锁定指标 + 无前视(6 断言全过)。下一步:在 Actions 用历史数据重算各模型读数喂入回测。
+
 ### 研究项目状态快照 + 已知问题清单(见 research/README §10)
 - 汇总 Phase 0/1/2 已完成部分、Phase 2 剩余与 Phase 3/4/5 未开始项。
 - **已知问题**:①新模型 dalio_bubble/market_breadth 线上尚无数据(需确认下次 Actions 产出);②未回测→阈值未验证(最大方法论空缺);③模型口径多为代理/近似(已在各 spec 标注);④检查点多月精度;⑤名单偏空需防单边;⑥Actions bot 推进 main 造成合并冲突、沙箱封 Yahoo/FRED。
