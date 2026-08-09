@@ -1,0 +1,1969 @@
+{
+  "generated_utc": "2026-08-09 14:38Z",
+  "window_trading_days": 30,
+  "fwd_days": 63,
+  "note": "历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,无前视,仅按日期切片)。macro_gate 票数/连续/闸门首次 on 相对日(含 onset 前曾报警但已清除,回看~1季度);fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。**缺因子不当作健康**:某危机早于某分量(VIX3M≈2007、RSP≈2003)→ 该分以真实分母 n_valid 呈现并标 partial;全缺则 unavailable。severity=onset 后 63 日峰谷回撤。不构成投资建议。",
+  "note_en": "For each crisis, the four models' daily values / consecutive counts over the 30 trading days into the onset (signals are point-in-time, no look-ahead; this only slices by date). macro_gate votes/persistence/first-gate-on (incl. a warning that fired pre-onset then cleared, ~1-quarter lookback); fragility score; dalio monthly reading + monetary pin; breadth narrow score. **Missing factors are not counted as healthy**: where a crisis predates a component (^VIX3M≈2007, RSP≈2003) the score is shown over its true denominator n_valid and flagged partial; fully missing → unavailable. severity = peak-to-trough drawdown over 63d after onset. Not advice.",
+  "crises": [
+    {
+      "name": "2000 互联网泡沫见顶",
+      "name_en": "2000 dot-com peak",
+      "onset": "2000-03-10",
+      "available": true,
+      "fwd_drawdown_pct": -11.2,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 0,
+        "votes_max": 0,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 1,
+        "score_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "n_valid": 4,
+        "n_total": 5,
+        "partial": true
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 42,
+        "pin_at_onset": true,
+        "n_gauges": 3,
+        "month_path": [
+          [
+            -3,
+            46
+          ],
+          [
+            -2,
+            48
+          ],
+          [
+            -1,
+            51
+          ],
+          [
+            0,
+            42
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 1,
+        "narrow_at_onset_max": 1,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "n_valid": 1,
+        "n_total": 3,
+        "partial": true
+      }
+    },
+    {
+      "name": "2001 9·11",
+      "name_en": "2001 9/11",
+      "onset": "2001-09-10",
+      "available": true,
+      "fwd_drawdown_pct": -11.6,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 4,
+        "votes_max": 4,
+        "gate_on_at_onset": true,
+        "consec_votes_ge2_at_onset": 70,
+        "consec_gate_on_at_onset": 61,
+        "first_gate_on_rel_day": -60,
+        "gate_warned_pre_onset": true,
+        "path": [
+          [
+            -30,
+            3
+          ],
+          [
+            -27,
+            3
+          ],
+          [
+            -24,
+            3
+          ],
+          [
+            -21,
+            3
+          ],
+          [
+            -18,
+            3
+          ],
+          [
+            -15,
+            3
+          ],
+          [
+            -12,
+            3
+          ],
+          [
+            -9,
+            3
+          ],
+          [
+            -6,
+            3
+          ],
+          [
+            -3,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 1,
+        "score_at_onset_max": 1,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "n_valid": 4,
+        "n_total": 5,
+        "partial": true
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 10,
+        "pin_at_onset": false,
+        "n_gauges": 3,
+        "month_path": [
+          [
+            -3,
+            12
+          ],
+          [
+            -2,
+            21
+          ],
+          [
+            -1,
+            29
+          ],
+          [
+            0,
+            10
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 2,
+        "n_total": 3,
+        "partial": true
+      }
+    },
+    {
+      "name": "2007 金融危机见顶",
+      "name_en": "2007 GFC market peak",
+      "onset": "2007-10-09",
+      "available": true,
+      "fwd_drawdown_pct": -11.2,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 1,
+        "votes_max": 2,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 1,
+        "score_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 61,
+        "pin_at_onset": false,
+        "n_gauges": 3,
+        "month_path": [
+          [
+            -3,
+            66
+          ],
+          [
+            -2,
+            61
+          ],
+          [
+            -1,
+            41
+          ],
+          [
+            0,
+            61
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            2
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2008 雷曼",
+      "name_en": "2008 Lehman",
+      "onset": "2008-09-12",
+      "available": true,
+      "fwd_drawdown_pct": -40.0,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 4,
+        "votes_max": 4,
+        "gate_on_at_onset": true,
+        "consec_votes_ge2_at_onset": 156,
+        "consec_gate_on_at_onset": 147,
+        "first_gate_on_rel_day": -146,
+        "gate_warned_pre_onset": true,
+        "path": [
+          [
+            -30,
+            4
+          ],
+          [
+            -27,
+            4
+          ],
+          [
+            -24,
+            3
+          ],
+          [
+            -21,
+            3
+          ],
+          [
+            -18,
+            3
+          ],
+          [
+            -15,
+            4
+          ],
+          [
+            -12,
+            4
+          ],
+          [
+            -9,
+            4
+          ],
+          [
+            -6,
+            4
+          ],
+          [
+            -3,
+            4
+          ],
+          [
+            0,
+            4
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 0,
+        "score_at_onset_max": 1,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 31,
+        "pin_at_onset": false,
+        "n_gauges": 3,
+        "month_path": [
+          [
+            -3,
+            47
+          ],
+          [
+            -2,
+            22
+          ],
+          [
+            -1,
+            33
+          ],
+          [
+            0,
+            31
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 1,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2010 闪崩",
+      "name_en": "2010 Flash Crash",
+      "onset": "2010-05-06",
+      "available": true,
+      "fwd_drawdown_pct": -12.7,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 2,
+        "votes_max": 2,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 1,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 0,
+        "score_at_onset_max": 4,
+        "path": [
+          [
+            -30,
+            3
+          ],
+          [
+            -27,
+            2
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            3
+          ],
+          [
+            -15,
+            4
+          ],
+          [
+            -12,
+            4
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 59,
+        "pin_at_onset": false,
+        "n_gauges": 4,
+        "month_path": [
+          [
+            -3,
+            54
+          ],
+          [
+            -2,
+            67
+          ],
+          [
+            -1,
+            82
+          ],
+          [
+            0,
+            59
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 0,
+        "narrow_at_onset_max": 0,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2011 美债降级",
+      "name_en": "2011 US downgrade",
+      "onset": "2011-07-22",
+      "available": true,
+      "fwd_drawdown_pct": -18.3,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 0,
+        "votes_max": 0,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 0,
+        "score_at_onset_max": 1,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 63,
+        "pin_at_onset": false,
+        "n_gauges": 3,
+        "month_path": [
+          [
+            -3,
+            57
+          ],
+          [
+            -2,
+            74
+          ],
+          [
+            -1,
+            74
+          ],
+          [
+            0,
+            63
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            1
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2015 人民币贬值闪崩",
+      "name_en": "2015 China deval",
+      "onset": "2015-08-17",
+      "available": true,
+      "fwd_drawdown_pct": -11.2,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 1,
+        "votes_max": 1,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 2,
+        "score_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 76,
+        "pin_at_onset": true,
+        "n_gauges": 5,
+        "month_path": [
+          [
+            -3,
+            77
+          ],
+          [
+            -2,
+            70
+          ],
+          [
+            -1,
+            60
+          ],
+          [
+            0,
+            76
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 3,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            3
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2018 Q4 抛售",
+      "name_en": "2018 Q4 selloff",
+      "onset": "2018-10-03",
+      "available": true,
+      "fwd_drawdown_pct": -19.6,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 0,
+        "votes_max": 0,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 3,
+        "score_at_onset_max": 3,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            2
+          ],
+          [
+            -24,
+            3
+          ],
+          [
+            -21,
+            3
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 73,
+        "pin_at_onset": true,
+        "n_gauges": 4,
+        "month_path": [
+          [
+            -3,
+            63
+          ],
+          [
+            -2,
+            69
+          ],
+          [
+            -1,
+            80
+          ],
+          [
+            0,
+            73
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2020 新冠",
+      "name_en": "2020 COVID peak",
+      "onset": "2020-02-19",
+      "available": true,
+      "fwd_drawdown_pct": -33.9,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 1,
+        "votes_max": 1,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 2,
+        "score_at_onset_max": 5,
+        "path": [
+          [
+            -30,
+            4
+          ],
+          [
+            -27,
+            4
+          ],
+          [
+            -24,
+            3
+          ],
+          [
+            -21,
+            3
+          ],
+          [
+            -18,
+            3
+          ],
+          [
+            -15,
+            1
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            -9,
+            1
+          ],
+          [
+            -6,
+            1
+          ],
+          [
+            -3,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 60,
+        "pin_at_onset": false,
+        "n_gauges": 5,
+        "month_path": [
+          [
+            -3,
+            65
+          ],
+          [
+            -2,
+            73
+          ],
+          [
+            -1,
+            69
+          ],
+          [
+            0,
+            60
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    },
+    {
+      "name": "2022 加息熊",
+      "name_en": "2022 rate-hike bear",
+      "onset": "2022-01-03",
+      "available": true,
+      "fwd_drawdown_pct": -13.0,
+      "fwd_days": 63,
+      "macro_gate": {
+        "available": true,
+        "votes_at_onset": 0,
+        "votes_max": 1,
+        "gate_on_at_onset": false,
+        "consec_votes_ge2_at_onset": 0,
+        "consec_gate_on_at_onset": 0,
+        "first_gate_on_rel_day": null,
+        "gate_warned_pre_onset": false,
+        "path": [
+          [
+            -30,
+            0
+          ],
+          [
+            -27,
+            0
+          ],
+          [
+            -24,
+            0
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "fragility": {
+        "available": true,
+        "score_at_onset": 0,
+        "score_at_onset_max": 3,
+        "path": [
+          [
+            -30,
+            2
+          ],
+          [
+            -27,
+            1
+          ],
+          [
+            -24,
+            1
+          ],
+          [
+            -21,
+            0
+          ],
+          [
+            -18,
+            1
+          ],
+          [
+            -15,
+            0
+          ],
+          [
+            -12,
+            0
+          ],
+          [
+            -9,
+            0
+          ],
+          [
+            -6,
+            0
+          ],
+          [
+            -3,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "n_valid": 5,
+        "n_total": 5,
+        "partial": false
+      },
+      "dalio": {
+        "available": true,
+        "reading_at_onset": 38,
+        "pin_at_onset": false,
+        "n_gauges": 4,
+        "month_path": [
+          [
+            -3,
+            52
+          ],
+          [
+            -2,
+            76
+          ],
+          [
+            -1,
+            45
+          ],
+          [
+            0,
+            38
+          ]
+        ]
+      },
+      "breadth": {
+        "available": true,
+        "narrow_at_onset": 2,
+        "narrow_at_onset_max": 2,
+        "path": [
+          [
+            -30,
+            1
+          ],
+          [
+            -27,
+            2
+          ],
+          [
+            -24,
+            2
+          ],
+          [
+            -21,
+            2
+          ],
+          [
+            -18,
+            2
+          ],
+          [
+            -15,
+            2
+          ],
+          [
+            -12,
+            2
+          ],
+          [
+            -9,
+            2
+          ],
+          [
+            -6,
+            2
+          ],
+          [
+            -3,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_valid": 3,
+        "n_total": 3,
+        "partial": false
+      }
+    }
+  ]
+}

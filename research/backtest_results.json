@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-08-09 00:37Z",
+  "generated_utc": "2026-08-09 14:38Z",
   "note": "四模型历史信号(point-in-time,无前视:分位用扩张/滚动窗口)喂入 research/backtest.py。risk_off→空仓 vs 买入持有。dalio 略去表6(人工档);breadth 受 ETF 历史限制(RSP≈2003、部分板块更晚);fragility 期限结构因子受 ^VIX3M≈2007 限制。判别力(discrimination)负=示警后收益更差=有效。不构成投资建议。",
   "note_en": "Historical point-in-time model signals (no look-ahead; percentiles use expanding/rolling windows) fed into research/backtest.py. risk_off→cash vs buy-hold. dalio omits gauge 6 (manual); breadth limited by ETF history; fragility term-structure factor limited by ^VIX3M≈2007. Negative discrimination = worse returns after warning = effective. Not investment advice.",
   "models": [
@@ -109,6 +109,28 @@
       "strat_maxdd": -0.8619,
       "bh_maxdd": -0.8619,
       "strat_sharpe": 0.41,
+      "bh_sharpe": 0.422,
+      "price_start": "1927-12-30",
+      "price_end": "2026-08-07"
+    },
+    {
+      "model": "dalio 泡沫≥80 且货币针(完整判据)",
+      "model_en": "dalio ≥80 & monetary pin",
+      "band": "risk_off = 读数≥80 且货币针 ON(达利欧完整判据)",
+      "fwd_days": 126,
+      "n_signal_days": 336,
+      "n_episodes": 6,
+      "hit_rate": 0.077,
+      "discrimination_fwd": 0.0319,
+      "avg_fwd_dd_riskoff": -0.0699,
+      "avg_fwd_dd_riskon": -0.1155,
+      "avg_lead_days_to_trough": 24.5,
+      "drawdown_avoided_pp": 0.0,
+      "excess_cagr": 0.0003,
+      "exposure": 0.986,
+      "strat_maxdd": -0.8619,
+      "bh_maxdd": -0.8619,
+      "strat_sharpe": 0.424,
       "bh_sharpe": 0.422,
       "price_start": "1927-12-30",
       "price_end": "2026-08-07"
