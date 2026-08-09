@@ -134,6 +134,19 @@ SERVERCHAN_KEY       → ServerChan 备用推送
 
 ---
 
+## 🧭 三组件扩展:观点层(analyst-panel)· 机制层(gate 预警)· 自我校准层(predict)
+
+> 2026-08-09 立项。**原则:既有结构与流程不变**——三组件以**独立页面 + 独立数据文件**接入,不改动既有 tab/模块/workflow 逻辑。
+
+- **治理文档**(主控在 `docs/`,按此优先级): `docs/工作计划书.md`(任务 C1-C16)→ `docs/analyst-panel-项目计划.md` → `docs/审计文章修订补编.md` → `docs/三组件系统宪法.md`;原始审计文章 `docs/审计文章-从分析师观点到金融体系重大变化预警系统.pdf`(按用户指令附件保留在 GitHub)
+- **独立页面**: `docs/warning.html`(预警系统·机制层)/ `docs/panel.html`(分析师面板·观点层)/ `docs/review.html`(校准·监测·总结·反省·整合层)——从主页导航链接进入,不参与既有 tab 渲染流程
+- **数据**: `data/analysts.jsonl` · `data/context_snapshots.jsonl` · `data/reviews.jsonl` · `data/registry.jsonl`(experiment registry;注意与既有 `research/registry.jsonl` 分析师档案是**两个不同文件**)。JSONL **只追加**,更正用新行+`supersedes`;schema 先行:改字段先改 `scripts/validate.py`(CI: `validate_data.yml`)
+- **⚠️ 冲突待决**(宪法条款 vs「既有结构不变」指令,按宪法自身规则先提出再执行):
+  1. 宪法要求重命名既有模块(`dalio_bubble`→`dalio_inspired_bubble` 等)——**暂不重命名代码/数据键**,新页面以 fidelity 标签映射现名;待用户裁决后另行迁移
+  2. 宪法引用的 `predict.py` 尚不在本仓库(在用户本地/InvestOS),自我校准层暂以文档描述接入
+  3. 宪法「审计 PDF 一律 Drive」与用户「附件保留在 GitHub」指令冲突——按用户指令入 `docs/`;后续如需迁 Drive 再议
+  4. `briefs/` 每日简报入库需改动既有 daily_brief workflow,为不破坏现流程**暂缓**(C1 后半),单独评审
+
 ## 分工（详见 AGENTS.md）
 
 | 角色 | 工具 | 职责 |
