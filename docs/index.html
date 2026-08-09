@@ -90,24 +90,26 @@
   }
 
   /* ── Tab nav ─────────────────────────────────── */
+  /* WSJ 风格:衬线加粗标题、近黑 #222 文字、报纸米白底(参考 WSJ #f8f7f2 / #222) */
   .tab-nav {
     display: flex; gap: 0; margin-bottom: 2rem;
     border: 1px solid var(--border); border-radius: 4px;
     overflow: hidden; width: fit-content;
+    background: var(--surface);
   }
   .tab-btn {
-    background: transparent; border: none; cursor: pointer;
-    padding: 0.6rem 1.4rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted);
+    background: var(--surface); border: none; cursor: pointer;
+    padding: 0.65rem 1.4rem;
+    font-family: 'Noto Serif SC', 'DM Serif Display', serif;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    color: #222222;
     transition: all 0.2s; border-right: 1px solid var(--border);
   }
   .tab-btn:last-child { border-right: none; }
   .tab-btn.active {
-    background: var(--gold); color: #0a0b0d; font-weight: 500;
+    background: var(--gold); color: #0a0b0d; font-weight: 700;
   }
-  .tab-btn:hover:not(.active) { color: var(--text); background: var(--surface); }
+  .tab-btn:hover:not(.active) { color: #000; background: #eae7dd; }
 
   /* ── Date selector ──────────────────────────── */
   .date-bar {
