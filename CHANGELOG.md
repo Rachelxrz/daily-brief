@@ -18,6 +18,7 @@
 - **月度 workflow `backtest_models.yml`**:同时跑两脚本、`--self-test` 前置守门;commit 仅在新结果非空时覆盖(抓数失败保留上一份有效面板)。
 - **Codex 评审(PR#10 2 条 / #11 3 条)全部核实修正**:泡沫档位 ≥60/≥80(取整边界)、backtest 标 PR#7 已合并;**缺分量不当健康**(fragility/breadth 增 n_valid 掩码,部分缺→按真实分母 partial、全缺→unavailable)、闸门**已清除的预警**回看窗捕捉、空结果**不覆盖**既有面板;外加数据源健壮性 `_align()`(失败源降级为缺输入而非崩溃)。
 - **`research/view_to_model.md`**:新增「**附录二 · 实证**」章,把回测记分卡 + 危机前30天发现 + 五个诚实结论写入(双语);校准结论写入 `research/README.md` Phase 3。
+- **Codex 评审 PR#12(2 条)修正**:**P1 无前视口径**——`backtest_models.fetch_all` 新增 `_pub_lag`,把月度/季度宏观(UNRATE/CFNAI/FEDFUNDS +1月、GDP +4月、Z.1市值 +5月)按**发布滞后前移**,不再用尚未发布的读数;残留 caveat 诚实标注「仍取最新修订值=非 ALFRED vintage,头条数字据此打折」,vintage 对齐列为待办。**P2 COVID 结论**——原「四表皆温和」有误(与数据及结论2矛盾):`fragility` 崩前升至 **5/5**(−30日 4/5),改为「触发不可测但脆弱性可见」,病毒火星测不到 ≠ 干柴不满。
 
 ### 观点→模型 建模论证底稿 `research/view_to_model.md`(PR #8 #9)
 - **逐位分析师(21 人)论证「凭什么这个信号代表他的观点」**:①观点 ②时间 ③建模 ④为什么忠实(机制对应/方向一致/可证伪三原则)⑤局限;单独成篇(PR #8)。

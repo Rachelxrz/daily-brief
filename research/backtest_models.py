@@ -147,6 +147,16 @@ def _align(s, grid, ffill: bool = True) -> pd.Series:
     return s.reindex(grid, method="ffill" if ffill else None)
 
 
+def _pub_lag(s, months: int):
+    """把 FRED 观测序列按**发布滞后**前移 months 个月:FRED 观测日在期初,而数据要到
+    期末后若干周才发布——不前移就会「用到尚未发布的值」(前视)。前移后 reindx+ffill 只在
+    (近似)真实可得日之后才看到该值。**注意:修订值仍取最新一版 = 非 ALFRED vintage**,
+    历史修订未回滚,列为待办(见 note)。空/None 原样返回。"""
+    if s is None or len(s) == 0:
+        return s
+    return pd.Series(s.values, index=s.index + pd.DateOffset(months=months))
+
+
 def _rsi_series(s: pd.Series, n: int = 14) -> pd.Series:
     """Wilder RSI 全序列(每点只用截至当日的数据)。"""
     delta = s.diff()
@@ -372,11 +382,15 @@ def fetch_all() -> dict:
         "spx": _yf_close("^GSPC", "max"),       # SPY 等价(dalio/breadth 广基)
         "vix": _yf_close("^VIX", "max"),
         "vix3m": _yf_close("^VIX3M", "max"),
-        "curve": _fred("T10Y3M"), "baa": _fred("BAA10Y"),
-        "unrate": _fred("UNRATE"), "cfnai": _fred("CFNAI"),
+        # 日频市场序列(当日可得、不修订)→ 不前移
+        "curve": _fred("T10Y3M"), "baa": _fred("BAA10Y"), "real10": _fred("DFII10"),
+        # 月度宏观(发布滞后~1月)→ 前移 1 月,避免用到尚未发布的读数
+        "unrate": _pub_lag(_fred("UNRATE"), 1), "cfnai": _pub_lag(_fred("CFNAI"), 1),
+        "ffr": _pub_lag(_fred("FEDFUNDS"), 1),
         "basket": _yf_many(FG.BURRY_SHORTS, "max"),
-        "mcap": _fred("NCBEILQ027S"), "gdp": _fred("GDP"), "ipo": _yf_close("IPO", "max"),
-        "ffr": _fred("FEDFUNDS"), "real10": _fred("DFII10"),
+        # 季度序列:GDP 首估~季末+1 月(前移 4);Z.1 企业股权市值~季末+2.5 月(前移 5)
+        "mcap": _pub_lag(_fred("NCBEILQ027S"), 5), "gdp": _pub_lag(_fred("GDP"), 4),
+        "ipo": _yf_close("IPO", "max"),
         "breadth_px": breadth_px,
         "spy": breadth_px["SPY"].dropna() if "SPY" in getattr(breadth_px, "columns", []) else pd.Series(dtype=float),
     }
@@ -445,13 +459,16 @@ def run_live() -> dict:
 
     payload = {
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%MZ"),
-        "note": ("四模型历史信号(point-in-time,无前视:分位用扩张/滚动窗口)喂入 research/backtest.py。"
-                 "risk_off→空仓 vs 买入持有。dalio 略去表6(人工档);breadth 受 ETF 历史限制(RSP≈2003、部分板块更晚);"
-                 "fragility 期限结构因子受 ^VIX3M≈2007 限制。判别力(discrimination)负=示警后收益更差=有效。不构成投资建议。"),
-        "note_en": ("Historical point-in-time model signals (no look-ahead; percentiles use expanding/rolling windows) "
-                    "fed into research/backtest.py. risk_off→cash vs buy-hold. dalio omits gauge 6 (manual); breadth limited "
-                    "by ETF history; fragility term-structure factor limited by ^VIX3M≈2007. Negative discrimination = "
-                    "worse returns after warning = effective. Not investment advice."),
+        "note": ("四模型历史信号(分位用扩张/滚动窗口,信号再经 lag=1)喂入 research/backtest.py。risk_off→空仓 vs 买入持有。"
+                 "**无前视口径**:月度/季度宏观(UNRATE/CFNAI/FEDFUNDS/GDP/Z.1市值)已按发布滞后前移,不再用到尚未发布的读数;"
+                 "**残留 caveat**:仍取最新修订值(非 ALFRED vintage,历史修订未回滚)——头条数字应据此打折看待。"
+                 "dalio 略去表6(人工档);breadth 受 ETF 历史(RSP≈2003);fragility 期限结构受 ^VIX3M≈2007 限制。"
+                 "判别力(discrimination)负=示警后收益更差=有效。不构成投资建议。"),
+        "note_en": ("Historical model signals (expanding/rolling-window percentiles, signal lagged 1 day) fed into research/backtest.py. "
+                    "risk_off→cash vs buy-hold. **No-look-ahead**: monthly/quarterly macro (UNRATE/CFNAI/FEDFUNDS/GDP/Z.1 mktcap) is shifted by "
+                    "publication lag so no value is used before its release; **remaining caveat**: latest-revised values are still used (not ALFRED "
+                    "vintage; historical revisions not rolled back) — headline figures should be read with that discount. dalio omits gauge 6 (manual); "
+                    "breadth limited by ETF history (RSP≈2003); fragility term-structure limited by ^VIX3M≈2007. Negative discrimination = effective. Not advice."),
         "models": results,
     }
     return payload

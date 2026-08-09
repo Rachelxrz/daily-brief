@@ -231,7 +231,8 @@ def run_live() -> dict:
     return {
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%MZ"),
         "window_trading_days": WIN, "fwd_days": FWD,
-        "note": ("历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,无前视,仅按日期切片)。"
+        "note": ("历次危机前 30 交易日,四模型逐日数值/连续天数(信号 point-in-time,仅按日期切片;月度/季度宏观已按发布滞后前移=无前视,"
+                 "但仍取最新修订值=非 ALFRED vintage,列为待办)。"
                  "macro_gate 票数/连续/闸门首次 on 相对日(含 onset 前曾报警但已清除,回看~1季度);fragility 脆弱分;dalio 月频读数+货币针;breadth 狭窄计分。"
                  "**缺因子不当作健康**:某危机早于某分量(VIX3M≈2007、RSP≈2003)→ 该分以真实分母 n_valid 呈现并标 partial;全缺则 unavailable。"
                  "severity=onset 后 63 日峰谷回撤。不构成投资建议。"),
