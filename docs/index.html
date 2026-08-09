@@ -92,9 +92,9 @@
   /* ── Tab nav ─────────────────────────────────── */
   /* WSJ 风格:衬线加粗标题、近黑 #222 文字、报纸米白底(参考 WSJ #f8f7f2 / #222) */
   .tab-nav {
-    display: flex; gap: 0; margin-bottom: 2rem;
+    display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 2rem;
     border: 1px solid var(--border); border-radius: 4px;
-    overflow: hidden; width: fit-content;
+    overflow: hidden; width: fit-content; max-width: 100%;
     background: var(--surface);
   }
   .tab-btn {
@@ -110,6 +110,9 @@
     background: var(--gold); color: #0a0b0d; font-weight: 700;
   }
   .tab-btn:hover:not(.active) { color: #000; background: #eae7dd; }
+  /* 三组件独立页面入口(链接按 tab 样式呈现;不参与 switchTab 逻辑) */
+  .tab-link { text-decoration: none; display: inline-flex; align-items: center;
+              border-left: 1px solid var(--border); }
 
   /* ── Date selector ──────────────────────────── */
   .date-bar {
@@ -608,6 +611,9 @@
     <button class="tab-btn" data-tab="wheel" onclick="switchTab('wheel')">🎡 Wheel 期权</button>
     <button class="tab-btn" data-tab="signals" onclick="switchTab('signals')">📊 个股技术信号</button>
     <button class="tab-btn" data-tab="prediction" onclick="switchTab('prediction')">🔄 板块轮动</button>
+    <a class="tab-btn tab-link" href="warning.html">🛰️ 预警系统</a>
+    <a class="tab-btn tab-link" href="panel.html">🎙️ 分析师面板</a>
+    <a class="tab-btn tab-link" href="review.html">🪞 校准反省</a>
   </div>
 
   <!-- Date bar -->

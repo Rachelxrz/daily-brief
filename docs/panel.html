@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎙️ 分析师面板 · 论断档案与校准(观点层)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#ffffff; --surface:#f4f3ef; --border:#dcd8cf; --gold:#c9a84c; --gold-dim:#8a6e2f;
+          --text:#141414; --muted:#6b6860; --green:#4caf82; --red:#e05c5c; --amber:#e09a3c; --blue:#79c0ff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; min-height:100vh; }
+  .container { max-width:1150px; margin:0 auto; padding:1.2rem 1.5rem 3rem; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+            border-bottom:1px solid var(--border); padding:0.8rem 0; margin-bottom:1.2rem; }
+  .topbar a { font-family:'Noto Serif SC',serif; font-weight:700; font-size:0.85rem; color:#222;
+              text-decoration:none; background:var(--surface); border:1px solid var(--border);
+              border-radius:4px; padding:0.45rem 1rem; }
+  .topbar a:hover { background:#eae7dd; color:#000; }
+  h1 { font-family:'Noto Serif SC',serif; font-size:1.5rem; font-weight:700; }
+  h1 small { display:block; font-size:0.78rem; color:var(--muted); font-weight:400; margin-top:2px; }
+  h2 { font-family:'Noto Serif SC',serif; font-size:1.08rem; font-weight:700; margin-bottom:0.5rem; }
+  h2 small { font-size:0.75rem; color:var(--muted); font-weight:400; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+          padding:1rem 1.2rem; margin-bottom:1rem; }
+  p, li { font-size:0.9rem; line-height:1.8; }
+  .muted { color:var(--muted); }
+  table { border-collapse:collapse; width:100%; font-size:0.84rem; }
+  th { background:rgba(201,168,76,0.10); color:var(--gold-dim); font-weight:600; text-align:left;
+       padding:0.45rem 0.6rem; border:1px solid var(--border); white-space:nowrap; }
+  td { padding:0.45rem 0.6rem; border:1px solid var(--border); vertical-align:top; }
+  .tblwrap { overflow-x:auto; }
+  .layer-chip { display:inline-block; border-radius:4px; padding:1px 7px; font-size:0.68rem; font-weight:600;
+                border:1px solid var(--gold-dim); color:var(--gold-dim); background:rgba(201,168,76,0.10); white-space:nowrap; }
+  .status-open { color:var(--blue); } .status-hit { color:var(--green); } .status-miss { color:var(--red); }
+  .due-soon { border-left:3px solid var(--amber); }
+  ul { padding-left:1.2rem; }
+  footer { color:var(--muted); font-size:0.72rem; margin-top:1.6rem; line-height:1.7; }
+  details summary { cursor:pointer; font-family:'Noto Serif SC',serif; font-weight:700; font-size:1.0rem; }
+  code { background:rgba(201,168,76,0.10); border-radius:3px; padding:0 4px; font-size:0.8rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <h1>🎙️ 分析师面板 <small>观点层 · Analyst Panel — 带环境快照的可证伪论断档案 · 天/周级(与主站「分析师观点」页的 21 人框架档案互补:此处为卖方/机构面板的逐条论断记账)</small></h1>
+    <a href="index.html">← 返回 Daily Brief</a>
+  </div>
+
+  <div class="card" style="border-left:5px solid var(--gold)">
+    <h2>三个要回答的问题 <small>目标与非目标(项目计划 v0.2)</small></h2>
+    <p><b>① 谁值得信</b>——各分析师在什么环境下、哪类判断上系统性地对或错(分析师校准);<b>② 我值得信吗</b>——基于他们观点综合出的判断命中率如何、在哪里被合理化污染(与 predict.py 打通);<b>③ 历史可回放</b>——任意时点回看「当时的人在当时的环境下为什么这么想」。</p>
+    <p class="muted" style="font-size:0.8rem">非目标:不做实时行情、不做全网研报爬虫、不追求目标价——<b>重要的是论断、前提和验证结果</b>。premise 字段是灵魂:前提比结论更早暴露对错。</p>
+  </div>
+
+  <!-- 论断流(live) -->
+  <div class="card">
+    <h2>论断档案 <small>data/analysts.jsonl · 只追加,更正用新行 + supersedes · 琥珀边=距验证期限 ≤7 天</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>日期</th><th>分析师</th><th>板块</th><th>论断 claim</th><th>前提 premise</th><th>验证期限</th><th>状态</th></tr></thead>
+      <tbody id="claim-rows"><tr><td colspan="7" class="muted">读取论断档案…</td></tr></tbody>
+    </table></div>
+    <p class="muted" id="claim-note" style="font-size:0.76rem;margin-top:6px"></p>
+  </div>
+
+  <!-- 面板 -->
+  <div class="card">
+    <h2>面板(初始 12-15 人,半年轮换) <small>确认人选 · 每板块含反向锚或非卖方硬数据基准</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>板块</th><th>确认人选</th><th>定位</th></tr></thead>
+      <tbody>
+        <tr><td><span class="layer-chip">macro 宏观</span></td><td>Feroli (JPM) · Gapen (MS) · Porcelli (富国,反向锚)</td><td>央行反应函数三视角:鹰派修正 / 温和暂停 / 坚持不降</td></tr>
+        <tr><td><span class="layer-chip">strategy 策略</span></td><td>Wilson (MS) · Kostin (GS)</td><td>盈利修正广度模型 vs 事实上的共识锚</td></tr>
+        <tr><td><span class="layer-chip">energy 能源</span></td><td>Struyven 团队 (GS) · EIA(非卖方基准)</td><td>供需平衡表 + 官方基准对照</td></tr>
+        <tr><td><span class="layer-chip">ai-infra AI与基建</span></td><td>MS 半导体团队(Joseph Moore 等)· GS Ronald Keung 团队(中国 AI)· 硬数据基准:四大云厂商 capex + TSMC 月度营收 + SIA 月度销售(本板块的「EIA」)</td><td>基建层为主、应用层为辅;以可核查 capex 硬数据为锚</td></tr>
+        <tr><td><span class="layer-chip">fx-gold 货币与黄金</span></td><td>GS 贵金属(Lina Thomas / Samantha Dart)· JPM Natasha Kaneva · UBS 贵金属(保守锚);DXY 由宏观层利差逻辑推导</td><td>金价论断反向检验宏观框架;高盛 2025-26 连续低估金价的修正记录 = 第一批复盘素材</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 采集日历 -->
+  <div class="card">
+    <details>
+      <summary>采集日历(写入 Actions cron,C5)<span class="muted" style="font-size:0.75rem;font-weight:400"> 只记录「新论断或修正」;修正必须含修正前后值(timing 判断依据)</span></summary>
+      <div class="tblwrap" style="margin-top:8px"><table>
+        <thead><tr><th>板块</th><th>定期更新</th><th>事件触发</th></tr></thead>
+        <tbody>
+          <tr><td>宏观</td><td>每月 CPI(月中)、非农(首个周五)当日快评;每季度展望</td><td>FOMC 一年 8 次:会前预览 + 会后 24h 点评必采</td></tr>
+          <tr><td>策略</td><td>每周一 Wilson 周报;11-12 月年度展望;5-6 月中期修正</td><td>目标价临时调整(市场大幅偏离时)</td></tr>
+          <tr><td>能源</td><td>EIA 周度库存(周三);OPEC 月报(月中);EIA STEO(月初)</td><td>地缘事件期间高盛可能双周改预测</td></tr>
+          <tr><td>AI 与基建</td><td>财报季(1/4/7/10 月):云厂商 capex 指引 + NVDA/TSMC;TSMC 月度营收(每月 10 日前后);SIA 月度</td><td>大型发布会、重大订单/出口管制变化</td></tr>
+          <tr><td>货币与黄金</td><td>WGC 央行购金季度报告;各行金价预测按月/事件修正</td><td>央行政策转向、地缘避险事件</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- Schema 与复盘规范 -->
+  <div class="card">
+    <details>
+      <summary>数据规范:三个 JSONL + 复盘七字段</summary>
+      <div style="margin-top:8px">
+        <p><b>analysts.jsonl</b>(每条论断一行):<code>id / analyst / firm / layer / date / snapshot_id / claim / premise / falsifiable_by / tags / source_url / drive_file_id / status</code>。schema 由 <code>scripts/validate.py</code> 强制,CI 拦截坏记录。</p>
+        <p><b>context_snapshots.jsonl</b>(每周/每事件一条,被多条论断共享):关键宏观/市场数据 + <b>narrative(必须当时写</b>——数字事后能查,市场情绪查不回来)。环境快照独立成表:几年后可做「哪类环境下谁失灵」的横截面研究。</p>
+        <p><b>reviews.jsonl</b>(论断到期复盘,<b>七字段全部必填</b>):<code>outcome</code>(hit/miss/partial+实际数字)· <code>error_type</code>(<b>input=数据没料到可原谅 / framework=逻辑本身错要降权</b>)· <code>timing</code>(leading/lagging)· <code>missed_factors</code> · <code>key_references</code> · <code>my_action</code>(我当时采纳/拒绝+关联 predict.py 预测)· <code>lesson</code>(一句话,作为权重调整依据)。</p>
+        <p class="muted" style="font-size:0.8rem">复盘三级:单条(到期触发)→ 季度批量(briefs/reviews/YYYY-QN.md)→ 半年面板评审(调权重、轮换面板)。存储:文本入 GitHub 永久保存;研报 PDF 入 Drive <code>Analyst-Archive/</code>(私有,合规),双向 drive_file_id 链接,年度 zip 备份双供应商冗余。</p>
+      </div>
+    </details>
+  </div>
+
+  <footer>
+    治理文档:<a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/analyst-panel-项目计划.md" style="color:var(--gold-dim)">analyst-panel 项目计划 v0.2</a> · <a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/工作计划书.md" style="color:var(--gold-dim)">工作计划书</a><br>
+    相关页面:<a href="warning.html" style="color:var(--gold-dim)">🛰️ 预警系统(机制层)</a> · <a href="review.html" style="color:var(--gold-dim)">🪞 校准·监测·总结·反省(整合层)</a><br>
+    本页为独立页面,不改动主站既有流程 · 论断与复盘为研究记录,不构成投资建议
+  </footer>
+</div>
+
+<script>
+// 论断流:data/ 在仓库根(Pages 只服务 docs/),故经 raw.githubusercontent 读取;404/空 → 空态
+(async function () {
+  const el = document.getElementById('claim-rows');
+  const note = document.getElementById('claim-note');
+  const RAW = 'https://raw.githubusercontent.com/rachelxrz/daily-brief/main/data/analysts.jsonl';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  try {
+    const r = await fetch(RAW + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const lines = (await r.text()).split('\n').filter(x => x.trim());
+    const recs = [];
+    for (const ln of lines) { try { recs.push(JSON.parse(ln)); } catch (e) {} }
+    // supersedes:后行覆盖前行的展示(原行仍在档案里,只是标记)
+    const superseded = new Set(recs.filter(x => x.supersedes).map(x => x.supersedes));
+    recs.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const today = new Date(); const soon = new Date(today.getTime() + 7 * 86400000);
+    const rows = recs.map(x => {
+      const due = x.falsifiable_by ? new Date(x.falsifiable_by + 'T00:00:00') : null;
+      const dueSoon = due && x.status === 'open' && due <= soon;
+      const stCls = x.status === 'open' ? 'status-open' : (x.status === 'hit' ? 'status-hit' : 'status-miss');
+      const sup = superseded.has(x.id) ? ' <span class="muted">(已被修正)</span>' : '';
+      return `<tr${dueSoon ? ' class="due-soon"' : ''}><td style="white-space:nowrap">${esc(x.date)}</td>` +
+        `<td><b>${esc(x.analyst)}</b> <span class="muted">${esc(x.firm)}</span></td>` +
+        `<td><span class="layer-chip">${esc(x.layer)}</span></td>` +
+        `<td>${esc(x.claim)}${sup}</td><td class="muted">${esc(x.premise || '—')}</td>` +
+        `<td style="white-space:nowrap">${esc(x.falsifiable_by)}${dueSoon ? ' ⏰' : ''}</td>` +
+        `<td class="${stCls}">${esc(x.status)}</td></tr>`;
+    });
+    el.innerHTML = rows.join('') || '<tr><td colspan="7" class="muted">档案为空——首批论断录入中(工作计划书 C4)</td></tr>';
+    note.textContent = `共 ${recs.length} 条论断 · 数据源 data/analysts.jsonl(raw,缓存约5分钟)· 采集原则:重复旧观点不入库,只记新论断或修正`;
+  } catch (e) {
+    el.innerHTML = '<tr><td colspan="7" class="muted">论断档案暂不可读(' + esc(e.message) + ')——数据脚手架合并后生效</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>

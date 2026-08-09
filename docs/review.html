@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🪞 校准 · 监测 · 总结 · 反省(整合层)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#ffffff; --surface:#f4f3ef; --border:#dcd8cf; --gold:#c9a84c; --gold-dim:#8a6e2f;
+          --text:#141414; --muted:#6b6860; --green:#4caf82; --red:#e05c5c; --amber:#e09a3c; --blue:#79c0ff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; min-height:100vh; }
+  .container { max-width:1150px; margin:0 auto; padding:1.2rem 1.5rem 3rem; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+            border-bottom:1px solid var(--border); padding:0.8rem 0; margin-bottom:1.2rem; }
+  .topbar a { font-family:'Noto Serif SC',serif; font-weight:700; font-size:0.85rem; color:#222;
+              text-decoration:none; background:var(--surface); border:1px solid var(--border);
+              border-radius:4px; padding:0.45rem 1rem; }
+  .topbar a:hover { background:#eae7dd; color:#000; }
+  h1 { font-family:'Noto Serif SC',serif; font-size:1.5rem; font-weight:700; }
+  h1 small { display:block; font-size:0.78rem; color:var(--muted); font-weight:400; margin-top:2px; }
+  h2 { font-family:'Noto Serif SC',serif; font-size:1.08rem; font-weight:700; margin-bottom:0.5rem; }
+  h2 small { font-size:0.75rem; color:var(--muted); font-weight:400; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+          padding:1rem 1.2rem; margin-bottom:1rem; }
+  p, li { font-size:0.9rem; line-height:1.8; }
+  .muted { color:var(--muted); }
+  table { border-collapse:collapse; width:100%; font-size:0.84rem; }
+  th { background:rgba(201,168,76,0.10); color:var(--gold-dim); font-weight:600; text-align:left;
+       padding:0.45rem 0.6rem; border:1px solid var(--border); white-space:nowrap; }
+  td { padding:0.45rem 0.6rem; border:1px solid var(--border); vertical-align:top; }
+  .tblwrap { overflow-x:auto; }
+  .flow { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:8px; margin:8px 0; }
+  .flow-box { border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;
+              background:#fff; padding:0.6rem 0.8rem; font-size:0.82rem; line-height:1.6; }
+  ul { padding-left:1.2rem; }
+  footer { color:var(--muted); font-size:0.72rem; margin-top:1.6rem; line-height:1.7; }
+  code { background:rgba(201,168,76,0.10); border-radius:3px; padding:0 4px; font-size:0.8rem; }
+  .alert-row { border-left:3px solid var(--amber); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <h1>🪞 校准 · 监测 · 总结 · 反省 <small>整合层 — 观点(人)× 机制(体系)× 自我(predict)三层闭环 · Calibration / Monitoring / Summary / Reflection</small></h1>
+    <a href="index.html">← 返回 Daily Brief</a>
+  </div>
+
+  <!-- 三层闭环 -->
+  <div class="card" style="border-left:5px solid var(--gold)">
+    <h2>三层闭环 <small>三组件共用一条纪律:point-in-time · experiment registry · fidelity 命名 · 预登记复盘</small></h2>
+    <div class="flow">
+      <div class="flow-box"><b>🎙️ 观点层 analyst-panel</b><br>论断 → 到期 → 复盘 → <b>人的校准档案</b><br><span class="muted">天/周级 · data/analysts.jsonl</span></div>
+      <div class="flow-box"><b>🛰️ 机制层 gate 预警</b><br>脆弱性存量/冲击/放大/后盾 → <b>状态月报</b>(与面板观点分布对照)<br><span class="muted">月/季级 · 外部基准 OFR FSI 并排</span></div>
+      <div class="flow-box"><b>🧍 自我校准层 predict</b><br>我基于面板综合的判断 → 预测日志 + <b>合理化检测(--rationalized)</b><br><span class="muted">事件驱动 · predict.py(本地/InvestOS,接入待定)</span></div>
+    </div>
+    <p class="muted" style="font-size:0.8rem">复盘时对照三层:分析师错在哪(input/framework)→ 体系状态当时如何(snapshot)→ <b>我当时采纳/拒绝了谁的论据</b>(my_action)。</p>
+  </div>
+
+  <!-- ① 校准 -->
+  <div class="card">
+    <h2>① 校准 <small>谁值得信 + 我值得信吗 · analyst_weights.json(季度重算)</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>规则(预登记,不得事后调整评分窗口)</th><th>处理</th></tr></thead>
+      <tbody>
+        <tr><td><b>framework-miss</b>(逻辑本身错)</td><td><b>满权重扣分</b> → 降权或剔除面板</td></tr>
+        <tr><td><b>input-miss</b>(数据没料到)</td><td>半权重(可原谅)</td></tr>
+        <tr><td>样本 &lt; 5 条已验证论断</td><td>封顶<b>中性先验</b>(不因两三次对错定生死)</td></tr>
+        <tr><td>timing = lagging(事实明朗后才改口)</td><td>修正记录计入档案(改口本身是信息)</td></tr>
+      </tbody>
+    </table></div>
+    <div id="weights-box" style="margin-top:8px"><p class="muted" style="font-size:0.8rem">读取 analyst_weights.json…</p></div>
+    <p class="muted" style="font-size:0.78rem;margin-top:6px">自我校准:predict.py 的预测日志与 <code>--rationalized</code> 合理化检测在本地/InvestOS 运行(仓库接入待定,见 CLAUDE.md 冲突待决②)。复盘的 <code>my_action</code> 字段负责两边对账。</p>
+  </div>
+
+  <!-- ② 监测(提示行) -->
+  <div class="card">
+    <h2>② 监测 · 提示行 <small>三类触发规则(C8)— 琥珀边 = 需要处理</small></h2>
+    <ul style="font-size:0.84rem;color:var(--muted);margin-bottom:8px">
+      <li><b style="color:var(--text)">临近验证期限</b>:论断距 falsifiable_by ≤ 7 天(或已到期未复盘)→ 进入待复盘</li>
+      <li><b style="color:var(--text)">分析师改口</b>:出现带 supersedes 的修正行 → 记录修正前后值,判 timing(leading/lagging)</li>
+      <li><b style="color:var(--text)">层间新矛盾</b>:面板观点分布与机制层状态向量方向相悖(如面板一致看多 + 脆弱性高位)→ 人工研判</li>
+    </ul>
+    <div class="tblwrap"><table>
+      <thead><tr><th>类型</th><th>内容</th><th>期限/日期</th><th>动作</th></tr></thead>
+      <tbody id="alert-rows"><tr><td colspan="4" class="muted">扫描论断档案…</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <!-- ③ 总结 -->
+  <div class="card">
+    <h2>③ 总结 <small>复盘三级 · 季度报告存 briefs/reviews/YYYY-QN.md(永久)</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>级别</th><th>触发</th><th>产出</th></tr></thead>
+      <tbody>
+        <tr><td><b>单条复盘</b></td><td>论断到达 falsifiable_by(每日检查,C13)</td><td>reviews.jsonl 一行(七字段全必填)</td></tr>
+        <tr><td><b>季度批量</b></td><td>每季度末</td><td>季度复盘报告 briefs/reviews/YYYY-QN.md + 权重重算(C14)</td></tr>
+        <tr><td><b>半年评审</b></td><td>半年</td><td>面板轮换(framework 错的降权/剔除,补新人)+ 分析师校准报告;对照 Fed FSR / OFR 年报做外部校准</td></tr>
+      </tbody>
+    </table></div>
+    <div id="quarter-box" style="margin-top:8px"><p class="muted" style="font-size:0.8rem">季度报告:尚无(首个完整闭环预计第一个季度末跑通)。</p></div>
+  </div>
+
+  <!-- ④ 反省 -->
+  <div class="card">
+    <h2>④ 反省 <small>reviews.jsonl 的 lesson 流 — 每条一句话,作为权重调整依据</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>复盘日</th><th>论断</th><th>结果</th><th>错误类型</th><th>lesson</th></tr></thead>
+      <tbody id="lesson-rows"><tr><td colspan="5" class="muted">读取复盘记录…</td></tr></tbody>
+    </table></div>
+    <p class="muted" style="font-size:0.78rem;margin-top:6px">反省的两面:<b>对人</b>——error_type 区分「数据没料到(可原谅)」与「逻辑本身错(要降权)」;<b>对己</b>——my_action 记录我当时采纳/拒绝了谁,与 predict.py 的合理化检测对账,防止「事后觉得自己早就知道」。</p>
+  </div>
+
+  <footer>
+    治理文档:<a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/工作计划书.md" style="color:var(--gold-dim)">工作计划书</a>(C13-C16 复盘闭环)· <a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/analyst-panel-项目计划.md" style="color:var(--gold-dim)">analyst-panel 项目计划</a><br>
+    相关页面:<a href="warning.html" style="color:var(--gold-dim)">🛰️ 预警系统(机制层)</a> · <a href="panel.html" style="color:var(--gold-dim)">🎙️ 分析师面板(观点层)</a><br>
+    本页为独立页面,不改动主站既有流程 · 校准与复盘为研究记录,不构成投资建议
+  </footer>
+</div>
+
+<script>
+(async function () {
+  const RAW = 'https://raw.githubusercontent.com/rachelxrz/daily-brief/main/data/';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const jsonl = async name => {
+    const r = await fetch(RAW + name + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return (await r.text()).split('\n').filter(x => x.trim()).map(x => { try { return JSON.parse(x); } catch (e) { return null; } }).filter(Boolean);
+  };
+
+  // ② 监测:到期/临近 + 改口
+  const alertEl = document.getElementById('alert-rows');
+  try {
+    const claims = await jsonl('analysts.jsonl');
+    const today = new Date(); const soon = new Date(today.getTime() + 7 * 86400000);
+    const rows = [];
+    for (const c of claims) {
+      if (c.supersedes) {
+        rows.push(`<tr class="alert-row"><td>改口</td><td><b>${esc(c.analyst)}</b>:${esc(c.claim)} <span class="muted">(修正 ${esc(c.supersedes)})</span></td><td>${esc(c.date)}</td><td>判 timing:leading / lagging</td></tr>`);
+      }
+      if (c.status === 'open' && c.falsifiable_by) {
+        const due = new Date(c.falsifiable_by + 'T00:00:00');
+        if (due <= today) rows.push(`<tr class="alert-row"><td>已到期</td><td><b>${esc(c.analyst)}</b>:${esc(c.claim)}</td><td>${esc(c.falsifiable_by)}</td><td><b>待复盘</b>(七字段)</td></tr>`);
+        else if (due <= soon) rows.push(`<tr class="alert-row"><td>临近期限</td><td><b>${esc(c.analyst)}</b>:${esc(c.claim)}</td><td>${esc(c.falsifiable_by)} ⏰</td><td>准备验证材料</td></tr>`);
+      }
+    }
+    rows.push('<tr><td>层间矛盾</td><td class="muted">面板观点分布 vs 机制层状态——待面板论断积累后启用(自动规则 C8)</td><td>—</td><td class="muted">人工研判</td></tr>');
+    alertEl.innerHTML = rows.join('');
+    if (rows.length === 1) alertEl.innerHTML = '<tr><td colspan="4" class="muted">当前无提示(无到期/临近/改口论断)</td></tr>' ;
+  } catch (e) {
+    alertEl.innerHTML = '<tr><td colspan="4" class="muted">论断档案暂不可读(' + esc(e.message) + ')——数据脚手架合并后生效</td></tr>';
+  }
+
+  // ① 校准:权重文件(季度产出,当前通常不存在)
+  const wEl = document.getElementById('weights-box');
+  try {
+    const r = await fetch(RAW + 'analyst_weights.json?t=' + Date.now());
+    if (!r.ok) throw new Error('尚未生成');
+    const w = await r.json();
+    const rows = Object.entries(w).map(([k, v]) => `<tr><td><b>${esc(k)}</b></td><td>${esc(JSON.stringify(v))}</td></tr>`).join('');
+    wEl.innerHTML = '<div class="tblwrap"><table><thead><tr><th>分析师</th><th>权重/依据</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  } catch (e) {
+    wEl.innerHTML = '<p class="muted" style="font-size:0.8rem">analyst_weights.json 尚未生成——首次季度重算(C14)后显示;在此之前全体为中性先验。</p>';
+  }
+
+  // ④ 反省:lessons
+  const lEl = document.getElementById('lesson-rows');
+  try {
+    const revs = await jsonl('reviews.jsonl');
+    revs.sort((a, b) => (b.review_date || '').localeCompare(a.review_date || ''));
+    lEl.innerHTML = revs.map(x =>
+      `<tr><td style="white-space:nowrap">${esc(x.review_date)}</td><td>${esc(x.claim_id)}</td>` +
+      `<td style="color:${/^hit/.test(x.outcome) ? 'var(--green)' : (/^miss/.test(x.outcome) ? 'var(--red)' : 'var(--amber)')}">${esc(x.outcome)}</td>` +
+      `<td>${esc(x.error_type)}</td><td><b>${esc(x.lesson)}</b></td></tr>`).join('')
+      || '<tr><td colspan="5" class="muted">尚无复盘记录——首条论断到期(最早 2026-12-16 Feroli)后开始积累</td></tr>';
+  } catch (e) {
+    lEl.innerHTML = '<tr><td colspan="5" class="muted">复盘记录暂不可读(' + esc(e.message) + ')</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>

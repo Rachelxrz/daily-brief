@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛰️ 预警系统 · 金融体系重大变化(机制层)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#ffffff; --surface:#f4f3ef; --border:#dcd8cf; --gold:#c9a84c; --gold-dim:#8a6e2f;
+          --text:#141414; --muted:#6b6860; --green:#4caf82; --red:#e05c5c; --amber:#e09a3c; --blue:#79c0ff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; min-height:100vh; }
+  .container { max-width:1150px; margin:0 auto; padding:1.2rem 1.5rem 3rem; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+            border-bottom:1px solid var(--border); padding:0.8rem 0; margin-bottom:1.2rem; }
+  .topbar a { font-family:'Noto Serif SC',serif; font-weight:700; font-size:0.85rem; color:#222;
+              text-decoration:none; background:var(--surface); border:1px solid var(--border);
+              border-radius:4px; padding:0.45rem 1rem; }
+  .topbar a:hover { background:#eae7dd; color:#000; }
+  h1 { font-family:'Noto Serif SC',serif; font-size:1.5rem; font-weight:700; }
+  h1 small { display:block; font-size:0.78rem; color:var(--muted); font-weight:400; margin-top:2px; }
+  h2 { font-family:'Noto Serif SC',serif; font-size:1.08rem; font-weight:700; margin-bottom:0.5rem; }
+  h2 small { font-size:0.75rem; color:var(--muted); font-weight:400; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+          padding:1rem 1.2rem; margin-bottom:1rem; }
+  .banner { border-left:5px solid var(--amber); }
+  p, li { font-size:0.9rem; line-height:1.8; color:var(--text); }
+  .muted { color:var(--muted); }
+  table { border-collapse:collapse; width:100%; font-size:0.84rem; }
+  th { background:rgba(201,168,76,0.10); color:var(--gold-dim); font-weight:600; text-align:left;
+       padding:0.45rem 0.6rem; border:1px solid var(--border); white-space:nowrap; }
+  td { padding:0.45rem 0.6rem; border:1px solid var(--border); vertical-align:top; }
+  .tblwrap { overflow-x:auto; }
+  .badge { display:inline-block; border-radius:4px; padding:1px 7px; font-size:0.68rem; font-weight:600;
+           border:1px solid; white-space:nowrap; }
+  .b-approx { color:var(--amber); border-color:var(--amber); background:rgba(224,154,60,0.10); }
+  .b-proxy  { color:#4a7db5; border-color:#4a7db5; background:rgba(121,192,255,0.12); }
+  .b-proj   { color:var(--muted); border-color:var(--muted); background:rgba(107,104,96,0.10); }
+  .b-cite   { color:var(--green); border-color:var(--green); background:rgba(76,175,130,0.10); }
+  .b-todo   { color:var(--red); border-color:var(--red); background:rgba(224,92,92,0.08); }
+  .reading-num { font-weight:700; }
+  ul { padding-left:1.2rem; }
+  footer { color:var(--muted); font-size:0.72rem; margin-top:1.6rem; line-height:1.7; }
+  details summary { cursor:pointer; font-family:'Noto Serif SC',serif; font-weight:700; font-size:1.0rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <h1>🛰️ 金融体系重大变化预警系统 <small>机制层 · Mechanism layer — 脆弱性存量 / 冲击 / 放大 / 政策后盾 · 月/季级</small></h1>
+    <a href="index.html">← 返回 Daily Brief</a>
+  </div>
+
+  <!-- 定位声明:统计诚实性(修订三) -->
+  <div class="card banner">
+    <h2>系统定位 <small>Statistical honesty(修订补编·修订三)</small></h2>
+    <p>本系统是<b>强先验阈值情景系统</b>,<b>不是</b>被估计的概率模型。可用的系统性危机样本为<b>个位数</b>(1987/1998/2000/2008/2020/2022-LDI,按定义 6–10 个):含交互项的分类器在统计上不可估计;calibration 测试无统计功效;leave-one-crisis-out 的真实用途是<b>定性压力测试</b>。因此:任何综合分数<b>禁止称为「崩盘概率」</b>,输出一律表述为「基于先验框架的条件评估」,并与外部基准(OFR FSI、term spread + EBP)并排;自建模块的存在价值靠「相对基准的增量」逐年检验。先验来自机制文献(Minsky / Borio / Brunnermeier),数据的作用是<b>更新状态</b>而不是估计结构参数。</p>
+  </div>
+
+  <!-- 四层框架 -->
+  <div class="card">
+    <h2>四层框架 <small>脆弱性塑造敞口,不做择时 — 慢变量主导存量,快变量主导放大</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>层</th><th>追踪什么</th><th>节奏</th><th>主要数据(个人可得,修订一)</th></tr></thead>
+      <tbody>
+        <tr><td><b>① 脆弱性存量</b><br><span class="muted">Vulnerability stock</span></td>
+            <td>估值 / 集中度(HHI·Top-N)/ 内部结构广度 / 杠杆存量 / 金融周期</td>
+            <td>月/季(慢)</td>
+            <td>市值/GDP、成分权重(自建 HHI)、FINRA margin debt、BIS credit-to-GDP gap(含中国)</td></tr>
+        <tr><td><b>② 冲击</b><br><span class="muted">Shock</span></td>
+            <td>货币收紧 / 财政·主权 / 地缘 / 中国信用周期 / 外生事件</td>
+            <td>事件驱动</td>
+            <td>FEDFUNDS·实际利率、社融/70城房价(修订五)、事件标注(事后30天冻结标签)</td></tr>
+        <tr><td><b>③ 放大机制</b><br><span class="muted">Amplification</span></td>
+            <td>融资(repo/basis)/ 做市容量 / 保证金与抵押品 / 赎回·被动流</td>
+            <td>周(快)</td>
+            <td>OFR repo、NY Fed Primary Dealer Stats(周四)、MOVE、CCP 季度披露、ICI 周度资金流</td></tr>
+        <tr><td><b>④ 政策后盾</b><br><span class="muted">Backstop</span></td>
+            <td>准备金 / SRF·贴现窗口·swap line 用量(启用≠危机结束)</td>
+            <td>周(H.4.1 周四)</td>
+            <td>Fed H.4.1、FFIEC 资本充足率</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 当前读数(live) -->
+  <div class="card">
+    <h2>当前读数 <small>既有模块映射(fidelity 命名,代码暂不改名——冲突待决见 CLAUDE.md)</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>层</th><th>fidelity 名 ← 现模块</th><th>fidelity 级</th><th>当前读数</th><th>判读</th></tr></thead>
+      <tbody id="live-rows"><tr><td colspan="5" class="muted">读取 data.json…</td></tr></tbody>
+    </table></div>
+    <p class="muted" style="font-size:0.76rem;margin-top:6px">fidelity 四级:replication(完全复现,<b>当前无模块达标</b>)/ mechanism_approximation(机制近似)/ proxy(代理)/ project_specific(项目自设)。历史回测与危机前30天实证见主页「市场结构」页。</p>
+  </div>
+
+  <!-- 待建模块(修订一) -->
+  <div class="card">
+    <h2>待建模块与数据策略 <small>能引用官方的不自建;能用公开汇总的不买底层;拿不到的降级为引用官方结论</small></h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>模块</th><th>个人可得数据</th><th>策略</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>系统压力综合基准</td><td><b>OFR Financial Stress Index</b>(日度)、Fed FSR(半年)</td><td>作为<b>整个系统的外部基准</b>:自建指标必须证明相对它有增量</td><td><span class="badge b-todo">待接入 C10</span></td></tr>
+        <tr><td>信用风险溢价</td><td><b>FRED 直接发布 EBP</b>、HY/IG OAS</td><td>直接引用</td><td><span class="badge b-todo">待接入 C10</span></td></tr>
+        <tr><td>Dealer capacity</td><td>NY Fed Primary Dealer Statistics(周度免费)、MOVE</td><td>引用</td><td><span class="badge b-todo">待接入 C10</span></td></tr>
+        <tr><td>政策后盾</td><td>H.4.1(准备金/SRF/贴现窗口,周四)</td><td>引用(异动即提示)</td><td><span class="badge b-todo">待接入 C10</span></td></tr>
+        <tr><td>金融周期(含中国)</td><td>BIS credit-to-GDP gap、BIS 房价;社融、70城房价、城投利差</td><td>直接引用(修订五:中国信用周期已两次成为全球冲击源)</td><td><span class="badge b-todo">待接入 C10</span></td></tr>
+        <tr><td>集中度</td><td>point-in-time 成分权重 → Top-5/10/20、HHI、Neff</td><td><b>自建增量</b>(数据免费且无人替算)</td><td><span class="badge b-todo">待建 C9</span></td></tr>
+        <tr><td>AI 经济回报</td><td>10-K/10-Q 按 cohort 计算 capex vs 收入</td><td><b>自建增量</b>(本板块的"EIA")</td><td><span class="badge b-todo">待建(季度)</span></td></tr>
+        <tr><td>杠杆存量</td><td>Form PF 公开季度汇总、FSR 杠杆章节、CFTC COT、FINRA margin debt</td><td>引用 + 少量自建</td><td><span class="badge b-todo">待接入</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 决策映射(修订二) -->
+  <div class="card">
+    <details open>
+      <summary>决策映射层(Phase 4)— 脆弱性塑造敞口,不做择时 <span class="muted" style="font-size:0.75rem;font-weight:400">规则先于状态写死,禁止压力中临时发明;具体阈值待 InvestOS 定义(R3)</span></summary>
+      <div class="tblwrap" style="margin-top:8px"><table>
+        <thead><tr><th>状态组合</th><th>组合动作(示例,阈值待定)</th></tr></thead>
+        <tbody>
+          <tr><td>估值脆弱性 &gt; 90 分位,融资/保证金层正常</td><td>仅记录;新增买入改为分批;再平衡带宽收窄一档</td></tr>
+          <tr><td>估值高 + 集中度(HHI)历史高位</td><td>检查组合与 Top-10 重合度;等权/补充分散仓位比例上调</td></tr>
+          <tr><td>融资压力上升(repo/basis/dealer 恶化)且估值高</td><td>降杠杆一档;启用尾部对冲预算的 50%;现金缓冲提高</td></tr>
+          <tr><td>市场功能恶化(深度、fails、swap spread 异动)</td><td>暂停所有非必要交易;只执行减风险动作;检查自身保证金链</td></tr>
+          <tr><td>官方 backstop 启用(SRF/swap line 用量跳升)</td><td><b>不解读为「危机结束」</b>;维持减风险直至融资指标回落</td></tr>
+          <tr><td>脆弱性全面回落</td><td>按预定阶梯恢复敞口,<b>禁止一步复原</b></td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted" style="font-size:0.78rem;margin-top:6px">尾部对冲有年度预算上限(如组合 0.5–1.0%),防止「恐慌时买贵保险」。决策层复盘与信号层分开:每次触发记录「状态/动作/机会成本」,年度评估映射本身(误报成本是否可承受)。</p>
+    </details>
+  </div>
+
+  <!-- 更新节奏(修订四) -->
+  <div class="card">
+    <details>
+      <summary>各模块更新节奏表(修订四)</summary>
+      <div class="tblwrap" style="margin-top:8px"><table>
+        <thead><tr><th>模块</th><th>数据频率</th><th>发布日历</th><th>系统刷新</th></tr></thead>
+        <tbody>
+          <tr><td>估值/集中度/breadth</td><td>日度</td><td>收盘后</td><td>周度汇总,月度入状态向量</td></tr>
+          <tr><td>EBP / 信用利差</td><td>月度/日度</td><td>EBP 随 Fed 更新;OAS 日度</td><td>月度</td></tr>
+          <tr><td>Primary dealer stats</td><td>周度</td><td>NY Fed 周四</td><td>周度</td></tr>
+          <tr><td>Form PF 汇总 / OCC</td><td>季度</td><td>滞后一季</td><td>季度</td></tr>
+          <tr><td>BIS credit gap / 房价</td><td>季度</td><td>滞后约一季</td><td>季度</td></tr>
+          <tr><td>H.4.1(backstop)</td><td>周度</td><td>周四</td><td>周度(异动即提示)</td></tr>
+          <tr><td>FSR / OFR 年报</td><td>半年/年</td><td>4-5月、10-11月</td><td>半年校准基准</td></tr>
+          <tr><td>AI 经济回报</td><td>季度</td><td>财报季</td><td>季度</td></tr>
+          <tr><td>危机事件标签</td><td>事件驱动</td><td>—</td><td>事后 30 天内冻结标签</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <footer>
+    治理文档:<a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/工作计划书.md" style="color:var(--gold-dim)">工作计划书</a> · <a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/审计文章修订补编.md" style="color:var(--gold-dim)">修订补编</a> · <a href="https://github.com/rachelxrz/daily-brief/blob/main/docs/审计文章-从分析师观点到金融体系重大变化预警系统.pdf" style="color:var(--gold-dim)">审计文章原文 PDF</a><br>
+    相关页面:<a href="panel.html" style="color:var(--gold-dim)">🎙️ 分析师面板(观点层)</a> · <a href="review.html" style="color:var(--gold-dim)">🪞 校准·监测·总结·反省(整合层)</a><br>
+    本页为独立页面,不改动主站既有流程 · 强先验阈值情景系统,非概率模型 · 不构成投资建议
+  </footer>
+</div>
+
+<script>
+// 当前读数:读同目录 data.json,取最近有各模块数据的日期(与主站同回退逻辑)
+(async function () {
+  const el = document.getElementById('live-rows');
+  try {
+    const r = await fetch('data.json?t=' + Date.now());
+    const data = await r.json();
+    const dates = Object.keys(data).filter(k => /^\d{4}-\d{2}-\d{2}$/.test(k)).sort().reverse();
+    const latest = key => { for (const d of dates) if (data[d] && data[d][key]) return data[d][key]; return null; };
+    const g = latest('macro_gate'), f = latest('fragility_gate'), b = latest('dalio_bubble'), m = latest('market_breadth');
+    const colMap = { red:'var(--red)', amber:'var(--amber)', green:'var(--green)', muted:'var(--muted)' };
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const row = (layer, name, badgeCls, badgeTxt, reading, color, verdict) =>
+      `<tr><td>${layer}</td><td><b>${name}</b></td><td><span class="badge ${badgeCls}">${badgeTxt}</span></td>` +
+      `<td class="reading-num" style="color:${color}">${reading}</td><td style="font-size:0.78rem">${esc(verdict)}</td></tr>`;
+    const rows = [];
+    if (b) rows.push(row('① 脆弱性存量', 'dalio_inspired_bubble ← dalio_bubble.py', 'b-approx', 'mechanism_approximation',
+      (b.bubble_pct == null ? '—' : b.bubble_pct + '%'), colMap[b.band_color] || 'var(--muted)', b.band || ''));
+    if (m) rows.push(row('① 脆弱性存量', 'internals_state ← market_breadth.py', 'b-proxy', 'proxy',
+      (m.narrow_score == null ? '—' : '狭窄 ' + m.narrow_score + '/' + (m.signals_used ?? 3)), colMap[m.color] || 'var(--muted)',
+      (m.verdict || '').replace(/^[^\s]+\s/, '')));
+    if (f) rows.push(row('③ 放大机制', 'tail_fragility ← fragility_gate.py', 'b-proj', 'project_specific',
+      '脆弱 ' + f.frag_score + '/' + f.frag_max, colMap[f.frag_color] || 'var(--muted)', f.frag_label || ''));
+    if (g) rows.push(row('①+② 存量/冲击', 'macro_credit_gate ← macro_gate.py', 'b-approx', 'mechanism_approximation',
+      '票 ' + g.votes + '/6' + (g.gate_on ? ' · 闸门ON' : ''), g.votes >= 2 ? 'var(--red)' : 'var(--green)',
+      g.gate_on ? '崩盘体制:清仓 QQQ' : '闸门 off'));
+    rows.push(row('系统基准', 'OFR FSI(外部基准)', 'b-cite', '引用·待接入', '—', 'var(--muted)', '自建指标须证明相对它有增量(C10)'));
+    el.innerHTML = rows.join('') || '<tr><td colspan="5" class="muted">暂无读数</td></tr>';
+  } catch (e) {
+    el.innerHTML = '<tr><td colspan="5" class="muted">data.json 读取失败(' + e.message + ')</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>
