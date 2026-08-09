@@ -147,25 +147,26 @@
 > 前面是「我们**声称**这些模型代表某观点」;这一节让**数据自己说话**。`research/backtest_models.py` 把四模型的历史信号喂进回测引擎;`research/crisis_windows.py` 回放过去 ~30 年 10 次危机、看崩盘前 30 交易日仪表盘的真实读数。**结论既验证了主张,也诚实暴露了边界**。实时数字见网页「🧪 模型回测记分卡」「🧭 危机前30天」两面板 + `research/backtest_results.json`、`research/crisis_windows.json`。
 > The claims above are ours; this section lets the **data** speak. Full history fed through the backtest engine, plus a replay of the 30 trading days into 10 crises over ~30 years. It both **confirms the claims and honestly exposes the limits**.
 >
-> **⚠️ 无前视口径的诚实说明(重要)**:价格/波动信号 point-in-time,信号再滞后 1 日执行;月度/季度宏观(UNRATE / CFNAI / FEDFUNDS / GDP / Z.1 市值)现已**按发布滞后前移**,不再用到「尚未发布」的读数。**残留 caveat**:这些序列仍取**最新修订值**(非 ALFRED point-in-time vintage,历史修订未回滚)——所以**头条数字(尤其 macro_gate 的规避回撤与提前天数)应据此打折看待**,视为「量级正确、精度待收敛」;真·vintage 对齐列为下一步。加入发布滞后后,数字会在下次 Actions 运行时按此口径刷新。
-> **⚠️ On "no look-ahead" (important, honest)**: price/vol signals are point-in-time and executed with a 1-day lag; monthly/quarterly macro (UNRATE/CFNAI/FEDFUNDS/GDP/Z.1 mktcap) is now **shifted by publication lag** so nothing is used before release. **Remaining caveat**: those series still use **latest-revised** values (not ALFRED point-in-time vintage), so the headline figures — especially macro_gate's drawdown-avoided and lead-days — should be read at a discount as "directionally right, precision still converging"; true vintage alignment is the next step, and the numbers will refresh under this convention on the next Actions run.
+> **⚠️ 无前视口径的诚实说明(重要)**:价格/波动信号 point-in-time,信号再滞后 1 日执行;月度/季度宏观(UNRATE / CFNAI / FEDFUNDS / GDP / Z.1 市值)现已**按发布滞后前移**,不再用到「尚未发布」的读数。**残留 caveat**:这些序列仍取**最新修订值**(非 ALFRED point-in-time vintage,历史修订未回滚)——所以**头条数字(尤其 macro_gate 的规避回撤与提前天数)应据此打折看待**,视为「量级正确、精度待收敛」;真·vintage 对齐列为下一步。**下方各表即发布滞后口径重算后的数字**(相比前视口径,macro_gate 超额 CAGR 由 +0.84%→+0.09%、2001/2008 领先天数由 60/146→39/126 收窄——印证前视曾高估;规避回撤 +43pp 不变)。
+> **⚠️ On "no look-ahead" (important, honest)**: price/vol signals are point-in-time and executed with a 1-day lag; monthly/quarterly macro (UNRATE/CFNAI/FEDFUNDS/GDP/Z.1 mktcap) is now **shifted by publication lag** so nothing is used before release. **Remaining caveat**: those series still use **latest-revised** values (not ALFRED point-in-time vintage), so the headline figures should be read at a discount as "directionally right, precision still converging"; true vintage alignment is the next step. **The tables below are the release-lagged recompute** (vs the look-ahead version, macro_gate excess-CAGR fell +0.84%→+0.09% and the 2001/2008 leads shortened 60/146→39/126 — confirming the look-ahead inflated them; the +43pp drawdown-avoided is unchanged).
 
 ### 回测记分卡(判别力:负=示警后更差=有效)· Backtest scorecard (discrimination: negative = effective)
 | 模型 · model | 判别力 discrim. | 规避回撤 DD-avoided | 超额CAGR | 读法 · reading |
 |---|---|---|---|---|
-| **macro_gate** | **−2.35%** ✅ | **+43pp** ✅ | **+0.84%** ✅ | **唯一真·风控**(且只对衰退熊) |
+| **macro_gate** | **−2.53%** ✅ | **+43pp** ✅ | +0.09% | **唯一真·风控**(且只对衰退熊) |
 | fragility ≥4 | −1.52% ✅ | +0pp | −0.11% | 轻微预警,非卖点 |
 | fragility ≥2 | −0.19% | +3.5pp | −2.4% ✗ | 太松,当卖点亏 |
-| dalio ≥60 | **+1.35%** ⚠️ | +0pp | −1.5% ✗ | 正=**融涨**(量级表非择时器) |
-| dalio ≥80 | **+2.47%** ⚠️ | +0pp | −0.27% | 越晚期越涨(纯融涨) |
-| **dalio ≥80 且货币针** | **+3.19%** ⚠️ | +0pp | +0.03% | **校准实验:针没能补上择时价值** |
+| dalio ≥60 | **+1.09%** ⚠️ | +0pp | −1.15% ✗ | 正=**融涨**(量级表非择时器) |
+| dalio ≥80 | **+2.95%** ⚠️ | +0pp | −0.5% | 越晚期越涨(纯融涨) |
+| **dalio ≥80 且货币针** | **+1.49%** ⚠️ | +0pp | −0.09% | **校准实验:针没能补上择时价值** |
 | breadth ≥2 | +0.10% | +0.6pp | −5.2% ✗ | 当卖点最亏 |
+> 上表为**发布滞后口径**(月度/季度宏观按发布日前移后重算)的数字;修订值仍为最新 = 非 ALFRED vintage,精度仍在收敛。macro_gate 的**超额 CAGR 从 +0.84% 收敛到 +0.09%(≈打平)**、领先天数亦缩短——正说明前视口径曾高估;但**规避回撤 +43pp 这一核心优势稳健不变**。
 
 ### 危机前30天:四模型当时真显示什么 · What the models showed into each crisis
 | 危机 | 崩幅63d | 🚦macro | 🔥脆弱 | 🫧泡沫 | 📐狭窄 |
 |---|---|---|---|---|---|
-| 2001 9·11 | −12% | **4/6·闸门提前60日** | 1/4 | 10 | 2/2 |
-| **2008 雷曼** | **−40%** | **4/6·闸门提前146日** | 0/5 | 31 | 1/3 |
+| 2001 9·11 | −12% | **4/6·闸门提前39日** | 1/4 | 10 | 2/2 |
+| **2008 雷曼** | **−40%** | **4/6·闸门提前126日** | 0/5 | 31 | 1/3 |
 | 2018 Q4 | −20% | 0/6 off | **3/5** | 73·针ON | 2/3 |
 | 2015 人民币 | −11% | 1/6 off | 2/5 | 76·针ON | 2/3 |
 | 2020 新冠 | −34% | 1/6 off | 2/5(窗内峰**5/5**) | 60 | 2/3 |
@@ -173,15 +174,15 @@
 *（`部分`:该危机早于 VIX3M 2007 / RSP 2003,按真实分母呈现。full table on the webpage.）
 
 ### 五个诚实结论 · Five honest takeaways
-1. **macro_gate 精准预警了唯二的「真·衰退危机」——2001(提前60日)、2008(提前146日)**,且对所有机械/快速崩盘(2010/2020/2022)保持沉默。这不是漏报,正是设计:**它是衰退熊探测器,不是闪崩探测器**;与其 +43pp 规避回撤、唯一正超额一致。
-   *macro_gate pre-warned the only two recession crises (60d, 146d lead) and stayed silent for the mechanical/fast crashes — by design, a recession detector, not a flash-crash detector.*
+1. **macro_gate 精准预警了唯二的「真·衰退危机」——2001(提前39日)、2008(提前126日)**,且对所有机械/快速崩盘(2010/2020/2022)保持沉默。这不是漏报,正是设计:**它是衰退熊探测器,不是闪崩探测器**;与其 +43pp 规避回撤一致(超额 CAGR 在发布滞后口径下≈打平 +0.09%,但**规避回撤稳健**)。
+   *macro_gate pre-warned the only two recession crises (39d, 126d lead under release-lagged inputs) and stayed silent for the mechanical/fast crashes — by design, a recession detector, not a flash-crash detector; +43pp drawdown-avoided is robust though excess-CAGR is ~breakeven once inputs are release-lagged.*
 2. **fragility 抓住了 macro 漏掉的「自满型」抛售**——2018 Q4(3/5)、2015 / 2020(2/5),都是低波动/拥挤驱动。**两模型互补**,正如正文所述。
    *fragility caught the low-vol/complacency selloffs macro misses — the two are complementary.*
 3. **触发不可测,但脆弱性可见——两件事要分开**:2020 新冠(−34%)的**病毒催化剂谁都测不到**,衰退闸门也确实没亮(不是衰退累积,合理)。但**不能说「四表皆温和」**——`fragility` 在崩前那几周升到 **5/5**(轨迹:−30 日 4/5),onset 当日回落到 2/5;**干柴其实是满的**。诚实的说法是:**没有模型能预见病毒这个「火星」,但脆弱性侧栏确实显示了「一点就着」的状态**——这与结论 2(fragility 抓住 2020)一致,不矛盾。
    *Separate two things: the viral **catalyst** was unforecastable and the recession gate correctly stayed off — but it is wrong to say "all four were mild." `fragility` hit **5/5** in the weeks before (4/5 at day −30), easing to 2/5 at onset: the tinder was fully present. No model foresees the virus spark, yet the fragility sidebar did show the "one-match-away" state — consistent with takeaway 2, not contradicting it.*
 4. **达利欧扩张分位读数在最早的泡沫上失真**:2000 互联网见顶读数仅 42(短历史可比样本少 + IPO 表 2013 才有)。**2013 后的读数(2015=76、2018=73)才可信**——这是扩张分位+短历史的已知伪影,如实标注。
    *The expanding-percentile bubble reading is muted for the earliest bubbles (2000 = 42) — a known short-history artifact; only post-2013 readings are trustworthy.*
-5. **校准实验的诚实结果**:「泡沫≥80 **且**货币针」判别力仍为正(+3.19%)——**我们操作化的货币针没能把泡沫读数变成择时信号**。保留 dalio 为「量级参考」的定位,**货币针的操作化列为待细化**(粗代理「任意6月+0.25%加息」可能不够特异)。
+5. **校准实验的诚实结果**:「泡沫≥80 **且**货币针」判别力仍为正(+1.49%)——**我们操作化的货币针没能把泡沫读数变成择时信号**。保留 dalio 为「量级参考」的定位,**货币针的操作化列为待细化**(粗代理「任意6月+0.25%加息」可能不够特异)。
    *Calibration result, honestly: gating the bubble on our monetary-pin proxy did **not** turn it into a timer — the reading stays a magnitude gauge; the pin's operationalization is flagged as to-refine.*
 
 > 一句话:**数据证明了正文的核心分工**——macro_gate 是唯一能提前拉响的风控(且只对衰退熊),fragility 补机械崩(连 2020 的干柴也升到 5/5),达利欧读数是「量级表」不是「闹钟」;而外生「火星」(病毒)谁都测不到——但脆弱性可见。
