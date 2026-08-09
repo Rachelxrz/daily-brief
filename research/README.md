@@ -95,6 +95,7 @@ We already track 20+ investors/institutions bucketed by framework. This project 
 | # | 交付物 Deliverable | 位置 Location |
 |---|---|---|
 | D1 | 分析师分框架报告（滚动） | `research/analyst_frameworks_report.md` |
+| D1b | **观点→模型 建模论证**（每人:观点/时间/建模/为什么忠实/局限,双语） | `research/view_to_model.md` |
 | D2 | 分析师/机构档案库 + 加载器 | `research/registry.jsonl`(21人)+ `research/registry.py` ✅ Phase 1 |
 | D2b | 检查点台账(预测记账种子) | `research/registry_checks.jsonl` + `research/sync_checks.py` ✅ Phase 1 |
 | D3 | 新增框架模型 | 各 `*.py` + `modules/*/spec.md` |
