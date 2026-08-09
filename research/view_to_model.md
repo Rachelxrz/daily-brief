@@ -105,9 +105,9 @@
 
 ### A · 🫧 `dalio_bubble` — 泡沫读数(0–100,越高越泡沫)· bubble reading (0–100, higher = more bubbly)
 - **怎么算**:6 表(估值/涨势/新买家/情绪/杠杆/远期建设),每表取「当前值在**它自己那段可得历史**中的百分位」;窗口各异(市值/GDP≈1945、纳指≈1985、IPO ETF 2013、VIX 5年、实现波动≈3年、远期建设人工无分位),情绪/杠杆取 `1−百分位`。**可用表百分位取均值 ×100 = 读数**。
-- **跟什么比 / 方向**:①表内——当前值 vs 自己历史分布(越高越极端);②合成后——读数 vs 固定档位 **60 / 80**。**越超过越泡沫**:>60 偏高、>80 晚期泡沫。
+- **跟什么比 / 方向**:①表内——当前值 vs 自己历史分布(越高越极端);②合成后——读数 vs 固定档位 **60 / 80**。**读数越高越泡沫**:**≥60** 偏高、**≥80** 晚期泡沫(读数先取整再分类,边界值 60/80 本身落在**高**档,与代码 `>=` 一致)。
 - **诚实边界**:1929/2000≈100、2021≈77、2024≈52 是**软性参照档位、非真的重算回那些年**(底层数据不够长),故读数与历史锚点**不严格可比**;等权求均值是对其多指标百分位的**近似**;杠杆/远期建设/供给针均为代理。**+ 双针**(货币针 FEDFUNDS 6月Δ≥+0.25% 或 DFII10 3月Δ≥+0.25%;供给针 IPO 6月分位≥85)= 达利欧「戳破」条件,与读数**正交**(读数说「多大」,针说「何时破」)。
-- **How**: 6 gauges, each = current value's percentile **within its own available history** (windows differ widely; sentiment & leverage inverted as `1−pct`). Mean of available gauges ×100 = reading. **Against what / direction**: inside each gauge, current vs its own history (higher = more extreme); the composite vs fixed bands **60 / 80** — the more it *exceeds*, the more bubbly. **Honest edge**: the 1929/2000/2021/2024 anchors are soft reference bands, **not a recompute**, so the reading is **not strictly comparable** to them; equal-weight mean is an approximation; leverage/buildout/issuance are proxies. The **dual pin** (monetary + issuance) is orthogonal — the reading says *how big*, the pin says *when it pops*.
+- **How**: 6 gauges, each = current value's percentile **within its own available history** (windows differ widely; sentiment & leverage inverted as `1−pct`). Mean of available gauges ×100 = reading. **Against what / direction**: inside each gauge, current vs its own history (higher = more extreme); the composite vs fixed bands — **≥60** elevated, **≥80** late-stage (the reading is rounded to an integer first, so the boundary values 60/80 fall in the **higher** band, matching the code's `>=`). **Honest edge**: the 1929/2000/2021/2024 anchors are soft reference bands, **not a recompute**, so the reading is **not strictly comparable** to them; equal-weight mean is an approximation; leverage/buildout/issuance are proxies. The **dual pin** (monetary + issuance) is orthogonal — the reading says *how big*, the pin says *when it pops*.
 
 ### B · 🚦 `macro_gate` — 六因子衰退闸门(0–6 票,越多越像衰退熊)· six-factor recession gate (0–6 votes)
 - **怎么算**:6 因子,每条命中 = 1 张 risk-off 票 —— ①VIX>28 ②收益率曲线 10Y-3M<0(倒挂) ③信用 Baa-10Y 利差的**3年滚动 z 分>1** ④Sahm:失业率3月均 − 近12月最低≥0.5 ⑤CFNAI 3月均<−0.7 ⑥趋势:纳指收盘<200日线**且** 200日线较~1季度前更低。
@@ -132,11 +132,13 @@
 - **印证**:Hussman 内部结构一致性 / Slok·Kolanovic 前十大集中度 / Burry 拥挤;**与三体制正交、不发买卖**。
 - **How**: 3 signals — RSP÷SPY and IWM÷SPY **3-month ratio changes** (falling = narrowing) and the share of 11 SPDR sectors above their 200-DMA (**<50% = weak**, needs ≥7 valid). Narrower = weaker internals = more fragile on reversal. Corroborates Hussman/Slok/Burry; orthogonal, no buy/sell.
 
-### E · 🧪 `research/backtest.py` — 让「代表」从论证变成可证伪数据 · turning "represents" from argument into falsifiable data
-- **作用**:忠实三原则里的 **(c) 可证伪** 靠它落地。输入「价格序列 + 信号序列」→ 输出**命中率 / 领先时间 / 规避回撤 / Sharpe / vs 买入持有**。**无前视**:信号按 `lag=1` 滞后(今天的信号明天才调仓)。
-- **两种口径**:**事件型** `event_eval`——示警日之后 `fwd`(默认 63 交易日≈1季度)前瞻收益<0 的比例=命中率;示警 vs 非示警平均前瞻收益之差=判别力(**越负越有效**);示警起点→其后低点的交易日数=领先时间。**仓位型** `backtest`——weight∈[0,1] 择时 vs 买入持有,输出规避回撤 / 超额 CAGR / 在市比例 / 换手。
-- **意义**:前三个「描述型」模型(泡沫/脆弱/广度)本身不发买卖,但**能不能提前区分危险**是可检验的——这把「模型代表某分析师观点」从 ④ 的**文字论证**推进到 **Phase 3 的历史数据检验**。
-- **Role**: this is where faithfulness criterion **(c) falsifiable** actually lands. Price + signal → hit-rate / lead-time / drawdown-avoided / Sharpe / vs buy-hold, with **no look-ahead** (`lag=1`). Event mode scores whether warnings precede losses (discrimination, the more negative the better); position mode scores timing vs buy-hold. It moves "this model represents the analyst's view" from a **written argument (④)** to a **testable Phase-3 result**.
+### E · 🧪 `research/backtest.py` — 统一回测框架(**已在 PR #7 实现,尚未并入 main**)· unified backtest framework (**implemented in PR #7, not yet merged to main**)
+- **状态(诚实)**:框架代码 + 9 项合成单测已在 **PR #7** 写好,但**该文件尚未合并进 `main`**,故本 PR 所在分支的代码树里**还看不到**它;`research/README.md` 也仍把 Phase 3 列为未勾选。下述是它的**接口与设计口径**,**合并前不在流水线中运行**。
+- **作用(设计)**:承接忠实三原则里的 **(c) 可证伪**。输入「价格序列 + 信号序列」→ 输出**命中率 / 领先时间 / 规避回撤 / Sharpe / vs 买入持有**。**无前视**:信号按 `lag=1` 滞后(今天的信号明天才调仓)。
+- **两种口径(设计)**:**事件型** `event_eval`——示警日之后 `fwd`(默认 63 交易日≈1季度)前瞻收益<0 的比例=命中率;示警 vs 非示警平均前瞻收益之差=判别力(**越负越有效**);示警起点→其后低点的交易日数=领先时间。**仓位型** `backtest`——weight∈[0,1] 择时 vs 买入持有,输出规避回撤 / 超额 CAGR / 在市比例 / 换手。
+- **意义**:前三个「描述型」模型(泡沫/脆弱/广度)本身不发买卖,但**能不能提前区分危险**是可检验的——**PR #7 合并后**,这把「模型代表某分析师观点」从 ④ 的**文字论证**推进到 **Phase 3 的历史数据检验**。
+- **Status (honest)**: the framework and its 9 synthetic unit tests are written in **PR #7 but not yet merged to `main`**, so the file is **not present in this PR's tree**; `research/README.md` still lists Phase 3 unchecked. What follows is its **interface and intended semantics**, **not behavior currently running in the pipeline**.
+- **Role (by design)**: it is meant to land faithfulness criterion **(c) falsifiable**. Price + signal → hit-rate / lead-time / drawdown-avoided / Sharpe / vs buy-hold, with **no look-ahead** (`lag=1`). Event mode scores whether warnings precede losses (discrimination, the more negative the better); position mode scores timing vs buy-hold. **Once PR #7 merges**, it moves "this model represents the analyst's view" from a **written argument (④)** to a **testable Phase-3 result**.
 
 ---
 
