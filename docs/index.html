@@ -1346,9 +1346,88 @@ function renderRegimeOverview() {
     + `</details></div></div></div>`;
 }
 
+// 迷你火花线:把一串数值(0..max)映射成 ▁▂▃▄▅▆▇█(无需 SVG,双主题通用)
+function _spark(vals, max) {
+  const b = '▁▂▃▄▅▆▇█';
+  return (vals || []).map(v => (v == null) ? '·'
+    : b[Math.max(0, Math.min(b.length - 1, Math.round((v / max) * (b.length - 1))))]).join('');
+}
+
+// 🧪 模型回测记分卡:读 allData.backtest_results(Actions 历史重算产出)
+function renderBacktestScorecard() {
+  const bt = allData.backtest_results;
+  if (!bt || !Array.isArray(bt.models) || !bt.models.length) return '';
+  const en = currentNewsLang === 'en';
+  const ppp = v => v == null ? '—' : (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + 'pp';
+  const pctv = v => v == null ? '—' : (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%';
+  const rows = bt.models.map(m => {
+    const dv = m.discrimination_fwd;
+    const dC = dv == null ? 'var(--muted)' : (dv < 0 ? 'var(--green)' : 'var(--amber)');
+    const dT = dv == null ? '—' : (dv >= 0 ? '+' : '') + (dv * 100).toFixed(2) + '%';
+    const ddC = (m.drawdown_avoided_pp || 0) > 0.02 ? 'var(--green)' : 'var(--muted)';
+    const exC = (m.excess_cagr || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+    return `<tr><td><b>${escHtml(en ? m.model_en : m.model)}</b>`
+      + `<div style="font-size:0.72rem;color:var(--muted)">${escHtml(m.band || '')}</div></td>`
+      + `<td style="color:${dC};text-align:right">${dT}</td>`
+      + `<td style="color:${ddC};text-align:right">${ppp(m.drawdown_avoided_pp)}</td>`
+      + `<td style="color:${exC};text-align:right">${pctv(m.excess_cagr)}</td>`
+      + `<td style="text-align:right">${m.strat_sharpe == null ? '—' : m.strat_sharpe} / ${m.bh_sharpe == null ? '—' : m.bh_sharpe}</td>`
+      + `<td style="text-align:right">${m.avg_lead_days_to_trough == null ? '—' : m.avg_lead_days_to_trough + 'd'}</td>`
+      + `<td style="color:var(--muted);font-size:0.74rem;white-space:nowrap">${escHtml((m.price_start || '') + '→' + (m.price_end || ''))}</td></tr>`;
+  }).join('');
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧪 模型回测记分卡 · 无前视历史检验', '🧪 Model Backtest Scorecard · no-look-ahead history')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）过去30+年,每个模型示警到底管不管用', '(expand) do the warnings actually work, over 30+ yrs')}</span></summary>`
+    + `<div style="overflow-x:auto;margin-top:8px"><table class="ma-tbl"><thead><tr>`
+    + `<th>${t('模型 / risk_off 定义', 'Model / risk_off band')}</th><th title="${t('示警后前瞻收益−非示警之差;负=有效','fwd-return gap; negative = effective')}">${t('判别力*', 'Discrim.*')}</th>`
+    + `<th>${t('规避回撤', 'DD avoided')}</th><th>${t('超额CAGR', 'Excess CAGR')}</th><th>${t('Sharpe策/持', 'Sharpe s/bh')}</th><th>${t('领先', 'Lead')}</th><th>${t('样本', 'Sample')}</th></tr></thead>`
+    + `<tbody>${rows}</tbody></table></div>`
+    + `<p style="color:var(--muted);font-size:0.78rem;margin-top:8px">*${t('判别力 = 示警日之后前瞻收益 − 非示警日之差;<b>负=示警后更差=有效</b>;正=示警后反而更涨(如达利欧读数=融涨,证明它是「量级表」非「择时器」)。', 'Discrimination = fwd-return after warning − after no-warning; <b>negative = worse after warning = effective</b>; positive = market rose after the flag (e.g. Dalio reading = melt-up, i.e. a magnitude gauge, not a timer).')}<br>${escHtml((en ? bt.note_en : bt.note) || '')}<br>${t('生成', 'Generated')} ${escHtml(bt.generated_utc || '')}</p>`
+    + `</details></div></div></div>`;
+}
+
+// 🧭 危机前30天:四模型轨迹(读 allData.crisis_windows)
+function renderCrisisWindows() {
+  const cw = allData.crisis_windows;
+  if (!cw || !Array.isArray(cw.crises) || !cw.crises.length) return '';
+  const en = currentNewsLang === 'en';
+  const rows = cw.crises.map(c => {
+    const nm = escHtml(en ? c.name_en : c.name);
+    if (!c.available) return `<tr><td><b>${nm}</b><div style="font-size:0.72rem;color:var(--muted)">${escHtml(c.onset || '')}</div></td>`
+      + `<td colspan="5" style="color:var(--muted)">${t('数据早于该危机(VIX≈1990 / RSP≈2003 / VIX3M≈2007)', 'data predates this crisis')}</td></tr>`;
+    const mg = c.macro_gate || {}, fr = c.fragility || {}, db = c.dalio || {}, bd = c.breadth || {};
+    const sev = c.fwd_drawdown_pct;
+    const sevC = sev == null ? 'var(--muted)' : (sev <= -20 ? 'var(--red)' : sev <= -10 ? 'var(--amber)' : 'var(--muted)');
+    const mgCell = !mg.available ? '—'
+      : `<span title="votes path">${_spark((mg.path || []).map(p => p[1]), 6)}</span> <b style="color:${mg.gate_on_at_onset ? 'var(--red)' : 'var(--muted)'}">${mg.votes_at_onset}/6</b>`
+        + `<div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${mg.votes_max} · ${mg.gate_on_at_onset ? t('闸门ON', 'gate ON') : t('闸门off', 'gate off')}`
+        + `${mg.first_gate_on_rel_day != null ? ' · ' + t('提前', 'lead') + ' ' + (-mg.first_gate_on_rel_day) + t('日', 'd') : ''}</div>`;
+    const frCell = !fr.available ? '—'
+      : `<span>${_spark((fr.path || []).map(p => p[1]), 5)}</span> <b>${fr.score_at_onset}/5</b><div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${fr.score_at_onset_max}</div>`;
+    const dbCell = !db.available ? '—'
+      : `<b style="color:${db.reading_at_onset >= 80 ? 'var(--red)' : db.reading_at_onset >= 60 ? 'var(--amber)' : 'var(--muted)'}">${db.reading_at_onset == null ? '—' : db.reading_at_onset}</b>`
+        + `<div style="font-size:0.72rem;color:var(--muted)">${db.pin_at_onset == null ? '' : (db.pin_at_onset ? t('针ON', 'pin ON') : t('无针', 'no pin'))}${db.n_gauges ? ' · ' + db.n_gauges + t('表', 'g') : ''}</div>`;
+    const bdCell = !bd.available ? '—'
+      : `<span>${_spark((bd.path || []).map(p => p[1]), 3)}</span> <b>${bd.narrow_at_onset}/3</b><div style="font-size:0.72rem;color:var(--muted)">${t('峰', 'max')}${bd.narrow_at_onset_max}</div>`;
+    return `<tr><td><b>${nm}</b><div style="font-size:0.72rem;color:var(--muted)">${escHtml(c.onset || '')}</div></td>`
+      + `<td style="color:${sevC};text-align:right;font-weight:600">${sev == null ? '—' : sev + '%'}</td>`
+      + `<td>${mgCell}</td><td>${frCell}</td><td>${dbCell}</td><td>${bdCell}</td></tr>`;
+  }).join('');
+  return `<div class="report-card" style="margin-bottom:0.8rem"><div class="report-card-body"><div class="md">`
+    + `<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:700">${t('🧭 危机前30天 · 四模型当时显示什么', '🧭 The 30 days into each crisis · what the models showed')} <span style="font-size:0.8rem;color:var(--muted);font-weight:400">${t('（点开）历次崩盘前,仪表盘的数值/连续/提前多久', '(expand) readings, persistence & lead-time before each crash')}</span></summary>`
+    + `<div style="overflow-x:auto;margin-top:8px"><table class="ma-tbl"><thead><tr>`
+    + `<th>${t('危机 / 起点', 'Crisis / onset')}</th><th title="${t('起点后63日峰谷回撤','63d peak-to-trough after onset')}">${t('严重度', 'Severity')}</th>`
+    + `<th>${t('🚦 macro 票数(火花=30日轨迹)', '🚦 macro votes (spark=30d path)')}</th><th>${t('🔥 脆弱 /5', '🔥 fragility /5')}</th>`
+    + `<th>${t('🫧 泡沫读数', '🫧 bubble')}</th><th>${t('📐 狭窄 /3', '📐 narrow /3')}</th></tr></thead>`
+    + `<tbody>${rows}</tbody></table></div>`
+    + `<p style="color:var(--muted);font-size:0.78rem;margin-top:8px">${t('火花线 ▁▂▃▄▅▆▇█ = 起点前30交易日该指标的逐步走高;「提前N日」=闸门在起点前N交易日就已 on。', 'Sparkline ▁▂▃▄▅▆▇█ = the reading climbing over the 30 trading days into onset; "lead N d" = the gate was already on N trading days before onset.')}<br>${escHtml((en ? cw.note_en : cw.note) || '')}<br>${t('生成', 'Generated')} ${escHtml(cw.generated_utc || '')}</p>`
+    + `</details></div></div></div>`;
+}
+
 function renderMonitor(day) {
   const el = document.getElementById('monitor-content');
   const overviewHtml = renderRegimeOverview();
+  const scorecardHtml = renderBacktestScorecard();
+  const crisisHtml = renderCrisisWindows();
   const allDates = Object.keys(allData).sort().reverse();
   // QQQ 六因子体制闸门：取最新一个有 macro_gate 的日期（每交易日盘后生成）
   let gate = day.macro_gate;
@@ -1378,7 +1457,7 @@ function renderMonitor(day) {
     for (const d of allDates) { if (allData[d].monitor) { mon = allData[d].monitor; monNote = d; break; } }
   }
   if (!mon) {
-    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
+    el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + scorecardHtml + crisisHtml + boardHtml || '<div class="empty"><div class="empty-icon">📭</div>当日无监控数据</div>';
     return;
   }
   const monBanner = monNote
@@ -1388,7 +1467,7 @@ function renderMonitor(day) {
   const monCard = en
     ? `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 Market Structure Monitor</span><span class="report-card-lang">English</span></div><div class="report-card-body">${renderMd(mon.en || mon.cn)}</div></div>`
     : `<div class="report-card"><div class="report-card-header"><span class="report-card-title">📌 结构监控</span><span class="report-card-lang">中文</span></div><div class="report-card-body">${renderMd(mon.cn || mon.en)}</div></div>`;
-  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + boardHtml + monBanner + monCard;
+  el.innerHTML = overviewHtml + gateHtml + fragHtml + dbubHtml + mbdHtml + scorecardHtml + crisisHtml + boardHtml + monBanner + monCard;
 }
 
 let predictionViewsCache = null;
