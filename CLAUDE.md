@@ -79,7 +79,7 @@ ETF/宏观: XMMO · IWM · BNO · UTES · REMX · GDX · USD
 - [x] **市场结构监控** — 10个核心指标（GLD/WTI/QQQ/TLT/DXY），3日连续数据表
 - [x] **AI 双语简报** — Claude API 生成中英文投资洞察，推送企业微信
 - [x] **风险分析仪表板** — 每资产 VaR/CVaR/最大回撤/ADX/RSI，相关性矩阵
-- [x] **三体制监测（正交）** — ①`macro_gate` 六因子衰退闸门 ②`fragility_gate` 脆弱性侧栏+崩盘性质诊断（Burry/1987型）③`dalio_bubble` 达利欧泡沫指标+货币收紧扳机（债务周期型）。三者互不混票，见 `notes/1987型崩盘_vs_六因子闸门.md`
+- [x] **三体制监测（正交）** — ①`macro_credit_gate`(原 macro_gate)六因子衰退闸门 ②`tail_fragility`(原 fragility_gate)脆弱性侧栏+崩盘性质诊断（Burry/1987型）③`dalio_inspired_bubble`(原 dalio_bubble)达利欧泡沫指标+货币收紧扳机（债务周期型;另 `internals_state` 原 market_breadth）。三者互不混票，见 `notes/1987型崩盘_vs_六因子闸门.md`
 
 ---
 
@@ -141,11 +141,12 @@ SERVERCHAN_KEY       → ServerChan 备用推送
 - **治理文档**(主控在 `docs/`,按此优先级): `docs/工作计划书.md`(任务 C1-C16)→ `docs/analyst-panel-项目计划.md` → `docs/审计文章修订补编.md` → `docs/三组件系统宪法.md`;原始审计文章 `docs/审计文章-从分析师观点到金融体系重大变化预警系统.pdf`(按用户指令附件保留在 GitHub)
 - **独立页面**: `docs/warning.html`(预警系统·机制层)/ `docs/panel.html`(分析师面板·观点层)/ `docs/review.html`(校准·监测·总结·反省·整合层)——从主页导航链接进入,不参与既有 tab 渲染流程
 - **数据**: `data/analysts.jsonl` · `data/context_snapshots.jsonl` · `data/reviews.jsonl` · `data/registry.jsonl`(experiment registry;注意与既有 `research/registry.jsonl` 分析师档案是**两个不同文件**)。JSONL **只追加**,更正用新行+`supersedes`;schema 先行:改字段先改 `scripts/validate.py`(CI: `validate_data.yml`)
-- **⚠️ 冲突待决**(宪法条款 vs「既有结构不变」指令,按宪法自身规则先提出再执行):
-  1. 宪法要求重命名既有模块(`dalio_bubble`→`dalio_inspired_bubble` 等)——**暂不重命名代码/数据键**,新页面以 fidelity 标签映射现名;待用户裁决后另行迁移
-  2. 宪法引用的 `predict.py` 尚不在本仓库(在用户本地/InvestOS),自我校准层暂以文档描述接入
-  3. 宪法「审计 PDF 一律 Drive」与用户「附件保留在 GitHub」指令冲突——按用户指令入 `docs/`;后续如需迁 Drive 再议
-  4. `briefs/` 每日简报入库需改动既有 daily_brief workflow,为不破坏现流程**暂缓**(C1 后半),单独评审
+- **✅ 四条冲突已裁决**(用户 2026-08-09,全部执行):
+  1. **模块已按宪法重命名**(冲突检查:7 个目标名无一重复):`macro_gate.py→macro_credit_gate.py`、`fragility_gate.py→tail_fragility.py`、`dalio_bubble.py→dalio_inspired_bubble.py`、`market_breadth.py→internals_state.py`;各 payload 增 `module`+`fidelity` 字段。**data.json 数据键不改**(macro_gate/fragility_gate/dalio_bubble/market_breadth 保留,历史连续性;宪法约束的是模块名)。未来名 grantham_two_sigma/valuation_state/passive_liquidity_mismatch 留给新模块
+  2. **predict.py 已入仓库**(按宪法接口实现:add/resolve/list/stats + `--rationalized` 合理化单独统计,数据 `data/predictions.jsonl` 只追加+schema 校验;若本地/InvestOS 有历史版本,以仓库 schema 为准迁移合并)
+  3. **审计 PDF 双录**:GitHub `docs/` 原件 + Drive `Analyst-Archive/system-design/`(目录树已建,设计文档归档副本已上传;PDF 二进制本体待 R2 管线或手动补,见 `docs/drive_index.md`)
+  4. **briefs/ 每日自动入库已接**:`scripts/archive_brief.py`(只追加、幂等、失败不拖垮管线)+ daily_brief.yml 附加步骤;首条 `briefs/2026/08/2026-08-09.md`
+- **Drive 双向链接索引**: `docs/drive_index.md`(folder/file ids,无孤儿文件)
 
 ## 分工（详见 AGENTS.md）
 

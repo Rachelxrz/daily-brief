@@ -64,6 +64,16 @@ SCHEMAS = {
         "enums": {},
         "identity": None,
     },
+    "predictions.jsonl": {
+        # 自我校准层(predict.py):本人判断的预测日志 + 合理化标记
+        "required": {"id": str, "date": str, "statement": str, "falsifiable_by": str,
+                     "rationalized": bool, "status": str},
+        "optional": {"basis": str, "confidence": int, "rationalized_note": str,
+                     "outcome_note": str, "supersedes": str},
+        "dates": ["date", "falsifiable_by"],
+        "enums": {"status": {"open", "hit", "miss", "partial", "withdrawn"}},
+        "identity": "id",
+    },
 }
 
 

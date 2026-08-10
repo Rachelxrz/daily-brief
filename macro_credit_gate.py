@@ -149,6 +149,7 @@ def compute() -> dict:
 
     return {
         "date": _today_et(),
+        "module": "macro_credit_gate", "fidelity": "mechanism_approximation",
         "updated": _now_cst(),
         "gate_on": gate_on,
         "votes": nvotes,

@@ -342,6 +342,7 @@ def compute() -> dict:
 
     return {
         "date": _today_et(),
+        "module": "tail_fragility", "fidelity": "project_specific",
         "updated": _now_cst(),
         # A) 脆弱性
         "frag_score": frag_score,

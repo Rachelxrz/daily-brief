@@ -143,6 +143,7 @@ def compute() -> dict:
 
     return {
         "date": _today_et(),
+        "module": "internals_state", "fidelity": "proxy",
         "updated": _now_cst(),
         "narrow_score": narrow_score,
         "signals_used": n_used,

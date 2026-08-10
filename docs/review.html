@@ -53,7 +53,7 @@
     <div class="flow">
       <div class="flow-box"><b>🎙️ 观点层 analyst-panel</b><br>论断 → 到期 → 复盘 → <b>人的校准档案</b><br><span class="muted">天/周级 · data/analysts.jsonl</span></div>
       <div class="flow-box"><b>🛰️ 机制层 gate 预警</b><br>脆弱性存量/冲击/放大/后盾 → <b>状态月报</b>(与面板观点分布对照)<br><span class="muted">月/季级 · 外部基准 OFR FSI 并排</span></div>
-      <div class="flow-box"><b>🧍 自我校准层 predict</b><br>我基于面板综合的判断 → 预测日志 + <b>合理化检测(--rationalized)</b><br><span class="muted">事件驱动 · predict.py(本地/InvestOS,接入待定)</span></div>
+      <div class="flow-box"><b>🧍 自我校准层 predict</b><br>我基于面板综合的判断 → 预测日志 + <b>合理化检测(--rationalized)</b><br><span class="muted">事件驱动 · predict.py(已入仓库,data/predictions.jsonl)</span></div>
     </div>
     <p class="muted" style="font-size:0.8rem">复盘时对照三层:分析师错在哪(input/framework)→ 体系状态当时如何(snapshot)→ <b>我当时采纳/拒绝了谁的论据</b>(my_action)。</p>
   </div>
@@ -71,7 +71,7 @@
       </tbody>
     </table></div>
     <div id="weights-box" style="margin-top:8px"><p class="muted" style="font-size:0.8rem">读取 analyst_weights.json…</p></div>
-    <p class="muted" style="font-size:0.78rem;margin-top:6px">自我校准:predict.py 的预测日志与 <code>--rationalized</code> 合理化检测在本地/InvestOS 运行(仓库接入待定,见 CLAUDE.md 冲突待决②)。复盘的 <code>my_action</code> 字段负责两边对账。</p>
+    <p class="muted" style="font-size:0.78rem;margin-top:6px">自我校准:<code>predict.py</code> 已入仓库——<code>add/resolve/list/stats</code> + <code>--rationalized</code> 合理化标记(单独统计,不进净命中率),数据 <code>data/predictions.jsonl</code>(只追加+schema 校验)。复盘的 <code>my_action</code> 字段负责两边对账。</p>
   </div>
 
   <!-- ② 监测(提示行) -->

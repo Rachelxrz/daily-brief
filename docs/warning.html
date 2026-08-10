@@ -86,9 +86,9 @@
 
   <!-- 当前读数(live) -->
   <div class="card">
-    <h2>当前读数 <small>既有模块映射(fidelity 命名,代码暂不改名——冲突待决见 CLAUDE.md)</small></h2>
+    <h2>当前读数 <small>既有模块(2026-08-09 已按宪法改名;data.json 键保留旧名以续历史)</small></h2>
     <div class="tblwrap"><table>
-      <thead><tr><th>层</th><th>fidelity 名 ← 现模块</th><th>fidelity 级</th><th>当前读数</th><th>判读</th></tr></thead>
+      <thead><tr><th>层</th><th>模块(fidelity 名)</th><th>fidelity 级</th><th>当前读数</th><th>判读</th></tr></thead>
       <tbody id="live-rows"><tr><td colspan="5" class="muted">读取 data.json…</td></tr></tbody>
     </table></div>
     <p class="muted" style="font-size:0.76rem;margin-top:6px">fidelity 四级:replication(完全复现,<b>当前无模块达标</b>)/ mechanism_approximation(机制近似)/ proxy(代理)/ project_specific(项目自设)。历史回测与危机前30天实证见主页「市场结构」页。</p>
@@ -175,14 +175,14 @@
       `<tr><td>${layer}</td><td><b>${name}</b></td><td><span class="badge ${badgeCls}">${badgeTxt}</span></td>` +
       `<td class="reading-num" style="color:${color}">${reading}</td><td style="font-size:0.78rem">${esc(verdict)}</td></tr>`;
     const rows = [];
-    if (b) rows.push(row('① 脆弱性存量', 'dalio_inspired_bubble ← dalio_bubble.py', 'b-approx', 'mechanism_approximation',
+    if (b) rows.push(row('① 脆弱性存量', 'dalio_inspired_bubble.py(原 dalio_bubble)', 'b-approx', 'mechanism_approximation',
       (b.bubble_pct == null ? '—' : b.bubble_pct + '%'), colMap[b.band_color] || 'var(--muted)', b.band || ''));
-    if (m) rows.push(row('① 脆弱性存量', 'internals_state ← market_breadth.py', 'b-proxy', 'proxy',
+    if (m) rows.push(row('① 脆弱性存量', 'internals_state.py(原 market_breadth)', 'b-proxy', 'proxy',
       (m.narrow_score == null ? '—' : '狭窄 ' + m.narrow_score + '/' + (m.signals_used ?? 3)), colMap[m.color] || 'var(--muted)',
       (m.verdict || '').replace(/^[^\s]+\s/, '')));
-    if (f) rows.push(row('③ 放大机制', 'tail_fragility ← fragility_gate.py', 'b-proj', 'project_specific',
+    if (f) rows.push(row('③ 放大机制', 'tail_fragility.py(原 fragility_gate)', 'b-proj', 'project_specific',
       '脆弱 ' + f.frag_score + '/' + f.frag_max, colMap[f.frag_color] || 'var(--muted)', f.frag_label || ''));
-    if (g) rows.push(row('①+② 存量/冲击', 'macro_credit_gate ← macro_gate.py', 'b-approx', 'mechanism_approximation',
+    if (g) rows.push(row('①+② 存量/冲击', 'macro_credit_gate.py(原 macro_gate)', 'b-approx', 'mechanism_approximation',
       '票 ' + g.votes + '/6' + (g.gate_on ? ' · 闸门ON' : ''), g.votes >= 2 ? 'var(--red)' : 'var(--green)',
       g.gate_on ? '崩盘体制:清仓 QQQ' : '闸门 off'));
     rows.push(row('系统基准', 'OFR FSI(外部基准)', 'b-cite', '引用·待接入', '—', 'var(--muted)', '自建指标须证明相对它有增量(C10)'));
