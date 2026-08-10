@@ -80,6 +80,11 @@ jobs:
         run: python analyst_watch.py
         continue-on-error: true
 
+      - name: Archive brief to briefs/YYYY/MM/（C1:每日简报长存,只追加;失败不拖垮管线）
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/archive_brief.py
+        continue-on-error: true
+
       - name: Commit & push web data
         if: github.event.inputs.dry_run != 'true'
         run: |
@@ -88,11 +93,15 @@ jobs:
           cp docs/data.json /tmp/new_data.json
           # 分析师历史（三个月留存）必须一起提交，否则下次 checkout 会丢失
           [ -f analyst_history.jsonl ] && cp analyst_history.jsonl /tmp/analyst_history.jsonl || true
+          # briefs 归档暂存(reset --hard 会清掉工作区,先存后回)
+          [ -d briefs ] && cp -r briefs /tmp/briefs_new || true
           git fetch origin main
           git reset --hard origin/main
           python merge_data.py /tmp/new_data.json docs/data.json
           [ -f /tmp/analyst_history.jsonl ] && cp /tmp/analyst_history.jsonl analyst_history.jsonl || true
+          [ -d /tmp/briefs_new ] && cp -rn /tmp/briefs_new/. briefs/ || true
           git add docs/data.json analyst_history.jsonl
+          [ -d briefs ] && git add briefs || true
           git diff --staged --quiet || git commit -m "Daily news brief $(date +'%Y-%m-%d')"
           git push
 
@@ -358,16 +367,16 @@ jobs:
         run: python ma_cross_signal.py
         continue-on-error: true
       - name: Run QQQ 六因子宏观闸门
-        run: python macro_gate.py
+        run: python macro_credit_gate.py
         continue-on-error: true
       - name: Run 脆弱性/拥挤度侧栏 + 崩盘性质诊断（读 macro_gate 票数，须在其后）
-        run: python fragility_gate.py
+        run: python tail_fragility.py
         continue-on-error: true
       - name: Run 达利欧泡沫指标 + 货币收紧扳机
-        run: python dalio_bubble.py
+        run: python dalio_inspired_bubble.py
         continue-on-error: true
       - name: Run 市场广度/集中度信号（Phase 2）
-        run: python market_breadth.py
+        run: python internals_state.py
         continue-on-error: true
       - name: Run 板块强弱·资金流向面板
         run: python sector_board.py

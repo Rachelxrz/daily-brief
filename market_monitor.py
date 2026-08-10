@@ -386,7 +386,7 @@ def call_claude(messages: list, use_search: bool = False, max_retries: int = 3) 
 def build_gate_hint() -> str:
     """计算六因子体制闸门实时读数,注入结构评级(权威锚点),失败则空串回退 LLM 自判。"""
     try:
-        import macro_gate
+        import macro_credit_gate as macro_gate
         g = macro_gate.compute()
         onoff = "已触发 → 建议清仓 QQQ" if g["gate_on"] else "未触发"
         factors = "；".join(

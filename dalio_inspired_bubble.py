@@ -318,6 +318,7 @@ def compute() -> dict:
 
     return {
         "date": _today_et(),
+        "module": "dalio_inspired_bubble", "fidelity": "mechanism_approximation",
         "updated": _now_cst(),
         "bubble_pct": bubble_pct,
         "gauges_used": n_used,

@@ -3,6 +3,15 @@
 系统功能改动记录。watchlist 每日自动增删/暂停的**数据审计**见 `docs/watchlist_changelog.json`（网页「均线信号」页可展开查看）。
 
 
+## 2026-08-10
+
+### 三组件系统:四条裁决全部执行(重命名/predict入库/PDF双录/briefs自动入库)
+- **① 模块按宪法重命名(C3)**:冲突检查先行——7 个宪法目标名在仓库无一重复,4 项改名安全落地:`macro_gate.py→macro_credit_gate.py`、`fragility_gate.py→tail_fragility.py`、`dalio_bubble.py→dalio_inspired_bubble.py`、`market_breadth.py→internals_state.py`;全部引用同步(ma_cross_signal/market_monitor/backtest_models 的 import、daily_brief.yml/macro_gate.yml 的 run 步骤);各 payload 增 `module`+`fidelity` 元数据(mechanism_approximation×2/project_specific/proxy)。**data.json 数据键保留旧名**(历史连续性;宪法约束的是模块名)。回测/危机 self-test 全过。
+- **② predict.py 入仓库(自我校准层)**:按宪法接口纯 stdlib 实现——`add`(--basis 记采纳/拒绝了谁、--rationalized 合理化标记)/`resolve`(追加复盘行,不改写)/`list --open|--due|--rationalized`/`stats`(**clean 与 rationalized 分开统计**,防合理化污染净命中率);数据 `data/predictions.jsonl`(schema 已注册 validate.py,只追加+CI)。全链路手测过。
+- **③ 审计 PDF 双录 + Drive 目录树(A1)**:Drive 建 `Analyst-Archive/`(system-design + 五板块 + backup,8 目录);4 份设计文档归档副本 + PDF 指针文档已上传;**PDF 二进制本体待补**(MCP 单调用载不动 967KB,候选:R2 管线或手动拖入);新增 `docs/drive_index.md` 双向链接索引(无孤儿文件)。
+- **④ briefs/ 每日自动入库(C1 后半)**:`scripts/archive_brief.py`(读 data.json 的 news cn+en → briefs/YYYY/MM/YYYY-MM-DD.md;只追加、幂等、失败不拖垮管线)+ daily_brief.yml 附加步骤(commit 步兼容 reset --hard 的暂存回填);首条已归档 2026-08-09(11.6k+18.8k 字符)。
+- 页面同步:warning.html 映射说明改为「已按宪法改名」;review.html 自我校准层标注 predict.py 已入仓库;CLAUDE.md 四条冲突待决 → 已裁决。
+
 ## 2026-08-09
 
 ### Phase 3 续②:历史回测跑出真实数字 + 危机前30天轨迹 + 记分卡网页(PR #10 #11)

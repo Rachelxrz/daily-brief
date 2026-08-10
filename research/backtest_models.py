@@ -41,10 +41,10 @@ sys.path.insert(0, str(REPO_DIR))
 
 from research.backtest import event_eval, backtest, perf_stats   # noqa: E402
 # 阈值来源:直接引用各模型模块的常量,保证与线上口径一致
-import macro_gate as MG            # noqa: E402
-import fragility_gate as FG        # noqa: E402
-import dalio_bubble as DB          # noqa: E402
-import market_breadth as MB        # noqa: E402
+import macro_credit_gate as MG        # noqa: E402
+import tail_fragility as FG          # noqa: E402
+import dalio_inspired_bubble as DB    # noqa: E402
+import internals_state as MB        # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(levelname)s  %(message)s", datefmt="%H:%M:%S")
 log = logging.getLogger(__name__)

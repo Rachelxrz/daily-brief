@@ -69,7 +69,7 @@ GATE_VOTES = None   # 当日市场结构红灯数(0-6),run() 里算一次;None=�
 def _compute_gate_votes():
     """调 macro_gate 算当日六因子红灯数;失败返回 None(C 退回旧策略)。"""
     try:
-        import macro_gate
+        import macro_credit_gate as macro_gate
         return int(macro_gate.compute().get("votes"))
     except Exception as e:
         log.warning(f"⚠️ 市场结构红灯数取用失败，策略C 回退旧策略：{e}")
