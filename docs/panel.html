@@ -64,6 +64,12 @@
     <p class="muted" id="claim-note" style="font-size:0.76rem;margin-top:6px"></p>
   </div>
 
+  <!-- 今日采集 + 提示行(C5/C8, 读 data.json) -->
+  <div class="card">
+    <h2>今日采集与提示 <small>C5 采集日历 + C8 提示行引擎(每日 06:00 UTC 刷新)</small></h2>
+    <div id="ops-box"><p class="muted" style="font-size:0.8rem">读取 data.json…</p></div>
+  </div>
+
   <!-- 面板 -->
   <div class="card">
     <h2>面板(初始 12-15 人,半年轮换) <small>确认人选 · 每板块含反向锚或非卖方硬数据基准</small></h2>
@@ -117,6 +123,36 @@
 </div>
 
 <script>
+// 今日采集(C5)+ 提示行(C8):读同目录 data.json 的 collection_due / panel_alerts
+(async function () {
+  const box = document.getElementById('ops-box');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  try {
+    const r = await fetch('data.json?t=' + Date.now());
+    const data = await r.json();
+    const cd = data.collection_due, pa = data.panel_alerts;
+    let h = '';
+    if (pa && Array.isArray(pa.alerts) && pa.alerts.length) {
+      h += `<p style="margin-bottom:4px"><b>🔔 提示行(${esc(pa.date)})</b></p>` + pa.alerts.map(a =>
+        `<div style="border-left:3px solid ${a.severity === 'high' ? 'var(--red)' : 'var(--amber)'};padding:4px 10px;margin:3px 0;background:#fff;border-radius:4px;font-size:0.84rem">` +
+        `[${esc(a.type)}] ${esc(a.text)} <span class="muted">→ ${esc(a.action)}${a.due ? ' · ' + esc(a.due) : ''}</span></div>`).join('');
+    } else {
+      h += `<p class="muted" style="font-size:0.82rem">🔔 提示行:当前无提示${pa ? '(' + esc(pa.date) + ')' : '(引擎待首跑)'}</p>`;
+    }
+    if (cd && Array.isArray(cd.tasks)) {
+      h += `<p style="margin:8px 0 4px"><b>📅 今日应采集(${esc(cd.date)},${cd.tasks.length} 项)</b></p>`;
+      h += cd.tasks.length
+        ? cd.tasks.map(t => `<div style="font-size:0.84rem;margin:2px 0"><span class="layer-chip">${esc(t.layer)}</span> ${esc(t.task)} <span class="muted">(${esc(t.why)})</span></div>`).join('')
+        : `<p class="muted" style="font-size:0.82rem">今日无定期采集任务</p>`;
+    } else {
+      h += `<p class="muted" style="font-size:0.82rem">📅 采集日历待首跑(panel_ops workflow 每日 06:00 UTC)</p>`;
+    }
+    box.innerHTML = h;
+  } catch (e) {
+    box.innerHTML = '<p class="muted" style="font-size:0.82rem">data.json 读取失败:' + esc(e.message) + '</p>';
+  }
+})();
+
 // 论断流:data/ 在仓库根(Pages 只服务 docs/),故经 raw.githubusercontent 读取;404/空 → 空态
 (async function () {
   const el = document.getElementById('claim-rows');

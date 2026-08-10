@@ -32,10 +32,11 @@ SCHEMAS = {
                      "claim": str, "falsifiable_by": str, "status": str},
         "optional": {"snapshot_id": str, "premise": str, "tags": list, "source_url": str,
                      "drive_file_id": str, "drive_path": str, "supersedes": str,
-                     "fidelity": str, "model_ref": str},
+                     "fidelity": str, "model_ref": str, "stance": str},
         "dates": ["date", "falsifiable_by"],
         "enums": {"layer": {"macro", "strategy", "energy", "ai-infra", "fx-gold"},
-                  "status": {"open", "hit", "miss", "partial", "superseded", "withdrawn"}},
+                  "status": {"open", "hit", "miss", "partial", "superseded", "withdrawn"},
+                  "stance": {"bull", "bear", "neutral"}},
         "identity": "id",
     },
     "context_snapshots.jsonl": {
