@@ -76,8 +76,14 @@ def cmd_add(args):
         "status": "open",
     }
     if args.supersedes:
-        if not any(r.get("id") == args.supersedes for r in recs):
+        prev = next((r for r in recs if r.get("id") == args.supersedes), None)
+        if prev is None:
             sys.exit(f"supersedes={args.supersedes} 不存在")
+        # 合理化标记沿链继承(OR):一旦某条链被标 rationalized,其更正行不得洗白回 clean——
+        # 否则「补记后再改一笔」就能混进净命中率,恰是该纪律要防的
+        if prev.get("rationalized") and not rec["rationalized"]:
+            rec["rationalized"] = True
+            rec["rationalized_note"] = f"继承自 {args.supersedes}: {prev.get('rationalized_note', '')}".strip()
         rec["supersedes"] = args.supersedes
     _append(rec)
     tag = " ⚠️rationalized(不进净命中率)" if rec["rationalized"] else ""
@@ -89,10 +95,13 @@ def cmd_resolve(args):
     target = next((r for r in recs if r.get("id") == args.id), None)
     if target is None:
         sys.exit(f"未找到 id={args.id}")
-    latest = {r["id"]: r for r in recs if "id" in r}
-    resolved = [r for r in recs if r.get("supersedes") == args.id and r.get("status") != "open"]
-    if target.get("status") != "open" or resolved:
+    if target.get("status") != "open":
         sys.exit(f"{args.id} 已复盘过(只追加:不可改写历史)")
+    # 被任何后继行(无论 open 还是已复盘)supersedes 的预测不可再复盘——
+    # 否则「A 被 B 修正后仍 resolve A」会让 _latest_view 同时保留 A 的复盘与 B,双计一条判断
+    successor = next((r for r in recs if r.get("supersedes") == args.id), None)
+    if successor is not None:
+        sys.exit(f"{args.id} 已被 {successor.get('id')} 修正(supersedes),请复盘链上最新的那条")
     rec = {
         "id": f"{args.id}r",
         "date": date.today().isoformat(),
