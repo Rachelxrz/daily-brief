@@ -1,0 +1,61 @@
+name: 面板运营·采集日历+提示行+周度快照
+
+# 三组件·Sprint 2:C5 采集日历(每日)→ C8 提示行(每日)→ C7 周度快照(周日)。
+# 独立于既有简报管线;merge_data 风格提交,不覆盖其它 job 的 data.json 键。
+on:
+  schedule:
+    - cron: '0 6 * * *'          # 每日 06:00 UTC(≈美东深夜/北京 14:00)
+  workflow_dispatch:
+
+concurrency:
+  group: panel-ops
+  cancel-in-progress: false
+
+jobs:
+  panel-ops:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { token: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
+      - run: pip install -r requirements.txt
+      - name: C5 采集日历(写 data.json collection_due)
+        run: python scripts/collection_calendar.py
+        continue-on-error: true
+      - name: C8 提示行(先自检再写 data.json panel_alerts)
+        run: |
+          python scripts/panel_alerts.py --self-test
+          python scripts/panel_alerts.py
+        continue-on-error: true
+      - name: C7 周度快照(仅周日;幂等,已存在即跳过)
+        if: ${{ always() }}
+        run: |
+          if [ "$(date -u +%u)" = "7" ]; then python scripts/weekly_snapshot.py; else echo "非周日,跳过快照"; fi
+        continue-on-error: true
+      - name: 数据校验(快照/论断 schema 必须过才提交)
+        run: python scripts/validate.py
+      - name: Commit & push(merge_data 合并 data.json;快照文件直接加)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp docs/data.json /tmp/new_data.json
+          cp data/context_snapshots.jsonl /tmp/snaps.jsonl
+          git fetch origin main && git reset --hard origin/main
+          python merge_data.py /tmp/new_data.json docs/data.json
+          # 快照只追加:把远端没有的行补到末尾(不改写已有行)
+          python - <<'PY'
+          from pathlib import Path
+          cur = Path('data/context_snapshots.jsonl')
+          new = Path('/tmp/snaps.jsonl')
+          have = set(cur.read_text(encoding='utf-8').splitlines()) if cur.exists() else set()
+          add = [l for l in new.read_text(encoding='utf-8').splitlines() if l.strip() and l not in have]
+          if add:
+              with cur.open('a', encoding='utf-8') as f:
+                  f.write('\n'.join(add) + '\n')
+              print(f'追加 {len(add)} 行快照')
+          PY
+          git add docs/data.json data/context_snapshots.jsonl
+          git diff --staged --quiet || git commit -m "panel_ops 采集日历+提示行+快照 $(date -u +'%Y-%m-%d')"
+          git push
